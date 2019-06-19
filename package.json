@@ -1,7 +1,7 @@
 {
   "name": "@d4h/angular",
   "version": "1.0.3",
-  "description": "Angular services and interfaces for the D4H API",
+  "description": "Angular services and interfaces for the D4H API.",
   "homepage": "https://api.d4h.org/v2/documentation",
   "author": {
     "name": "Mark Grealish",
