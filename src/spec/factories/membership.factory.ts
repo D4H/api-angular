@@ -7,10 +7,10 @@ import { Membership, MembershipModule, MembershipType } from '../../lib/models';
 import { sample } from '../utilities';
 
 export function Membership(attributes: Partial<Membership> = {}): Membership {
-  return merge({
+  return merge<Membership>({
     id: sequence('membership.member_id'),
     language: Language(),
-    lastlogin: new Date(),
+    lastlogin: faker.date.past().toISOString(),
     name: faker.name.findName(),
     token: faker.random.uuid().replace(/-/g, ''),
     type: sample<MembershipType>(MembershipType),

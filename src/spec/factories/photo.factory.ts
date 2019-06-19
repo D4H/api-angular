@@ -6,13 +6,8 @@
  * Yes, I'm that lazy.
  */
 
-interface Photo {
-  name: string;
-  type: string;
-}
-
 export function Photo(
-  { name, type }: Partial<Photo> = { name: '', type: 'image/jpeg' }
+  { name, type }: { name?: string, type?: string } = { name: '', type: 'image/jpeg' }
 ): Blob {
   return new File([''], name, { type });
 }
