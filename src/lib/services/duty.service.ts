@@ -31,11 +31,36 @@ export class DutyService {
     );
   }
 
+  /**
+   * If the API "successfully fails" to create a duty, as distinct from an error
+   * failure to create a duty, this will be the response data body:
+   *
+   * @example
+   *
+   *  {
+   *    statusCode: 200,
+   *    message: "Successfully processed, but no period was added as it's the same as default."
+   *  }
+   *
+   * This occurs when the user tries to create a Duty period identical to their
+   * default Duty settings. The response status is 201 Created. Until such time
+   * that we resolve #2737, the service has to check whether the response
+   * actually contains the expected record.
+   *
+   * @see https://github.com/D4H/decisions-project/issues/2737
+   */
+
   create(body: Duties.New): Observable<Duty> {
     const route: string = this.routes.team.duties.index;
 
     return this.http.post<Duties.Create>(route, body).pipe(
-      map((res: Duties.Create): Duty => res.data)
+      map((res: Duties.Show): Duty => {
+        if (Number.isInteger(res.data.id)) {
+          return res.data;
+        } else {
+          return undefined;
+        }
+      })
     );
   }
 

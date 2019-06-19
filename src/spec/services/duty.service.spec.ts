@@ -1,7 +1,7 @@
 import * as faker from 'faker';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
-import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
+import { BAD_REQUEST, CREATED, NOT_FOUND, getStatusText } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
 import { ClientConfig, routes } from '../../lib/providers';
@@ -156,6 +156,27 @@ describe('DutyService', () => {
       service.create(attributes).subscribe((res: Duty) => expect(res).toEqual(duty));
       req = http.expectOne({ url, method: 'POST' });
       req.flush({ data: duty });
+    });
+
+    /**
+     * Test for edge case where a duty will fail to create.
+     *
+     * @see https://github.com/D4H/decisions-project/issues/2737
+     */
+
+    it('should return undefined when a duty fails to create', () => {
+      const data = {
+        statusCode: 200,
+        message: "Successfully processed, but no period was added as it's the same as default."
+      };
+
+      service.create(attributes).subscribe((res: Duty) => expect(res).toEqual(undefined));
+      req = http.expectOne({ url, method: 'POST' });
+
+      req.flush({ data }, {
+        status: CREATED,
+        statusText: getStatusText(CREATED)
+      });
     });
 
     it('should return 400 Bad Request without a body', () => {
