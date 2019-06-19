@@ -1,0 +1,33 @@
+{
+  "name": "@d4h/angular",
+  "version": "1.0.2",
+  "description": "Angular services and interfaces for the D4H API",
+  "homepage": "https://api.d4h.org/v2/documentation",
+  "author": {
+    "name": "Mark Grealish",
+    "email": "mark.grealish@d4h.org",
+    "url": "https://github.com/orgs/D4H/people"
+  },
+  "keywords": [
+    "angular",
+    "d4h",
+    "api",
+    "client",
+    "service",
+    "interface"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/D4H/api-angular/"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0"
+  },
+  "dependencies": {
+    "http-status-codes": "^1.3.2",
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {}
+}

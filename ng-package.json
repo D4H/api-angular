@@ -1,0 +1,15 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/client",
+  "whitelistedNonPeerDependencies": [
+    "http-status-codes",
+    "moment"
+  ],
+  "lib": {
+    "entryFile": "src/projects.ts",
+    "umdModuleIds": {
+      "http-status-codes": "http-status-codes",
+      "moment": "moment"
+    }
+  }
+}
