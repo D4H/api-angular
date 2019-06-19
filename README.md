@@ -53,7 +53,7 @@ export interface ClientConfig {
 Simply import `ApiModule` from the package and import `ApiModule.forRoot` with a configuration.
 
 ```typescript
-import { ApiModule, ClientConfig, Region } from '@d4h/angular';
+import { ClientConfig, ClientModule, Region } from '@d4h/angular';
 
 const config: Observable<ClientConfig> = of({
   region: Region.Europe,
@@ -70,7 +70,7 @@ const config: Observable<ClientConfig> = of({
 @NgModule({
   // ...
   imports: [
-    ApiModule.forRoot(config)
+    ClientModule.forRoot(config)
   ]
 })
 export class AppModule {}
