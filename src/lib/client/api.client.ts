@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
+import { map, mergeMap, take } from 'rxjs/operators';
 
 import {
   CLIENT_CONFIG,
@@ -38,6 +38,8 @@ export class ApiHttpClient {
       mergeMap((config: ClientConfig): Observable<T> => this.http.get<T>(
         this.parser.url(config, url),
         this.parser.options(config, url, options)
+      ).pipe(
+        map((res: T): T => this.parser.response(res))
       ))
     );
   }
@@ -49,6 +51,8 @@ export class ApiHttpClient {
         this.parser.url(config, url),
         body,
         this.parser.options(config, url, options)
+      ).pipe(
+        map((res: T): T => this.parser.response<T>(res))
       ))
     );
   }
@@ -60,6 +64,8 @@ export class ApiHttpClient {
         this.parser.url(config, url),
         body,
         this.parser.options(config, url, options)
+      ).pipe(
+        map((res: T): T => this.parser.response<T>(res))
       ))
     );
   }
@@ -70,6 +76,8 @@ export class ApiHttpClient {
       mergeMap((config: ClientConfig): Observable<T> => this.http.delete<T>(
         this.parser.url(config, url),
         this.parser.options(config, url, options)
+      ).pipe(
+        map((res: T): T => this.parser.response<T>(res))
       ))
     );
   }

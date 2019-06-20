@@ -225,15 +225,15 @@ describe('DutyService', () => {
       url = ApiUrl(config, path(duty.id));
 
       attributes = {
-        end_date: faker.date.future().toISOString(),
-        start_date: faker.date.future().toISOString(),
+        end_date: faker.date.future(),
+        start_date: faker.date.future(),
         notes: faker.lorem.paragraph()
       };
 
       updatedDuty = {
         ...duty,
-        date: attributes.start_date as string,
-        enddate: attributes.end_date as string,
+        date: attributes.start_date as Date,
+        enddate: attributes.end_date as Date,
         notes: attributes.notes
       };
     });

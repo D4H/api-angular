@@ -1,4 +1,3 @@
-import { IsoDate } from './general.model';
 
 /**
  * Organisation Information Object
@@ -8,7 +7,7 @@ import { IsoDate } from './general.model';
 
 export interface Organisation {
   country: string;
-  created: IsoDate;
+  created: Date;
   created_by_id: boolean;
   currency: string;
   document_container_id?: number;

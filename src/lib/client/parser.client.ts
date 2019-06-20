@@ -1,5 +1,6 @@
 import isIsoDate from 'is-iso-date';
 import moment from 'moment';
+import traverse from 'traverse';
 import { Inject, Injectable } from '@angular/core';
 
 import { AuthClient } from './auth.client';
@@ -47,9 +48,28 @@ export class ParserClient implements ClientRequestParser {
   options(config: ClientConfig, url: string, options: HttpOptions = {}): HttpOptions {
     return {
       ...options,
-      params: this.params(config, url, options),
+      params: this.stringifyDates(config, url, options),
       headers: this.headers(config, url, options)
     };
+  }
+
+  /**
+   * Handle Response Parsing
+   * ===========================================================================
+   * In practice: If response is an object, then stringify any ISO-formatted
+   * date strings found.
+   */
+
+  response<T>(res: T): T {
+    if (res && res.constructor.name === 'Object') {
+      return traverse(res).map(function(value: any): void {
+        if (isIsoDate(value)) {
+          this.update(new Date(value), true);
+        }
+      });
+    } else {
+      return res;
+    }
   }
 
   /**
@@ -92,22 +112,13 @@ export class ParserClient implements ClientRequestParser {
    *    moment('Sat Nov 24 2018 10:22:35 GMT 0000').toISOString();
    */
 
-  private params(config: ClientConfig, url: string, options: HttpOptions = {}): Params {
+  private stringifyDates(config: ClientConfig, url: string, options: HttpOptions = {}): Params {
     const params: Params = { ...options.params };
 
-    return Object.keys(params).reduce(
-      (acc: Params, key: string): Params => {
-        if (this.isDateParam(params[key])) {
-          acc[key] = moment(params[key]).toISOString();
-        }
-
-        return acc;
-      },
-      params
-    );
-  }
-
-  private isDateParam(value: any): boolean {
-    return moment.isDate(value) || moment.isMoment(value);
+    return traverse(params).map(function(value: any): void {
+      if (moment.isDate(value) || moment.isMoment(value)) {
+        this.update(value.toISOString(), true);
+      }
+    });
   }
 }

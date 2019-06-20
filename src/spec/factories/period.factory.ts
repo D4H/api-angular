@@ -9,8 +9,8 @@ export function Period(attributes: Partial<Period> = {}): Period {
   const enddate: moment.Moment = moment(date).add(1, 'day');
 
   return deepmerge<Period>({
-    date: date.toISOString(),
-    enddate: enddate.toISOString(),
+    date: date.toDate(),
+    enddate: enddate.toDate(),
     duration: date.diff(enddate, 'minutes')
   }, attributes);
 }

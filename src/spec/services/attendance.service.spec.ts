@@ -215,8 +215,8 @@ describe('AttendanceService', () => {
 
       updatedAttendance = {
         ...attendance,
-        date: attributes.date as string,
-        enddate: attributes.enddate as string,
+        date: attributes.date as Date,
+        enddate: attributes.enddate as Date,
         role: attributes.role_id,
         status: attributes.status
       };

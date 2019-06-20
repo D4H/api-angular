@@ -1,4 +1,3 @@
-import { IsoDate } from './general.model';
 
 /**
  * Team Information Object

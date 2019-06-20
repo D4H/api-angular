@@ -1,4 +1,4 @@
-import { IsoDate, NumericBoolean } from './general.model';
+import { NumericBoolean } from './general.model';
 
 export enum ActivityType {
   Event = 'event',
@@ -14,10 +14,10 @@ export interface Activity {
   count_equipment_used: number;
   count_guests: number;
   countryaddress: string;
-  date: IsoDate;
+  date: Date;
   description: string;
   distance: number;
-  enddate: IsoDate;
+  enddate: Date;
   gridref: string;
   id: number;
   lat: number;

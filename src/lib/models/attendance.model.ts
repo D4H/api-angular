@@ -1,5 +1,4 @@
 import { ActivityType } from './activity.model';
-import { IsoDate } from './general.model';
 import { Period } from './period.model';
 
 export enum AttendanceStatus {
@@ -15,8 +14,8 @@ export interface Attendance extends Period {
   status: AttendanceStatus;
 
   activity: {
-    date: IsoDate;
-    enddate: IsoDate;
+    date: Date;
+    enddate: Date;
     id: number;
     ref: string;
     title: string;

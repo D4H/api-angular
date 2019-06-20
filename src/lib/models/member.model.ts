@@ -1,6 +1,6 @@
 import { CustomField } from './custom-field.model';
 import { DutyType } from './duty.model';
-import { IsoDate, NumericBoolean } from './general.model';
+import { NumericBoolean } from './general.model';
 import { OperationalStatus } from './status.model';
 
 /**
@@ -24,17 +24,17 @@ import { OperationalStatus } from './status.model';
  * @example
  *
  *  // Old/Deprecated
- *  duty_end?: IsoDate;     // Duty enddate.
+ *  duty_end?: Date;        // Duty enddate.
  *  duty_id?: number;       // Duty id.
  *  duty_role_id?: number;  // Duty role_id.
- *  duty_start?: IsoDate;   // Duty date.
+ *  duty_start?: Date;      // Duty date.
  *  duty_type?: number;     // Duty DutyType cast as boolean.
  *
  *  // New/Majestic
  *  duty_status {
- *    date: IsoDate;        // Date when Duty status last changed.
+ *    date: Date;           // Date when Duty status last changed.
  *    duty_id?: number;     // Duty record ID if one exists now.
- *    enddate: IsoDate;     // Date when Duty status will next change.
+ *    enddate: Date;        // Date when Duty status will next change.
  *    role_id?: number;     // Current role ID, if set.
  *    role_title?: string;  // Current role title if set.
  *    status: DutyType;     // Current DutyType, on or off.
@@ -42,9 +42,9 @@ import { OperationalStatus } from './status.model';
  */
 
 interface MemberDutyStatus {
-  date: IsoDate;
+  date: Date;
   duty_id?: number;
-  enddate: IsoDate;
+  enddate: Date;
   role_id?: number;
   role_title?: string;
   status: DutyType;
@@ -142,9 +142,9 @@ export interface Member {
 
   // These will be set /if/ a Duty exists for Member when you GET Member.
   // These fields are deprecated in favour of { duty_status: MemberDutyStatus }.
-  duty_end?: IsoDate;
+  duty_end?: Date;
   duty_id?: number;
   duty_role_id?: number;
-  duty_start?: IsoDate;
+  duty_start?: Date;
   duty_type?: NumericBoolean;
 }

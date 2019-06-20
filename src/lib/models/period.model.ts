@@ -1,4 +1,3 @@
-import { IsoDate } from './general.model';
 
 /**
  * Model Period Attributes
@@ -8,7 +7,7 @@ import { IsoDate } from './general.model';
  */
 
 export interface Period {
-  date: IsoDate;
-  enddate: IsoDate;
+  date: Date;
+  enddate: Date;
   duration?: number;
 }

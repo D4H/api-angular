@@ -10,7 +10,7 @@ export function Membership(attributes: Partial<Membership> = {}): Membership {
   return deepmerge<Membership>({
     id: sequence('membership.member_id'),
     language: Language(),
-    lastlogin: faker.date.past().toISOString(),
+    lastlogin: faker.date.past(),
     name: faker.name.findName(),
     token: faker.random.uuid().replace(/-/g, ''),
     type: sample<MembershipType>(MembershipType),
