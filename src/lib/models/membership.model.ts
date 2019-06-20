@@ -50,7 +50,6 @@ export interface Membership {
   id: number;
   language: Language;
   lastlogin?: Date;
-  modules: MembershipModule;
   name: string;
   token: string;
   type: MembershipType;
@@ -64,6 +63,7 @@ export interface Membership {
 
   unit: {
     id: number;
+    modules?: MembershipModule;
     name: string;
     urls?: object; // Unused image URL.
   };

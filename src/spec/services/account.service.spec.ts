@@ -114,7 +114,7 @@ describe('AccountService', () => {
     });
 
     it('should return an array of Memberships with optional team modules', () => {
-      memberships = Factory.buildList<Membership>('Membership', 15, { modules });
+      memberships = Factory.buildList<Membership>('Membership', 15, { unit: { modules } });
       url = ApiUrl(config, path, { list_modules: true });
 
       service.memberships({ list_modules: true })
