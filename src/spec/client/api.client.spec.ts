@@ -1,4 +1,4 @@
-import * as faker from 'faker';
+import faker from 'faker';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { OK } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';

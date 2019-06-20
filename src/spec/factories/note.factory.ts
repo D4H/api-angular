@@ -1,5 +1,5 @@
-import * as faker from 'faker';
-import * as merge from 'deepmerge';
+import faker from 'faker';
+import deepmerge from 'deepmerge';
 
 import { Note } from '../../lib/models';
 import { Period } from './period.factory';
@@ -8,7 +8,7 @@ import { sequence } from './sequence';
 export function Note(attributes: Partial<Note> = {}): Note {
   const { date, enddate } = Period();
 
-  return merge<Note>({
+  return deepmerge<Note>({
     date,
     enddate,
     from_member_id: sequence('note.from_member_id'),

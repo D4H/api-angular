@@ -1,5 +1,5 @@
-import * as faker from 'faker';
-import * as merge from 'deepmerge';
+import faker from 'faker';
+import deepmerge from 'deepmerge';
 
 import { Duty, DutyRepeatInterval, DutyType, Role } from '../../lib/models';
 import { Period } from './period.factory';
@@ -29,7 +29,7 @@ export function Duty(attributes: Partial<Duty> = {}): Duty {
     };
   }
 
-  return merge<Duty>({
+  return deepmerge<Duty>({
     date,
     enddate,
     id: sequence('duty.id'),

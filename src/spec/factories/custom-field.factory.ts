@@ -1,6 +1,6 @@
-import * as moment from 'moment';
-import * as faker from 'faker';
-import * as merge from 'deepmerge';
+import faker from 'faker';
+import deepmerge from 'deepmerge';
+import moment from 'moment';
 
 import { CustomField, CustomFieldType, CustomFieldValue } from '../../lib/models';
 import { sample } from '../utilities';
@@ -17,7 +17,7 @@ export function CustomField(attributes: Partial<CustomField> = {}): CustomField 
   const type: CustomFieldType = sample(CustomFieldType);
   const value: CustomFieldValue = customFieldValue(type);
 
-  return merge<CustomField>({
+  return deepmerge<CustomField>({
     archived: faker.random.boolean(),
     bundle: faker.internet.domainWord(),
     choices: undefined,

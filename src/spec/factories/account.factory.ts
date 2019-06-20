@@ -1,5 +1,5 @@
-import * as faker from 'faker';
-import * as merge from 'deepmerge';
+import faker from 'faker';
+import deepmerge from 'deepmerge';
 
 import { Account } from '../../lib/models';
 import { Language } from './language.factory';
@@ -9,7 +9,7 @@ export function Account(attributes: Partial<Account> = {}): Account {
   const createdDate: string = faker.date.past().toISOString();
   const username: string = faker.internet.userName();
 
-  return merge<Account>({
+  return deepmerge<Account>({
     created: createdDate,
     expires_on: null,
     token: faker.random.uuid(),

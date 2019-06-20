@@ -1,4 +1,4 @@
-import * as faker from 'faker';
+import faker from 'faker';
 import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HttpErrorResponse } from '@angular/common/http';

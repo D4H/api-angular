@@ -1,12 +1,12 @@
-import * as faker from 'faker';
-import * as merge from 'deepmerge';
+import faker from 'faker';
+import deepmerge from 'deepmerge';
 import { sequence } from './sequence';
 
 import { Team } from '../../lib/models';
 import { sample } from '../utilities';
 
 export function Team(attributes: Partial<Team> = {}): Team {
-  return merge<Team>({
+  return deepmerge<Team>({
     calendar_dashboard_activities: faker.random.number(),
     count_members: faker.random.number(),
     count_operational: faker.random.number(),

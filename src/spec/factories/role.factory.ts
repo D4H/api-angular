@@ -1,11 +1,11 @@
-import * as faker from 'faker';
-import * as merge from 'deepmerge';
+import faker from 'faker';
+import deepmerge from 'deepmerge';
 
 import { Role } from '../../lib/models';
 import { sequence } from './sequence';
 
 export function Role(attributes: Partial<Role> = {}): Role {
-  return merge<Role>({
+  return deepmerge<Role>({
     bundle: faker.name.jobType(),
     // cost_per_hour
     // cost_per_use

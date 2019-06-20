@@ -1,5 +1,5 @@
-import * as faker from 'faker';
-import * as merge from 'deepmerge';
+import faker from 'faker';
+import deepmerge from 'deepmerge';
 import { sequence } from './sequence';
 
 import { Language } from './language.factory';
@@ -7,7 +7,7 @@ import { Membership, MembershipModule, MembershipType } from '../../lib/models';
 import { sample } from '../utilities';
 
 export function Membership(attributes: Partial<Membership> = {}): Membership {
-  return merge<Membership>({
+  return deepmerge<Membership>({
     id: sequence('membership.member_id'),
     language: Language(),
     lastlogin: faker.date.past().toISOString(),
@@ -28,7 +28,7 @@ export function Membership(attributes: Partial<Membership> = {}): Membership {
 }
 
 export function MembershipModule(attributes: Partial<MembershipModule> = {}): MembershipModule {
-  return merge<MembershipModule>({
+  return deepmerge<MembershipModule>({
     activities: true,
     address_book: true,
     api_access: true,

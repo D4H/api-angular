@@ -1,6 +1,5 @@
-import * as moment_ from 'moment';
-const moment = moment_;
-
+import isIsoDate from 'is-iso-date';
+import moment from 'moment';
 import { Inject, Injectable } from '@angular/core';
 
 import { AuthClient } from './auth.client';

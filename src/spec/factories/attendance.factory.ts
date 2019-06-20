@@ -1,5 +1,5 @@
-import * as faker from 'faker';
-import * as merge from 'deepmerge';
+import faker from 'faker';
+import deepmerge from 'deepmerge';
 
 import { ActivityType, Attendance, AttendanceStatus } from '../../lib/models';
 import { Activity } from './activity.factory';
@@ -17,7 +17,7 @@ export function Attendance(attributes: Partial<Attendance> = {}): Attendance {
   const { date, duration, enddate } = Period();
   const activity = Activity();
 
-  return merge<Attendance>({
+  return deepmerge<Attendance>({
     date,
     duration,
     enddate,

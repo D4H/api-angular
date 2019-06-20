@@ -2,14 +2,22 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/client",
   "whitelistedNonPeerDependencies": [
+    "deepmerge",
+    "faker",
     "http-status-codes",
-    "moment"
+    "is-iso-date",
+    "moment",
+    "traverse"
   ],
   "lib": {
     "entryFile": "src/projects.ts",
     "umdModuleIds": {
+      "deepmerge": "deepmerge",
+      "faker": "faker",
       "http-status-codes": "http-status-codes",
-      "moment": "moment"
+      "is-iso-date": "is-iso-date",
+      "moment": "moment",
+      "traverse": "traverse"
     }
   }
 }

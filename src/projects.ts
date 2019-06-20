@@ -15,5 +15,5 @@ export * from './lib/services';
  * Hitting namespace issues with deepmerge that I don't want to deal with.
  */
 
-// export * from './spec/factories';
-// export * from './spec/utilities';
+export * from './spec/factories';
+export * from './spec/utilities';

@@ -1,12 +1,12 @@
-import * as faker from 'faker';
-import * as merge from 'deepmerge';
+import faker from 'faker';
+import deepmerge from 'deepmerge';
 
 import { MemberPermission, PermissionType } from '../../lib/models';
 import { sample } from '../utilities';
 import { sequence } from './sequence';
 
 export function MemberPermission(attributes: Partial<MemberPermission> = {}): MemberPermission {
-  return merge<MemberPermission>({
+  return deepmerge<MemberPermission>({
     documents: faker.random.boolean(),
     events: faker.random.boolean(),
     exercises: faker.random.boolean(),

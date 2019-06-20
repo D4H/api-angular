@@ -1,5 +1,5 @@
-import * as faker from 'faker';
-import * as merge from 'deepmerge';
+import faker from 'faker';
+import deepmerge from 'deepmerge';
 
 import { Activity, ActivityType } from '../../lib/models';
 import { Period } from './period.factory';
@@ -13,7 +13,7 @@ export function Activity(attributes: Partial<Activity> = {}): Activity {
   const title: string = faker.commerce.productName();
   const { date, enddate } = Period();
 
-  return merge<Activity>({
+  return deepmerge<Activity>({
     activity: sample(ActivityType),
     archived: faker.random.boolean(),
     // bearing

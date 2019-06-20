@@ -1,4 +1,4 @@
-import * as faker from 'faker';
+import faker from 'faker';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BAD_REQUEST, NOT_FOUND, UNAUTHORIZED, getStatusText } from 'http-status-codes';

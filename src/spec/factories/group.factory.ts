@@ -1,11 +1,11 @@
-import * as faker from 'faker';
-import * as merge from 'deepmerge';
+import faker from 'faker';
+import deepmerge from 'deepmerge';
 
 import { Group } from '../../lib/models';
 import { sequence } from './sequence';
 
 export function Group(attributes: Partial<Group> = {}): Group {
-  return merge<Group>({
+  return deepmerge<Group>({
     id: sequence('group.id'),
     organisation: sequence('group.organisation_id'),
     team_id: sequence('group.team_id'),

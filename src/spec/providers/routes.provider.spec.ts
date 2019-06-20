@@ -1,6 +1,6 @@
-import * as faker from 'faker';
-import traverse from 'traverse';
+import faker from 'faker';
 import { InjectionToken } from '@angular/core';
+import { map } from 'traverse';
 
 import {
   AuthenticatedRoute,
@@ -23,14 +23,12 @@ describe('API Routes', () => {
        * comparsion, which is the same effect.
        */
 
-      const resolvedRouteConfig = traverse(routes).map(
-        function(value: any): void {
-          if (typeof value === 'function') {
-            /* tslint:disable-next-line no-invalid-this */
-            this.update(value(id));
-          }
+      const resolvedRouteConfig = map(routes, function(value: any): void {
+        if (typeof value === 'function') {
+          /* tslint:disable-next-line no-invalid-this */
+          this.update(value(id));
         }
-      );
+      });
 
       const comparisonRouteConfig = {
         account: {

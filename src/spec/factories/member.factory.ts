@@ -1,5 +1,5 @@
-import * as faker from 'faker';
-import * as merge from 'deepmerge';
+import faker from 'faker';
+import deepmerge from 'deepmerge';
 
 import { CustomField } from './custom-field.factory';
 import { Duty } from './duty.factory';
@@ -30,7 +30,7 @@ export function Member(attributes: Partial<Member> = {}): Member {
   const duty = Duty({ member_id: id });
   const status = StatusLabel();
 
-  return merge<Member>({
+  return deepmerge<Member>({
     address: faker.address.streetAddress(), // Restricted
     default_duty: sample(DutyType),
     default_role_id: sequence('member.default_role_id'),

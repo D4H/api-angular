@@ -1,4 +1,4 @@
-import * as faker from 'faker';
+import faker from 'faker';
 import { TestBed } from '@angular/core/testing';
 
 import { AuthClient, MissingTokenError } from '../../lib/client';

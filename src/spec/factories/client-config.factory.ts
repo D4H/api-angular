@@ -1,11 +1,11 @@
-import * as faker from 'faker';
-import * as merge from 'deepmerge';
+import faker from 'faker';
+import deepmerge from 'deepmerge';
 
 import { ClientConfig, Region, Version } from '../../lib/providers';
 import { sample } from '../utilities';
 
 export function ClientConfig(attributes: Partial<ClientConfig> = {}): ClientConfig {
-  return merge<ClientConfig>({
+  return deepmerge<ClientConfig>({
     region: sample<Region>(Region),
     version: sample<Version>(Version),
 

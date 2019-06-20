@@ -1,6 +1,6 @@
-import * as faker from 'faker';
-import * as moment from 'moment';
+import faker from 'faker';
 import isIsoDate from 'is-iso-date';
+import moment from 'moment';
 import { TestBed } from '@angular/core/testing';
 
 import { ClientConfig } from '../../lib/providers';
