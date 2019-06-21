@@ -40,7 +40,7 @@ describe('PhotoService', () => {
 
     beforeEach(() => {
       blob = Factory.build<Blob>('Photo');
-      path = `/${faker.internet.domainWord()}/image`;
+      path = `/${faker.random.objectElement()}/image`;
       safeUrl = sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
       url = ApiUrl(config, path);
     });
@@ -61,7 +61,7 @@ describe('PhotoService', () => {
     });
 
     it('should throw an error when given an invalid URL', () => {
-      url = `/${faker.internet.domainWord()}/${faker.lorem.word()}`;
+      url = `/${faker.random.objectElement()}/${faker.lorem.word()}`;
 
       expect(() => service.get(url))
         .toThrow(new InvalidPhotoUrlError(url));

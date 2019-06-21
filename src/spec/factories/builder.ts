@@ -31,7 +31,52 @@ export class UnknownFactoryError extends Error {
   }
 }
 
-export const FactoryList = {
+export interface FactoryList {
+  [key: string]: () => {};
+}
+
+export interface FactoryBuilder {
+  factories: FactoryList;
+  add(factories: { [key: string]: () => {} }): object;
+  build<T>(factory: string, ...rest: Array<any>): T;
+  buildList<T>(factory: string, length: number, ...rest: Array<any>): Array<T>;
+}
+
+export const Factory: FactoryBuilder = {
+  factories: {},
+
+  add(factories: FactoryList): any {
+    this.factories = {
+      ...factories,
+      ...this.factories
+    };
+
+    return this.factories;
+  },
+
+  build<T>(factory: string, ...rest: Array<any>): T {
+    if (typeof this.factories[factory] === 'function') {
+      return this.factories[factory](...rest) as T;
+    } else {
+      throw new UnknownFactoryError(factory);
+    }
+  },
+
+  buildList<T>(factory: string, length: number, ...rest: Array<any>): Array<T> {
+    if (typeof this.factories[factory] === 'function') {
+      return Array.from({ length }).map(() => this.build(factory, ...rest) as T);
+    } else {
+      throw new UnknownFactoryError(factory);
+    }
+  }
+};
+
+/**
+ * Register D4H Model Factories
+ * =============================================================================
+ */
+
+Factory.add({
   Account,
   Activity,
   Attendance,
@@ -53,22 +98,4 @@ export const FactoryList = {
   StatusLabel,
   Team,
   Username
-};
-
-export const Factory = {
-  build<T>(factory: string, ...rest: Array<any>): T {
-    if (typeof FactoryList[factory] === 'function') {
-      return FactoryList[factory](...rest) as T;
-    } else {
-      throw new UnknownFactoryError(factory);
-    }
-  },
-
-  buildList<T>(factory: string, length: number, ...rest: Array<any>): Array<T> {
-    if (typeof FactoryList[factory] === 'function') {
-      return Array.from({ length }).map(() => this.build(factory, ...rest) as T);
-    } else {
-      throw new UnknownFactoryError(factory);
-    }
-  }
-};
+});

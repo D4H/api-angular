@@ -1,2 +1,2 @@
-export { Factory, FactoryList } from './builder';
+export { Factory } from './builder';
 export { sequence } from './sequence';

@@ -19,7 +19,7 @@ export function CustomField(attributes: Partial<CustomField> = {}): CustomField 
 
   return deepmerge<CustomField>({
     archived: faker.random.boolean(),
-    bundle: faker.internet.domainWord(),
+    bundle: faker.random.objectElement(),
     choices: undefined,
     entity_id: sequence('custom-field.member_id'),
     hint: faker.lorem.sentence(),
