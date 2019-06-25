@@ -1,4 +1,5 @@
 import { ActivityType } from './activity.model';
+import { Member } from './member.model';
 import { Period } from './period.model';
 
 export enum AttendanceStatus {
@@ -10,6 +11,7 @@ export enum AttendanceStatus {
 export interface Attendance extends Period {
   duration: number;
   id: number;
+  member: Pick<Member, 'id' | 'name'>;
   role: number;
   status: AttendanceStatus;
 
@@ -20,10 +22,5 @@ export interface Attendance extends Period {
     ref: string;
     title: string;
     type: ActivityType;
-  };
-
-  member: {
-    id: number;
-    name: string;
   };
 }

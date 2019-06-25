@@ -1,7 +1,7 @@
 import faker from 'faker';
 import deepmerge from 'deepmerge';
 
-import { Role } from '../../lib/models';
+import { Currency, Role } from '../../lib/models';
 import { sequence } from './sequence';
 
 export function Role(attributes: Partial<Role> = {}): Role {
@@ -13,12 +13,12 @@ export function Role(attributes: Partial<Role> = {}): Role {
     title: faker.name.jobTitle(),
 
     cost_per_hour: {
-     currency: faker.finance.currencySymbol(),
+     currency: faker.finance.currencySymbol() as Currency,
       value: faker.random.number()
     },
 
     cost_per_use: {
-     currency: faker.finance.currencySymbol(),
+     currency: faker.finance.currencySymbol() as Currency,
       value: faker.random.number()
     }
   }, attributes);

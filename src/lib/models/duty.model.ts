@@ -20,11 +20,7 @@ export interface Duty extends Period {
   parent_id?: number;
   repeat_every?: DutyRepeatInterval;
   repeat_until?: Date;
+  role?: Pick<Role, 'id' | 'title'>;
   team_id: number;
   type: DutyType;
-
-  role?: {
-    id: number;
-    title: string;
-  };
 }

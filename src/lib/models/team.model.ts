@@ -1,3 +1,5 @@
+import { Currency, Distance, Weight } from './units.model';
+
 /**
  * Team Information Object
  * =============================================================================
@@ -24,16 +26,8 @@ export interface Team {
   };
 
   units: {
-    currency: string;
-
-    distance: {
-      name: string;
-      symbol: string;
-    };
-
-    weight: {
-      name: string;
-      units: string;
-    };
+    currency: Currency;
+    distance: Distance;
+    weight: Weight;
   };
 }

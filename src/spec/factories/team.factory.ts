@@ -2,7 +2,7 @@ import faker from 'faker';
 import deepmerge from 'deepmerge';
 import { sequence } from './sequence';
 
-import { Team } from '../../lib/models';
+import { Currency, Team } from '../../lib/models';
 import { sample } from '../utilities';
 
 export function Team(attributes: Partial<Team> = {}): Team {
@@ -28,7 +28,7 @@ export function Team(attributes: Partial<Team> = {}): Team {
     },
 
     units: {
-      currency: faker.finance.currencySymbol(),
+      currency: faker.finance.currencySymbol() as Currency,
 
       distance: {
         name: 'kilometer',
