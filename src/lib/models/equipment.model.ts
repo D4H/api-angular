@@ -1,3 +1,4 @@
+import { Category } from './category.model';
 import { Cost } from './cost.model';
 import { Weight } from './units.model';
 
@@ -18,6 +19,7 @@ export enum EquipmentType {
 
 export interface Equipment {
   barcode?: string;
+  category: Pick<Category, 'id' | 'title'>;
   cost_per_distance?: Cost;
   cost_per_hour?: Cost;
   cost_per_use?: Cost;
@@ -53,11 +55,6 @@ export interface Equipment {
   brand: {
     id: number;
     title: number;
-  };
-
-  category: {
-    id: number;
-    title: string;
   };
 
   kind: {
