@@ -1,12 +1,11 @@
 export enum InspectionResult {
-  Incomplete = 0,
-  Operational = 1,
-  ToMonitor = 2,
-  RepairRequired = 3,
-  // Thierry lost 4 somewhere.
-  // See: https://github.com/D4H/decisions-project/issues/3596
-  Lost = 5,
-  Unserviceable = 6
+  Incomplete,
+  Operational,
+  ToMonitor,
+  RepairRequired,
+  Retired,
+  Lost,
+  Unserviceable
 }
 
 // GET /team/inspections(/:id)
