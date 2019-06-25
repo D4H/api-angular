@@ -7,6 +7,7 @@ import {
   CLIENT_CONFIG,
   ClientConfig,
   ClientRequestParser,
+  ConfigProvider,
   Headers,
   HttpOptions,
   Params
@@ -27,13 +28,13 @@ import { ParserClient } from './parser.client';
 @Injectable({ providedIn: 'root' })
 export class ApiHttpClient {
   constructor(
-    @Inject(CLIENT_CONFIG) private readonly config$: Observable<ClientConfig>,
+    @Inject(CLIENT_CONFIG) private readonly configurator: ConfigProvider,
     private readonly http: HttpClient,
     private readonly parser: ParserClient
   ) {}
 
   get<T>(url: string, options: HttpOptions = {}): Observable<T> {
-    return this.config$.pipe(
+    return this.configurator.config$.pipe(
       take(1),
       mergeMap((config: ClientConfig): Observable<T> => this.http.get<T>(
         this.parser.url(config, url),
@@ -45,7 +46,7 @@ export class ApiHttpClient {
   }
 
   post<T>(url: string, body: any, options: HttpOptions = {}): Observable<T> {
-    return this.config$.pipe(
+    return this.configurator.config$.pipe(
       take(1),
       mergeMap((config: ClientConfig): Observable<T> => this.http.post<T>(
         this.parser.url(config, url),
@@ -58,7 +59,7 @@ export class ApiHttpClient {
   }
 
   put<T>(url: string, body: any, options: HttpOptions = {}): Observable<T> {
-    return this.config$.pipe(
+    return this.configurator.config$.pipe(
       take(1),
       mergeMap((config: ClientConfig): Observable<T> => this.http.put<T>(
         this.parser.url(config, url),
@@ -71,7 +72,7 @@ export class ApiHttpClient {
   }
 
   delete<T>(url: string, options: HttpOptions = {}): Observable<T> {
-    return this.config$.pipe(
+    return this.configurator.config$.pipe(
       take(1),
       mergeMap((config: ClientConfig): Observable<T> => this.http.delete<T>(
         this.parser.url(config, url),

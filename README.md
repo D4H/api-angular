@@ -8,14 +8,15 @@ Bindings is an Angular 7+ client for the [D4H](https://d4htechnologies.com/) v2 
 2. Object services: `MemberService`, `AttendanceSerivice`.
 3. Route and fixture factories for D4H endpoints and business objects.
 
-## Getting Started
-
-### Installation
+## Installation
 
 `npm install --save @d4h/angular`
 
+## Configuration
+Binding accepts a configuration which can either be static or yielded by an [observable](http://reactivex.io/).
+
 ### API Regions
-Bindings supports all D4H API regions. Please consult with your team leader or <support@d4h.org> if you have questions about which data region to use.
+Bindings supports all D4H API regions. Please contact <support@d4h.org> if you have questions about which is the correct data region for you to use.
 
 ```typescript
 export enum Region {
@@ -28,13 +29,12 @@ export enum Region {
 }
 ```
 
-### Configuration
-Binding accepts a configuration which can either be static or yielded by an [observable](http://reactivex.io/). That bindings reads the configuration at the time a request is made permits for dynamic configurations in contexts where the account or team membership tokens change.
+### Format
+Injected configurations are evaluated when the client makes an API request. This permits for dynamic applications where the account or team membership tokens can change in the course of use.
 
 ```typescript
-export interface ClientConfig {
+interface ClientConfig {
   region: Region;
-  version?: Version;
 
   client: {
     name: string;
@@ -49,28 +49,59 @@ export interface ClientConfig {
 }
 ```
 
-### Using Bindings
-Simply import `ApiModule` from the package and import `ApiModule.forRoot` with a configuration.
+## Use
+Simply import `ClientModule` from the package and call `ClientModule.forRoot` with a configuration. Configuration is wrapped in a `ConfigProvider` object that yields the configuration as an observable.
 
 ```typescript
-import { ClientConfig, ClientModule, Region } from '@d4h/angular';
+import { CLIENT_CONFIG, ClientModule, ConfigProvider, Region } from '@4h/angular';
 
-const config: Observable<ClientConfig> = of({
-  region: Region.Europe,
-  client: {
-    name: 'Garricorn',
-    version: '1.0.1'
-  },
-  tokens: {
-    account: 'YdRM8Tz78tIfJ3jqhyzz',
-    team: 'LKYW5USNLWAwyqy5VNcA'
-  }
-});
+const clientConfig: ConfigProvider = {
+  config$: of({
+    region: Region.Staging,
+
+    client: {
+      name: 'Minas Tirith Siege Disaster Response',
+      version: '3.0.19'
+    },
+
+    tokens: {
+      account: 'YdRM8Tz78tIfJ3jqhyzz',
+      team: 'LKYW5USNLWAwyqy5VNcA'
+    }
+  })
+};
 
 @NgModule({
-  // ...
   imports: [
-    ClientModule.forRoot(config)
+    ClientModule.forRoot(
+      { provide: CLIENT_CONFIG, useValue: clientConfig }
+    )
+  ]
+})
+export class AppModule {}
+```
+
+### NgRX Store Selector Injection
+D4H Angular applications rely on [NgRx](https://ngrx.io/) for internal state management. Store states are a singleton class instance-selectors only work while instantiated. With some slight changes it is quite possible to inject a selected configuration:
+
+```typescript
+import { CLIENT_CONFIG, ClientModule, ConfigProvider } from '@4h/angular';
+import { selectConfig } from 'my/store/config/selector';
+
+@Injectable({ providedIn: 'root' })
+export class ConfigurationSelector implements ConfigProvider {
+  readonly config$: Observable<ClientConfig>;
+
+  constructor(private readonly store: Store<AppState>) {
+    this.config$ = this.store.select(selectConfig);
+  }
+}
+
+@NgModule({
+  imports: [
+    ClientModule.forRoot(
+      { provide: CLIENT_CONFIG, useClass: ConfigurationSelector }
+    )
   ]
 })
 export class AppModule {}
@@ -127,7 +158,7 @@ Bindings supports those object operations used internally by D4H applications. I
     * `settings(team, setting)`
 
 ## Support and Feedback
-Feel free to [open an issue](https://github.com/D4H/api-angular/issues/new) if you have any queries or concerns, or reach out to <support@d4h.org>.
+Feel free to [open an issue](https://github.com/D4H/api-angular/issues/new), email <support@d4h.org> or tweet [@d4h](https://twitter.com/d4h/).
 
 ## License
 Copyright (C) 2019 [D4H](https://d4htechnologies.com/)

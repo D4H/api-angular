@@ -142,7 +142,6 @@ describe('Factory', () => {
 
     it('should add new factories', () => {
       Factory.add(testFactories);
-      console.log(Factory.factories);
       expect(Factory.factories).toEqual(testFactories);
 
       keys.forEach((key: string) => {

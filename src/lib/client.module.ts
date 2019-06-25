@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { Observable, isObservable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import {
   InjectionToken,
@@ -28,6 +28,7 @@ import {
   CLIENT_CONFIG,
   CLIENT_DEFAULT_CONFIG,
   ClientConfig,
+  Region,
   Version,
   authenticatedRoutes,
   clientDefaultConfig,
@@ -63,25 +64,25 @@ import {
   ]
 })
 export class ClientModule {
-  static forRoot(config: ClientConfig | Observable<ClientConfig>): ModuleWithProviders {
+  static forRoot(configProvider: Provider): ModuleWithProviders {
     return {
       ngModule: ClientModule,
       providers: [
+        configProvider,
         { provide: API_ROUTES, useValue: routes },
         { provide: API_AUTHENTICATED_ROUTES, useValue: authenticatedRoutes },
-        { provide: CLIENT_CONFIG, useValue: isObservable(config) ? config : of(config) },
         { provide: CLIENT_DEFAULT_CONFIG, useValue: clientDefaultConfig }
       ]
     };
   }
 
-  static forChild(config: ClientConfig | Observable<ClientConfig>): ModuleWithProviders {
+  static forChild(configProvider: Provider): ModuleWithProviders {
     return {
       ngModule: ClientModule,
       providers: [
+        configProvider,
         { provide: API_ROUTES, useValue: routes },
         { provide: API_AUTHENTICATED_ROUTES, useValue: authenticatedRoutes },
-        { provide: CLIENT_CONFIG, useValue: isObservable(config) ? config : of(config) },
         { provide: CLIENT_DEFAULT_CONFIG, useValue: clientDefaultConfig }
       ]
     };

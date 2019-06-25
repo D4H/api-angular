@@ -28,7 +28,11 @@ export interface ClientConfig {
   };
 }
 
-export const CLIENT_CONFIG = new InjectionToken<Observable<ClientConfig>>(
+export interface ConfigProvider {
+  config$: Observable<ClientConfig>;
+}
+
+export const CLIENT_CONFIG = new InjectionToken<ConfigProvider>(
   'CLIENT_CONFIGURATION'
 );
 

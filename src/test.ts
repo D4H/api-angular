@@ -6,6 +6,7 @@ import 'zone.js/dist/zone';
 import 'zone.js/dist/zone-testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBedStatic } from '@angular/core/testing';
+import { Provider } from '@angular/core';
 import { getTestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
@@ -44,14 +45,19 @@ context.keys().map(context);
  */
 
 export function ConfigureApiModule(testbed: TestBedStatic, config: ClientConfig): void {
+  const configProvider: Provider = {
+    provide: CLIENT_CONFIG,
+    useValue: { config$: of(config) }
+  };
+
   testbed.configureTestingModule({
     imports: [
       HttpClientTestingModule
     ],
     providers: [
+      configProvider,
       { provide: API_ROUTES, useValue: routes },
       { provide: API_AUTHENTICATED_ROUTES, useValue: authenticatedRoutes },
-      { provide: CLIENT_CONFIG, useValue: of(config) },
       { provide: CLIENT_DEFAULT_CONFIG, useValue: clientDefaultConfig }
     ]
   });
