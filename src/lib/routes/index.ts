@@ -3,6 +3,7 @@ import * as Accounts from './account.route';
 import * as Activities from './activity.route';
 import * as Attendances from './attendance.route';
 import * as Duties from './duty.route';
+import * as Gear from './gear.route';
 import * as Groups from './group.route';
 import * as Members from './member.route';
 import * as Notes from './note.route';
@@ -16,6 +17,7 @@ export {
   Activities,
   Attendances,
   Duties,
+  Gear,
   Groups,
   Members,
   Notes,

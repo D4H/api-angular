@@ -59,7 +59,10 @@ describe('API Routes', () => {
             update: `/team/duties/${id}`,
             destroy: `/team/duties/${id}`
           },
-          equipment: {
+          gear: {
+            index: '/team/equipment',
+            show: `/team/equipment/${id}`,
+            update: `/team/equipment/${id}`,
             image: `/team/equipment/${id}/image`
           },
           groups: {

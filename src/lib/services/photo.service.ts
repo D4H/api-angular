@@ -121,6 +121,20 @@ export class PhotoService {
   }
 
   /**
+   * TODO: Change Photo by URL
+   * ===========================================================================
+   * @example
+   *
+   *  PUT /team/equipment/:id/image
+   *
+   * @see https://api.d4h.org/v2/documentation#operation/putTeamEquipmentEquipment_idImage
+   */
+
+  NYI_update(url: string): Observable<void> {
+    return;
+  }
+
+  /**
    * Sanitize Blob
    * ===========================================================================
    */

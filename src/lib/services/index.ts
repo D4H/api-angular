@@ -2,6 +2,7 @@ export * from './account.service';
 export * from './activity.service';
 export * from './attendance.service';
 export * from './duty.service';
+export * from './gear.service';
 export * from './group.service';
 export * from './member.service';
 export * from './note.service';

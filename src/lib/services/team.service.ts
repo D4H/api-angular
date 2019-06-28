@@ -33,11 +33,11 @@ export class TeamService {
   show(team: Membership): Observable<Team> {
     const route: string = this.routes.team.show(team.unit.id);
 
-    const options: HttpOptions = {
+    const payload: HttpOptions = {
       headers: { Authorization: `Bearer ${team.token}` }
     };
 
-    return this.http.get<Teams.Show>(route, options).pipe(
+    return this.http.get<Teams.Show>(route, payload).pipe(
       map((res: Teams.Show): Team => res.data)
     );
   }

@@ -2,11 +2,14 @@ import { Account } from './account.factory';
 import { Activity } from './activity.factory';
 import { Attendance } from './attendance.factory';
 import { ClientConfig } from './client-config.factory';
+import { Cost } from './cost.factory';
 import { CustomField } from './custom-field.factory';
 import { Duty } from './duty.factory';
 import { EmergencyContact } from './emergency-contact.factory';
+import { Equipment } from './equipment.factory';
 import { Group } from './group.factory';
 import { Language } from './language.factory';
+import { Location } from './location.factory';
 import { Member } from './member.factory';
 import { MemberPermission } from './permission.factory';
 import { Membership, MembershipModule } from './membership.factory';
@@ -81,10 +84,13 @@ Factory.add({
   Activity,
   Attendance,
   ClientConfig,
+  Cost,
   CustomField,
   Duty,
   EmergencyContact,
+  Equipment,
   Language,
+  Location,
   Group,
   Member,
   MemberPermission,

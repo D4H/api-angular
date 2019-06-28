@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { SafeUrl } from '@angular/platform-browser';
 import { map } from 'rxjs/operators';
 
-import { API_ROUTES, RouteConfig } from '../providers';
+import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { Group, Member, EmergencyContact, StatusLabel } from '../models';
 import { PhotoService } from './photo.service';
@@ -19,10 +19,7 @@ export class MemberService {
 
   index(search: Members.Search = {}): Observable<Array<Member>> {
     const route: string = this.routes.team.members.index;
-
-    const payload = {
-      params: search as any
-    };
+    const payload: HttpOptions = { params: search as any };
 
     return this.http.get<Members.Index>(route, payload).pipe(
       map((res: Members.Index): Array<Member> => res.data)

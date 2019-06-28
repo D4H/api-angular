@@ -67,7 +67,7 @@ export interface Equipment {
     location_id: number;
     location_title: string;
     member_id: number;
-    member_name?: number;
+    member_name?: string;
     parent_id: number;
     unit_title: string;
   };

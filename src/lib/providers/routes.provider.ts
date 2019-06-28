@@ -36,7 +36,10 @@ export interface RouteConfig {
       destroy(id: number): string;
     };
 
-    equipment: {
+    gear: {
+      index: string;
+      show(id: number): string;
+      update(id: number): string;
       image(id: number): string;
     };
 
@@ -116,7 +119,10 @@ export const routes: RouteConfig = {
       destroy: (id: number): string => `/team/duties/${id}`
     },
 
-    equipment: {
+    gear: {
+      index: '/team/equipment',
+      show: (id: number): string => `/team/equipment/${id}`,
+      update: (id: number): string => `/team/equipment/${id}`,
       image: (id: number) => `/team/equipment/${id}/image`
     },
 
