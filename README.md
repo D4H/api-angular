@@ -132,6 +132,11 @@ Bindings supports those object operations used internally by D4H applications. I
 * Group
     * `index([search])`
     * `show(id)`
+* Equipment
+    * `index([search])`
+    * `show(id)`
+    * `update(id[, params])`
+    * `image(id, [params])`
 * Member
     * `index([search])`
     * `show(id)`
