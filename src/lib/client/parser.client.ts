@@ -1,5 +1,5 @@
+import * as moment from 'moment';
 import isIsoDate from 'is-iso-date';
-import moment from 'moment';
 import traverse from 'traverse';
 import { Inject, Injectable } from '@angular/core';
 
