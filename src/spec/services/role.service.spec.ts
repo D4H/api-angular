@@ -4,13 +4,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
+import * as API from '../../lib/resources';
 import { ApiUrl } from '../utilities';
 import { ClientConfig, routes } from '../../lib/providers';
 import { ConfigureApiModule } from '../../test';
 import { Factory } from '../factories';
 import { Role } from '../../lib/models';
 import { RoleService } from '../../lib/services';
-import { Roles } from '../../lib/routes';
 
 describe('RoleService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
@@ -30,7 +30,7 @@ describe('RoleService', () => {
 
   describe('RoleService#index', () => {
     const path: string = routes.team.roles.index;
-    let search: Roles.Search;
+    let search: API.Roles.Search;
     let roles: Array<Role>;
     let url: string;
 

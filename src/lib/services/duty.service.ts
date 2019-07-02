@@ -2,9 +2,9 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import * as API from '../resources';
 import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
-import { Duties } from '../routes';
 import { Duty } from '../models';
 
 @Injectable({ providedIn: 'root' })
@@ -14,20 +14,20 @@ export class DutyService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(search?: Duties.Search): Observable<Array<Duty>> {
+  index(search?: API.Duties.Search): Observable<Array<Duty>> {
     const route: string = this.routes.team.duties.index;
     const payload: HttpOptions = { params: search as any };
 
-    return this.http.get<Duties.Index>(route, payload).pipe(
-      map((res: Duties.Index): Array<Duty> => res.data)
+    return this.http.get<API.Duties.Index>(route, payload).pipe(
+      map((res: API.Duties.Index): Array<Duty> => res.data)
     );
   }
 
   show(id: number): Observable<Duty> {
     const route: string = this.routes.team.duties.show(id);
 
-    return this.http.get<Duties.Show>(route).pipe(
-      map((res: Duties.Show): Duty => res.data)
+    return this.http.get<API.Duties.Show>(route).pipe(
+      map((res: API.Duties.Show): Duty => res.data)
     );
   }
 
@@ -50,11 +50,11 @@ export class DutyService {
    * @see https://github.com/D4H/decisions-project/issues/2737
    */
 
-  create(body: Duties.New): Observable<Duty> {
+  create(body: API.Duties.New): Observable<Duty> {
     const route: string = this.routes.team.duties.index;
 
-    return this.http.post<Duties.Create>(route, body).pipe(
-      map((res: Duties.Show): Duty => {
+    return this.http.post<API.Duties.Create>(route, body).pipe(
+      map((res: API.Duties.Show): Duty => {
         if (Number.isInteger(res.data.id)) {
           return res.data;
         } else {
@@ -64,18 +64,18 @@ export class DutyService {
     );
   }
 
-  update(id: number, body: Duties.Change): Observable<Duty> {
+  update(id: number, body: API.Duties.Change): Observable<Duty> {
     const route: string = this.routes.team.duties.update(id);
 
-    return this.http.put<Duties.Show>(route, body).pipe(
-      map((res: Duties.Update): Duty => res.data)
+    return this.http.put<API.Duties.Show>(route, body).pipe(
+      map((res: API.Duties.Update): Duty => res.data)
     );
   }
 
   destroy(id: number): Observable<number> {
     const route: string = this.routes.team.duties.destroy(id);
 
-    return this.http.delete<Duties.Destroy>(route).pipe(
+    return this.http.delete<API.Duties.Destroy>(route).pipe(
       map((): number => id)
     );
   }

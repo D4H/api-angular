@@ -1,5 +1,5 @@
 import { Setting, SettingData, Team } from '../models';
-import { Response } from './general.route';
+import { Response } from './shared.res';
 
 /**
  * GET /team/teams/:id

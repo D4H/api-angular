@@ -1,7 +1,7 @@
 import faker from 'faker';
 import deepmerge from 'deepmerge';
 
-import { Members } from '../../lib/routes';
+import { Members } from '../../lib/resources';
 import { OperationalStatus, StatusLabel } from '../../lib/models';
 import { sample } from '../utilities';
 import { sequence } from './sequence';

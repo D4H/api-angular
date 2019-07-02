@@ -5,10 +5,10 @@ import { NOT_FOUND } from 'http-status-codes';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
+import * as API from '../resources';
 import { ApiHttpClient } from '../client/api.client';
 import { HttpOptions } from '../providers';
 import { Membership } from '../models';
-import { Photos } from '../routes';
 
 export class InvalidPhotoUrlError extends Error {
   constructor(url: string) {
@@ -43,7 +43,7 @@ export class PhotoService {
    * Used for members, images, equipment, etc.
    */
 
-  get(url: string, params: Photos.Params = {}): Observable<SafeUrl> {
+  get(url: string, params: API.Photos.Params = {}): Observable<SafeUrl> {
     if (this.imageUrl.test(url)) {
       const payload: HttpOptions = {
         responseType: 'blob' as 'json',
@@ -100,7 +100,11 @@ export class PhotoService {
    * @see https://api.d4h.org/v2/documentation#operation/getMembershipImage
    */
 
-  membership(url: string, membership: Membership, params: Photos.Params = {}): Observable<SafeUrl> {
+  membership(
+    url: string,
+    membership: Membership,
+    params: API.Photos.Params = {}
+  ): Observable<SafeUrl> {
     const multiplier = 1000000;
 
     const payload: HttpOptions = {

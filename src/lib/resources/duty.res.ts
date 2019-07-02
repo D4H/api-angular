@@ -1,5 +1,5 @@
 import { Duty, DutyType } from '../models';
-import { DateParameter, Response, Search } from './general.route';
+import { DateParameter, Response, Search } from './shared.res';
 
 /**
  * GET /team/duties

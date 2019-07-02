@@ -3,11 +3,11 @@ import { Observable } from 'rxjs';
 import { SafeUrl } from '@angular/platform-browser';
 import { catchError, map } from 'rxjs/operators';
 
+import * as API from '../resources';
 import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { Membership, Setting, SettingData, Team } from '../models';
 import { PhotoService } from './photo.service';
-import { Photos, Teams } from '../routes';
 
 /**
  * Membership Team/Organisation Service
@@ -37,12 +37,12 @@ export class TeamService {
       headers: { Authorization: `Bearer ${team.token}` }
     };
 
-    return this.http.get<Teams.Show>(route, payload).pipe(
-      map((res: Teams.Show): Team => res.data)
+    return this.http.get<API.Teams.Show>(route, payload).pipe(
+      map((res: API.Teams.Show): Team => res.data)
     );
   }
 
-  image(team: Membership, params: Photos.Params = {}): Observable<SafeUrl> {
+  image(team: Membership, params: API.Photos.Params = {}): Observable<SafeUrl> {
     const route: string = this.routes.team.image;
 
     return this.photoService.membership(route, team, params);
@@ -56,8 +56,8 @@ export class TeamService {
       params: { setting }
     };
 
-    return this.http.get<Teams.Setting>(route, options).pipe(
-      map((res: Teams.Setting): SettingData => res.data)
+    return this.http.get<API.Teams.Setting>(route, options).pipe(
+      map((res: API.Teams.Setting): SettingData => res.data)
     );
   }
 }

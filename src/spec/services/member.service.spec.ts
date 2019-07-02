@@ -5,13 +5,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
+import * as API from '../../lib/resources';
 import { API_PHOTO_URL_REGEX, ApiUrl } from '../utilities';
 import { ClientConfig, routes } from '../../lib/providers';
 import { ConfigureApiModule } from '../../test';
 import { Factory } from '../factories';
 import { Group, Member, OperationalStatus, StatusLabel } from '../../lib/models';
 import { MemberService } from '../../lib/services';
-import { Members } from '../../lib/routes';
 
 describe('MemberService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
@@ -32,7 +32,7 @@ describe('MemberService', () => {
   describe('MemberService#index', () => {
     const path: string = routes.team.members.index;
     let members: Array<Member>;
-    let search: Members.Search;
+    let search: API.Members.Search;
     let url: string;
 
     beforeEach(() => {
@@ -131,7 +131,7 @@ describe('MemberService', () => {
 
   describe('MemberService#update', () => {
     const path: (id: number | 'me') => string = routes.team.members.update;
-    let attributes: Members.Change;
+    let attributes: API.Members.Change;
     let member: Member;
     let updatedMember: Member;
     let url: string;
@@ -288,7 +288,7 @@ describe('MemberService', () => {
 
   describe('MemberService#labels', () => {
     const path: string = routes.team.members.labels;
-    let data: Members.LabelData;
+    let data: API.Members.LabelData;
     let url: string;
 
     it('should have #labels accessor', () => {
@@ -313,7 +313,7 @@ describe('MemberService', () => {
       url = ApiUrl(config, path);
 
       service.labels()
-        .subscribe((res: Members.LabelData) => expect(res).toEqual(data));
+        .subscribe((res: API.Members.LabelData) => expect(res).toEqual(data));
 
       req = http.expectOne({ url, method: 'GET' });
       req.flush({ data });

@@ -4,13 +4,13 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { BAD_REQUEST, CREATED, NOT_FOUND, getStatusText } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
+import * as API from '../../lib/resources';
+import { ApiUrl } from '../utilities';
 import { ClientConfig, routes } from '../../lib/providers';
 import { ConfigureApiModule } from '../../test';
-import { Duties } from '../../lib/routes';
 import { Duty } from '../../lib/models';
 import { DutyService } from '../../lib/services';
 import { Factory } from '../factories';
-import { ApiUrl } from '../utilities';
 
 describe('DutyService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
@@ -31,7 +31,7 @@ describe('DutyService', () => {
   describe('DutyService#index', () => {
     const path: string = routes.team.duties.index;
     let duties: Array<Duty>;
-    let search: Duties.Search;
+    let search: API.Duties.Search;
     let url: string;
 
     beforeEach(() => {
@@ -129,7 +129,7 @@ describe('DutyService', () => {
 
   describe('DutyService#create', () => {
     const path: string = routes.team.duties.index;
-    let attributes: Duties.New;
+    let attributes: API.Duties.New;
     let duty: Duty;
     let url: string;
 
@@ -210,7 +210,7 @@ describe('DutyService', () => {
 
   describe('DutyService#update', () => {
     const path: (id: number) => string = routes.team.duties.update;
-    let attributes: Duties.Change;
+    let attributes: API.Duties.Change;
     let duty: Duty;
     let updatedDuty: Duty;
     let url: string;

@@ -5,12 +5,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
+import * as API from '../../lib/resources';
 import { API_PHOTO_URL_REGEX, ApiUrl, sample } from '../utilities';
 import { ClientConfig, routes } from '../../lib/providers';
 import { ConfigureApiModule } from '../../test';
 import { Equipment, EquipmentStatus } from '../../lib/models';
 import { Factory } from '../factories';
-import { Gear } from '../../lib/routes';
 import { GearService } from '../../lib/services';
 
 describe('GearService', () => {
@@ -31,7 +31,7 @@ describe('GearService', () => {
 
   describe('GearService#index', () => {
     const path: string = routes.team.gear.index;
-    let search: Gear.Search;
+    let search: API.Gear.Search;
     let equipment: Array<Equipment>;
     let url: string;
 
@@ -130,7 +130,7 @@ describe('GearService', () => {
 
   describe('GearService#update', () => {
     const path: (id: number) => string = routes.team.gear.update;
-    let attributes: Gear.Change;
+    let attributes: API.Gear.Change;
     let equipment: Equipment;
     let updatedEquipment: Equipment;
     let url: string;

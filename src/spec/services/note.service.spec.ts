@@ -4,12 +4,12 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
+import * as API from '../../lib/resources';
 import { ClientConfig, routes } from '../../lib/providers';
 import { ConfigureApiModule } from '../../test';
 import { Factory } from '../factories';
 import { Note } from '../../lib/models';
 import { NoteService } from '../../lib/services';
-import { Notes } from '../../lib/routes';
 import { ApiUrl } from '../utilities';
 
 describe('NoteService', () => {
@@ -30,7 +30,7 @@ describe('NoteService', () => {
 
   describe('NoteService#index', () => {
     const path: string = routes.team.notes.index;
-    let search: Notes.Search;
+    let search: API.Notes.Search;
     let notes: Array<Note>;
     let url: string;
 
@@ -126,7 +126,7 @@ describe('NoteService', () => {
 
   describe('NoteService#create', () => {
     const path: string = routes.team.notes.index;
-    let attributes: Notes.New;
+    let attributes: API.Notes.New;
     let note: Note;
     let url: string;
 
@@ -183,7 +183,7 @@ describe('NoteService', () => {
 
   describe('NoteService#update', () => {
     const path: (id: number) => string = routes.team.notes.update;
-    let attributes: Notes.Change;
+    let attributes: API.Notes.Change;
     let note: Note;
     let updatedNote: Note;
     let url: string;

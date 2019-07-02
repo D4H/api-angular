@@ -1,5 +1,5 @@
 import { Account, Membership, MembershipType, Username } from '../models';
-import { Response } from './general.route';
+import { Response } from './shared.res';
 
 /**
  * POST /account/authenticate

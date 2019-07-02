@@ -11,7 +11,6 @@ import { ConfigureApiModule } from '../../test';
 import { Factory } from '../factories';
 import { InvalidPhotoUrlError, PhotoService } from '../../lib/services';
 import { Membership } from '../../lib/models';
-import { Photos } from '../../lib/routes';
 
 describe('PhotoService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');

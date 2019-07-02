@@ -4,13 +4,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
+import * as API from '../../lib/resources';
 import { ApiUrl } from '../utilities';
 import { ClientConfig, routes } from '../../lib/providers';
 import { ConfigureApiModule } from '../../test';
 import { Factory } from '../factories';
 import { Group } from '../../lib/models';
 import { GroupService } from '../../lib/services';
-import { Groups } from '../../lib/routes';
 
 describe('GroupService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
@@ -30,7 +30,7 @@ describe('GroupService', () => {
 
   describe('GroupService#index', () => {
     const path: string = routes.team.groups.index;
-    let search: Groups.Search;
+    let search: API.Groups.Search;
     let groups: Array<Group>;
     let url: string;
 
