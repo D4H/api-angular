@@ -4,7 +4,7 @@ import { sequence } from './sequence';
 
 import { Language } from './language.factory';
 import { Membership, MembershipModule, MembershipType } from '../../lib/models';
-import { sample } from '../utilities';
+import { sample } from '../tools';
 
 export function Membership(attributes: Partial<Membership> = {}): Membership {
   return deepmerge<Membership>({

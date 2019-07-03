@@ -8,7 +8,7 @@ import { AccountService } from '../../lib/services';
 import { ClientConfig, routes } from '../../lib/providers';
 import { ConfigureApiModule } from '../../test';
 import { Factory } from '../factories';
-import { ApiUrl, sample } from '../utilities';
+import { ApiUrl, sample } from '../tools';
 
 import {
   Account,

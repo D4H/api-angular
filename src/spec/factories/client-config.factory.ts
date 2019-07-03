@@ -2,7 +2,7 @@ import faker from 'faker';
 import deepmerge from 'deepmerge';
 
 import { ClientConfig, Region, Version } from '../../lib/providers';
-import { sample } from '../utilities';
+import { sample } from '../tools';
 
 export function ClientConfig(attributes: Partial<ClientConfig> = {}): ClientConfig {
   return deepmerge<ClientConfig>({

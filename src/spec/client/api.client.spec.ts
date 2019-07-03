@@ -6,7 +6,7 @@ import { TestBed } from '@angular/core/testing';
 import { ApiHttpClient } from '../../lib/client';
 import { ConfigureApiModule } from '../../test';
 import { Factory } from '../factories';
-import { ApiUrl } from '../utilities';
+import { ApiUrl } from '../tools';
 
 import {
   ClientConfig,

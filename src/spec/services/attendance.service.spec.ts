@@ -10,7 +10,7 @@ import { ConfigureApiModule } from '../../test';
 import { Factory } from '../factories';
 import { Attendance, AttendanceStatus } from '../../lib/models';
 import { AttendanceService } from '../../lib/services';
-import { ApiUrl, sample } from '../utilities';
+import { ApiUrl, sample } from '../tools';
 
 describe('AttendanceService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');

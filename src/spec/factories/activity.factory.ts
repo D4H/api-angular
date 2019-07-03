@@ -4,7 +4,7 @@ import deepmerge from 'deepmerge';
 import { Activity, ActivityType } from '../../lib/models';
 import { Period } from './period.factory';
 import { sequence } from './sequence';
-import { sample } from '../utilities';
+import { sample } from '../tools';
 
 export function Activity(attributes: Partial<Activity> = {}): Activity {
   const lat: number = Number(faker.address.latitude());

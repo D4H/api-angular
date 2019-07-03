@@ -4,7 +4,7 @@ import deepmerge from 'deepmerge';
 import { ActivityType, Attendance, AttendanceStatus } from '../../lib/models';
 import { Activity } from './activity.factory';
 import { Period } from './period.factory';
-import { sample } from '../utilities';
+import { sample } from '../tools';
 import { sequence } from './sequence';
 
 /**

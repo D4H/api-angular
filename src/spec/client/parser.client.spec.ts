@@ -6,7 +6,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ClientConfig } from '../../lib/providers';
 import { ConfigureApiModule } from '../../test';
-import { API_URL_REGEX, ApiUrl } from '../utilities';
+import { API_URL_REGEX, ApiUrl } from '../tools';
 import { Factory } from '../factories';
 import { ParserClient } from '../../lib/client';
 

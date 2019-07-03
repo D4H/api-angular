@@ -3,7 +3,7 @@ import deepmerge from 'deepmerge';
 import { sequence } from './sequence';
 
 import { Currency, Team } from '../../lib/models';
-import { sample } from '../utilities';
+import { sample } from '../tools';
 
 export function Team(attributes: Partial<Team> = {}): Team {
   return deepmerge<Team>({

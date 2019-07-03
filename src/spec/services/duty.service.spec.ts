@@ -5,7 +5,7 @@ import { BAD_REQUEST, CREATED, NOT_FOUND, getStatusText } from 'http-status-code
 import { TestBed } from '@angular/core/testing';
 
 import * as API from '../../lib/resources';
-import { ApiUrl } from '../utilities';
+import { ApiUrl } from '../tools';
 import { ClientConfig, routes } from '../../lib/providers';
 import { ConfigureApiModule } from '../../test';
 import { Duty } from '../../lib/models';

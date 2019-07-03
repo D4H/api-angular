@@ -4,7 +4,7 @@ import deepmerge from 'deepmerge';
 import { Cost } from './cost.factory';
 import { Equipment, EquipmentStatus, EquipmentType } from '../../lib/models';
 import { Location } from './location.factory';
-import { sample } from '../utilities';
+import { sample } from '../tools';
 import { sequence } from './sequence';
 
 export function Equipment(attributes: Partial<Equipment> = {}): Equipment {

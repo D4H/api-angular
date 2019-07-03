@@ -3,7 +3,7 @@ import deepmerge from 'deepmerge';
 import moment from 'moment';
 
 import { CustomField, CustomFieldType, CustomFieldValue } from '../../lib/models';
-import { sample } from '../utilities';
+import { sample } from '../tools';
 import { sequence } from './sequence';
 
 /**

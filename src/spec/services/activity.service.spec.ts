@@ -7,7 +7,7 @@ import { TestBed } from '@angular/core/testing';
 import * as API from '../../lib/resources';
 import { Activity } from '../../lib/models';
 import { ActivityService } from '../../lib/services';
-import { ApiUrl } from '../utilities';
+import { ApiUrl } from '../tools';
 import { ClientConfig, routes } from '../../lib/providers';
 import { ConfigureApiModule } from '../../test';
 import { Factory } from '../factories';

@@ -3,7 +3,7 @@ import deepmerge from 'deepmerge';
 
 import { Members } from '../../lib/resources';
 import { OperationalStatus, StatusLabel } from '../../lib/models';
-import { sample } from '../utilities';
+import { sample } from '../tools';
 import { sequence } from './sequence';
 
 export function StatusLabel(attributes: Partial<StatusLabel> = {}): StatusLabel {

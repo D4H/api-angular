@@ -16,4 +16,4 @@ export * from './lib/services';
  */
 
 export * from './spec/factories';
-export * from './spec/utilities';
+export * from './spec/tools';

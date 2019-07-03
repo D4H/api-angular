@@ -6,7 +6,7 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { TestBed } from '@angular/core/testing';
 
 import * as API from '../../lib/resources';
-import { API_PHOTO_URL_REGEX, ApiUrl, sample } from '../utilities';
+import { API_PHOTO_URL_REGEX, ApiUrl, sample } from '../tools';
 import { ClientConfig, routes } from '../../lib/providers';
 import { ConfigureApiModule } from '../../test';
 import { Equipment, EquipmentStatus } from '../../lib/models';

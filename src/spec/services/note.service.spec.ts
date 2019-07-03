@@ -10,7 +10,7 @@ import { ConfigureApiModule } from '../../test';
 import { Factory } from '../factories';
 import { Note } from '../../lib/models';
 import { NoteService } from '../../lib/services';
-import { ApiUrl } from '../utilities';
+import { ApiUrl } from '../tools';
 
 describe('NoteService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
