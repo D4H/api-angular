@@ -1,7 +1,7 @@
 import faker from 'faker';
 import deepmerge from 'deepmerge';
 
-import { EmergencyContact } from 'bindings/lib/models';
+import { EmergencyContact } from '../../lib/models';
 
 export function EmergencyContact(attributes: Partial<EmergencyContact> = {}): EmergencyContact {
   return deepmerge<EmergencyContact>({

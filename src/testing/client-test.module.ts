@@ -3,7 +3,7 @@ import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { TestBedStatic } from '@angular/core/testing';
 import { of } from 'rxjs';
 
-import { Factory } from 'bindings/testing/factories';
+import { Factory } from './factories';
 
 import {
   API_AUTHENTICATED_ROUTES,
@@ -14,7 +14,7 @@ import {
   authenticatedRoutes,
   clientDefaultConfig,
   routes
-} from 'bindings/lib/providers';
+} from '../lib/providers';
 
 @NgModule({
   imports: [

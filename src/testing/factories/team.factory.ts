@@ -2,7 +2,7 @@ import faker from 'faker';
 import deepmerge from 'deepmerge';
 import { sequence } from './sequence';
 
-import { Currency, Team } from 'bindings/lib/models';
+import { Currency, Team } from '../../lib/models';
 import { sample } from '../tools';
 
 export function Team(attributes: Partial<Team> = {}): Team {

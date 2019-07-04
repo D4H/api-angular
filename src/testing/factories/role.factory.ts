@@ -1,7 +1,7 @@
 import faker from 'faker';
 import deepmerge from 'deepmerge';
 
-import { Currency, Role } from 'bindings/lib/models';
+import { Currency, Role } from '../../lib/models';
 import { sequence } from './sequence';
 
 export function Role(attributes: Partial<Role> = {}): Role {

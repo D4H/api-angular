@@ -3,7 +3,7 @@ import deepmerge from 'deepmerge';
 import { sequence } from './sequence';
 
 import { Language } from './language.factory';
-import { Membership, MembershipModule, MembershipType } from 'bindings/lib/models';
+import { Membership, MembershipModule, MembershipType } from '../../lib/models';
 import { sample } from '../tools';
 
 export function Membership(attributes: Partial<Membership> = {}): Membership {

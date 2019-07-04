@@ -1,7 +1,7 @@
 import faker from 'faker';
 import deepmerge from 'deepmerge';
 
-import { Activity, ActivityType } from 'bindings/lib/models';
+import { Activity, ActivityType } from '../../lib/models';
 import { Period } from './period.factory';
 import { sequence } from './sequence';
 import { sample } from '../tools';

@@ -1,7 +1,7 @@
 import faker from 'faker';
 import deepmerge from 'deepmerge';
 
-import { Location } from 'bindings/lib/models';
+import { Location } from '../../lib/models';
 import { sequence } from './sequence';
 
 export function Location(attributes: Partial<Location> = {}): Location {

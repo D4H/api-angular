@@ -3,7 +3,7 @@ import deepmerge from 'deepmerge';
 
 import { CustomField } from './custom-field.factory';
 import { Duty } from './duty.factory';
-import { DutyType, Member, OperationalStatus } from 'bindings/lib/models';
+import { DutyType, Member, OperationalStatus } from '../../lib/models';
 import { EmergencyContact } from './emergency-contact.factory';
 import { MemberPermission } from './permission.factory';
 import { StatusLabel } from './status.factory';

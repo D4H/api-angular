@@ -7,7 +7,7 @@ import {
   ClientTokenConfig,
   ClientRequestAuth,
   TokenType
-} from 'bindings/lib/providers';
+} from '../providers';
 
 /**
  * D4H API Authentication

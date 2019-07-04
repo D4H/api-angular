@@ -11,7 +11,7 @@ import {
   Headers,
   HttpOptions,
   Params
-} from 'bindings/lib/providers';
+} from '../providers';
 
 import { ParserClient } from './parser.client';
 

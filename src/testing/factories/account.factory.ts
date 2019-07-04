@@ -1,7 +1,7 @@
 import faker from 'faker';
 import deepmerge from 'deepmerge';
 
-import { Account } from 'bindings/lib/models';
+import { Account } from '../../lib/models';
 import { Language } from './language.factory';
 import { sequence } from './sequence';
 

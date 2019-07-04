@@ -1,7 +1,7 @@
 import faker from 'faker';
 import deepmerge from 'deepmerge';
 
-import { Duty, DutyRepeatInterval, DutyType, Role } from 'bindings/lib/models';
+import { Duty, DutyRepeatInterval, DutyType, Role } from '../../lib/models';
 import { Period } from './period.factory';
 import { sample } from '../tools';
 import { sequence } from './sequence';

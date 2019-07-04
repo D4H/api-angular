@@ -1,4 +1,4 @@
-import { ClientConfig } from 'bindings/lib/providers';
+import { ClientConfig } from '../../lib/providers';
 
 /**
  * Testing regex to match valid D4h API endpooints.

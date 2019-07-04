@@ -1,7 +1,7 @@
 import faker from 'faker';
 import deepmerge from 'deepmerge';
 
-import { MemberPermission, PermissionType } from 'bindings/lib/models';
+import { MemberPermission, PermissionType } from '../../lib/models';
 import { sample } from '../tools';
 import { sequence } from './sequence';
 

@@ -11,7 +11,7 @@ import {
   HttpOptions,
   Params,
   Version
-} from 'bindings/lib/providers';
+} from '../providers';
 
 import { AuthClient } from './auth.client';
 

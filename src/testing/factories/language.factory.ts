@@ -1,7 +1,7 @@
 import faker from 'faker';
 import deepmerge from 'deepmerge';
 
-import { Language } from 'bindings/lib/models';
+import { Language } from '../../lib/models';
 import { sequence } from './sequence';
 
 export function Language(attributes: Partial<Language> = {}): Language {

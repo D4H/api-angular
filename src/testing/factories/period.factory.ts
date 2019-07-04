@@ -2,7 +2,7 @@ import faker from 'faker';
 import deepmerge from 'deepmerge';
 import moment from 'moment';
 
-import { Period } from 'bindings/lib/models';
+import { Period } from '../../lib/models';
 
 export function Period(attributes: Partial<Period> = {}): Period {
   const date: moment.Moment = moment(faker.date.future());

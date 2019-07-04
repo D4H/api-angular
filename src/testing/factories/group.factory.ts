@@ -1,7 +1,7 @@
 import faker from 'faker';
 import deepmerge from 'deepmerge';
 
-import { Group } from 'bindings/lib/models';
+import { Group } from '../../lib/models';
 import { sequence } from './sequence';
 
 export function Group(attributes: Partial<Group> = {}): Group {

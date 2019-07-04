@@ -1,8 +1,7 @@
 import faker from 'faker';
 import deepmerge from 'deepmerge';
 
-import { Members } from 'bindings/lib/resources';
-import { OperationalStatus, StatusLabel } from 'bindings/lib/models';
+import { OperationalStatus, StatusLabel } from '../../lib/models';
 import { sample } from '../tools';
 import { sequence } from './sequence';
 
