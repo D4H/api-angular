@@ -19,10 +19,7 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting()
 );
 
-// FIXME: Temp context which ignores client specs!
-// FIXME: Update tsconfig.spec.json when I change this!
-const context = require.context('./', true, /(provider|service|tool)\.spec\.ts$/);
 // Then we find all the tests.
-// const context = require.context('./', true, /\.spec\.ts$/);
+const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);

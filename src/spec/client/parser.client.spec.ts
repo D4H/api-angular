@@ -8,8 +8,7 @@ import { API_URL_REGEX, ApiUrl, ClientTestModule, Factory } from 'bindings/testi
 import { ClientConfig } from 'bindings/lib/providers';
 import { ParserClient } from 'bindings/lib/client';
 
-// FIXME: Enable this!
-xdescribe('ParserClient', () => {
+describe('ParserClient', () => {
   let client: ParserClient;
   let config: ClientConfig;
   let path: string;

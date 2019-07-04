@@ -7,8 +7,7 @@ import { ApiHttpClient } from 'bindings/lib/client';
 import { ApiUrl, ClientTestModule, Factory } from 'bindings/testing';
 import { ClientConfig, Region, TokenType, Version } from 'bindings/lib/providers';
 
-// FIXME: Enable this!
-xdescribe('ApiHttpClient', () => {
+describe('ApiHttpClient', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
   let client: ApiHttpClient;
   let http: HttpTestingController;

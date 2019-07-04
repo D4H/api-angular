@@ -5,8 +5,7 @@ import { AuthClient, MissingTokenError } from 'bindings/lib/client';
 import { ClientConfig, routes } from 'bindings/lib/providers';
 import { ClientTestModule, Factory } from 'bindings/testing';
 
-// FIXME: Enable this!
-xdescribe('AuthClient', () => {
+describe('AuthClient', () => {
   let bearer: { Authorization: string };
   let client: AuthClient;
   let config: ClientConfig;
