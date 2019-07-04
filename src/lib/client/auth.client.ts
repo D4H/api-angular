@@ -6,8 +6,8 @@ import {
   AuthenticatedRoute,
   ClientTokenConfig,
   ClientRequestAuth,
-  TokenType,
-} from '../providers';
+  TokenType
+} from 'bindings/lib/providers';
 
 /**
  * D4H API Authentication
