@@ -81,6 +81,18 @@ const clientConfig: ConfigProvider = {
 export class AppModule {}
 ```
 
+```typescript
+import { AccountService, Username } from '@d4h/angular';
+
+export class UsernameComponent {
+  constructor(private readonly accountService: AccountService) {}
+
+  ngOnInit(): void {
+    this.accountService.username('caira').subscribe(console.log);
+  }
+}
+```
+
 ### NgRX Store Selector Injection
 D4H Angular applications rely on [NgRx](https://ngrx.io/) for internal state management. Store states are a singleton class instance-selectors only work while instantiated. With some slight changes it is quite possible to inject a selected configuration:
 
@@ -107,7 +119,27 @@ export class ConfigurationSelector implements ConfigProvider {
 export class AppModule {}
 ```
 
-## Available Resources
+## Resources
+
+### Interfaces
+API resource interfaces are available if you wish to build your own services. Interfaces follow the Rails controller convention where resources are RESTful:
+
+```typescript
+import { Attendances } from '@d4h/angular';
+```
+
+Interface | Method | Purpose
+---|---|----
+`Attendances.Search` | `GET /team/attendance` | Permitted query parameters.
+`Attendances.Index` | `GET /team/attendance` | API response.
+`Attendances.Show` | `GET /team/attendance/:id` | API response.
+`Attendaces.New` | `POST /team/attendance` | Permitted create attributes.
+`Attendaces.New` | `POST /team/attendance` | API response.
+`Attendances.Change` | `PUT /team/attendance/:id` | Permitted update attributes.
+`Attendances.Update` | `PUT /team/attendance/:id` | API response.
+`Attendances.Destroy` | `DELETE /team/attendance/:id` | API response.
+
+### Available Resources
 Bindings supports those object operations used internally by D4H applications. If you require a resource not supported here, either [open an issue](https://github.com/D4H/api-angular/issues/new) or a pull request with the service!
 
 * Account
