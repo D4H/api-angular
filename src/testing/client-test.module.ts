@@ -6,15 +6,18 @@ import { of } from 'rxjs';
 import { Factory } from './factories';
 
 import {
-  API_AUTHENTICATED_ROUTES,
-  API_ROUTES,
   CLIENT_CONFIG,
   CLIENT_DEFAULT_CONFIG,
   ClientConfig,
-  authenticatedRoutes,
   clientDefaultConfig,
+} from '../lib/providers/client.provider';
+
+import {
+  API_AUTHENTICATED_ROUTES,
+  API_ROUTES,
+  authenticatedRoutes,
   routes
-} from '../lib/providers';
+} from '../lib/providers/routes.provider';
 
 @NgModule({
   imports: [
