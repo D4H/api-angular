@@ -30,7 +30,7 @@ export interface Activity {
   postcodeaddress: string;
   pretasked: NumericBoolean;
   published: NumericBoolean;
-  ref: string;
+  ref?: string; // Conditional: will be present if team has autoid enabled.
   ref_autoid: string;
   regionaddress: string;
   streetaddress: string;

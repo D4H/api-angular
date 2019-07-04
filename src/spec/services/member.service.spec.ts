@@ -5,13 +5,18 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import * as API from '../../lib/resources';
-import { API_PHOTO_URL_REGEX, ApiUrl } from '../tools';
-import { ClientConfig, routes } from '../../lib/providers';
-import { ConfigureApiModule } from '../../test';
-import { Factory } from '../factories';
-import { Group, Member, OperationalStatus, StatusLabel } from '../../lib/models';
-import { MemberService } from '../../lib/services';
+import {
+  API_PHOTO_URL_REGEX,
+  ApiUrl,
+  ClientTestModule,
+  Factory,
+  sample
+} from 'bindings/testing';
+
+import * as API from 'bindings/lib/resources';
+import { ClientConfig, routes } from 'bindings/lib/providers';
+import { Group, Member, OperationalStatus, StatusLabel } from 'bindings/lib/models';
+import { MemberService } from 'bindings/lib/services';
 
 describe('MemberService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
@@ -20,7 +25,10 @@ describe('MemberService', () => {
   let service: MemberService;
 
   beforeEach(() => {
-    ConfigureApiModule(TestBed, config);
+    TestBed.configureTestingModule({
+      imports: [ClientTestModule.forRoot(config)]
+    });
+
     http = TestBed.get(HttpTestingController);
     service = TestBed.get(MemberService);
   });

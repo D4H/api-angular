@@ -1,7 +1,7 @@
 import faker from 'faker';
 import deepmerge from 'deepmerge';
 
-import { Note } from '../../lib/models';
+import { Note } from 'bindings/lib/models';
 import { Period } from './period.factory';
 import { sequence } from './sequence';
 

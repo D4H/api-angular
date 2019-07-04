@@ -3,17 +3,9 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { OK } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
-import { ApiHttpClient } from '../../lib/client';
-import { ConfigureApiModule } from '../../test';
-import { Factory } from '../factories';
-import { ApiUrl } from '../tools';
-
-import {
-  ClientConfig,
-  Region,
-  TokenType,
-  Version
-} from '../../lib/providers';
+import { ApiHttpClient } from 'bindings/lib/client';
+import { ApiUrl, ClientTestModule, Factory } from 'bindings/testing';
+import { ClientConfig, Region, TokenType, Version } from 'bindings/lib/providers';
 
 describe('ApiHttpClient', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
@@ -24,7 +16,10 @@ describe('ApiHttpClient', () => {
   let url: string;
 
   beforeEach(() => {
-    ConfigureApiModule(TestBed, config);
+    TestBed.configureTestingModule({
+      imports: [ClientTestModule.forRoot(config)]
+    });
+
     http = TestBed.get(HttpTestingController);
     client = TestBed.get(ApiHttpClient);
     path = `/${faker.random.objectElement()}/${faker.random.objectElement()}`;

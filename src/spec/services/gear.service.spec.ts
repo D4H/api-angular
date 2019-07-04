@@ -5,13 +5,18 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import * as API from '../../lib/resources';
-import { API_PHOTO_URL_REGEX, ApiUrl, sample } from '../tools';
-import { ClientConfig, routes } from '../../lib/providers';
-import { ConfigureApiModule } from '../../test';
-import { Equipment, EquipmentStatus } from '../../lib/models';
-import { Factory } from '../factories';
-import { GearService } from '../../lib/services';
+import {
+  API_PHOTO_URL_REGEX,
+  ApiUrl,
+  ClientTestModule,
+  Factory,
+  sample
+} from 'bindings/testing';
+
+import * as API from 'bindings/lib/resources';
+import { ClientConfig, routes } from 'bindings/lib/providers';
+import { Equipment, EquipmentStatus } from 'bindings/lib/models';
+import { GearService } from 'bindings/lib/services';
 
 describe('GearService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
@@ -20,7 +25,10 @@ describe('GearService', () => {
   let service: GearService;
 
   beforeEach(() => {
-    ConfigureApiModule(TestBed, config);
+    TestBed.configureTestingModule({
+      imports: [ClientTestModule.forRoot(config)]
+    });
+
     http = TestBed.get(HttpTestingController);
     service = TestBed.get(GearService);
   });

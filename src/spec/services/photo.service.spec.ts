@@ -5,12 +5,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { API_PHOTO_URL_REGEX, ApiUrl } from '../tools';
-import { ClientConfig, routes } from '../../lib/providers';
-import { ConfigureApiModule } from '../../test';
-import { Factory } from '../factories';
-import { InvalidPhotoUrlError, PhotoService } from '../../lib/services';
-import { Membership } from '../../lib/models';
+import {
+  API_PHOTO_URL_REGEX,
+  ApiUrl,
+  ClientTestModule,
+  Factory
+} from 'bindings/testing';
+
+import { ClientConfig, routes } from 'bindings/lib/providers';
+import { InvalidPhotoUrlError, PhotoService } from 'bindings/lib/services';
+import { Membership } from 'bindings/lib/models';
 
 describe('PhotoService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
@@ -20,7 +24,10 @@ describe('PhotoService', () => {
   let sanitizer: DomSanitizer;
 
   beforeEach(() => {
-    ConfigureApiModule(TestBed, config);
+    TestBed.configureTestingModule({
+      imports: [ClientTestModule.forRoot(config)]
+    });
+
     http = TestBed.get(HttpTestingController);
     sanitizer = TestBed.get(DomSanitizer);
     service = TestBed.get(PhotoService);

@@ -3,7 +3,7 @@ import isIsoDate from 'is-iso-date';
 import traverse from 'traverse';
 import { Inject, Injectable } from '@angular/core';
 
-import { AuthClient } from './auth.client';
+import { AuthClient } from 'bindings/lib/client';
 
 import {
   CLIENT_DEFAULT_CONFIG,
@@ -13,7 +13,7 @@ import {
   HttpOptions,
   Params,
   Version
-} from '../providers';
+} from 'bindings/lib/providers';
 
 /**
  * D4H API Request Parser

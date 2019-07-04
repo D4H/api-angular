@@ -1,4 +1,4 @@
-import { clientDefaultConfig, Region, Version } from '../../lib/providers';
+import { Region, Version, clientDefaultConfig } from 'bindings/lib/providers';
 
 describe('Client Providers', () => {
   describe('clientDefaultConfig', () => {

@@ -4,11 +4,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { BAD_REQUEST, NOT_FOUND, UNAUTHORIZED, getStatusText } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
-import { AccountService } from '../../lib/services';
-import { ClientConfig, routes } from '../../lib/providers';
-import { ConfigureApiModule } from '../../test';
-import { Factory } from '../factories';
-import { ApiUrl, sample } from '../tools';
+import { AccountService } from 'bindings/lib/services';
+import { ApiUrl, ClientTestModule, Factory, sample } from 'bindings/testing';
+import { ClientConfig, routes } from 'bindings/lib/providers';
 
 import {
   Account,
@@ -16,7 +14,7 @@ import {
   MembershipModule,
   MembershipType,
   Username
-} from '../../lib/models';
+} from 'bindings/lib/models';
 
 describe('AccountService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
@@ -25,7 +23,10 @@ describe('AccountService', () => {
   let service: AccountService;
 
   beforeEach(() => {
-    ConfigureApiModule(TestBed, config);
+    TestBed.configureTestingModule({
+      imports: [ClientTestModule.forRoot(config)]
+    });
+
     http = TestBed.get(HttpTestingController);
     service = TestBed.get(AccountService);
   });

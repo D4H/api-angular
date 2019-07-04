@@ -8,7 +8,7 @@ import {
   TokenType,
   authenticatedRoutes,
   routes
-} from '../../lib/providers';
+} from 'bindings/lib/providers';
 
 describe('API Routes', () => {
   describe('routes', () => {

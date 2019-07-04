@@ -2,7 +2,7 @@ import faker from 'faker';
 import deepmerge from 'deepmerge';
 
 import { Cost } from './cost.factory';
-import { Equipment, EquipmentStatus, EquipmentType } from '../../lib/models';
+import { Equipment, EquipmentStatus, EquipmentType } from 'bindings/lib/models';
 import { Location } from './location.factory';
 import { sample } from '../tools';
 import { sequence } from './sequence';

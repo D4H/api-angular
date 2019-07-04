@@ -2,7 +2,7 @@ import faker from 'faker';
 import deepmerge from 'deepmerge';
 import moment from 'moment';
 
-import { CustomField, CustomFieldType, CustomFieldValue } from '../../lib/models';
+import { CustomField, CustomFieldType, CustomFieldValue } from 'bindings/lib/models';
 import { sample } from '../tools';
 import { sequence } from './sequence';
 

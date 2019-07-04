@@ -12,7 +12,9 @@
     "src/test.ts"
   ],
   "include": [
-    "**/*.spec.ts",
+    "**/*.tool.spec.ts",
+    "**/*.provider.spec.ts",
+    "**/*.service.spec.ts",
     "**/*.d.ts"
   ]
 }

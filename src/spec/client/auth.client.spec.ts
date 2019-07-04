@@ -1,16 +1,15 @@
 import faker from 'faker';
 import { TestBed } from '@angular/core/testing';
 
-import { AuthClient, MissingTokenError } from '../../lib/client';
-import { ConfigureApiModule } from '../../test';
-import { Factory } from '../factories';
+import { AuthClient, MissingTokenError } from 'bindings/lib/client';
+import { ClientTestModule, Factory } from 'bindings/testing';
 
 import {
   AuthenticatedRoute,
   ClientConfig,
   TokenType,
   routes
-} from '../../lib/providers';
+} from 'bindings/lib/providers';
 
 describe('AuthClient', () => {
   let bearer: { Authorization: string };
@@ -20,7 +19,11 @@ describe('AuthClient', () => {
 
   beforeEach(() => {
     config = Factory.build<ClientConfig>('ClientConfig');
-    ConfigureApiModule(TestBed, config);
+
+    TestBed.configureTestingModule({
+      imports: [ClientTestModule.forRoot(config)]
+    });
+
     client = TestBed.get(AuthClient);
     url = `/${faker.random.objectElement()}/${faker.random.objectElement()}`;
   });

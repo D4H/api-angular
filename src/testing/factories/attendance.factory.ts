@@ -1,7 +1,7 @@
 import faker from 'faker';
 import deepmerge from 'deepmerge';
 
-import { ActivityType, Attendance, AttendanceStatus } from '../../lib/models';
+import { ActivityType, Attendance, AttendanceStatus } from 'bindings/lib/models';
 import { Activity } from './activity.factory';
 import { Period } from './period.factory';
 import { sample } from '../tools';

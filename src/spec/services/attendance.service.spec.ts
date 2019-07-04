@@ -4,13 +4,11 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
-import * as API from '../../lib/resources';
-import { ClientConfig, routes } from '../../lib/providers';
-import { ConfigureApiModule } from '../../test';
-import { Factory } from '../factories';
-import { Attendance, AttendanceStatus } from '../../lib/models';
-import { AttendanceService } from '../../lib/services';
-import { ApiUrl, sample } from '../tools';
+import * as API from 'bindings/lib/resources';
+import { ApiUrl, ClientTestModule, Factory, sample } from 'bindings/testing';
+import { Attendance, AttendanceStatus } from 'bindings/lib/models';
+import { AttendanceService } from 'bindings/lib/services';
+import { ClientConfig, routes } from 'bindings/lib/providers';
 
 describe('AttendanceService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
@@ -19,7 +17,10 @@ describe('AttendanceService', () => {
   let service: AttendanceService;
 
   beforeEach(() => {
-    ConfigureApiModule(TestBed, config);
+    TestBed.configureTestingModule({
+      imports: [ClientTestModule.forRoot(config)]
+    });
+
     http = TestBed.get(HttpTestingController);
     service = TestBed.get(AttendanceService);
   });

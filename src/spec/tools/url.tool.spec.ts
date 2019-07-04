@@ -1,8 +1,7 @@
 import faker from 'faker';
 
-import { ClientConfig } from '../../lib/providers';
-import { Factory } from '../factories';
-import { API_URL_REGEX, ApiUrl } from './url';
+import { API_URL_REGEX, ApiUrl, Factory } from 'bindings/testing';
+import { ClientConfig } from 'bindings/lib/providers';
 
 describe('ApiUrl', () => {
   let config: ClientConfig;

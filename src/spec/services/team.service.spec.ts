@@ -5,12 +5,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { API_PHOTO_URL_REGEX, ApiUrl } from '../tools';
-import { ClientConfig, routes } from '../../lib/providers';
-import { ConfigureApiModule } from '../../test';
-import { Factory } from '../factories';
-import { Membership, Setting, SettingData, Team } from '../../lib/models';
-import { TeamService } from '../../lib/services';
+import {
+  API_PHOTO_URL_REGEX,
+  ApiUrl,
+  ClientTestModule,
+  Factory
+} from 'bindings/testing';
+
+import { ClientConfig, routes } from 'bindings/lib/providers';
+import { Membership, Setting, SettingData, Team } from 'bindings/lib/models';
+import { TeamService } from 'bindings/lib/services';
 
 describe('TeamService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
@@ -19,7 +23,10 @@ describe('TeamService', () => {
   let service: TeamService;
 
   beforeEach(() => {
-    ConfigureApiModule(TestBed, config);
+    TestBed.configureTestingModule({
+      imports: [ClientTestModule.forRoot(config)]
+    });
+
     http = TestBed.get(HttpTestingController);
     service = TestBed.get(TeamService);
   });

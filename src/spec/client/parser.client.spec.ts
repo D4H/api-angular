@@ -4,11 +4,9 @@ import moment from 'moment';
 import traverse from 'traverse';
 import { TestBed } from '@angular/core/testing';
 
-import { ClientConfig } from '../../lib/providers';
-import { ConfigureApiModule } from '../../test';
-import { API_URL_REGEX, ApiUrl } from '../tools';
-import { Factory } from '../factories';
-import { ParserClient } from '../../lib/client';
+import { API_URL_REGEX, ApiUrl, ClientTestModule, Factory } from 'bindings/testing';
+import { ClientConfig } from 'bindings/lib/providers';
+import { ParserClient } from 'bindings/lib/client';
 
 describe('ParserClient', () => {
   let client: ParserClient;
@@ -17,8 +15,11 @@ describe('ParserClient', () => {
 
   beforeEach(() => {
     config = Factory.build<ClientConfig>('ClientConfig');
-    ConfigureApiModule(TestBed, config);
     client = TestBed.get(ParserClient);
+
+    TestBed.configureTestingModule({
+      imports: [ClientTestModule.forRoot(config)]
+    });
   });
 
   it('should be created', () => {
