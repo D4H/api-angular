@@ -3,24 +3,8 @@ import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { TestBedStatic } from '@angular/core/testing';
 import { of } from 'rxjs';
 
+import { ApiHttpClient, AuthClient, ParserClient } from '../lib/client';
 import { Factory } from './factories';
-
-import {
-  ApiHttpClient,
-  AuthClient,
-  ParserClient
-} from '../lib/client';
-
-import {
-  AccountService,
-  ActivityService,
-  AttendanceService,
-  DutyService,
-  GroupService,
-  MemberService,
-  NoteService,
-  RoleService
-} from '../lib/services';
 
 import {
   CLIENT_CONFIG,
@@ -41,16 +25,9 @@ import {
     HttpClientTestingModule
   ],
   providers: [
-    ActivityService,
     ApiHttpClient,
-    AttendanceService,
     AuthClient,
-    DutyService,
-    GroupService,
-    MemberService,
-    NoteService,
-    ParserClient,
-    RoleService
+    ParserClient
   ]
 })
 export class ClientTestModule {
