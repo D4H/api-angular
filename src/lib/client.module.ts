@@ -9,7 +9,11 @@ import {
   Type
 } from '@angular/core';
 
-import { ApiHttpClient, AuthClient, ParserClient } from './client';
+import {
+  ApiHttpClient,
+  AuthClient,
+  ParserClient
+} from './client';
 
 import {
   AccountService,

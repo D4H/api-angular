@@ -6,6 +6,23 @@ import { of } from 'rxjs';
 import { Factory } from './factories';
 
 import {
+  ApiHttpClient,
+  AuthClient,
+  ParserClient
+} from '../lib/client';
+
+import {
+  AccountService,
+  ActivityService,
+  AttendanceService,
+  DutyService,
+  GroupService,
+  MemberService,
+  NoteService,
+  RoleService
+} from '../lib/services';
+
+import {
   CLIENT_CONFIG,
   CLIENT_DEFAULT_CONFIG,
   ClientConfig,
@@ -22,6 +39,18 @@ import {
 @NgModule({
   imports: [
     HttpClientTestingModule
+  ],
+  providers: [
+    ActivityService,
+    ApiHttpClient,
+    AttendanceService,
+    AuthClient,
+    DutyService,
+    GroupService,
+    MemberService,
+    NoteService,
+    ParserClient,
+    RoleService
   ]
 })
 export class ClientTestModule {
