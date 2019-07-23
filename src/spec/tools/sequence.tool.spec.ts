@@ -13,7 +13,7 @@ describe('sequence', () => {
 
   it('should have the correct accessor', () => {
     expect(typeof sequence).toBe('function');
-    expect(sequence.length).toBe(2);
+    expect(sequence.length).toBe(1);
   });
 
   it('should return 1 for a new $key and no set $start', () => {

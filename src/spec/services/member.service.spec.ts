@@ -49,7 +49,7 @@ describe('MemberService', () => {
 
     it('should have #index accessor', () => {
       expect(typeof service.index).toBe('function');
-      expect(service.index.length).toBe(1);
+      expect(service.index.length).toBe(0);
     });
 
     it('should return an array of Members', () => {
@@ -162,7 +162,7 @@ describe('MemberService', () => {
 
     it('should have #update accessor', () => {
       expect(typeof service.update).toBe('function');
-      expect(service.update.length).toBe(2);
+      expect(service.update.length).toBe(1);
     });
 
     it('should return an updated Note', () => {
@@ -264,7 +264,7 @@ describe('MemberService', () => {
 
     it('should have #image accessor', () => {
       expect(typeof service.image).toBe('function');
-      expect(service.image.length).toBe(2);
+      expect(service.image.length).toBe(1);
     });
 
     it('should return a SafeUrl when given a valid URL', () => {

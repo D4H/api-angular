@@ -117,7 +117,7 @@ describe('TeamService', () => {
 
     it('should have #image accessor', () => {
       expect(typeof service.image).toBe('function');
-      expect(service.image.length).toBe(2);
+      expect(service.image.length).toBe(1);
     });
 
     it('should return a SafeUrl when given a Membership', () => {
@@ -170,7 +170,7 @@ describe('TeamService', () => {
 
     it('should return information about a valid setting parameter', () => {
       url = ApiUrl(config, routes.team.settings, { setting });
-      service.settings(membership, setting).subscribe((res) => expect(res).toEqual(data));
+      service.settings(membership, setting).subscribe(res => expect(res).toEqual(data));
       req = http.expectOne({ url, method: 'GET' });
       req.flush({ data });
       expect(req.request.headers.get('Authorization')).toEqual(`Bearer ${membership.token}`);

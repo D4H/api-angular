@@ -53,7 +53,7 @@ describe('PhotoService', () => {
 
     it('should have #get accessor', () => {
       expect(typeof service.get).toBe('function');
-      expect(service.get.length).toBe(2);
+      expect(service.get.length).toBe(1);
     });
 
     it('should return a SafeUrl when given a valid URL', () => {
@@ -91,7 +91,7 @@ describe('PhotoService', () => {
 
     it('should have #membership accessor', () => {
       expect(typeof service.membership).toBe('function');
-      expect(service.membership.length).toBe(3);
+      expect(service.membership.length).toBe(2);
     });
 
     it('should return a SafeUrl when given a valid URL and Membership', () => {

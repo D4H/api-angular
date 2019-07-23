@@ -100,7 +100,7 @@ describe('AccountService', () => {
 
     it('should have #memberships accessor', () => {
       expect(typeof service.memberships).toBe('function');
-      expect(service.memberships.length).toBe(1);
+      expect(service.memberships.length).toBe(0);
     });
 
     it('should return an array of Memberships', () => {

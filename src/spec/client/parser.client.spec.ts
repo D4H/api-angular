@@ -46,10 +46,10 @@ describe('ParserClient', () => {
     });
   });
 
-  describe('ApiHttpClient#options', () => {
+  describe('ParserClient#options', () => {
     it('should have #options accessor', () => {
       expect(typeof client.options).toBe('function');
-      expect(client.options.length).toBe(3);
+      expect(client.options.length).toBe(2);
     });
 
     it('should set x-source-* headers', () => {
@@ -71,10 +71,10 @@ describe('ParserClient', () => {
     });
   });
 
-  describe('ApiHttpClient#response', () => {
+  describe('ParserClient#response', () => {
     it('should have #response accessor', () => {
       expect(typeof client.response).toBe('function');
-      expect(client.options.length).toBe(3);
+      expect(client.options.length).toBe(2);
     });
 
     it('should cast ISO-formatted strings as Date objects', () => {
