@@ -2,7 +2,7 @@
   "name": "@d4h/angular",
   "version": "1.2.5",
   "description": "Angular services and interfaces for the D4H API.",
-  "homepage": "https://api.d4h.org/v2/documentation",
+  "homepage": "https://www.npmjs.com/package/@d4h/angular",
   "author": {
     "name": "Mark Grealish",
     "email": "mark.grealish@d4h.org",
@@ -18,7 +18,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/D4H/api-angular/"
+    "url": "https://github.com/D4H/angular"
   },
   "license": "MIT",
   "peerDependencies": {

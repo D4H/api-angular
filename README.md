@@ -140,7 +140,7 @@ Interface | Method | Purpose
 `Attendances.Destroy` | `DELETE /team/attendance/:id` | API response.
 
 ### Available Resources
-Bindings supports those object operations used internally by D4H applications. If you require a resource not supported here, either [open an issue](https://github.com/D4H/api-angular/issues/new) or a pull request with the service!
+Bindings supports those object operations used internally by D4H applications. If you require a resource not supported here, either [open an issue](https://github.com/D4H/angular/issues/new) or a pull request with the service!
 
 * Account
     * `authenticate(username, password)`
@@ -195,7 +195,7 @@ Bindings supports those object operations used internally by D4H applications. I
     * `settings(team, setting)`
 
 ## Support and Feedback
-Feel free to [open an issue](https://github.com/D4H/api-angular/issues/new), email <support@d4h.org> or tweet [@d4h](https://twitter.com/d4h/).
+Feel free to [open an issue](https://github.com/D4H/angular/issues/new), email <support@d4h.org> or tweet [@d4h](https://twitter.com/d4h/).
 
 ## License
 Copyright (C) 2019 [D4H](https://d4htechnologies.com/)
