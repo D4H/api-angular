@@ -1,6 +1,6 @@
 {
   "name": "@d4h/angular",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Angular services and interfaces for the D4H API.",
   "homepage": "https://www.npmjs.com/package/@d4h/angular",
   "author": {

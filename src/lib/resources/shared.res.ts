@@ -92,7 +92,7 @@ export interface ModelError {
  * Error codes: 400, 403, 404, 422.
  */
 
-export interface Error {
+export interface ApiError {
   error: string;
   message: string;
   statusCode: number;

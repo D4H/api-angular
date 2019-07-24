@@ -8,8 +8,16 @@ import * as Members from './member.res';
 import * as Notes from './note.res';
 import * as Photos from './photo.res';
 import * as Roles from './role.res';
-import * as Shared from './shared.res';
 import * as Teams from './team.res';
+
+export {
+  ApiError,
+  DateParameter,
+  ModelError,
+  Page,
+  Response,
+  Search
+} from './shared.res';
 
 export {
   Accounts,
@@ -22,6 +30,5 @@ export {
   Notes,
   Photos,
   Roles,
-  Shared,
   Teams
 };
