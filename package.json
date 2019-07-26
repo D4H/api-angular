@@ -1,8 +1,8 @@
 {
   "name": "@d4h/angular",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Angular services and interfaces for the D4H API.",
-  "homepage": "https://www.npmjs.com/package/@d4h/angular",
+  "homepage": "https://d4htechnologies.com/",
   "author": {
     "name": "Mark Grealish",
     "email": "mark.grealish@d4h.org",
@@ -10,16 +10,13 @@
   },
   "keywords": [
     "angular",
-    "d4h",
     "api",
+    "bindings",
     "client",
-    "service",
-    "interface"
+    "d4h",
+    "interface",
+    "service"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/D4H/angular"
-  },
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": ">= 7 < 9",
