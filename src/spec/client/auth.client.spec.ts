@@ -1,9 +1,9 @@
 import faker from 'faker';
 import { TestBed } from '@angular/core/testing';
 
-import { AuthClient, MissingTokenError } from 'bindings/lib/client';
-import { ClientConfig, routes } from 'bindings/lib/providers';
-import { ClientTestModule, Factory } from 'bindings/testing';
+import { AuthClient, MissingTokenError } from '../../lib/client';
+import { ClientConfig, routes } from '../../lib/providers';
+import { ClientTestModule, Factory } from '../../testing';
 
 describe('AuthClient', () => {
   let bearer: { Authorization: string };

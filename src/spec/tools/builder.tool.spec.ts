@@ -4,7 +4,7 @@ import {
   Factory,
   FactoryList,
   UnknownFactoryError
-} from 'bindings/testing/factories/builder';
+} from '../../testing/factories/builder';
 
 describe('Factory', () => {
   let badFactory: string;

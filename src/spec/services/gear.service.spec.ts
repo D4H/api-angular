@@ -11,12 +11,12 @@ import {
   ClientTestModule,
   Factory,
   sample
-} from 'bindings/testing';
+} from '../../testing';
 
-import * as API from 'bindings/lib/resources';
-import { ClientConfig, routes } from 'bindings/lib/providers';
-import { Equipment, EquipmentStatus } from 'bindings/lib/models';
-import { GearService } from 'bindings/lib/services';
+import * as API from '../../lib/resources';
+import { ClientConfig, routes } from '../../lib/providers';
+import { Equipment, EquipmentStatus } from '../../lib/models';
+import { GearService } from '../../lib/services';
 
 describe('GearService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');

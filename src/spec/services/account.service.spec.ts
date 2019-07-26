@@ -4,9 +4,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { BAD_REQUEST, NOT_FOUND, UNAUTHORIZED, getStatusText } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
-import { AccountService } from 'bindings/lib/services';
-import { ApiUrl, ClientTestModule, Factory, sample } from 'bindings/testing';
-import { ClientConfig, routes } from 'bindings/lib/providers';
+import { AccountService } from '../../lib/services';
+import { ApiUrl, ClientTestModule, Factory, sample } from '../../testing';
+import { ClientConfig, routes } from '../../lib/providers';
 
 import {
   Account,
@@ -14,7 +14,7 @@ import {
   MembershipModule,
   MembershipType,
   Username
-} from 'bindings/lib/models';
+} from '../../lib/models';
 
 describe('AccountService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');

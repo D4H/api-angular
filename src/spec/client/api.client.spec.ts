@@ -3,9 +3,9 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { OK } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
-import { ApiHttpClient } from 'bindings/lib/client';
-import { ApiUrl, ClientTestModule, Factory } from 'bindings/testing';
-import { ClientConfig, Region, TokenType, Version } from 'bindings/lib/providers';
+import { ApiHttpClient } from '../../lib/client';
+import { ApiUrl, ClientTestModule, Factory } from '../../testing';
+import { ClientConfig, Region, TokenType, Version } from '../../lib/providers';
 
 describe('ApiHttpClient', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');

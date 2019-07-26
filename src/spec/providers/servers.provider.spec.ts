@@ -1,4 +1,4 @@
-import { Region, Version } from 'bindings/lib/providers';
+import { Region, Version } from '../../lib/providers';
 
 describe('Server Providers', () => {
   describe('Region', () => {

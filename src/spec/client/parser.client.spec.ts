@@ -4,9 +4,9 @@ import moment from 'moment';
 import traverse from 'traverse';
 import { TestBed } from '@angular/core/testing';
 
-import { API_URL_REGEX, ApiUrl, ClientTestModule, Factory } from 'bindings/testing';
-import { ClientConfig } from 'bindings/lib/providers';
-import { ParserClient } from 'bindings/lib/client';
+import { API_URL_REGEX, ApiUrl, ClientTestModule, Factory } from '../../testing';
+import { ClientConfig } from '../../lib/providers';
+import { ParserClient } from '../../lib/client';
 
 describe('ParserClient', () => {
   let client: ParserClient;

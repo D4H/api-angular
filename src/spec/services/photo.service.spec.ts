@@ -10,11 +10,11 @@ import {
   ApiUrl,
   ClientTestModule,
   Factory
-} from 'bindings/testing';
+} from '../../testing';
 
-import { ClientConfig, routes } from 'bindings/lib/providers';
-import { InvalidPhotoUrlError, PhotoService } from 'bindings/lib/services';
-import { Membership } from 'bindings/lib/models';
+import { ClientConfig, routes } from '../../lib/providers';
+import { InvalidPhotoUrlError, PhotoService } from '../../lib/services';
+import { Membership } from '../../lib/models';
 
 describe('PhotoService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');

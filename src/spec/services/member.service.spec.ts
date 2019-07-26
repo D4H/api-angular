@@ -11,12 +11,12 @@ import {
   ClientTestModule,
   Factory,
   sample
-} from 'bindings/testing';
+} from '../../testing';
 
-import * as API from 'bindings/lib/resources';
-import { ClientConfig, routes } from 'bindings/lib/providers';
-import { Group, Member, OperationalStatus, StatusLabel } from 'bindings/lib/models';
-import { MemberService } from 'bindings/lib/services';
+import * as API from '../../lib/resources';
+import { ClientConfig, routes } from '../../lib/providers';
+import { Group, Member, OperationalStatus, StatusLabel } from '../../lib/models';
+import { MemberService } from '../../lib/services';
 
 describe('MemberService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');

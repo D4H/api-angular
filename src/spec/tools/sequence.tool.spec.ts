@@ -1,6 +1,6 @@
 import faker from 'faker';
 
-import { sequence } from 'bindings/testing';
+import { sequence } from '../../testing';
 
 describe('sequence', () => {
   let key: string;

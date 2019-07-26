@@ -10,11 +10,11 @@ import {
   ApiUrl,
   ClientTestModule,
   Factory
-} from 'bindings/testing';
+} from '../../testing';
 
-import { ClientConfig, routes } from 'bindings/lib/providers';
-import { Membership, Setting, SettingData, Team } from 'bindings/lib/models';
-import { TeamService } from 'bindings/lib/services';
+import { ClientConfig, routes } from '../../lib/providers';
+import { Membership, Setting, SettingData, Team } from '../../lib/models';
+import { TeamService } from '../../lib/services';
 
 describe('TeamService', () => {
   const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
