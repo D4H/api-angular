@@ -6,8 +6,9 @@ import * as API from '../resources';
 import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { Attendance } from '../models';
+import { ClientModule } from '../client.module';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: ClientModule })
 export class AttendanceService {
   constructor(
     @Inject(API_ROUTES) private readonly routes: RouteConfig,

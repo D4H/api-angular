@@ -10,7 +10,7 @@
     "traverse"
   ],
   "lib": {
-    "entryFile": "src/projects.ts",
+    "entryFile": "src/public-api.ts",
     "umdModuleIds": {
       "deepmerge": "deepmerge",
       "faker": "faker",

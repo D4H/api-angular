@@ -6,10 +6,11 @@ import { map } from 'rxjs/operators';
 import * as API from '../resources';
 import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
+import { ClientModule } from '../client.module';
 import { Group, Member, EmergencyContact, StatusLabel } from '../models';
 import { PhotoService } from './photo.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: ClientModule })
 export class MemberService {
   constructor(
     @Inject(API_ROUTES) private readonly routes: RouteConfig,

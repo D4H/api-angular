@@ -13,6 +13,7 @@ import {
   Params
 } from '../providers';
 
+import { ClientModule } from '../client.module';
 import { ParserClient } from './parser.client';
 
 /**
@@ -25,7 +26,7 @@ import { ParserClient } from './parser.client';
  * Parameters, parsing, signing, etc. are handled by the internal parser.
  */
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: ClientModule })
 export class ApiHttpClient {
   constructor(
     @Inject(CLIENT_CONFIG) private readonly configurator: ConfigProvider,

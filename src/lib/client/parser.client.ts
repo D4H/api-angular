@@ -14,6 +14,7 @@ import {
 } from '../providers';
 
 import { AuthClient } from './auth.client';
+import { ClientModule } from '../client.module';
 
 /**
  * D4H API Request Parser
@@ -23,7 +24,7 @@ import { AuthClient } from './auth.client';
  * on configured region and version.
  */
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: ClientModule })
 export class ParserClient implements ClientRequestParser {
   constructor(
     @Inject(CLIENT_DEFAULT_CONFIG) private readonly config: ClientConfig,

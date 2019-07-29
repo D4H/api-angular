@@ -10,23 +10,6 @@ import {
 } from '@angular/core';
 
 import {
-  ApiHttpClient,
-  AuthClient,
-  ParserClient
-} from './client';
-
-import {
-  AccountService,
-  ActivityService,
-  AttendanceService,
-  DutyService,
-  GroupService,
-  MemberService,
-  NoteService,
-  RoleService
-} from './services';
-
-import {
   API_AUTHENTICATED_ROUTES,
   API_ROUTES,
   CLIENT_CONFIG,
@@ -53,18 +36,6 @@ import {
 @NgModule({
   imports: [
     HttpClientModule
-  ],
-  providers: [
-    ApiHttpClient,
-    ActivityService,
-    AttendanceService,
-    AuthClient,
-    GroupService,
-    MemberService,
-    DutyService,
-    NoteService,
-    ParserClient,
-    RoleService
   ]
 })
 export class ClientModule {

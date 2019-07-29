@@ -7,6 +7,7 @@ import { catchError, map } from 'rxjs/operators';
 
 import * as API from '../resources';
 import { ApiHttpClient } from '../client/api.client';
+import { ClientModule } from '../client.module';
 import { HttpOptions } from '../providers';
 import { Membership } from '../models';
 
@@ -28,7 +29,7 @@ export class InvalidPhotoUrlError extends Error {
  * @see https://api.d4h.org/v2/documentation#operation/getMembershipImage
  */
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: ClientModule })
 export class PhotoService {
   private readonly imageUrl: RegExp = /\/image$/;
 

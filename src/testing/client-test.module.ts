@@ -7,6 +7,20 @@ import { ApiHttpClient, AuthClient, ParserClient } from '../lib/client';
 import { Factory } from './factories';
 
 import {
+  AccountService,
+  ActivityService,
+  AttendanceService,
+  DutyService,
+  GearService,
+  GroupService,
+  MemberService,
+  NoteService,
+  PhotoService,
+  RoleService,
+  TeamService
+} from '../lib/services';
+
+import {
   CLIENT_CONFIG,
   CLIENT_DEFAULT_CONFIG,
   ClientConfig,
@@ -25,9 +39,20 @@ import {
     HttpClientTestingModule
   ],
   providers: [
+    AccountService,
+    ActivityService,
     ApiHttpClient,
+    AttendanceService,
     AuthClient,
-    ParserClient
+    DutyService,
+    GearService,
+    GroupService,
+    MemberService,
+    NoteService,
+    ParserClient,
+    PhotoService,
+    RoleService,
+    TeamService
   ]
 })
 export class ClientTestModule {

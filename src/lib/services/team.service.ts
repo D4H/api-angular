@@ -6,6 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 import * as API from '../resources';
 import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
+import { ClientModule } from '../client.module';
 import { Membership, Setting, SettingData, Team } from '../models';
 import { PhotoService } from './photo.service';
 
@@ -22,7 +23,7 @@ import { PhotoService } from './photo.service';
  * differentiated by header bearer token.
  */
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: ClientModule })
 export class TeamService {
   constructor(
     @Inject(API_ROUTES) private readonly routes: RouteConfig,

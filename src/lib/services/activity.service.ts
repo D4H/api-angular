@@ -6,8 +6,9 @@ import * as API from '../resources';
 import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { Activity } from '../models';
 import { ApiHttpClient } from '../client/api.client';
+import { ClientModule } from '../client.module';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: ClientModule })
 export class ActivityService {
   constructor(
     @Inject(API_ROUTES) private readonly routes: RouteConfig,

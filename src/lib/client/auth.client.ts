@@ -9,6 +9,8 @@ import {
   TokenType
 } from '../providers';
 
+import { ClientModule } from '../client.module';
+
 /**
  * D4H API Authentication
  * =============================================================================
@@ -28,7 +30,7 @@ export class MissingTokenError extends Error {
   }
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: ClientModule })
 export class AuthClient implements ClientRequestAuth {
   constructor(
     @Inject(API_AUTHENTICATED_ROUTES) private readonly routes: Array<AuthenticatedRoute>
