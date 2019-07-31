@@ -51,7 +51,7 @@ export class ClientModule {
     };
   }
 
-  static forChild(configProvider: Provider): ModuleWithProviders {
+  static forFeature(configProvider: Provider): ModuleWithProviders {
     return {
       ngModule: ClientModule,
       providers: [
