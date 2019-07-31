@@ -14,7 +14,7 @@ import { sequence } from './sequence';
  */
 
 export function CustomField(attributes: Partial<CustomField> = {}): CustomField {
-  const type: CustomFieldType = sample(CustomFieldType);
+  const type: CustomFieldType = sample.enumerable(CustomFieldType);
   const value: CustomFieldValue = customFieldValue(type);
 
   return deepmerge<CustomField>({

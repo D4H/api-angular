@@ -1,6 +1,5 @@
 import deepmerge from 'deepmerge';
 import faker from 'faker';
-import { sample } from 'lodash';
 
 import {
   BAD_REQUEST,
@@ -14,9 +13,10 @@ import {
 } from 'http-status-codes';
 
 import { ApiError } from '../../lib/resources';
+import { sample } from '../tools';
 
 export function ApiError(attributes: Partial<ApiError> = {}): ApiError {
-  const code = sample([
+  const statusCode = sample.array([
     BAD_REQUEST,
     FORBIDDEN,
     INTERNAL_SERVER_ERROR,
@@ -27,9 +27,9 @@ export function ApiError(attributes: Partial<ApiError> = {}): ApiError {
   ]);
 
   return deepmerge<ApiError>({
-    error: getStatusText(code),
+    error: getStatusText(attributes.statusCode || statusCode),
     message: faker.hacker.phrase(),
-    statusCode: code,
+    statusCode,
 
     meta: {
       reference: faker.random.uuid()

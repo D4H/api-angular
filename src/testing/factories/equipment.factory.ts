@@ -41,7 +41,7 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
     title: faker.commerce.productName(),
     total_replacement_cost: Cost(),
     // total_weight: Weight;
-    type: sample(EquipmentType),
+    type: sample.enumerable(EquipmentType),
     // urls?: object;
     //
     // brand: {

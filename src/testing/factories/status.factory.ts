@@ -7,7 +7,7 @@ import { sequence } from './sequence';
 
 export function StatusLabel(attributes: Partial<StatusLabel> = {}): StatusLabel {
   const organisationId: number = sequence('status-label.organisation_id');
-  const type: OperationalStatus = sample(OperationalStatus);
+  const type: OperationalStatus = sample.enumerable(OperationalStatus);
 
   return deepmerge<StatusLabel>({
     id: sequence('status-label.id'),

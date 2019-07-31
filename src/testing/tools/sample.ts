@@ -21,10 +21,20 @@
  * The regex rejects numeric-matching keys.
  */
 
-export function sample<T>(enumerable: object): T {
+export function enumerable<T>(obj: object): T {
   const notNumeric = (value: string): boolean => !/^\d+$/.test(value);
-  const keys: Array<string> = Object.keys(enumerable).filter(notNumeric);
+  const keys: Array<string> = Object.keys(obj).filter(notNumeric);
   const key: number = Math.floor(Math.random() * keys.length);
 
-  return enumerable[keys[key]];
+  return obj[keys[key]];
 }
+
+export function array<T>(arr: Array<T>): T {
+  const key: number = Math.floor(Math.random() * arr.keys.length);
+  return arr[key];
+}
+
+export const sample = {
+  enumerable,
+  array
+};

@@ -13,7 +13,7 @@ export function Membership(attributes: Partial<Membership> = {}): Membership {
     lastlogin: faker.date.past(),
     name: faker.name.findName(),
     token: faker.random.uuid().replace(/-/g, ''),
-    type: sample<MembershipType>(MembershipType),
+    type: sample.enumerable<MembershipType>(MembershipType),
 
     organisation: {
       id: sequence('membership.organisation_id'),

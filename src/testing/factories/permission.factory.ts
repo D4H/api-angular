@@ -15,7 +15,7 @@ export function MemberPermission(attributes: Partial<MemberPermission> = {}): Me
     healthsafety: faker.random.boolean(),
     id: sequence('permission.id'),
     incidents: faker.random.boolean(),
-    name: sample(PermissionType),
+    name: sample.enumerable(PermissionType),
     sms: faker.random.boolean()
   }, attributes);
 }

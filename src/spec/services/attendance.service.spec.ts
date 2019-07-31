@@ -211,7 +211,7 @@ describe('AttendanceService', () => {
         date: attendance.date,
         enddate: attendance.enddate,
         role_id: faker.random.number(),
-        status: sample(AttendanceStatus)
+        status: sample.enumerable(AttendanceStatus)
       };
 
       updatedAttendance = {

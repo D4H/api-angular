@@ -14,7 +14,7 @@ export function Activity(attributes: Partial<Activity> = {}): Activity {
   const { date, enddate } = Period();
 
   return deepmerge<Activity>({
-    activity: sample(ActivityType),
+    activity: sample.enumerable(ActivityType),
     archived: faker.random.boolean(),
     // bearing
     count_attendance: sequence('activity.count_attendance'),

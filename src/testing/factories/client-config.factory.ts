@@ -6,8 +6,8 @@ import { sample } from '../tools';
 
 export function ClientConfig(attributes: Partial<ClientConfig> = {}): ClientConfig {
   return deepmerge<ClientConfig>({
-    region: sample<Region>(Region),
-    version: sample<Version>(Version),
+    region: sample.enumerable<Region>(Region),
+    version: sample.enumerable<Version>(Version),
 
     client: {
       name: faker.name.findName(),
