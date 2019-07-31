@@ -78,6 +78,7 @@ describe('Factory', () => {
       const keys: Array<string> = [
         'Account',
         'Activity',
+        'ApiError',
         'Attendance',
         'ClientConfig',
         'Cost',
@@ -85,9 +86,9 @@ describe('Factory', () => {
         'Duty',
         'EmergencyContact',
         'Equipment',
+        'Group',
         'Language',
         'Location',
-        'Group',
         'Member',
         'MemberPermission',
         'Membership',
