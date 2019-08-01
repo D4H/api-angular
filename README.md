@@ -1,8 +1,8 @@
 [![Codeship Status for D4H/api-angular](https://app.codeship.com/projects/3862bfd0-911f-0137-6172-7e8373628817/status?branch=master)](https://app.codeship.com/projects/356368)
 ![npm](https://img.shields.io/npm/v/@d4h/angular.svg)
 
-# D4H Angular API Bindings
-Bindings is an Angular 7+ client for the [D4H](https://d4htechnologies.com/) v2 [API](https://api.d4h.org/v2/documentation). It offers:
+# @d4h/angular
+@d4h/angular is an Angular 7+ client for the [D4H](https://d4htechnologies.com/) v2 [API](https://api.d4h.org/v2/documentation). It offers:
 
 1. Model interfaces, e.g. `Member`, `Attendance`.
 2. Object services: `MemberService`, `AttendanceSerivice`.
@@ -13,10 +13,10 @@ Bindings is an Angular 7+ client for the [D4H](https://d4htechnologies.com/) v2 
 `npm install --save @d4h/angular`
 
 ## Configuration
-Binding accepts a configuration which can either be static or yielded by an [observable](http://reactivex.io/).
+The client accepts a configuration which can either be static or yielded by an [observable](http://reactivex.io/).
 
 ### API Regions
-Bindings supports all D4H API regions. Please contact <support@d4h.org> if you have questions about which is the correct data region for you to use.
+@d4h/angular supports all D4H API regions. Please contact <support@d4h.org> if you have questions about which is the correct data region for you to use.
 
 ```typescript
 export enum Region {
@@ -50,7 +50,7 @@ interface ClientConfig {
 ```
 
 ## Use
-Simply import `ClientModule` from the package and call `ClientModule.forRoot` with a configuration. Configuration is wrapped in a `ConfigProvider` object that yields the configuration as an observable.
+Import and call `ClientModule.forRoot()` with a configuration. Configuration must be wrapped in a `ConfigProvider` object that yields the configuration as an observable.
 
 ```typescript
 import { CLIENT_CONFIG, ClientModule, ConfigProvider, Region } from '@4h/angular';
@@ -140,7 +140,7 @@ Interface | Method | Purpose
 `Attendances.Destroy` | `DELETE /team/attendance/:id` | API response.
 
 ### Available Resources
-Bindings supports those object operations used internally by D4H applications. If you require a resource not supported here, either [open an issue](https://github.com/D4H/angular/issues/new) or a pull request with the service!
+@d4h/angular support operations currently used internally by D4H applications. If you require a resource not supported here, either [open an issue](https://github.com/D4H/angular/issues/new) or reach out to <support@d4h.org>.
 
 * Account
     * `authenticate(username, password)`
