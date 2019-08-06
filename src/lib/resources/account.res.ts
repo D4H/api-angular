@@ -18,7 +18,7 @@ export interface Authenticate extends Response<Account> {}
  */
 
 export interface Search {
-  list_modules?: true;
+  list_modules?: boolean;
   type?: MembershipType;
 }
 
