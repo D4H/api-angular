@@ -162,11 +162,7 @@ describe('AccountService', () => {
     });
 
     it('should rescue from a 404 Not Found and return a Username object', () => {
-      username = Factory.build<Username>('Username', {
-        exists: false,
-        language: undefined
-      });
-
+      username = Factory.build<Username>('Username', { exists: false });
       url = ApiUrl(config, path, { username: username.username });
 
       service.username(username.username).subscribe((res: Username) => {
