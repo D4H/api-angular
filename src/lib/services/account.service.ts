@@ -66,7 +66,7 @@ export class AccountService {
     const payload: HttpOptions = { params: { username } as any };
 
     return this.http.get<API.Accounts.Username>(route, payload).pipe(
-      map((res: API.Accounts.Username): Username => res.data),
+      map((res: API.Accounts.Username): Username => ({ ...res.data, exists: true })),
       catchError((error: HttpErrorResponse): Observable<Username> => {
         if (error.status === NOT_FOUND) {
           return of({ username, exists: false, language: undefined });
