@@ -2,7 +2,7 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Region, Version } from './servers.provider';
+import { Region, Version } from './region.provider';
 
 /**
  * Client Configuration

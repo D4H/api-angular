@@ -1,12 +1,11 @@
 import { Region, Version } from '../../lib/providers';
 
-describe('Server Providers', () => {
+describe('Region Providers', () => {
   describe('Region', () => {
     enum ComparisonRegions {
       America = 'api.d4h.org',
       Canada = 'api.ca.d4h.org',
       Europe = 'api.eu.d4h.org',
-      International = 'api.d4h.org',
       Pacific = 'api.ap.d4h.org',
       Staging = 'api.st.d4h.org'
     }
