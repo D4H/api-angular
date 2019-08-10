@@ -1,5 +1,4 @@
 import faker from 'faker';
-import isIsoDate from 'is-iso-date';
 import moment from 'moment';
 import traverse from 'traverse';
 import { TestBed } from '@angular/core/testing';
@@ -67,7 +66,7 @@ describe('ParserClient', () => {
       };
 
       const { params } = client.options(config, '', options);
-      Object.values(params).forEach(value => expect(isIsoDate(value)).toBe(true));
+      Object.values(params).forEach(value => expect(typeof value).toBe('string'));
     });
   });
 });

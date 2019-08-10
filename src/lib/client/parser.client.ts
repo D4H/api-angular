@@ -1,4 +1,3 @@
-import isIsoDate from 'is-iso-date';
 import traverse from 'traverse';
 import { Inject, Injectable } from '@angular/core';
 
