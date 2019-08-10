@@ -1,3 +1,4 @@
+import { IsoDate } from './iso-date.model';
 import { Language } from './language.model';
 
 export enum MembershipType {
@@ -49,7 +50,7 @@ export interface MembershipModule {
 export interface Membership {
   id: number;
   language: Language;
-  lastlogin?: Date;
+  lastlogin?: IsoDate;
   name: string;
   token: string;
   type: MembershipType;

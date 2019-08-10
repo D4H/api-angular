@@ -1,3 +1,5 @@
+import { IsoDate } from './iso-date.model';
+
 /**
  * Organisation Information Object
  * =============================================================================
@@ -6,7 +8,7 @@
 
 export interface Organisation {
   country: string;
-  created: Date;
+  created: IsoDate;
   created_by_id: boolean;
   currency: string;
   document_container_id?: number;

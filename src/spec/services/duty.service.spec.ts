@@ -233,8 +233,8 @@ describe('DutyService', () => {
 
       updatedDuty = {
         ...duty,
-        date: attributes.start_date as Date,
-        enddate: attributes.end_date as Date,
+        date: attributes.start_date as string,
+        enddate: attributes.end_date as string,
         notes: attributes.notes
       };
     });

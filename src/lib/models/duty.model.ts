@@ -1,3 +1,4 @@
+import { IsoDate } from './iso-date.model';
 import { Period } from './period.model';
 import { Role } from './role.model';
 
@@ -19,7 +20,7 @@ export interface Duty extends Period {
   notes: string;
   parent_id?: number;
   repeat_every?: DutyRepeatInterval;
-  repeat_until?: Date;
+  repeat_until?: IsoDate;
   role?: Pick<Role, 'id' | 'title'>;
   team_id: number;
   type: DutyType;

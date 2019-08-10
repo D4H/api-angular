@@ -1,5 +1,6 @@
 import { Category } from './category.model';
 import { Cost } from './cost.model';
+import { IsoDate } from './iso-date.model';
 import { Weight } from './units.model';
 
 export enum EquipmentStatus {
@@ -24,14 +25,14 @@ export interface Equipment {
   cost_per_hour?: Cost;
   cost_per_use?: Cost;
   custom_fields?: Array<any>;
-  date_expires: Date;
-  date_firstuse: Date;
-  date_last_moved: Date;
-  date_last_status_change: Date;
-  date_manufactured: Date;
-  date_purchased: Date;
-  date_retired: Date;
-  date_warranty: Date;
+  date_expires: IsoDate;
+  date_firstuse: IsoDate;
+  date_last_moved: IsoDate;
+  date_last_status_change: IsoDate;
+  date_manufactured: IsoDate;
+  date_purchased: IsoDate;
+  date_retired: IsoDate;
+  date_warranty: IsoDate;
   id: number;
   is_all_child_op: boolean;
   is_critical: boolean;
@@ -39,7 +40,7 @@ export interface Equipment {
   minutes_use: number;
   notes: string;
   odometer_reading: number;
-  odometer_reading_date: Date;
+  odometer_reading_date: IsoDate;
   odometer_reading_total: number;
   odometer_reading_total_allowed: number;
   quantity: number;

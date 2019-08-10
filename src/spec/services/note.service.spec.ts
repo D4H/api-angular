@@ -208,7 +208,7 @@ describe('NoteService', () => {
         ...note,
         message: attributes.text,
         urgent: attributes.important,
-        enddate: attributes.enddate as Date
+        enddate: attributes.enddate as string
       };
     });
 

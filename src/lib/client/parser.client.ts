@@ -1,4 +1,3 @@
-import * as moment from 'moment';
 import isIsoDate from 'is-iso-date';
 import traverse from 'traverse';
 import { Inject, Injectable } from '@angular/core';
@@ -15,6 +14,7 @@ import {
 
 import { AuthClient } from './auth.client';
 import { ClientModule } from '../client.module';
+import { isDateLike } from '../tools';
 
 /**
  * D4H API Request Parser
@@ -52,25 +52,6 @@ export class ParserClient implements ClientRequestParser {
       params: this.stringifyDates(config, url, options),
       headers: this.headers(config, url, options)
     };
-  }
-
-  /**
-   * Handle Response Parsing
-   * ===========================================================================
-   * In practice: If response is an object, then stringify any ISO-formatted
-   * date strings found.
-   */
-
-  response<T>(res: T): T {
-    if (res && res.constructor.name === 'Object') {
-      return traverse(res).map(function(value: any): void {
-        if (isIsoDate(value)) {
-          this.update(new Date(value), true);
-        }
-      });
-    } else {
-      return res;
-    }
   }
 
   /**
@@ -117,7 +98,7 @@ export class ParserClient implements ClientRequestParser {
     const params: Params = { ...options.params };
 
     return traverse(params).map(function(value: any): void {
-      if (moment.isDate(value) || moment.isMoment(value)) {
+      if (isDateLike(value)) {
         this.update(value.toISOString(), true);
       }
     });

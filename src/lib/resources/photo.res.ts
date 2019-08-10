@@ -1,3 +1,5 @@
+import { DateParameter } from './shared.res';
+
 /**
  * GET /organisation/image
  * GET /team/image
@@ -35,5 +37,5 @@ export enum Size {
 
 export interface Params {
   size?: Size;
-  version?: Date;
+  version?: DateParameter;
 }

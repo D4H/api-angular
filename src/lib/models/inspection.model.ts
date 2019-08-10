@@ -1,3 +1,5 @@
+import { IsoDate } from './iso-date.model';
+
 export enum InspectionResult {
   Incomplete,
   Operational,
@@ -13,7 +15,7 @@ export interface Inspection {
   active: boolean;
   all_kinds: boolean;
   bundle: string;
-  date_due: Date;
+  date_due: IsoDate;
   description: string;
   gear_parent_id: number;
   id: number;
@@ -34,13 +36,13 @@ export interface Inspection {
 // GET /team/inspections/:id/items
 export interface InspectionItem {
   completed: boolean;
-  date_completed: Date;
-  date_due: Date;
+  date_completed: IsoDate;
+  date_due: IsoDate;
   description: string;
   equipment_id: number;
   id: number;
   inspection_id: number;
-  last_modified: Date;
+  last_modified: IsoDate;
   member_id: number;
   repair_id: number;
   status: InspectionResult;
@@ -51,13 +53,13 @@ export interface InspectionItem {
 // GET /team/inspections/:id/equipment
 export interface InspectionEquipment {
   completed: boolean;
-  date_completed: Date;
-  date_due: Date;
+  date_completed: IsoDate;
+  date_due: IsoDate;
   description: string;
   equipment_id: number;
   id: number;
   inspection_id: number;
-  last_modified: Date;
+  last_modified: IsoDate;
   location: Array<string>;
   member_id: number;
   ref: string;

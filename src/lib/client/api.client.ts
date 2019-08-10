@@ -40,8 +40,6 @@ export class ApiHttpClient {
       mergeMap((config: ClientConfig): Observable<T> => this.http.get<T>(
         this.parser.url(config, url),
         this.parser.options(config, url, options)
-      ).pipe(
-        map((res: T): T => this.parser.response(res))
       ))
     );
   }
@@ -53,8 +51,6 @@ export class ApiHttpClient {
         this.parser.url(config, url),
         body,
         this.parser.options(config, url, options)
-      ).pipe(
-        map((res: T): T => this.parser.response<T>(res))
       ))
     );
   }
@@ -66,8 +62,6 @@ export class ApiHttpClient {
         this.parser.url(config, url),
         body,
         this.parser.options(config, url, options)
-      ).pipe(
-        map((res: T): T => this.parser.response<T>(res))
       ))
     );
   }
@@ -78,8 +72,6 @@ export class ApiHttpClient {
       mergeMap((config: ClientConfig): Observable<T> => this.http.delete<T>(
         this.parser.url(config, url),
         this.parser.options(config, url, options)
-      ).pipe(
-        map((res: T): T => this.parser.response<T>(res))
       ))
     );
   }

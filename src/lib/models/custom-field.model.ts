@@ -1,3 +1,5 @@
+import { IsoDate } from './iso-date.model';
+
 /**
  * Member Optional Custom Field
  * =============================================================================
@@ -23,8 +25,8 @@ export enum CustomFieldType {
 
 export type CustomFieldValue
   = number
-  | Array<number | string | Date | CustomFieldChoice>
-  | Date
+  | Array<number | string | CustomFieldChoice | IsoDate>
+  | IsoDate
   | string;
 
 export interface CustomField {

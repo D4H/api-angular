@@ -1,18 +1,19 @@
+import { IsoDate } from './iso-date.model';
 import { Language } from './language.model';
 
 export interface Account {
-  created: Date;
-  expires_on?: Date;
+  created: IsoDate;
+  expires_on?: IsoDate;
   permissions?: object; // Deprecated: Permissions now on team member.
   token: string;
   token_id: number;
   type: string;
 
   account: {
-    created: Date;
+    created: IsoDate;
     id: number;
     language: Language;
-    lastlogin: Date;
+    lastlogin: IsoDate;
     primary_email: string;
     signed_tandc?: boolean; // Deprecated: Agreed terms and conditions?
     username: string;

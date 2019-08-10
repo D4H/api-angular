@@ -90,7 +90,6 @@ export interface HttpOptions {
 
 export interface ClientRequestParser {
   options(config: ClientConfig, url: string, options?: HttpOptions): HttpOptions;
-  response<T>(res: T): T;
   url(config: ClientConfig, url: string): string;
 }
 

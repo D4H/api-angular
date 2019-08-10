@@ -6,7 +6,7 @@ import { Language } from './language.factory';
 import { sequence } from './sequence';
 
 export function Account(attributes: Partial<Account> = {}): Account {
-  const createdDate: Date = faker.date.past();
+  const createdDate: string = faker.date.past().toISOString();
   const username: string = faker.internet.userName();
 
   return deepmerge<Account>({
@@ -20,7 +20,7 @@ export function Account(attributes: Partial<Account> = {}): Account {
       created: createdDate,
       id: sequence('account.account.id'),
       language: Language(),
-      lastlogin: faker.date.past(),
+      lastlogin: faker.date.past().toISOString(),
       primary_email: `${username}@example.com`,
       username
     },

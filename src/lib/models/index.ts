@@ -9,6 +9,7 @@ export * from './equipment.model';
 export * from './general.model';
 export * from './group.model';
 export * from './inspection.model';
+export * from './iso-date.model';
 export * from './language.model';
 export * from './location.model';
 export * from './member.model';

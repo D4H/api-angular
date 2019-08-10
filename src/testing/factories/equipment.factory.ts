@@ -17,11 +17,11 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
     cost_per_use: Cost(),
     // custom_fields?: Array<any>;
     // date_expires: Date;
-    date_firstuse: faker.date.past(),
-    date_last_moved: faker.date.past(),
+    date_firstuse: faker.date.past().toISOString(),
+    date_last_moved: faker.date.past().toISOString(),
     // date_last_status_change: Date;
-    date_manufactured: faker.date.past(),
-    date_purchased: faker.date.past(),
+    date_manufactured: faker.date.past().toISOString(),
+    date_purchased: faker.date.past().toISOString(),
     // date_retired: Date;
     // date_warranty: Date;
     id: sequence('equipment.id'),

@@ -1,3 +1,5 @@
+import { IsoDate } from './iso-date.model';
+
 /**
  * Periods and Ranges
  * =============================================================================
@@ -7,12 +9,12 @@
  */
 
 export interface Period {
-  date: Date;
-  enddate: Date;
+  date: IsoDate;
+  enddate: IsoDate;
   duration?: number;
 }
 
 export interface Range {
-  after: Date;
-  before: Date;
+  after: IsoDate;
+  before: IsoDate;
 }

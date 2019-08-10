@@ -1,3 +1,5 @@
+import { IsoDate } from './iso-date.model';
+
 enum RepairInterval {
   Day = 'DAY',
   Month = 'MONTH',
@@ -8,7 +10,7 @@ export interface Repair {
   active: boolean;
   all_kinds: boolean;
   bundle: string;
-  date_due: Date;
+  date_due: IsoDate;
   description: string;
   gear_parent_id: number;
   id: number;

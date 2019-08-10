@@ -46,7 +46,7 @@ function customFieldValue(type: CustomFieldType): CustomFieldValue {
 
     case CustomFieldType.Date:
     case CustomFieldType.DateTime: {
-      return faker.date.recent();
+      return faker.date.recent().toISOString();
     }
 
     case CustomFieldType.Time: {

@@ -1,4 +1,5 @@
 import { ActivityType } from './activity.model';
+import { IsoDate } from './iso-date.model';
 import { Member } from './member.model';
 import { Period } from './period.model';
 
@@ -16,8 +17,8 @@ export interface Attendance extends Period {
   status: AttendanceStatus;
 
   activity: {
-    date: Date;
-    enddate: Date;
+    date: IsoDate;
+    enddate: IsoDate;
     id: number;
     ref: string;
     title: string;
