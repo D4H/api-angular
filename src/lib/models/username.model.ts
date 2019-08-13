@@ -1,3 +1,5 @@
+import { Language } from './language.model';
+
 /**
  * Account Username
  * =============================================================================
@@ -9,6 +11,6 @@
 
 export interface Username {
   exists: boolean;
-  language?: string;
+  language?: Language;
   username: string;
 }
