@@ -16,6 +16,7 @@ export * from './member.model';
 export * from './membership.model';
 export * from './note.model';
 export * from './organisation.model';
+export * from './password.model';
 export * from './period.model';
 export * from './role.model';
 export * from './setting.model';

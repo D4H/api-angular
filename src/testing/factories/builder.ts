@@ -15,6 +15,7 @@ import { Member } from './member.factory';
 import { MemberPermission } from './permission.factory';
 import { Membership, MembershipModule } from './membership.factory';
 import { Note } from './note.factory';
+import { Password } from './password.factory';
 import { Period } from './period.factory';
 import { Photo } from './photo.factory';
 import { ProxyError } from './proxy-error.factory';
@@ -99,6 +100,7 @@ Factory.add({
   Membership,
   MembershipModule,
   Note,
+  Password,
   Period,
   Photo,
   ProxyError,

@@ -94,6 +94,7 @@ describe('Factory', () => {
         'Membership',
         'MembershipModule',
         'Note',
+        'Password',
         'Period',
         'Photo',
         'ProxyError',
