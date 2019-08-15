@@ -35,7 +35,7 @@ describe('TeamService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('TeamService#show', () => {
+  describe('show', () => {
     let membership: Membership;
     let team: Team;
     let url: string;
@@ -52,7 +52,7 @@ describe('TeamService', () => {
       url = ApiUrl(config, routes.team.show(membership.unit.id));
     });
 
-    it('should have #show accessor', () => {
+    it('should have show accessor', () => {
       expect(typeof service.show).toBe('function');
       expect(service.show.length).toBe(1);
     });
@@ -98,7 +98,7 @@ describe('TeamService', () => {
     });
   });
 
-  describe('TeamService#image', () => {
+  describe('image', () => {
     let blob: Blob;
     let membership: Membership;
     let safeUrl: SafeUrl;
@@ -115,7 +115,7 @@ describe('TeamService', () => {
       url = ApiUrl(config, routes.team.image, { version });
     });
 
-    it('should have #image accessor', () => {
+    it('should have image accessor', () => {
       expect(typeof service.image).toBe('function');
       expect(service.image.length).toBe(1);
     });
@@ -147,7 +147,7 @@ describe('TeamService', () => {
     });
   });
 
-  describe('TeamService#settings', () => {
+  describe('settings', () => {
     let data: SettingData;
     let membership: Membership;
     let setting: Setting;
@@ -163,7 +163,7 @@ describe('TeamService', () => {
       };
     });
 
-    it('should have #settings accessor', () => {
+    it('should have settings accessor', () => {
       expect(typeof service.settings).toBe('function');
       expect(service.settings.length).toBe(2);
     });

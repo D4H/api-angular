@@ -29,7 +29,7 @@ describe('DutyService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('DutyService#index', () => {
+  describe('index', () => {
     const path: string = routes.team.duties.index;
     let duties: Array<Duty>;
     let search: API.Duties.Search;
@@ -39,7 +39,7 @@ describe('DutyService', () => {
       duties = Factory.buildList<Duty>('Duty', 7);
     });
 
-    it('should have #index accessor', () => {
+    it('should have index accessor', () => {
       expect(typeof service.index).toBe('function');
       expect(service.index.length).toBe(1);
     });
@@ -87,7 +87,7 @@ describe('DutyService', () => {
     });
   });
 
-  describe('DutyService#show', () => {
+  describe('show', () => {
     const path: (id: number) => string = routes.team.duties.show;
     let duty: Duty;
     let url: string;
@@ -97,7 +97,7 @@ describe('DutyService', () => {
       url = ApiUrl(config, path(duty.id));
     });
 
-    it('should have #show accessor', () => {
+    it('should have show accessor', () => {
       expect(typeof service.show).toBe('function');
       expect(service.show.length).toBe(1);
     });
@@ -128,7 +128,7 @@ describe('DutyService', () => {
     });
   });
 
-  describe('DutyService#create', () => {
+  describe('create', () => {
     const path: string = routes.team.duties.index;
     let attributes: API.Duties.New;
     let duty: Duty;
@@ -148,7 +148,7 @@ describe('DutyService', () => {
       };
     });
 
-    it('should have #create accessor', () => {
+    it('should have create accessor', () => {
       expect(typeof service.create).toBe('function');
       expect(service.create.length).toBe(1);
     });
@@ -209,14 +209,14 @@ describe('DutyService', () => {
     });
   });
 
-  describe('DutyService#update', () => {
+  describe('update', () => {
     const path: (id: number) => string = routes.team.duties.update;
     let attributes: API.Duties.Change;
     let duty: Duty;
     let updatedDuty: Duty;
     let url: string;
 
-    it('should have #create accessor', () => {
+    it('should have create accessor', () => {
       expect(typeof service.update).toBe('function');
       expect(service.update.length).toBe(2);
     });
@@ -276,7 +276,7 @@ describe('DutyService', () => {
     });
   });
 
-  describe('DutyService#destroy', () => {
+  describe('destroy', () => {
     const path: (id: number) => string = routes.team.duties.destroy;
     let duty: Duty;
     let url: string;
@@ -286,7 +286,7 @@ describe('DutyService', () => {
       url = ApiUrl(config, path(duty.id));
     });
 
-    it('should have #destroy accessor', () => {
+    it('should have destroy accessor', () => {
       expect(typeof service.destroy).toBe('function');
     });
 

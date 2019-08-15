@@ -37,7 +37,7 @@ describe('MemberService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('MemberService#index', () => {
+  describe('index', () => {
     const path: string = routes.team.members.index;
     let members: Array<Member>;
     let search: API.Members.Search;
@@ -47,7 +47,7 @@ describe('MemberService', () => {
       members = Factory.buildList<Member>('Member', 15);
     });
 
-    it('should have #index accessor', () => {
+    it('should have index accessor', () => {
       expect(typeof service.index).toBe('function');
       expect(service.index.length).toBe(0);
     });
@@ -92,7 +92,7 @@ describe('MemberService', () => {
     });
   });
 
-  describe('MemberService#show', () => {
+  describe('show', () => {
     const path: (id: number | 'me') => string = routes.team.members.show;
     let member: Member;
     let url: string;
@@ -101,7 +101,7 @@ describe('MemberService', () => {
       member = Factory.build<Member>('Member');
     });
 
-    it('should have #show accessor', () => {
+    it('should have show accessor', () => {
       expect(typeof service.show).toBe('function');
       expect(service.show.length).toBe(1);
     });
@@ -137,7 +137,7 @@ describe('MemberService', () => {
     });
   });
 
-  describe('MemberService#update', () => {
+  describe('update', () => {
     const path: (id: number | 'me') => string = routes.team.members.update;
     let attributes: API.Members.Change;
     let member: Member;
@@ -160,7 +160,7 @@ describe('MemberService', () => {
       };
     });
 
-    it('should have #update accessor', () => {
+    it('should have update accessor', () => {
       expect(typeof service.update).toBe('function');
       expect(service.update.length).toBe(1);
     });
@@ -191,7 +191,7 @@ describe('MemberService', () => {
     });
   });
 
-  describe('MemberService#groups', () => {
+  describe('groups', () => {
     const path: (id: number | 'me') => string = routes.team.members.groups;
     let groups: Array<Group>;
     let member: Member;
@@ -202,7 +202,7 @@ describe('MemberService', () => {
       member = Factory.build<Member>('Member');
     });
 
-    it('should have #groups accessor', () => {
+    it('should have groups accessor', () => {
       expect(typeof service.groups).toBe('function');
       expect(service.groups.length).toBe(1);
     });
@@ -245,7 +245,7 @@ describe('MemberService', () => {
     });
   });
 
-  describe('MemberService#image', () => {
+  describe('image', () => {
     let blob: Blob;
     let path: string;
     let safeUrl: SafeUrl;
@@ -262,7 +262,7 @@ describe('MemberService', () => {
       url = ApiUrl(config, path);
     });
 
-    it('should have #image accessor', () => {
+    it('should have image accessor', () => {
       expect(typeof service.image).toBe('function');
       expect(service.image.length).toBe(1);
     });
@@ -294,12 +294,12 @@ describe('MemberService', () => {
     });
   });
 
-  describe('MemberService#labels', () => {
+  describe('labels', () => {
     const path: string = routes.team.members.labels;
     let data: API.Members.LabelData;
     let url: string;
 
-    it('should have #labels accessor', () => {
+    it('should have labels accessor', () => {
       expect(typeof service.labels).toBe('function');
       expect(service.labels.length).toBe(0);
     });

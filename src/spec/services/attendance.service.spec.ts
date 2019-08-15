@@ -29,7 +29,7 @@ describe('AttendanceService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('AttendanceService#index', () => {
+  describe('index', () => {
     const path: string = routes.team.attendances.index;
     let search: API.Attendances.Search;
     let attendances: Array<Attendance>;
@@ -39,7 +39,7 @@ describe('AttendanceService', () => {
       attendances = Factory.buildList<Attendance>('Attendance', 7);
     });
 
-    it('should have #index accessor', () => {
+    it('should have index accessor', () => {
       expect(typeof service.index).toBe('function');
       expect(service.index.length).toBe(1);
     });
@@ -87,7 +87,7 @@ describe('AttendanceService', () => {
     });
   });
 
-  describe('AttendanceService#show', () => {
+  describe('show', () => {
     const path: (id: number) => string = routes.team.attendances.show;
     let attendance: Attendance;
     let url: string;
@@ -97,7 +97,7 @@ describe('AttendanceService', () => {
       url = ApiUrl(config, path(attendance.id));
     });
 
-    it('should have #show accessor', () => {
+    it('should have show accessor', () => {
       expect(typeof service.show).toBe('function');
       expect(service.show.length).toBe(1);
     });
@@ -128,7 +128,7 @@ describe('AttendanceService', () => {
     });
   });
 
-  describe('AttendanceService#create', () => {
+  describe('create', () => {
     const path: string = routes.team.attendances.index;
     let attributes: API.Attendances.New;
     let attendance: Attendance;
@@ -148,7 +148,7 @@ describe('AttendanceService', () => {
       };
     });
 
-    it('should have #create accessor', () => {
+    it('should have create accessor', () => {
       expect(typeof service.create).toBe('function');
       expect(service.create.length).toBe(1);
     });
@@ -191,14 +191,14 @@ describe('AttendanceService', () => {
     });
   });
 
-  describe('AttendanceService#update', () => {
+  describe('update', () => {
     const path: (id: number) => string = routes.team.attendances.update;
     let attributes: API.Attendances.Change;
     let attendance: Attendance;
     let updatedAttendance: Attendance;
     let url: string;
 
-    it('should have #create accessor', () => {
+    it('should have create accessor', () => {
       expect(typeof service.update).toBe('function');
       expect(service.update.length).toBe(2);
     });
@@ -260,7 +260,7 @@ describe('AttendanceService', () => {
     });
   });
 
-  describe('AttendanceService#destroy', () => {
+  describe('destroy', () => {
     const path: (id: number) => string = routes.team.attendances.destroy;
     let attendance: Attendance;
     let url: string;
@@ -270,7 +270,7 @@ describe('AttendanceService', () => {
       url = ApiUrl(config, path(attendance.id));
     });
 
-    it('should have #destroy accessor', () => {
+    it('should have destroy accessor', () => {
       expect(typeof service.destroy).toBe('function');
     });
 

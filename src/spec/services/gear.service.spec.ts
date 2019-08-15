@@ -37,7 +37,7 @@ describe('GearService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('GearService#index', () => {
+  describe('index', () => {
     const path: string = routes.team.gear.index;
     let search: API.Gear.Search;
     let equipment: Array<Equipment>;
@@ -47,7 +47,7 @@ describe('GearService', () => {
       equipment = Factory.buildList<Equipment>('Equipment', 7);
     });
 
-    it('should have #index accessor', () => {
+    it('should have index accessor', () => {
       expect(typeof service.index).toBe('function');
       expect(service.index.length).toBe(0);
     });
@@ -95,7 +95,7 @@ describe('GearService', () => {
     });
   });
 
-  describe('GearService#show', () => {
+  describe('show', () => {
     const path: (id: number) => string = routes.team.gear.show;
     let equipment: Equipment;
     let url: string;
@@ -105,7 +105,7 @@ describe('GearService', () => {
       url = ApiUrl(config, path(equipment.id));
     });
 
-    it('should have #show accessor', () => {
+    it('should have show accessor', () => {
       expect(typeof service.show).toBe('function');
       expect(service.show.length).toBe(1);
     });
@@ -136,14 +136,14 @@ describe('GearService', () => {
     });
   });
 
-  describe('GearService#update', () => {
+  describe('update', () => {
     const path: (id: number) => string = routes.team.gear.update;
     let attributes: API.Gear.Change;
     let equipment: Equipment;
     let updatedEquipment: Equipment;
     let url: string;
 
-    it('should have #create accessor', () => {
+    it('should have create accessor', () => {
       expect(typeof service.update).toBe('function');
       expect(service.update.length).toBe(1);
     });
@@ -201,7 +201,7 @@ describe('GearService', () => {
     });
   });
 
-  describe('GearService#image', () => {
+  describe('image', () => {
     let blob: Blob;
     let equipmentId: number;
     let path: string;
@@ -218,7 +218,7 @@ describe('GearService', () => {
       url = ApiUrl(config, path);
     });
 
-    it('should have #image accessor', () => {
+    it('should have image accessor', () => {
       expect(typeof service.image).toBe('function');
       expect(service.image.length).toBe(1);
     });

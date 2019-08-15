@@ -35,7 +35,7 @@ describe('AccountService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('AccountService#authenticate', () => {
+  describe('authenticate', () => {
     const path: string = routes.account.authenticate;
     let account: Account;
     let username: string;
@@ -48,7 +48,7 @@ describe('AccountService', () => {
       url = ApiUrl(config, path);
     });
 
-    it('should have #authenticate accessor', () => {
+    it('should have authenticate accessor', () => {
       expect(typeof service.authenticate).toBe('function');
       expect(service.authenticate.length).toBe(2);
     });
@@ -92,13 +92,13 @@ describe('AccountService', () => {
     });
   });
 
-  describe('AccountService#memberships', () => {
+  describe('memberships', () => {
     const modules: MembershipModule = Factory.build<MembershipModule>('MembershipModule');
     const path: string = routes.account.memberships;
     let memberships: Array<Membership>;
     let url: string;
 
-    it('should have #memberships accessor', () => {
+    it('should have memberships accessor', () => {
       expect(typeof service.memberships).toBe('function');
       expect(service.memberships.length).toBe(0);
     });
@@ -140,12 +140,12 @@ describe('AccountService', () => {
     });
   });
 
-  describe('AccountService#username', () => {
+  describe('username', () => {
     const path: string = routes.account.username;
     let url: string;
     let username: Username;
 
-    it('should have #username accessor', () => {
+    it('should have username accessor', () => {
       expect(typeof service.username).toBe('function');
       expect(service.username.length).toBe(1);
     });

@@ -29,7 +29,7 @@ describe('GroupService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('GroupService#index', () => {
+  describe('index', () => {
     const path: string = routes.team.groups.index;
     let search: API.Groups.Search;
     let groups: Array<Group>;
@@ -39,7 +39,7 @@ describe('GroupService', () => {
       groups = Factory.buildList<Group>('Group', 7);
     });
 
-    it('should have #index accessor', () => {
+    it('should have index accessor', () => {
       expect(typeof service.index).toBe('function');
       expect(service.index.length).toBe(1);
     });
@@ -83,7 +83,7 @@ describe('GroupService', () => {
     });
   });
 
-  describe('GroupService#show', () => {
+  describe('show', () => {
     const path: (id: number) => string = routes.team.groups.show;
     let group: Group;
     let url: string;
@@ -93,7 +93,7 @@ describe('GroupService', () => {
       url = ApiUrl(config, path(group.id));
     });
 
-    it('should have #show accessor', () => {
+    it('should have show accessor', () => {
       expect(typeof service.show).toBe('function');
       expect(service.show.length).toBe(1);
     });

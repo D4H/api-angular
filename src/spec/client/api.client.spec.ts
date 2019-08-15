@@ -31,7 +31,7 @@ describe('ApiHttpClient', () => {
     expect(client).toBeTruthy();
   });
 
-  describe('ApiHttpClient#get', () => {
+  describe('get', () => {
     beforeEach(() => {
       client.get(path).subscribe(() => {});
       url = ApiUrl(config, path);
@@ -39,7 +39,7 @@ describe('ApiHttpClient', () => {
       req.flush({});
     });
 
-    it('should have #get accessor', () => {
+    it('should have get accessor', () => {
       expect(typeof client.get).toBe('function');
     });
 
@@ -56,7 +56,7 @@ describe('ApiHttpClient', () => {
     });
   });
 
-  describe('ApiHttpClient#delete', () => {
+  describe('delete', () => {
     beforeEach(() => {
       client.delete(path).subscribe(() => {});
       url = ApiUrl(config, path);
@@ -64,7 +64,7 @@ describe('ApiHttpClient', () => {
       req.flush({});
     });
 
-    it('should have #delete accessor', () => {
+    it('should have delete accessor', () => {
       expect(typeof client.delete).toBe('function');
     });
 
@@ -81,7 +81,7 @@ describe('ApiHttpClient', () => {
     });
   });
 
-  describe('ApiHttpClient#put', () => {
+  describe('put', () => {
     beforeEach(() => {
       client.put(path, {}).subscribe(() => {});
       url = ApiUrl(config, path);
@@ -89,7 +89,7 @@ describe('ApiHttpClient', () => {
       req.flush({});
     });
 
-    it('should have #put accessor', () => {
+    it('should have put accessor', () => {
       expect(typeof client.put).toBe('function');
     });
 
@@ -106,7 +106,7 @@ describe('ApiHttpClient', () => {
     });
   });
 
-  describe('ApiHttpClient#post', () => {
+  describe('post', () => {
     beforeEach(() => {
       client.post(path, {}).subscribe(() => {});
       url = ApiUrl(config, path);
@@ -114,7 +114,7 @@ describe('ApiHttpClient', () => {
       req.flush({});
     });
 
-    it('should have #post accessor', () => {
+    it('should have post accessor', () => {
       expect(typeof client.post).toBe('function');
     });
 

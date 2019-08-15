@@ -29,7 +29,7 @@ describe('NoteService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('NoteService#index', () => {
+  describe('index', () => {
     const path: string = routes.team.notes.index;
     let search: API.Notes.Search;
     let notes: Array<Note>;
@@ -39,7 +39,7 @@ describe('NoteService', () => {
       notes = Factory.buildList<Note>('Note', 7);
     });
 
-    it('should have #index accessor', () => {
+    it('should have index accessor', () => {
       expect(typeof service.index).toBe('function');
       expect(service.index.length).toBe(1);
     });
@@ -87,7 +87,7 @@ describe('NoteService', () => {
     });
   });
 
-  describe('NoteService#show', () => {
+  describe('show', () => {
     const path: (id: number) => string = routes.team.notes.show;
     let note: Note;
     let url: string;
@@ -97,7 +97,7 @@ describe('NoteService', () => {
       url = ApiUrl(config, path(note.id));
     });
 
-    it('should have #show accessor', () => {
+    it('should have show accessor', () => {
       expect(typeof service.show).toBe('function');
       expect(service.show.length).toBe(1);
     });
@@ -125,7 +125,7 @@ describe('NoteService', () => {
     });
   });
 
-  describe('NoteService#create', () => {
+  describe('create', () => {
     const path: string = routes.team.notes.index;
     let attributes: API.Notes.New;
     let note: Note;
@@ -142,7 +142,7 @@ describe('NoteService', () => {
       };
     });
 
-    it('should have #create accessor', () => {
+    it('should have create accessor', () => {
       expect(typeof service.create).toBe('function');
       expect(service.create.length).toBe(1);
     });
@@ -182,14 +182,14 @@ describe('NoteService', () => {
     });
   });
 
-  describe('NoteService#update', () => {
+  describe('update', () => {
     const path: (id: number) => string = routes.team.notes.update;
     let attributes: API.Notes.Change;
     let note: Note;
     let updatedNote: Note;
     let url: string;
 
-    it('should have #create accessor', () => {
+    it('should have create accessor', () => {
       expect(typeof service.update).toBe('function');
       expect(service.update.length).toBe(2);
     });
@@ -252,7 +252,7 @@ describe('NoteService', () => {
     });
   });
 
-  describe('NoteService#destroy', () => {
+  describe('destroy', () => {
     const path: (id: number) => string = routes.team.notes.destroy;
     let note: Note;
     let url: string;
@@ -262,7 +262,7 @@ describe('NoteService', () => {
       url = ApiUrl(config, path(note.id));
     });
 
-    it('should have #destroy accessor', () => {
+    it('should have destroy accessor', () => {
       expect(typeof service.destroy).toBe('function');
     });
 

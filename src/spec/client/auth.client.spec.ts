@@ -26,8 +26,8 @@ describe('AuthClient', () => {
     expect(client).toBeTruthy();
   });
 
-  describe('AuthClient#bearerToken', () => {
-    it('should have #bearerToken accessor', () => {
+  describe('bearerToken', () => {
+    it('should have bearerToken accessor', () => {
       expect(typeof client.bearerToken).toBe('function');
     });
 

@@ -26,12 +26,12 @@ describe('ParserClient', () => {
     expect(client).toBeTruthy();
   });
 
-  describe('ParserClient#url', () => {
+  describe('url', () => {
     beforeEach(() => {
       path = `/${faker.random.objectElement()}/${faker.random.objectElement()}`;
     });
 
-    it('should have #url accessor', () => {
+    it('should have url accessor', () => {
       expect(typeof client.url).toBe('function');
       expect(client.url.length).toBe(2);
     });
@@ -45,8 +45,8 @@ describe('ParserClient', () => {
     });
   });
 
-  describe('ParserClient#options', () => {
-    it('should have #options accessor', () => {
+  describe('options', () => {
+    it('should have options accessor', () => {
       expect(typeof client.options).toBe('function');
       expect(client.options.length).toBe(2);
     });

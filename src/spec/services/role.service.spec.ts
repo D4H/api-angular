@@ -29,7 +29,7 @@ describe('RoleService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('RoleService#index', () => {
+  describe('index', () => {
     const path: string = routes.team.roles.index;
     let search: API.Roles.Search;
     let roles: Array<Role>;
@@ -39,7 +39,7 @@ describe('RoleService', () => {
       roles = Factory.buildList<Role>('Role', 7);
     });
 
-    it('should have #index accessor', () => {
+    it('should have index accessor', () => {
       expect(typeof service.index).toBe('function');
       expect(service.index.length).toBe(1);
     });
@@ -83,7 +83,7 @@ describe('RoleService', () => {
     });
   });
 
-  describe('RoleService#show', () => {
+  describe('show', () => {
     const path: (id: number) => string = routes.team.roles.show;
     let role: Role;
     let url: string;
@@ -93,7 +93,7 @@ describe('RoleService', () => {
       url = ApiUrl(config, path(role.id));
     });
 
-    it('should have #show accessor', () => {
+    it('should have show accessor', () => {
       expect(typeof service.show).toBe('function');
       expect(service.show.length).toBe(1);
     });

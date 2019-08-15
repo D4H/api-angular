@@ -15,7 +15,7 @@ describe('Factory', () => {
     factory = Object.keys(Factory.factories)[0];
   });
 
-  describe('Factory#build', () => {
+  describe('build', () => {
     let key: string;
     let value: string;
 
@@ -43,7 +43,7 @@ describe('Factory', () => {
     });
   });
 
-  describe('Factory#buildList', () => {
+  describe('buildList', () => {
     let count: number;
 
     beforeEach(() => {

@@ -38,7 +38,7 @@ describe('PhotoService', () => {
   });
 
 
-  describe('PhotoService#get', () => {
+  describe('get', () => {
     let blob: Blob;
     let path: string;
     let safeUrl: SafeUrl;
@@ -51,7 +51,7 @@ describe('PhotoService', () => {
       url = ApiUrl(config, path);
     });
 
-    it('should have #get accessor', () => {
+    it('should have get accessor', () => {
       expect(typeof service.get).toBe('function');
       expect(service.get.length).toBe(1);
     });
@@ -74,7 +74,7 @@ describe('PhotoService', () => {
     });
   });
 
-  describe('PhotoService#membership', () => {
+  describe('membership', () => {
     let blob: Blob;
     let membership: Membership;
     let path: string;
@@ -89,7 +89,7 @@ describe('PhotoService', () => {
       url = ApiUrl(config, path, { version });
     });
 
-    it('should have #membership accessor', () => {
+    it('should have membership accessor', () => {
       expect(typeof service.membership).toBe('function');
       expect(service.membership.length).toBe(2);
     });

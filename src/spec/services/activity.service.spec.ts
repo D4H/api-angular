@@ -29,7 +29,7 @@ describe('ActivityService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('ActivityService#index', () => {
+  describe('index', () => {
     const path: string = routes.team.activities.index;
     let search: API.Activities.Search;
     let activities: Array<Activity>;
@@ -39,7 +39,7 @@ describe('ActivityService', () => {
       activities = Factory.buildList<Activity>('Activity', 7);
     });
 
-    it('should have #index accessor', () => {
+    it('should have index accessor', () => {
       expect(typeof service.index).toBe('function');
       expect(service.index.length).toBe(1);
     });
@@ -83,7 +83,7 @@ describe('ActivityService', () => {
     });
   });
 
-  describe('ActivityService#show', () => {
+  describe('show', () => {
     const path: (id: number) => string = routes.team.activities.show;
     let activity: Activity;
     let url: string;
@@ -93,7 +93,7 @@ describe('ActivityService', () => {
       url = ApiUrl(config, path(activity.id));
     });
 
-    it('should have #show accessor', () => {
+    it('should have show accessor', () => {
       expect(typeof service.show).toBe('function');
       expect(service.show.length).toBe(1);
     });
