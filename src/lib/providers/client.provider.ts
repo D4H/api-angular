@@ -43,7 +43,12 @@ export const CLIENT_DEFAULT_CONFIG = new InjectionToken<Partial<ClientConfig>>(
 // Set any defaults for optional values.
 
 export const clientDefaultConfig: Partial<ClientConfig> = {
-  version: Version.V2
+  version: Version.V2,
+
+  client: {
+    name: '',
+    version: ''
+  }
 };
 
 /**

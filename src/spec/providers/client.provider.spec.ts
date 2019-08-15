@@ -25,7 +25,12 @@ describe('Client Providers', () => {
   describe('clientDefaultConfig', () => {
     it('should match the comparison configuration', () => {
       const comparisonConfig = {
-        version: Version.V2
+        version: Version.V2,
+
+        client: {
+          name: '',
+          version: ''
+        }
       };
 
       expect(clientDefaultConfig).toEqual(comparisonConfig);
