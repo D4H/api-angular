@@ -36,6 +36,11 @@ import {
 @NgModule({
   imports: [
     HttpClientModule
+  ],
+  providers: [
+    { provide: API_ROUTES, useValue: routes },
+    { provide: API_AUTHENTICATED_ROUTES, useValue: authenticatedRoutes },
+    { provide: CLIENT_DEFAULT_CONFIG, useValue: clientDefaultConfig }
   ]
 })
 export class ClientModule {
@@ -43,10 +48,7 @@ export class ClientModule {
     return {
       ngModule: ClientModule,
       providers: [
-        configProvider,
-        { provide: API_ROUTES, useValue: routes },
-        { provide: API_AUTHENTICATED_ROUTES, useValue: authenticatedRoutes },
-        { provide: CLIENT_DEFAULT_CONFIG, useValue: clientDefaultConfig }
+        configProvider
       ]
     };
   }
@@ -55,10 +57,7 @@ export class ClientModule {
     return {
       ngModule: ClientModule,
       providers: [
-        configProvider,
-        { provide: API_ROUTES, useValue: routes },
-        { provide: API_AUTHENTICATED_ROUTES, useValue: authenticatedRoutes },
-        { provide: CLIENT_DEFAULT_CONFIG, useValue: clientDefaultConfig }
+        configProvider
       ]
     };
   }
