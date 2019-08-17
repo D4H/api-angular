@@ -22,7 +22,7 @@ describe('ApiHttpClient', () => {
 
     http = TestBed.get(HttpTestingController);
     client = TestBed.get(ApiHttpClient);
-    path = `/${faker.random.objectElement()}/${faker.random.objectElement()}`;
+    path = `/${faker.random.uuid()}/${faker.random.uuid()}`;
   });
 
   afterEach(() => http.verify());

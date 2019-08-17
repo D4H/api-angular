@@ -20,7 +20,7 @@ export function StatusLabel(attributes: Partial<StatusLabel> = {}): StatusLabel 
       ordering: sequence('label.ordering'),
       organisation_id: sequence('label.organisation_id'),
       team_id: sequence('label.team_id'),
-      value: faker.random.objectElement()
+      value: faker.random.uuid()
     }]
   }, attributes);
 }

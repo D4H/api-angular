@@ -19,7 +19,7 @@ describe('AuthClient', () => {
     });
 
     client = TestBed.get(AuthClient);
-    url = `/${faker.random.objectElement()}/${faker.random.objectElement()}`;
+    url = `/${faker.random.uuid()}/${faker.random.uuid()}`;
   });
 
   it('should be created', () => {

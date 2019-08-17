@@ -20,8 +20,8 @@ describe('Factory', () => {
     let value: string;
 
     beforeEach(() => {
-      key = faker.random.objectElement();
-      value = faker.random.objectElement();
+      key = faker.random.uuid();
+      value = faker.random.uuid();
     });
 
     it('should have the correct accessor', () => {
@@ -123,20 +123,20 @@ describe('Factory', () => {
     let testFactories: FactoryList;
     let keys: Array<string>;
 
-    beforeAll(() => {
+    beforeEach(() => {
       Factory.factories = {};
     });
 
-    afterAll(() => {
+    afterEach(() => {
       Factory.factories = factories;
     });
 
     beforeEach(() => {
       keys = [
-        faker.random.objectElement(),
-        faker.random.objectElement(),
-        faker.random.objectElement(),
-        faker.random.objectElement()
+        faker.random.uuid(),
+        faker.random.uuid(),
+        faker.random.uuid(),
+        faker.random.uuid()
       ];
 
       testFactories = keys.reduce(

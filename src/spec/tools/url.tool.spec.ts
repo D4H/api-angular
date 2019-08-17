@@ -10,7 +10,7 @@ describe('ApiUrl', () => {
 
   beforeEach(() => {
     config = Factory.build<ClientConfig>('ClientConfig');
-    path = `/${faker.random.objectElement()}/${faker.random.objectElement()}`,
+    path = `/${faker.random.uuid()}/${faker.random.uuid()}`,
     url = new URL(`/${config.version}${path}`, `https://${config.region}`).toString();
   });
 
@@ -19,7 +19,7 @@ describe('ApiUrl', () => {
   });
 
   it('should generate an appropriate API URL with parameters', () => {
-    const params = { [faker.random.objectElement()]: faker.random.objectElement() };
+    const params = { [faker.random.uuid()]: faker.random.uuid() };
     url = `${url}?${Object.keys(params).map(key => `${key}=${params[key]}`).join('&')}`;
     expect(ApiUrl(config, path, params)).toEqual(url);
   });

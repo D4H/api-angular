@@ -17,7 +17,7 @@ export function Team(attributes: Partial<Team> = {}): Team {
     lng: Number(faker.address.longitude()),
     organisation_id: sequence('team.organisation_id'),
     required_oncall: faker.random.number(),
-    subdomain: faker.random.objectElement(),
+    subdomain: faker.random.uuid(),
     title: faker.company.companyName(),
 
     // TODO: Fake out on international unit names. D4H teams are worldwide.

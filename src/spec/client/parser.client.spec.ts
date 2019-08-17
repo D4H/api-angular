@@ -28,7 +28,7 @@ describe('ParserClient', () => {
 
   describe('url', () => {
     beforeEach(() => {
-      path = `/${faker.random.objectElement()}/${faker.random.objectElement()}`;
+      path = `/${faker.random.uuid()}/${faker.random.uuid()}`;
     });
 
     it('should have url accessor', () => {
@@ -60,8 +60,8 @@ describe('ParserClient', () => {
     it('should stringify parameter Date() and moment() objects into an ISO string format', () => {
       const options: object = {
         params: {
-          [faker.random.objectElement()]: new Date(),
-          [faker.random.objectElement()]: moment()
+          [faker.random.uuid()]: new Date(),
+          [faker.random.uuid()]: moment()
         }
       };
 
