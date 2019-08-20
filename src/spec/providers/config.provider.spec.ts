@@ -4,10 +4,10 @@ import {
   CLIENT_CONFIG,
   CLIENT_DEFAULT_CONFIG,
   Version,
-  clientDefaultConfig
+  defaultConfig
 } from '../../lib/providers';
 
-describe('Client Providers', () => {
+describe('Config Providers', () => {
   describe('CLIENT_CONFIG', () => {
     it('should match the comparison token', () => {
       const token = new InjectionToken('CLIENT_CONFIGURATION');
@@ -22,7 +22,7 @@ describe('Client Providers', () => {
     });
   });
 
-  describe('clientDefaultConfig', () => {
+  describe('defaultConfig', () => {
     it('should match the comparison configuration', () => {
       const comparisonConfig = {
         version: Version.V2,
@@ -33,7 +33,7 @@ describe('Client Providers', () => {
         }
       };
 
-      expect(clientDefaultConfig).toEqual(comparisonConfig);
+      expect(defaultConfig).toEqual(comparisonConfig);
     });
   });
 });

@@ -4,16 +4,16 @@ import traverse from 'traverse';
 import { TestBed } from '@angular/core/testing';
 
 import { API_URL_REGEX, ApiUrl, ClientTestModule, Factory } from '../../testing';
-import { ClientConfig } from '../../lib/providers';
+import { Config } from '../../lib/providers';
 import { ParserClient } from '../../lib/client';
 
 describe('ParserClient', () => {
   let client: ParserClient;
-  let config: ClientConfig;
+  let config: Config;
   let path: string;
 
   beforeEach(() => {
-    config = Factory.build<ClientConfig>('ClientConfig');
+    config = Factory.build<Config>('Config');
 
     TestBed.configureTestingModule({
       imports: [ClientTestModule.forRoot(config)]

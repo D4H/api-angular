@@ -12,12 +12,12 @@ import {
   Factory
 } from '../../testing';
 
-import { ClientConfig, routes } from '../../lib/providers';
+import { Config, routes } from '../../lib/providers';
 import { Membership, Setting, SettingData, Team } from '../../lib/models';
 import { TeamService } from '../../lib/services';
 
 describe('TeamService', () => {
-  const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
+  const config: Config = Factory.build<Config>('Config');
   let http: HttpTestingController;
   let req: TestRequest;
   let service: TeamService;

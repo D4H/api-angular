@@ -12,12 +12,12 @@ import {
   Factory
 } from '../../testing';
 
-import { ClientConfig, routes } from '../../lib/providers';
+import { Config, routes } from '../../lib/providers';
 import { InvalidPhotoUrlError, PhotoService } from '../../lib/services';
 import { Membership } from '../../lib/models';
 
 describe('PhotoService', () => {
-  const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
+  const config: Config = Factory.build<Config>('Config');
   let http: HttpTestingController;
   let req: TestRequest;
   let service: PhotoService;

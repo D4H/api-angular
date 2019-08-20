@@ -5,15 +5,15 @@ import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
 
-import { CLIENT_CONFIG, ClientConfig, ConfigProvider } from '../../lib/providers';
+import { CLIENT_CONFIG, Config, ConfigProvider } from '../../lib/providers';
 import { Factory } from '../../testing';
 
 interface State {
-  client: ClientConfig;
+  client: Config;
 }
 
 class ConfigSelector implements ConfigProvider {
-  readonly config$: Observable<ClientConfig>;
+  readonly config$: Observable<Config>;
 
   constructor(private readonly store: Store<State>) {
     this.config$ = this.store.pipe(select('client'));
@@ -31,13 +31,13 @@ class ConfigConsumer {
  */
 
 describe('NgRx Config Selector', () => {
-  let config: ClientConfig;
+  let config: Config;
   let consumer: ConfigConsumer;
   let selector: ConfigSelector;
   let store: MockStore<State>;
 
   beforeEach(() => {
-    config = Factory.build('ClientConfig');
+    config = Factory.build('Config');
 
     TestBed.configureTestingModule({
       providers: [

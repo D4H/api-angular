@@ -8,10 +8,10 @@ import * as API from '../../lib/resources';
 import { Activity } from '../../lib/models';
 import { ActivityService } from '../../lib/services';
 import { ApiUrl, ClientTestModule, Factory } from '../../testing';
-import { ClientConfig, routes } from '../../lib/providers';
+import { Config, routes } from '../../lib/providers';
 
 describe('ActivityService', () => {
-  const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
+  const config: Config = Factory.build<Config>('Config');
   let http: HttpTestingController;
   let req: TestRequest;
   let service: ActivityService;

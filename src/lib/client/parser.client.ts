@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 
 import {
   CLIENT_DEFAULT_CONFIG,
-  ClientConfig,
+  Config,
   ClientRequestParser,
   Headers,
   HttpOptions,
@@ -26,7 +26,7 @@ import { isDateLike } from '../tools';
 @Injectable({ providedIn: ClientModule })
 export class ParserClient implements ClientRequestParser {
   constructor(
-    @Inject(CLIENT_DEFAULT_CONFIG) private readonly config: ClientConfig,
+    @Inject(CLIENT_DEFAULT_CONFIG) private readonly config: Config,
     private readonly auth: AuthClient
   ) {}
 
@@ -35,7 +35,7 @@ export class ParserClient implements ClientRequestParser {
    * ===========================================================================
    */
 
-  url(config: ClientConfig, url: string): string {
+  url(config: Config, url: string): string {
     const version: Version = config.version || this.config.version;
     return new URL(`/${version}${url}`, `https://${config.region}`).toString();
   }
@@ -45,7 +45,7 @@ export class ParserClient implements ClientRequestParser {
    * ===========================================================================
    */
 
-  options(config: ClientConfig, url: string, options: HttpOptions = {}): HttpOptions {
+  options(config: Config, url: string, options: HttpOptions = {}): HttpOptions {
     return {
       ...options,
       params: this.stringifyDates(config, url, options),
@@ -60,7 +60,7 @@ export class ParserClient implements ClientRequestParser {
    * if required.
    */
 
-  private headers(config: ClientConfig, url: string, options: HttpOptions = {}): Headers {
+  private headers(config: Config, url: string, options: HttpOptions = {}): Headers {
     return {
       'x-source-client': config.client.name || this.config.client.name,
       'x-source-version': config.client.version || this.config.client.version,
@@ -93,7 +93,7 @@ export class ParserClient implements ClientRequestParser {
    *    moment('Sat Nov 24 2018 10:22:35 GMT 0000').toISOString();
    */
 
-  private stringifyDates(config: ClientConfig, url: string, options: HttpOptions = {}): Params {
+  private stringifyDates(config: Config, url: string, options: HttpOptions = {}): Params {
     const params: Params = { ...options.params };
 
     return traverse(params).map(function(value: any): void {

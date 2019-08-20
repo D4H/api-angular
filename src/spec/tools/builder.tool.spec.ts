@@ -80,7 +80,7 @@ describe('Factory', () => {
         'Activity',
         'ApiError',
         'Attendance',
-        'ClientConfig',
+        'Config',
         'Cost',
         'CustomField',
         'Duty',

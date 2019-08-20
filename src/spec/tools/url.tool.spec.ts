@@ -1,15 +1,15 @@
 import faker from 'faker';
 
 import { API_URL_REGEX, ApiUrl, Factory } from '../../testing';
-import { ClientConfig } from '../../lib/providers';
+import { Config } from '../../lib/providers';
 
 describe('ApiUrl', () => {
-  let config: ClientConfig;
+  let config: Config;
   let path: string;
   let url: string;
 
   beforeEach(() => {
-    config = Factory.build<ClientConfig>('ClientConfig');
+    config = Factory.build<Config>('Config');
     path = `/${faker.random.uuid()}/${faker.random.uuid()}`,
     url = new URL(`/${config.version}${path}`, `https://${config.region}`).toString();
   });

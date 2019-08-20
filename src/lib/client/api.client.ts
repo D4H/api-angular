@@ -5,7 +5,7 @@ import { map, mergeMap, take } from 'rxjs/operators';
 
 import {
   CLIENT_CONFIG,
-  ClientConfig,
+  Config,
   ClientRequestParser,
   ConfigProvider,
   Headers,
@@ -37,7 +37,7 @@ export class ApiHttpClient {
   get<T>(url: string, options: HttpOptions = {}): Observable<T> {
     return this.configurator.config$.pipe(
       take(1),
-      mergeMap((config: ClientConfig): Observable<T> => this.http.get<T>(
+      mergeMap((config: Config): Observable<T> => this.http.get<T>(
         this.parser.url(config, url),
         this.parser.options(config, url, options)
       ))
@@ -47,7 +47,7 @@ export class ApiHttpClient {
   post<T>(url: string, body: any, options: HttpOptions = {}): Observable<T> {
     return this.configurator.config$.pipe(
       take(1),
-      mergeMap((config: ClientConfig): Observable<T> => this.http.post<T>(
+      mergeMap((config: Config): Observable<T> => this.http.post<T>(
         this.parser.url(config, url),
         body,
         this.parser.options(config, url, options)
@@ -58,7 +58,7 @@ export class ApiHttpClient {
   put<T>(url: string, body: any, options: HttpOptions = {}): Observable<T> {
     return this.configurator.config$.pipe(
       take(1),
-      mergeMap((config: ClientConfig): Observable<T> => this.http.put<T>(
+      mergeMap((config: Config): Observable<T> => this.http.put<T>(
         this.parser.url(config, url),
         body,
         this.parser.options(config, url, options)
@@ -69,7 +69,7 @@ export class ApiHttpClient {
   delete<T>(url: string, options: HttpOptions = {}): Observable<T> {
     return this.configurator.config$.pipe(
       take(1),
-      mergeMap((config: ClientConfig): Observable<T> => this.http.delete<T>(
+      mergeMap((config: Config): Observable<T> => this.http.delete<T>(
         this.parser.url(config, url),
         this.parser.options(config, url, options)
       ))

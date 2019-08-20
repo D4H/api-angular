@@ -2,7 +2,7 @@ import { Account } from './account.factory';
 import { Activity } from './activity.factory';
 import { ApiError } from './api-error.factory';
 import { Attendance } from './attendance.factory';
-import { ClientConfig } from './client-config.factory';
+import { Config } from './config.factory';
 import { Cost } from './cost.factory';
 import { CustomField } from './custom-field.factory';
 import { Duty } from './duty.factory';
@@ -86,7 +86,7 @@ Factory.add({
   Activity,
   ApiError,
   Attendance,
-  ClientConfig,
+  Config,
   Cost,
   CustomField,
   Duty,

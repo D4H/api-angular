@@ -4,4 +4,5 @@ export * from './lib/resources';
 export * from './lib/services';
 export * from './testing';
 
+export { Config as ClientConfig } from './lib/providers';
 export { ClientModule } from './lib/client.module';

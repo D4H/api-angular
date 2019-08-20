@@ -14,12 +14,12 @@ import {
 } from '../../testing';
 
 import * as API from '../../lib/resources';
-import { ClientConfig, routes } from '../../lib/providers';
+import { Config, routes } from '../../lib/providers';
 import { Equipment, EquipmentStatus } from '../../lib/models';
 import { GearService } from '../../lib/services';
 
 describe('GearService', () => {
-  const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
+  const config: Config = Factory.build<Config>('Config');
   let http: HttpTestingController;
   let req: TestRequest;
   let service: GearService;

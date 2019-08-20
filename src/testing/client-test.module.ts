@@ -23,9 +23,9 @@ import {
 import {
   CLIENT_CONFIG,
   CLIENT_DEFAULT_CONFIG,
-  ClientConfig,
-  clientDefaultConfig,
-} from '../lib/providers/client.provider';
+  Config,
+  defaultConfig,
+} from '../lib/providers/config.provider';
 
 import {
   API_AUTHENTICATED_ROUTES,
@@ -57,7 +57,7 @@ import {
 })
 export class ClientTestModule {
   static forRoot(
-    config: ClientConfig = Factory.build<ClientConfig>('ClientConfig')
+    config: Config = Factory.build<Config>('Config')
   ): ModuleWithProviders {
     return {
       ngModule: ClientTestModule,
@@ -65,7 +65,7 @@ export class ClientTestModule {
         { provide: CLIENT_CONFIG, useValue: { config$: of(config) } },
         { provide: API_ROUTES, useValue: routes },
         { provide: API_AUTHENTICATED_ROUTES, useValue: authenticatedRoutes },
-        { provide: CLIENT_DEFAULT_CONFIG, useValue: clientDefaultConfig }
+        { provide: CLIENT_DEFAULT_CONFIG, useValue: defaultConfig }
       ]
     };
   }

@@ -5,10 +5,10 @@ import { TestBed } from '@angular/core/testing';
 
 import { ApiHttpClient } from '../../lib/client';
 import { ApiUrl, ClientTestModule, Factory } from '../../testing';
-import { ClientConfig, Region, TokenType, Version } from '../../lib/providers';
+import { Config, Region, TokenType, Version } from '../../lib/providers';
 
 describe('ApiHttpClient', () => {
-  const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
+  const config: Config = Factory.build<Config>('Config');
   let client: ApiHttpClient;
   let http: HttpTestingController;
   let path: string;

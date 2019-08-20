@@ -4,9 +4,9 @@ import { Observable } from 'rxjs';
 import {
   API_AUTHENTICATED_ROUTES,
   AuthenticatedRoute,
-  ClientTokenConfig,
   ClientRequestAuth,
-  TokenType
+  TokenType,
+  Tokens
 } from '../providers';
 
 import { ClientModule } from '../client.module';
@@ -36,7 +36,7 @@ export class AuthClient implements ClientRequestAuth {
     @Inject(API_AUTHENTICATED_ROUTES) private readonly routes: Array<AuthenticatedRoute>
   ) {}
 
-  bearerToken(tokens: ClientTokenConfig, url: string): { Authorization: string } {
+  bearerToken(tokens: Tokens, url: string): { Authorization: string } {
     const tokenType: TokenType = this.tokenType(url);
 
     if (tokenType) {
@@ -64,7 +64,7 @@ export class AuthClient implements ClientRequestAuth {
     }
   }
 
-  private getToken(tokens: ClientTokenConfig, tokenType: TokenType): string {
+  private getToken(tokens: Tokens, tokenType: TokenType): string {
     switch (tokenType) {
       case TokenType.Account: {
         return tokens.account;

@@ -2,17 +2,17 @@ import faker from 'faker';
 import { TestBed } from '@angular/core/testing';
 
 import { AuthClient, MissingTokenError } from '../../lib/client';
-import { ClientConfig, routes } from '../../lib/providers';
+import { Config, routes } from '../../lib/providers';
 import { ClientTestModule, Factory } from '../../testing';
 
 describe('AuthClient', () => {
   let bearer: { Authorization: string };
   let client: AuthClient;
-  let config: ClientConfig;
+  let config: Config;
   let url: string;
 
   beforeEach(() => {
-    config = Factory.build<ClientConfig>('ClientConfig');
+    config = Factory.build<Config>('Config');
 
     TestBed.configureTestingModule({
       imports: [ClientTestModule.forRoot(config)]

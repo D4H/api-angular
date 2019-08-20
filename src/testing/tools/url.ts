@@ -1,4 +1,4 @@
-import { ClientConfig } from '../../lib/providers';
+import { Config } from '../../lib/providers';
 
 /**
  * Testing regex to match valid D4h API endpooints.
@@ -22,7 +22,7 @@ export const API_PHOTO_URL_REGEX: RegExp = /^blob:http:\/\/localhost:\d{4}\/[0-9
  * Generate valid D4H API URL for the given configuration and path.
  */
 
-export function ApiUrl(config: Partial<ClientConfig>, path: string, params: any = {}): string {
+export function ApiUrl(config: Partial<Config>, path: string, params: any = {}): string {
   const url: string = new URL(`/${config.version}${path}`, `https://${config.region}`) .toString();
   const keys: Array<string> = Object.keys(params);
 

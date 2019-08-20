@@ -32,7 +32,7 @@ export enum Region {
 Injected configurations are evaluated when the client makes an API request. This permits for dynamic applications where the account or team membership tokens can change in the course of use.
 
 ```typescript
-interface ClientConfig {
+interface Config {
   region: Region;
 
   client: {
@@ -101,7 +101,7 @@ import { selectConfig } from 'my/store/config/selector';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurationSelector implements ConfigProvider {
-  readonly config$: Observable<ClientConfig>;
+  readonly config$: Observable<Config>;
 
   constructor(private readonly store: Store<AppState>) {
     this.config$ = this.store.select(selectConfig);

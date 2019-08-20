@@ -6,12 +6,12 @@ import { TestBed } from '@angular/core/testing';
 
 import * as API from '../../lib/resources';
 import { ApiUrl, ClientTestModule, Factory } from '../../testing';
-import { ClientConfig, routes } from '../../lib/providers';
+import { Config, routes } from '../../lib/providers';
 import { Role } from '../../lib/models';
 import { RoleService } from '../../lib/services';
 
 describe('RoleService', () => {
-  const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
+  const config: Config = Factory.build<Config>('Config');
   let http: HttpTestingController;
   let req: TestRequest;
   let service: RoleService;

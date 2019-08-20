@@ -14,12 +14,12 @@ import {
 } from '../../testing';
 
 import * as API from '../../lib/resources';
-import { ClientConfig, routes } from '../../lib/providers';
+import { Config, routes } from '../../lib/providers';
 import { Group, Member, OperationalStatus, StatusLabel } from '../../lib/models';
 import { MemberService } from '../../lib/services';
 
 describe('MemberService', () => {
-  const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
+  const config: Config = Factory.build<Config>('Config');
   let http: HttpTestingController;
   let req: TestRequest;
   let service: MemberService;

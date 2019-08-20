@@ -8,10 +8,10 @@ import * as API from '../../lib/resources';
 import { ApiUrl, ClientTestModule, Factory, sample } from '../../testing';
 import { Attendance, AttendanceStatus } from '../../lib/models';
 import { AttendanceService } from '../../lib/services';
-import { ClientConfig, routes } from '../../lib/providers';
+import { Config, routes } from '../../lib/providers';
 
 describe('AttendanceService', () => {
-  const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
+  const config: Config = Factory.build<Config>('Config');
   let http: HttpTestingController;
   let req: TestRequest;
   let service: AttendanceService;

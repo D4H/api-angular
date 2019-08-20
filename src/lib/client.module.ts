@@ -14,11 +14,11 @@ import {
   API_ROUTES,
   CLIENT_CONFIG,
   CLIENT_DEFAULT_CONFIG,
-  ClientConfig,
+  Config,
   Region,
   Version,
   authenticatedRoutes,
-  clientDefaultConfig,
+  defaultConfig,
   routes
 } from './providers';
 
@@ -40,7 +40,7 @@ import {
   providers: [
     { provide: API_ROUTES, useValue: routes },
     { provide: API_AUTHENTICATED_ROUTES, useValue: authenticatedRoutes },
-    { provide: CLIENT_DEFAULT_CONFIG, useValue: clientDefaultConfig }
+    { provide: CLIENT_DEFAULT_CONFIG, useValue: defaultConfig }
   ]
 })
 export class ClientModule {

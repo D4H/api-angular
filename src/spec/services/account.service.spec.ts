@@ -6,7 +6,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AccountService } from '../../lib/services';
 import { ApiUrl, ClientTestModule, Factory, sample } from '../../testing';
-import { ClientConfig, routes } from '../../lib/providers';
+import { Config, routes } from '../../lib/providers';
 
 import {
   Account,
@@ -17,7 +17,7 @@ import {
 } from '../../lib/models';
 
 describe('AccountService', () => {
-  const config: ClientConfig = Factory.build<ClientConfig>('ClientConfig');
+  const config: Config = Factory.build<Config>('Config');
   let http: HttpTestingController;
   let req: TestRequest;
   let service: AccountService;

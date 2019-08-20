@@ -11,38 +11,39 @@ import { Region, Version } from './region.provider';
  * handled internally as an observable anyhow.
  */
 
-export interface ClientTokenConfig {
+export interface Client {
+  name: string;
+  version: string;
+}
+
+export interface Tokens {
   account?: string;
   organisation?: string;
   team?: string;
 }
 
-export interface ClientConfig {
+export interface Config {
+  client: Client;
   region: Region;
-  tokens: ClientTokenConfig;
+  tokens: Tokens;
   version?: Version;
-
-  client: {
-    name: string;
-    version: string;
-  };
 }
 
 export interface ConfigProvider {
-  config$: Observable<ClientConfig>;
+  config$: Observable<Config>;
 }
 
 export const CLIENT_CONFIG = new InjectionToken<ConfigProvider>(
   'CLIENT_CONFIGURATION'
 );
 
-export const CLIENT_DEFAULT_CONFIG = new InjectionToken<Partial<ClientConfig>>(
+export const CLIENT_DEFAULT_CONFIG = new InjectionToken<Partial<Config>>(
   'CLIENT_DEFAULT_CONFIGURATION'
 );
 
 // Set any defaults for optional values.
 
-export const clientDefaultConfig: Partial<ClientConfig> = {
+export const defaultConfig: Partial<Config> = {
   version: Version.V2,
 
   client: {
@@ -94,10 +95,10 @@ export interface HttpOptions {
  */
 
 export interface ClientRequestParser {
-  options(config: ClientConfig, url: string, options?: HttpOptions): HttpOptions;
-  url(config: ClientConfig, url: string): string;
+  options(config: Config, url: string, options?: HttpOptions): HttpOptions;
+  url(config: Config, url: string): string;
 }
 
 export interface ClientRequestAuth {
-  bearerToken(tokens: ClientTokenConfig, url: string): { Authorization: string };
+  bearerToken(tokens: Tokens, url: string): { Authorization: string };
 }
