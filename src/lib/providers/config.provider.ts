@@ -100,5 +100,5 @@ export interface ClientRequestParser {
 }
 
 export interface ClientRequestAuth {
-  bearerToken(tokens: Tokens, url: string): { Authorization: string };
+  bearerToken(tokens: Tokens, url: string, options: HttpOptions): { Authorization: string };
 }

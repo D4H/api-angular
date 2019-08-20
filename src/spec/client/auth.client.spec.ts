@@ -35,6 +35,14 @@ describe('AuthClient', () => {
       expect(client.bearerToken(config.tokens, url)).toBe(undefined);
     });
 
+    it('should try to return the options header when URL is authenticated', () => {
+      const headers = { Authorization: `Bearer ${faker.random.uuid()}` };
+      config.tokens.team = undefined;
+      url = routes.account.memberships;
+      bearer = client.bearerToken(config.tokens, url, { headers });
+      expect(bearer).toEqual(headers);
+    });
+
     it('should return bearer header when URL is authenticated and token can be set', () => {
       url = routes.account.memberships;
       bearer = client.bearerToken(config.tokens, url);

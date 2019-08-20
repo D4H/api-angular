@@ -120,6 +120,37 @@ describe('API Routes', () => {
 
       expect(authenticatedRoutes).toEqual(comparisonAuthenticatedRoutes);
     });
+
+    describe('/account', () => {
+      it('should not authenticate "/account/username"', () => {
+        expect(authenticatedRoutes.find(route => route.match.test(routes.account.username)))
+          .toEqual(undefined);
+      });
+
+      it('should not authenticate "/account/authenticate"', () => {
+        expect(authenticatedRoutes.find(route => route.match.test(routes.account.authenticate)))
+          .toEqual(undefined);
+      });
+
+      it('should authenticate "/account/memberships"', () => {
+        expect(authenticatedRoutes.find(route => route.match.test(routes.account.memberships)))
+          .toEqual({ match: /^\/account\/memberships/, token: TokenType.Account });
+      });
+    });
+
+    describe('/organisation', () => {
+      it('should authenticate "/organisation" namespace', () => {
+        expect(authenticatedRoutes.find(route => route.match.test('/organisation')))
+          .toEqual({ match: /^\/organisation/, token: TokenType.Organisation });
+      });
+    });
+
+    describe('/team/', () => {
+      it('should authenticate "/team" namespace', () => {
+        expect(authenticatedRoutes.find(route => route.match.test(routes.team.image)))
+          .toEqual({ match: /^\/team/, token: TokenType.Team });
+      });
+    });
   });
 
   describe('TokenType', () => {

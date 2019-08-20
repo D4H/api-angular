@@ -64,7 +64,7 @@ export class ParserClient implements ClientRequestParser {
     return {
       'x-source-client': config.client.name || this.config.client.name,
       'x-source-version': config.client.version || this.config.client.version,
-      ...this.auth.bearerToken(config.tokens, url),
+      ...this.auth.bearerToken(config.tokens, url, options),
       ...options.headers
     };
   }
