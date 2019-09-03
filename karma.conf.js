@@ -15,10 +15,12 @@ module.exports = config => {
     browsers: [
       'ChromeHeadless'
     ],
+    client: {
+      captureConsole: false,
+      clearContext: false // leave Jasmine Spec Runner output visible in browser
+    },
     reporters: [
-      'kjhtml',
-      'mocha',
-      'progress'
+      'mocha'
     ],
     frameworks: [
       '@angular-devkit/build-angular',
@@ -34,8 +36,8 @@ module.exports = config => {
       'karma-jasmine-matchers',
       'karma-mocha-reporter'
     ],
-    client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+    mochaReporter: {
+      showDiff: true
     },
     coverageIstanbulReporter: {
       dir: path.join(__dirname, '../../coverage/client'),
