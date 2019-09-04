@@ -19,7 +19,7 @@ export class EquipmentService {
   ) {}
 
   index(search: Gear.Search = {}): Observable<Array<Equipment>> {
-    const route: string = this.routes.team.gear.index;
+    const route: string = this.routes.team.equipment.index;
     const payload: HttpOptions = { params: search as any };
 
     return this.http.get<Gear.Index>(route, payload).pipe(
@@ -28,7 +28,23 @@ export class EquipmentService {
   }
 
   show(id: number): Observable<Equipment> {
-    const route: string = this.routes.team.gear.show(id);
+    const route: string = this.routes.team.equipment.show(id);
+
+    return this.http.get<Gear.Show>(route).pipe(
+      map((res: Gear.Show): Equipment => res.data)
+    );
+  }
+
+  barcode(barcode: string): Observable<Equipment> {
+    const route: string = this.routes.team.equipment.barcode(barcode);
+
+    return this.http.get<Gear.Show>(route).pipe(
+      map((res: Gear.Show): Equipment => res.data)
+    );
+  }
+
+  ref(ref: string): Observable<Equipment> {
+    const route: string = this.routes.team.equipment.ref(ref);
 
     return this.http.get<Gear.Show>(route).pipe(
       map((res: Gear.Show): Equipment => res.data)
@@ -36,7 +52,7 @@ export class EquipmentService {
   }
 
   update(id: number, body: Gear.Change = {}): Observable<Equipment> {
-    const route: string = this.routes.team.gear.update(id);
+    const route: string = this.routes.team.equipment.update(id);
 
     return this.http.put<Gear.Update>(route, body).pipe(
       map((res: Gear.Update): Equipment => res.data)

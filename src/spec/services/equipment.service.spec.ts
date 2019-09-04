@@ -38,7 +38,7 @@ describe('EquipmentService', () => {
   });
 
   describe('index', () => {
-    const path: string = routes.team.gear.index;
+    const path: string = routes.team.equipment.index;
     let search: Gear.Search;
     let equipment: Array<Equipment>;
     let url: string;
@@ -96,7 +96,7 @@ describe('EquipmentService', () => {
   });
 
   describe('show', () => {
-    const path: (id: number) => string = routes.team.gear.show;
+    const path: (id: number) => string = routes.team.equipment.show;
     let equipment: Equipment;
     let url: string;
 
@@ -136,8 +136,94 @@ describe('EquipmentService', () => {
     });
   });
 
+  describe('barcode', () => {
+    const path: (ref: string) => string = routes.team.equipment.barcode;
+    let equipment: Equipment;
+    let ref: string;
+    let url: string;
+
+    beforeEach(() => {
+      equipment = Factory.build<Equipment>('Equipment');
+      url = ApiUrl(config, path(equipment.ref));
+      ref = faker.random.word();
+    });
+
+    it('should have barcode accessor', () => {
+      expect(typeof service.barcode).toBe('function');
+      expect(service.barcode.length).toBe(1);
+    });
+
+    it('should return a single Equipment', () => {
+      service.barcode(equipment.ref).subscribe((res: Equipment) => expect(res).toEqual(equipment));
+      req = http.expectOne({ url, method: 'GET' });
+      req.flush({ data: equipment });
+    });
+
+    it('should return 404 Not Found with nonexistent gear', () => {
+      url = ApiUrl(config, path(ref));
+
+      service.barcode(ref).subscribe(
+        () => {},
+        error => {
+          expect(error.constructor).toBe(HttpErrorResponse);
+          expect(error.status).toBe(NOT_FOUND);
+        }
+      );
+
+      req = http.expectOne({ url, method: 'GET' });
+
+      req.flush({}, {
+        status: NOT_FOUND,
+        statusText: getStatusText(NOT_FOUND)
+      });
+    });
+  });
+
+  describe('ref', () => {
+    const path: (ref: string) => string = routes.team.equipment.ref;
+    let equipment: Equipment;
+    let ref: string;
+    let url: string;
+
+    beforeEach(() => {
+      equipment = Factory.build<Equipment>('Equipment');
+      url = ApiUrl(config, path(equipment.ref));
+      ref = faker.random.word();
+    });
+
+    it('should have ref accessor', () => {
+      expect(typeof service.ref).toBe('function');
+      expect(service.ref.length).toBe(1);
+    });
+
+    it('should return a single Equipment', () => {
+      service.ref(equipment.ref).subscribe((res: Equipment) => expect(res).toEqual(equipment));
+      req = http.expectOne({ url, method: 'GET' });
+      req.flush({ data: equipment });
+    });
+
+    it('should return 404 Not Found with nonexistent gear', () => {
+      url = ApiUrl(config, path(ref));
+
+      service.ref(ref).subscribe(
+        () => {},
+        error => {
+          expect(error.constructor).toBe(HttpErrorResponse);
+          expect(error.status).toBe(NOT_FOUND);
+        }
+      );
+
+      req = http.expectOne({ url, method: 'GET' });
+
+      req.flush({}, {
+        status: NOT_FOUND,
+        statusText: getStatusText(NOT_FOUND)
+      });
+    });
+  });
+
   describe('update', () => {
-    const path: (id: number) => string = routes.team.gear.update;
+    const path: (id: number) => string = routes.team.equipment.update;
     let attributes: Gear.Change;
     let equipment: Equipment;
     let updatedEquipment: Equipment;

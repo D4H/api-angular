@@ -36,9 +36,11 @@ export interface RouteConfig {
       destroy(id: number): string;
     };
 
-    gear: {
+    equipment: {
       index: string;
       show(id: number): string;
+      barcode(barcode: string): string;
+      ref(ref: string): string;
       update(id: number): string;
       image(id: number): string;
     };
@@ -119,9 +121,11 @@ export const routes: RouteConfig = {
       destroy: (id: number): string => `/team/duties/${id}`
     },
 
-    gear: {
+    equipment: {
       index: '/team/equipment',
       show: (id: number): string => `/team/equipment/${id}`,
+      barcode: (barcode: string): string => `/team/equipment/barcode/${barcode}`,
+      ref: (ref: string): string => `/team/equipment/ref/${ref}`,
       update: (id: number): string => `/team/equipment/${id}`,
       image: (id: number) => `/team/equipment/${id}/image`
     },

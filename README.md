@@ -166,6 +166,8 @@ Interface | Method | Purpose
 * Equipment
     * `index([search])`
     * `show(id)`
+    * `barcode(barcode)`: Fetch Equipment item by barcode.
+    * `ref(ref)`: Fetch Equipment item item by reference.
     * `update(id[, params])`
     * `image(id, [params])`
 * Member
