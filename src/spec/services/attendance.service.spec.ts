@@ -4,10 +4,10 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
-import * as API from '../../lib/resources';
 import { ApiUrl, ClientTestModule, Factory, sample } from '../../testing';
 import { Attendance, AttendanceStatus } from '../../lib/models';
 import { AttendanceService } from '../../lib/services';
+import { Attendances } from '../../lib/resources';
 import { Config, routes } from '../../lib/providers';
 
 describe('AttendanceService', () => {
@@ -31,7 +31,7 @@ describe('AttendanceService', () => {
 
   describe('index', () => {
     const path: string = routes.team.attendances.index;
-    let search: API.Attendances.Search;
+    let search: Attendances.Search;
     let attendances: Array<Attendance>;
     let url: string;
 
@@ -44,7 +44,7 @@ describe('AttendanceService', () => {
       expect(service.index.length).toBe(1);
     });
 
-    it('should return an array of API.Attendances', () => {
+    it('should return an array of Attendances', () => {
       url = ApiUrl(config, path);
 
       service.index()
@@ -58,7 +58,7 @@ describe('AttendanceService', () => {
     // beyond the scope of this test, given the lack of an API testing backend
     // which the developer-or anyone else-can run.
 
-    it('should accept optional search parameters and return an array of API.Attendances', () => {
+    it('should accept optional search parameters and return an array of Attendances', () => {
       search = { limit: 5, offset: 15 };
       url = ApiUrl(config, path, search);
 
@@ -130,7 +130,7 @@ describe('AttendanceService', () => {
 
   describe('create', () => {
     const path: string = routes.team.attendances.index;
-    let attributes: API.Attendances.New;
+    let attributes: Attendances.New;
     let attendance: Attendance;
     let url: string;
 
@@ -193,7 +193,7 @@ describe('AttendanceService', () => {
 
   describe('update', () => {
     const path: (id: number) => string = routes.team.attendances.update;
-    let attributes: API.Attendances.Change;
+    let attributes: Attendances.Change;
     let attendance: Attendance;
     let updatedAttendance: Attendance;
     let url: string;

@@ -4,11 +4,11 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
-import * as API from '../../lib/resources';
 import { ApiUrl, ClientTestModule, Factory } from '../../testing';
 import { Config, routes } from '../../lib/providers';
 import { Note } from '../../lib/models';
 import { NoteService } from '../../lib/services';
+import { Notes } from '../../lib/resources';
 
 describe('NoteService', () => {
   const config: Config = Factory.build<Config>('Config');
@@ -31,7 +31,7 @@ describe('NoteService', () => {
 
   describe('index', () => {
     const path: string = routes.team.notes.index;
-    let search: API.Notes.Search;
+    let search: Notes.Search;
     let notes: Array<Note>;
     let url: string;
 
@@ -127,7 +127,7 @@ describe('NoteService', () => {
 
   describe('create', () => {
     const path: string = routes.team.notes.index;
-    let attributes: API.Notes.New;
+    let attributes: Notes.New;
     let note: Note;
     let url: string;
 
@@ -184,7 +184,7 @@ describe('NoteService', () => {
 
   describe('update', () => {
     const path: (id: number) => string = routes.team.notes.update;
-    let attributes: API.Notes.Change;
+    let attributes: Notes.Change;
     let note: Note;
     let updatedNote: Note;
     let url: string;

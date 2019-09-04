@@ -13,10 +13,10 @@ import {
   sample
 } from '../../testing';
 
-import * as API from '../../lib/resources';
 import { Config, routes } from '../../lib/providers';
 import { Group, Member, OperationalStatus, StatusLabel } from '../../lib/models';
 import { MemberService } from '../../lib/services';
+import { Members } from '../../lib/resources';
 
 describe('MemberService', () => {
   const config: Config = Factory.build<Config>('Config');
@@ -40,7 +40,7 @@ describe('MemberService', () => {
   describe('index', () => {
     const path: string = routes.team.members.index;
     let members: Array<Member>;
-    let search: API.Members.Search;
+    let search: Members.Search;
     let url: string;
 
     beforeEach(() => {
@@ -139,7 +139,7 @@ describe('MemberService', () => {
 
   describe('update', () => {
     const path: (id: number | 'me') => string = routes.team.members.update;
-    let attributes: API.Members.Change;
+    let attributes: Members.Change;
     let member: Member;
     let updatedMember: Member;
     let url: string;
@@ -296,7 +296,7 @@ describe('MemberService', () => {
 
   describe('labels', () => {
     const path: string = routes.team.members.labels;
-    let data: API.Members.LabelData;
+    let data: Members.LabelData;
     let url: string;
 
     it('should have labels accessor', () => {
@@ -321,7 +321,7 @@ describe('MemberService', () => {
       url = ApiUrl(config, path);
 
       service.labels()
-        .subscribe((res: API.Members.LabelData) => expect(res).toEqual(data));
+        .subscribe((res: Members.LabelData) => expect(res).toEqual(data));
 
       req = http.expectOne({ url, method: 'GET' });
       req.flush({ data });

@@ -4,7 +4,7 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
-import * as API from '../../lib/resources';
+import { Activities } from '../../lib/resources';
 import { Activity } from '../../lib/models';
 import { ActivityService } from '../../lib/services';
 import { ApiUrl, ClientTestModule, Factory } from '../../testing';
@@ -31,7 +31,7 @@ describe('ActivityService', () => {
 
   describe('index', () => {
     const path: string = routes.team.activities.index;
-    let search: API.Activities.Search;
+    let search: Activities.Search;
     let activities: Array<Activity>;
     let url: string;
 

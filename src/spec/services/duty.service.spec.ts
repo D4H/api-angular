@@ -4,9 +4,9 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { BAD_REQUEST, CREATED, NOT_FOUND, getStatusText } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
-import * as API from '../../lib/resources';
 import { ApiUrl, ClientTestModule, Factory } from '../../testing';
 import { Config, routes } from '../../lib/providers';
+import { Duties } from '../../lib/resources';
 import { Duty } from '../../lib/models';
 import { DutyService } from '../../lib/services';
 
@@ -32,7 +32,7 @@ describe('DutyService', () => {
   describe('index', () => {
     const path: string = routes.team.duties.index;
     let duties: Array<Duty>;
-    let search: API.Duties.Search;
+    let search: Duties.Search;
     let url: string;
 
     beforeEach(() => {
@@ -130,7 +130,7 @@ describe('DutyService', () => {
 
   describe('create', () => {
     const path: string = routes.team.duties.index;
-    let attributes: API.Duties.New;
+    let attributes: Duties.New;
     let duty: Duty;
     let url: string;
 
@@ -211,7 +211,7 @@ describe('DutyService', () => {
 
   describe('update', () => {
     const path: (id: number) => string = routes.team.duties.update;
-    let attributes: API.Duties.Change;
+    let attributes: Duties.Change;
     let duty: Duty;
     let updatedDuty: Duty;
     let url: string;

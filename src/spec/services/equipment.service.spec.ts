@@ -13,16 +13,16 @@ import {
   sample
 } from '../../testing';
 
-import * as API from '../../lib/resources';
 import { Config, routes } from '../../lib/providers';
 import { Equipment, EquipmentStatus } from '../../lib/models';
-import { GearService } from '../../lib/services';
+import { EquipmentService } from '../../lib/services';
+import { Gear } from '../../lib/resources';
 
-describe('GearService', () => {
+describe('EquipmentService', () => {
   const config: Config = Factory.build<Config>('Config');
   let http: HttpTestingController;
   let req: TestRequest;
-  let service: GearService;
+  let service: EquipmentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,7 +30,7 @@ describe('GearService', () => {
     });
 
     http = TestBed.get(HttpTestingController);
-    service = TestBed.get(GearService);
+    service = TestBed.get(EquipmentService);
   });
 
   it('should be created', () => {
@@ -39,7 +39,7 @@ describe('GearService', () => {
 
   describe('index', () => {
     const path: string = routes.team.gear.index;
-    let search: API.Gear.Search;
+    let search: Gear.Search;
     let equipment: Array<Equipment>;
     let url: string;
 
@@ -138,7 +138,7 @@ describe('GearService', () => {
 
   describe('update', () => {
     const path: (id: number) => string = routes.team.gear.update;
-    let attributes: API.Gear.Change;
+    let attributes: Gear.Change;
     let equipment: Equipment;
     let updatedEquipment: Equipment;
     let url: string;

@@ -5,11 +5,11 @@ import { NOT_FOUND } from 'http-status-codes';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import * as API from '../resources';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { HttpOptions } from '../providers';
 import { Membership } from '../models';
+import { Photos } from '../resources';
 
 export class InvalidPhotoUrlError extends Error {
   constructor(url: string) {
@@ -44,7 +44,7 @@ export class PhotoService {
    * Used for members, images, equipment, etc.
    */
 
-  get(url: string, params: API.Photos.Params = {}): Observable<SafeUrl> {
+  get(url: string, params: Photos.Params = {}): Observable<SafeUrl> {
     if (this.imageUrl.test(url)) {
       const payload: HttpOptions = {
         responseType: 'blob' as 'json',
@@ -104,7 +104,7 @@ export class PhotoService {
   membership(
     url: string,
     membership: Membership,
-    params: API.Photos.Params = {}
+    params: Photos.Params = {}
   ): Observable<SafeUrl> {
     const multiplier = 1000000;
 

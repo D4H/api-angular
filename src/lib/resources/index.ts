@@ -2,7 +2,7 @@ import * as Accounts from './account.res';
 import * as Activities from './activity.res';
 import * as Attendances from './attendance.res';
 import * as Duties from './duty.res';
-import * as Gear from './gear.res';
+import * as Gear from './equipment.res';
 import * as Groups from './group.res';
 import * as Members from './member.res';
 import * as Notes from './note.res';
