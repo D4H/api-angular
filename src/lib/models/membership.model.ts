@@ -48,7 +48,7 @@ export interface MembershipModule {
 }
 
 export interface Membership {
-  id: number;
+  id: number; // Membership *member* ID.
   language: Language;
   lastlogin?: IsoDate;
   name: string;
@@ -63,7 +63,7 @@ export interface Membership {
   };
 
   unit: {
-    id: number;
+    id: number; // Actual ID of membership object.
     modules?: MembershipModule;
     name: string;
     urls?: object; // Unused image URL.
