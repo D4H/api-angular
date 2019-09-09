@@ -6,7 +6,8 @@
     "faker",
     "http-status-codes",
     "moment",
-    "traverse"
+    "traverse",
+    "ts-xor"
   ],
   "lib": {
     "entryFile": "src/public-api.ts",
@@ -15,7 +16,8 @@
       "faker": "faker",
       "http-status-codes": "http-status-codes",
       "moment": "moment",
-      "traverse": "traverse"
+      "traverse": "traverse",
+      "ts-xor": "ts-xor"
     }
   }
 }

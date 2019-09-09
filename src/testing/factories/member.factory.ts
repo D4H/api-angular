@@ -54,12 +54,6 @@ export function Member(attributes: Partial<Member> = {}): Member {
     team_id: sequence('member.team_id'),
     workphone: faker.phone.phoneNumber(),
 
-    status: {
-      id: status.id,
-      type: status.type,
-      value: status.value
-    },
-
     custom_fields: [
       CustomField({ entity_id: id }),
       CustomField({ entity_id: id })
@@ -78,6 +72,16 @@ export function Member(attributes: Partial<Member> = {}): Member {
     emergency_contacts: [
       EmergencyContact(),
       EmergencyContact()
-    ]
+    ],
+
+    status: {
+      id: status.id,
+      type: status.type,
+      value: status.value
+    },
+
+    urls: {
+      image: `/v2/team/members/${id}/image`
+    }
   }, attributes);
 }

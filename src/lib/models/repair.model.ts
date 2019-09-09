@@ -1,3 +1,4 @@
+import { InheritedEntity } from './inherited-entity.model';
 import { IsoDate } from './iso-date.model';
 
 enum RepairInterval {
@@ -6,7 +7,7 @@ enum RepairInterval {
   Year = 'YEAR'
 }
 
-export interface Repair {
+export type Repair = {
   active: boolean;
   all_kinds: boolean;
   bundle: string;
@@ -21,9 +22,7 @@ export interface Repair {
   items_due_count: number;
   location_id: number;
   member_id: number;
-  organisation_id: number;
   remainder_unit: RepairInterval;
   remainder_value: number;
-  team_id: number;
   title: string;
-}
+} & InheritedEntity;

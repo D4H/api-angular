@@ -9,13 +9,14 @@ import { sequence } from './sequence';
 
 export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
   const location = Location();
+  const id = sequence('equipment.id');
 
   return deepmerge<Equipment>({
     barcode: faker.random.uuid(),
     cost_per_distance: Cost(),
     cost_per_hour: Cost(),
     cost_per_use: Cost(),
-    // custom_fields?: Array<any>;
+    custom_fields: [],
     // date_expires: Date;
     date_firstuse: faker.date.past().toISOString(),
     date_last_moved: faker.date.past().toISOString(),
@@ -24,7 +25,7 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
     date_purchased: faker.date.past().toISOString(),
     // date_retired: Date;
     // date_warranty: Date;
-    id: sequence('equipment.id'),
+    id,
     // is_all_child_op: boolean;
     is_critical: faker.random.boolean(),
     is_monitor: faker.random.boolean(),
@@ -42,22 +43,21 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
     total_replacement_cost: Cost(),
     // total_weight: Weight;
     type: sample.enumerable(EquipmentType),
-    // urls?: object;
-    //
-    // brand: {
-    //   id: number;
-    //   title: number;
-    // };
-    //
-    // category: {
-    //   id: number;
-    //   title: number;
-    // };
-    //
-    // kind: {
-    //   id: number;
-    //   title: string;
-    // };
+
+    brand: {
+      id: sequence('equipment.brand.id'),
+      title: faker.commerce.productName()
+    },
+
+    category: {
+      id: sequence('equipment.category.id'),
+      title: faker.commerce.productName()
+    },
+
+    kind: {
+      id: sequence('equipment.kind.id'),
+      title: faker.commerce.productName()
+    },
 
     location: {
       location_array: [location.title],
@@ -66,27 +66,37 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
       member_id: sequence('equipment.location.member_id'),
       member_name: faker.name.findName(),
       parent_id: location.unit_id,
-      unit_title: location.unit_title
-    }
+      unit_title: location.unit_title,
 
-    // model: {
-    //   id: number;
-    //   title: string;
-    // };
-    //
-    // status: {
-    //   id: number;
-    //   title: EquipmentStatus;
-    // };
-    //
-    // supplier: {
-    //   id: number;
-    //   title: string;
-    // };
-    //
-    // supplier_ref: {
-    //   id: number;
-    //   title: string;
-    // };
+      parent_item: {
+        id: sequence('equipment.location.parent_item.id'),
+        kind: faker.address.city(),
+        ref: String(sequence('equipment.location.parent_item.ref'))
+      }
+    },
+
+    model: {
+      id: sequence('equipment.model.id'),
+      title: faker.commerce.productName()
+    },
+
+    status: {
+      id: sequence('equipment.status.id'),
+      title: sample.enumerable(EquipmentStatus)
+    },
+
+    supplier: {
+      id: sequence('equipment.supplier.id'),
+      title: faker.company.companyName()
+    },
+
+    supplier_ref: {
+      id: sequence('equipment.supplier_ref.id'),
+      title: faker.commerce.productName()
+    },
+
+    urls: {
+      image: `/v2/team/equipment/${id}/image`
+    }
   }, attributes);
 }

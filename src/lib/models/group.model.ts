@@ -1,6 +1,12 @@
-export interface Group {
-  readonly id: number;
-  readonly organisation?: number;
-  readonly team_id: number;
-  readonly title: string;
-}
+import { XOR } from 'ts-xor';
+
+export type GroupInheritedEntity
+  = XOR<
+  { organisation: null, team: number },
+  { organisation: number, team: null }
+  >;
+
+export type Group = {
+  id: number;
+  title: string;
+} & GroupInheritedEntity;

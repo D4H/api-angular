@@ -66,6 +66,6 @@ export interface Membership {
     id: number; // Actual ID of membership object.
     modules?: MembershipModule;
     name: string;
-    urls?: object; // Unused image URL.
+    urls: object;
   };
 }

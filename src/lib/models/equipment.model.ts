@@ -55,7 +55,7 @@ export interface Equipment {
 
   brand: {
     id: number;
-    title: number;
+    title: string;
   };
 
   kind: {
@@ -71,6 +71,12 @@ export interface Equipment {
     member_name?: string;
     parent_id: number;
     unit_title: string;
+
+    parent_item?: {
+      id: number;
+      kind: string;
+      ref: string;
+    };
   };
 
   model: {
@@ -78,8 +84,14 @@ export interface Equipment {
     title: string;
   };
 
+  retired_reason: {
+    id: number;
+    title: string;
+  };
+
   status: {
     id: number;
+    is_all_child_op?: boolean;
     title: EquipmentStatus;
   };
 

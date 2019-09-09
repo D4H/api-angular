@@ -22,7 +22,11 @@ export function Membership(attributes: Partial<Membership> = {}): Membership {
 
     unit: {
       id: sequence('membership.team_id'),
-      name: faker.company.companyName()
+      name: faker.company.companyName(),
+
+      urls: {
+        image: `/v2/team/image?version=${faker.date.past().toISOString()}`
+      }
     }
   }, attributes);
 }

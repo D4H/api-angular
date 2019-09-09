@@ -1,6 +1,6 @@
 import { InheritedEntity } from './inherited-entity.model';
 
-export type Category = {
+export type Brand = {
   count: number;
   count_inactive: number;
   count_inservice: number;

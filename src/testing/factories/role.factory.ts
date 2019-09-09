@@ -8,7 +8,7 @@ export function Role(attributes: Partial<Role> = {}): Role {
   return deepmerge<Role>({
     bundle: faker.name.jobType(),
     id: sequence('role.id'),
-    organisation_id: sequence('role.organisation_id'),
+    organisation_id: null,
     unit_id: sequence('role.team_id'),
     title: faker.name.jobTitle(),
 

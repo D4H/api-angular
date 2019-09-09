@@ -2,12 +2,15 @@ import { Account } from './account.factory';
 import { Activity } from './activity.factory';
 import { ApiError } from './api-error.factory';
 import { Attendance } from './attendance.factory';
+import { Brand } from './brand.factory';
+import { Category } from './category.factory';
 import { Config } from './config.factory';
 import { Cost } from './cost.factory';
 import { CustomField } from './custom-field.factory';
 import { Duty } from './duty.factory';
 import { EmergencyContact } from './emergency-contact.factory';
 import { Equipment } from './equipment.factory';
+import { EquipmentModel } from './equipment-model.factory';
 import { Group } from './group.factory';
 import { Language } from './language.factory';
 import { Location } from './location.factory';
@@ -86,12 +89,15 @@ Factory.add({
   Activity,
   ApiError,
   Attendance,
+  Brand,
+  Category,
   Config,
   Cost,
   CustomField,
   Duty,
   EmergencyContact,
   Equipment,
+  EquipmentModel,
   Group,
   Language,
   Location,

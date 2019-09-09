@@ -138,7 +138,7 @@ export interface Member {
   ref: string;
   status: MemberOperationalStatus;
   team_id: number;
-  urls?: object; // Unused image URL.
+  urls: object;
   workphone?: string; // Restricted.
 
   // These will be set /if/ a Duty exists for Member when you GET Member.

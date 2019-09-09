@@ -298,7 +298,7 @@ describe('EquipmentService', () => {
     beforeEach(() => {
       blob = Factory.build<Blob>('Photo');
       equipmentId = faker.random.number();
-      path = routes.team.members.image(equipmentId);
+      path = routes.team.equipment.image(equipmentId);
       sanitizer = TestBed.get(DomSanitizer);
       safeUrl = sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
       url = ApiUrl(config, path);
@@ -320,7 +320,7 @@ describe('EquipmentService', () => {
     });
 
     it('should return 404 Not Found with nonexistent Gear ID', () => {
-      url = ApiUrl(config, routes.team.members.image(Number.MAX_SAFE_INTEGER));
+      url = ApiUrl(config, routes.team.equipment.image(Number.MAX_SAFE_INTEGER));
 
       service.image(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);

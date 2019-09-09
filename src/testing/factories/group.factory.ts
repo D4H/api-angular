@@ -8,7 +8,7 @@ export function Group(attributes: Partial<Group> = {}): Group {
   return deepmerge<Group>({
     id: sequence('group.id'),
     organisation: sequence('group.organisation_id'),
-    team_id: sequence('group.team_id'),
+    team: null,
     title: faker.name.jobTitle()
   }, attributes);
 }
