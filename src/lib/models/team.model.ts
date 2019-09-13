@@ -1,4 +1,9 @@
-import { Currency, Distance, Weight } from './units.model';
+import {
+  Currency,
+  Distance,
+  System,
+  Weight
+} from './units.model';
 
 /**
  * Team Information Object
@@ -28,6 +33,10 @@ export interface Team {
   units: {
     currency: Currency;
     distance: Distance;
-    weight: Weight;
+
+    weight: {
+      name: System;
+      units: Weight;
+    };
   };
 }

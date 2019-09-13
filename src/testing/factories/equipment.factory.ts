@@ -8,14 +8,17 @@ import { sample } from '../tools';
 import { sequence } from './sequence';
 
 export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
-  const location = Location();
+  const critical = faker.random.boolean();
   const id = sequence('equipment.id');
+  const location = Location();
+  const monitor = faker.random.boolean();
 
   return deepmerge<Equipment>({
     barcode: faker.random.uuid(),
     cost_per_distance: Cost(),
     cost_per_hour: Cost(),
     cost_per_use: Cost(),
+    critical_alert: critical,
     custom_fields: [],
     // date_expires: Date;
     date_firstuse: faker.date.past().toISOString(),
@@ -25,10 +28,11 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
     date_purchased: faker.date.past().toISOString(),
     // date_retired: Date;
     // date_warranty: Date;
+    expire_alert: monitor,
     id,
     // is_all_child_op: boolean;
-    is_critical: faker.random.boolean(),
-    is_monitor: faker.random.boolean(),
+    is_critical: critical,
+    is_monitor: monitor,
     // minutes_use: number;
     notes: faker.lorem.paragraph(),
     // odometer_reading: number;
@@ -37,6 +41,7 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
     // odometer_reading_total_allowed: number;
     quantity: faker.random.number({ min: 9, max: 15 }),
     // ref: string;
+    replacement_cost: Cost(),
     // serial: string;
     team_id: sequence('equipment.team_id'),
     title: faker.commerce.productName(),

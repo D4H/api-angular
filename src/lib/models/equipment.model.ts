@@ -1,5 +1,5 @@
-import { Category } from './category.model';
 import { Cost } from './cost.model';
+import { CustomField } from './custom-field.model';
 import { IsoDate } from './iso-date.model';
 import { Weight } from './units.model';
 
@@ -19,12 +19,12 @@ export enum EquipmentType {
 }
 
 export interface Equipment {
-  barcode?: string;
-  category: Pick<Category, 'id' | 'title'>;
+  barcode: string;
   cost_per_distance?: Cost;
   cost_per_hour?: Cost;
   cost_per_use?: Cost;
-  custom_fields?: Array<any>;
+  critical_alert: boolean;
+  custom_fields?: Array<CustomField>;
   date_expires: IsoDate;
   date_firstuse: IsoDate;
   date_last_moved: IsoDate;
@@ -33,7 +33,9 @@ export interface Equipment {
   date_purchased: IsoDate;
   date_retired: IsoDate;
   date_warranty: IsoDate;
+  expire_alert: boolean;
   id: number;
+  id_marks: string;
   is_all_child_op: boolean;
   is_critical: boolean;
   is_monitor: boolean;
@@ -45,15 +47,20 @@ export interface Equipment {
   odometer_reading_total_allowed: number;
   quantity: number;
   ref: string;
+  replacement_cost: Cost;
   serial: string;
   team_id: number;
   title: string;
-  total_replacement_cost: Cost;
-  total_weight: Weight;
+  total_replacement_cost?: Cost;
   type: EquipmentType;
   urls?: object;
 
   brand: {
+    id: number;
+    title: string;
+  };
+
+  category: {
     id: number;
     title: string;
   };
@@ -103,5 +110,15 @@ export interface Equipment {
   supplier_ref: {
     id: number;
     title: string;
+  };
+
+  total_weight: {
+    value: number;
+    units: Weight;
+  };
+
+  weight: {
+    value: number;
+    units: Weight;
   };
 }

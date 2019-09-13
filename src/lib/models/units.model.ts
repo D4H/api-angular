@@ -10,35 +10,39 @@
  */
 
 export type Currency
- = '$'
- | 'CHF'
- | 'Ft'
- | 'HK$'
- | 'Mex$'
- | 'R'
- | 'RM'
- | 'S$'
- | 'kr'
- | 'kr'
- | 'kr.'
- | '£'
- | '¥'
- | '¥'
- | 'Íkr'
- | '฿'
- | '€'
- | '₹'
- | '₽';
-
-export type Distance
- = { name: 'kilometer', symbol: 'km' }
- | { name: 'mile', symbol: 'm' };
-
-export type Temperature
- = { name: 'Celsius', symbol: '°C' }
- | { name: 'Fahrenheit', symbol: '°F' }
- | { name: 'Kelvin', symbol: 'K' };
+  = '$'
+  | 'CHF'
+  | 'Ft'
+  | 'HK$'
+  | 'Mex$'
+  | 'R'
+  | 'RM'
+  | 'S$'
+  | 'kr'
+  | 'kr'
+  | 'kr.'
+  | '£'
+  | '¥'
+  | '¥'
+  | 'Íkr'
+  | '฿'
+  | '€'
+  | '₹'
+  | '₽';
 
 export type Weight
- = { name: 'imperial', units: 'lbs' }
- | { name: 'metric', units: 'kg' };
+  = 'lbs'
+  | 'kg';
+
+export type System
+  = 'imperial'
+  | 'metric';
+
+export type Distance
+  = { name: 'kilometer', symbol: 'km' }
+  | { name: 'mile', symbol: 'm' };
+
+export type Temperature
+  = { name: 'Celsius', symbol: '°C' }
+  | { name: 'Fahrenheit', symbol: '°F' }
+  | { name: 'Kelvin', symbol: 'K' };
