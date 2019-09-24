@@ -25,7 +25,12 @@ describe('PhotoService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ClientTestModule.forRoot(config)]
+      imports: [
+        ClientTestModule.forRoot(config)
+      ],
+      providers: [
+        PhotoService
+      ]
     });
 
     http = TestBed.get(HttpTestingController);

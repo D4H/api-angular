@@ -7,20 +7,6 @@ import { ApiHttpClient, AuthClient, ParserClient } from '../lib/client';
 import { Factory } from './factories';
 
 import {
-  AccountService,
-  ActivityService,
-  AttendanceService,
-  DutyService,
-  EquipmentService,
-  GroupService,
-  MemberService,
-  NoteService,
-  PhotoService,
-  RoleService,
-  TeamService
-} from '../lib/services';
-
-import {
   CLIENT_CONFIG,
   CLIENT_DEFAULT_CONFIG,
   Config,
@@ -39,20 +25,9 @@ import {
     HttpClientTestingModule
   ],
   providers: [
-    AccountService,
-    ActivityService,
     ApiHttpClient,
-    AttendanceService,
     AuthClient,
-    DutyService,
-    EquipmentService,
-    GroupService,
-    MemberService,
-    NoteService,
     ParserClient,
-    PhotoService,
-    RoleService,
-    TeamService,
     { provide: API_ROUTES, useValue: routes },
     { provide: API_AUTHENTICATED_ROUTES, useValue: authenticatedRoutes },
     { provide: CLIENT_DEFAULT_CONFIG, useValue: defaultConfig },

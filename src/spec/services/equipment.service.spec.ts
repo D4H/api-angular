@@ -15,7 +15,7 @@ import {
 
 import { Config, routes } from '../../lib/providers';
 import { Equipment, EquipmentStatus } from '../../lib/models';
-import { EquipmentService } from '../../lib/services';
+import { EquipmentService, PhotoService } from '../../lib/services';
 import { Gear } from '../../lib/resources';
 
 describe('EquipmentService', () => {
@@ -26,7 +26,13 @@ describe('EquipmentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ClientTestModule.forRoot(config)]
+      imports: [
+        ClientTestModule.forRoot(config)
+      ],
+      providers: [
+        EquipmentService,
+        PhotoService
+      ]
     });
 
     http = TestBed.get(HttpTestingController);

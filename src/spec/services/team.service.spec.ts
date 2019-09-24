@@ -14,7 +14,7 @@ import {
 
 import { Config, routes } from '../../lib/providers';
 import { Membership, Setting, SettingData, Team } from '../../lib/models';
-import { TeamService } from '../../lib/services';
+import { TeamService, PhotoService } from '../../lib/services';
 
 describe('TeamService', () => {
   const config: Config = Factory.build<Config>('Config');
@@ -24,7 +24,13 @@ describe('TeamService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ClientTestModule.forRoot(config)]
+      imports: [
+        ClientTestModule.forRoot(config)
+      ],
+      providers: [
+        PhotoService,
+        TeamService
+      ]
     });
 
     http = TestBed.get(HttpTestingController);

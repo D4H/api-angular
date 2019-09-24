@@ -187,6 +187,11 @@ Interface | Method | Purpose
 * Photo
     * `get(url[, params])`
     * `membership(url, membership[, params])`
+* Repair
+    * `index([search])`
+    * `show(id)`
+    * `create([params])`
+    * `update(id[, params])`
 * Role
     * `index([search])`
     * `show(id)`

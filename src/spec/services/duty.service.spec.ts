@@ -18,7 +18,12 @@ describe('DutyService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ClientTestModule.forRoot(config)]
+      imports: [
+        ClientTestModule.forRoot(config)
+      ],
+      providers: [
+        DutyService
+      ]
     });
 
     http = TestBed.get(HttpTestingController);

@@ -89,6 +89,11 @@ describe('API Routes', () => {
             update: `/team/whiteboard/${id}`,
             destroy: `/team/whiteboard/${id}`
           },
+          repairs: {
+            index: '/team/repairs',
+            show: `/team/repairs/${id}`,
+            update: `/team/repairs/${id}`
+          },
           roles: {
             index: '/team/roles',
             show: `/team/roles/${id}`

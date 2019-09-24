@@ -18,7 +18,12 @@ describe('AttendanceService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ClientTestModule.forRoot(config)]
+      imports: [
+        ClientTestModule.forRoot(config)
+      ],
+      providers: [
+        AttendanceService
+      ]
     });
 
     http = TestBed.get(HttpTestingController);

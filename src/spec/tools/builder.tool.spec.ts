@@ -101,6 +101,7 @@ describe('Factory', () => {
         'Period',
         'Photo',
         'ProxyError',
+        'Repair',
         'Role',
         'StatusLabel',
         'Team',

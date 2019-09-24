@@ -24,7 +24,12 @@ describe('AccountService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ClientTestModule.forRoot(config)]
+      imports: [
+        ClientTestModule.forRoot(config)
+      ],
+      providers: [
+        AccountService
+      ]
     });
 
     http = TestBed.get(HttpTestingController);

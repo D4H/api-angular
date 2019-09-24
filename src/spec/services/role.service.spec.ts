@@ -18,7 +18,12 @@ describe('RoleService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ClientTestModule.forRoot(config)]
+      imports: [
+        ClientTestModule.forRoot(config)
+      ],
+      providers: [
+        RoleService
+      ]
     });
 
     http = TestBed.get(HttpTestingController);

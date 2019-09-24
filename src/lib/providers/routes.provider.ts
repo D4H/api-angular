@@ -71,6 +71,12 @@ export interface RouteConfig {
       destroy(id: number): string;
     };
 
+    repairs: {
+      index: string;
+      show(id: number): string;
+      update(id: number): string;
+    };
+
     roles: {
       index: string;
       show(id: number): string;
@@ -154,6 +160,12 @@ export const routes: RouteConfig = {
       show: (id: number): string => `/team/whiteboard/${id}`,
       update: (id: number): string => `/team/whiteboard/${id}`,
       destroy: (id: number): string => `/team/whiteboard/${id}`
+    },
+
+    repairs: {
+      index: '/team/repairs',
+      show: (id: number): string => `/team/repairs/${id}`,
+      update: (id: number): string => `/team/repairs/${id}`
     },
 
     roles: {

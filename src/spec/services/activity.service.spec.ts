@@ -18,7 +18,12 @@ describe('ActivityService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ClientTestModule.forRoot(config)]
+      imports: [
+        ClientTestModule.forRoot(config)
+      ],
+      providers: [
+        ActivityService
+      ]
     });
 
     http = TestBed.get(HttpTestingController);

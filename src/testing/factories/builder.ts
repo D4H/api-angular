@@ -22,6 +22,7 @@ import { Password } from './password.factory';
 import { Period } from './period.factory';
 import { Photo } from './photo.factory';
 import { ProxyError } from './proxy-error.factory';
+import { Repair } from './repair.factory';
 import { Role } from './role.factory';
 import { StatusLabel } from './status.factory';
 import { Team } from './team.factory';
@@ -110,6 +111,7 @@ Factory.add({
   Period,
   Photo,
   ProxyError,
+  Repair,
   Role,
   StatusLabel,
   Team,

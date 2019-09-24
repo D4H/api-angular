@@ -18,7 +18,12 @@ describe('GroupService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ClientTestModule.forRoot(config)]
+      imports: [
+        ClientTestModule.forRoot(config)
+      ],
+      providers: [
+        GroupService
+      ]
     });
 
     http = TestBed.get(HttpTestingController);

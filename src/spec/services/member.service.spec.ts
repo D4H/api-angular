@@ -15,7 +15,7 @@ import {
 
 import { Config, routes } from '../../lib/providers';
 import { Group, Member, OperationalStatus, StatusLabel } from '../../lib/models';
-import { MemberService } from '../../lib/services';
+import { MemberService, PhotoService } from '../../lib/services';
 import { Members } from '../../lib/resources';
 
 describe('MemberService', () => {
@@ -26,7 +26,13 @@ describe('MemberService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ClientTestModule.forRoot(config)]
+      imports: [
+        ClientTestModule.forRoot(config)
+      ],
+      providers: [
+        MemberService,
+        PhotoService
+      ]
     });
 
     http = TestBed.get(HttpTestingController);

@@ -6,15 +6,15 @@ import { TestBed } from '@angular/core/testing';
 
 import { ApiUrl, ClientTestModule, Factory } from '../../testing';
 import { Config, routes } from '../../lib/providers';
-import { Note } from '../../lib/models';
-import { NoteService } from '../../lib/services';
-import { Notes } from '../../lib/resources';
+import { Repair } from '../../lib/models';
+import { RepairService } from '../../lib/services';
+import { Repairs } from '../../lib/resources';
 
-describe('NoteService', () => {
+describe('RepairService', () => {
   const config: Config = Factory.build<Config>('Config');
   let http: HttpTestingController;
   let req: TestRequest;
-  let service: NoteService;
+  let service: RepairService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,12 +22,12 @@ describe('NoteService', () => {
         ClientTestModule.forRoot(config)
       ],
       providers: [
-        NoteService
+        RepairService
       ]
     });
 
     http = TestBed.get(HttpTestingController);
-    service = TestBed.get(NoteService);
+    service = TestBed.get(RepairService);
   });
 
   it('should be created', () => {
@@ -35,43 +35,43 @@ describe('NoteService', () => {
   });
 
   describe('index', () => {
-    const path: string = routes.team.notes.index;
-    let search: Notes.Search;
-    let notes: Array<Note>;
+    const path: string = routes.team.repairs.index;
+    let search: Repairs.Search;
+    let repairs: Array<Repair>;
     let url: string;
 
     beforeEach(() => {
-      notes = Factory.buildList<Note>('Note', 7);
+      repairs = Factory.buildList<Repair>('Repair', 7);
     });
 
     it('should have index accessor', () => {
       expect(typeof service.index).toBe('function');
-      expect(service.index.length).toBe(1);
+      expect(service.index.length).toBe(0);
     });
 
-    it('should return an array of Notes', () => {
+    it('should return an array of Repairs', () => {
       url = ApiUrl(config, path);
 
       service.index()
-        .subscribe((res: Array<Note>) => expect(res).toEqual(notes));
+        .subscribe((res: Array<Repair>) => expect(res).toEqual(repairs));
 
       req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: notes });
+      req.flush({ data: repairs });
     });
 
     // NOTE: Testing the correctness of search parameters against the API is
     // beyond the scope of this test, given the lack of an API testing backend
     // which the developer-or anyone else-can run.
 
-    it('should accept optional search parameters and return an array of Notes', () => {
+    it('should accept optional search parameters and return an array of Repairs', () => {
       search = { limit: 5, offset: 15 };
       url = ApiUrl(config, path, search);
 
       service.index(search)
-        .subscribe((res: Array<Note>) => expect(res).toEqual(notes));
+        .subscribe((res: Array<Repair>) => expect(res).toEqual(repairs));
 
       req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: notes });
+      req.flush({ data: repairs });
     });
 
     it('should return 400 Bad Request with an invalid search', () => {
@@ -93,13 +93,13 @@ describe('NoteService', () => {
   });
 
   describe('show', () => {
-    const path: (id: number) => string = routes.team.notes.show;
-    let note: Note;
+    const path: (id: number) => string = routes.team.repairs.show;
+    let repair: Repair;
     let url: string;
 
     beforeEach(() => {
-      note = Factory.build<Note>('Note');
-      url = ApiUrl(config, path(note.id));
+      repair = Factory.build<Repair>('Repair');
+      url = ApiUrl(config, path(repair.id));
     });
 
     it('should have show accessor', () => {
@@ -107,13 +107,13 @@ describe('NoteService', () => {
       expect(service.show.length).toBe(1);
     });
 
-    it('should return a single Note', () => {
-      service.show(note.id).subscribe((res: Note) => expect(res).toEqual(note));
+    it('should return a single Repair', () => {
+      service.show(repair.id).subscribe((res: Repair) => expect(res).toEqual(repair));
       req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: note });
+      req.flush({ data: repair });
     });
 
-    it('should return 404 Not Found with nonexistent note', () => {
+    it('should return 404 Not Found with nonexistent repair', () => {
       url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
 
       service.show(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {
@@ -131,19 +131,20 @@ describe('NoteService', () => {
   });
 
   describe('create', () => {
-    const path: string = routes.team.notes.index;
-    let attributes: Notes.New;
-    let note: Note;
+    const path: string = routes.team.repairs.index;
+    let attributes: Repairs.New;
+    let repair: Repair;
     let url: string;
 
     beforeEach(() => {
-      note = Factory.build<Note>('Note');
+      repair = Factory.build<Repair>('Repair');
       url = ApiUrl(config, path);
 
       attributes = {
-        enddate: note.enddate,
-        important: note.urgent,
-        text: note.message
+        date_due: faker.date.future().toISOString(),
+        description: faker.lorem.paragraph(),
+        equipment_id: faker.random.number(),
+        title: faker.commerce.productName()
       };
     });
 
@@ -152,10 +153,10 @@ describe('NoteService', () => {
       expect(service.create.length).toBe(1);
     });
 
-    it('should return a newly-created Note', () => {
-      service.create(attributes).subscribe((res: Note) => expect(res).toEqual(note));
+    it('should return a newly-created Repair', () => {
+      service.create(attributes).subscribe((res: Repair) => expect(res).toEqual(repair));
       req = http.expectOne({ url, method: 'POST' });
-      req.flush({ data: note });
+      req.flush({ data: repair });
     });
 
     it('should return 400 Bad Request without a body', () => {
@@ -188,45 +189,43 @@ describe('NoteService', () => {
   });
 
   describe('update', () => {
-    const path: (id: number) => string = routes.team.notes.update;
-    let attributes: Notes.Change;
-    let note: Note;
-    let updatedNote: Note;
+    const path: (id: number) => string = routes.team.repairs.update;
+    let attributes: Repairs.Change;
+    let repair: Repair;
+    let updatedRepair: Repair;
     let url: string;
 
     it('should have create accessor', () => {
       expect(typeof service.update).toBe('function');
-      expect(service.update.length).toBe(2);
+      expect(service.update.length).toBe(1);
     });
 
     beforeEach(() => {
-      note = Factory.build<Note>('Note');
-      url = ApiUrl(config, path(note.id));
+      repair = Factory.build<Repair>('Repair');
+      url = ApiUrl(config, path(repair.id));
 
       attributes = {
-        text: faker.lorem.paragraph(),
-        enddate: faker.date.future(),
-        important: faker.random.boolean()
+        description: faker.lorem.paragraph(),
+        date_due: faker.date.future().toISOString()
       };
 
-      updatedNote = {
-        ...note,
-        message: attributes.text,
-        urgent: attributes.important,
-        enddate: attributes.enddate as string
+      updatedRepair = {
+        ...repair,
+        description: attributes.description,
+        date_due: attributes.date_due as string
       };
     });
 
-    it('should return an updated Note', () => {
-      service.update(note.id, attributes)
-        .subscribe((res: Note) => expect(res).toEqual(updatedNote));
+    it('should return an updated Repair', () => {
+      service.update(repair.id, attributes)
+        .subscribe((res: Repair) => expect(res).toEqual(updatedRepair));
 
       req = http.expectOne({ url, method: 'PUT' });
-      req.flush({ data: updatedNote });
+      req.flush({ data: updatedRepair });
     });
 
     it('should return 400 Bad Request without a body', () => {
-      service.update(note.id, undefined).subscribe(
+      service.update(repair.id, undefined).subscribe(
         () => {},
         error => {
           expect(error.constructor).toBe(HttpErrorResponse);
@@ -243,7 +242,7 @@ describe('NoteService', () => {
     });
 
     it('should return 400 Bad Request with invalid attributes', () => {
-      service.update(note.id, { enddate: 'moo' } as any).subscribe(() => {}, error => {
+      service.update(repair.id, { enddate: 'moo' } as any).subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);
         expect(error.status).toBe(BAD_REQUEST);
       });
@@ -254,29 +253,6 @@ describe('NoteService', () => {
         status: BAD_REQUEST,
         statusText: getStatusText(BAD_REQUEST)
       });
-    });
-  });
-
-  describe('destroy', () => {
-    const path: (id: number) => string = routes.team.notes.destroy;
-    let note: Note;
-    let url: string;
-
-    beforeEach(() => {
-      note = Factory.build<Note>('Note');
-      url = ApiUrl(config, path(note.id));
-    });
-
-    it('should have destroy accessor', () => {
-      expect(typeof service.destroy).toBe('function');
-    });
-
-    it('should return the identifier of the note', () => {
-      service.destroy(note.id)
-        .subscribe((res: number) => expect(res).toEqual(note.id));
-
-      req = http.expectOne({ url, method: 'DELETE' });
-      req.flush({});
     });
   });
 });

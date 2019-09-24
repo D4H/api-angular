@@ -7,6 +7,7 @@ import * as Groups from './group.res';
 import * as Members from './member.res';
 import * as Notes from './note.res';
 import * as Photos from './photo.res';
+import * as Repairs from './repair.res';
 import * as Roles from './role.res';
 import * as Teams from './team.res';
 
@@ -29,6 +30,7 @@ export {
   Members,
   Notes,
   Photos,
+  Repairs,
   Roles,
   Teams
 };
