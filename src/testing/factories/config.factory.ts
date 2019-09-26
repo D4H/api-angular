@@ -1,13 +1,13 @@
-import faker from 'faker';
 import deepmerge from 'deepmerge';
+import faker from 'faker';
 
 import { Config, Region, Version } from '../../lib/providers';
 import { sample } from '../tools';
 
 export function Config(attributes: Partial<Config> = {}): Config {
   return deepmerge<Config>({
-    region: sample.enumerable<Region>(Region),
-    version: sample.enumerable<Version>(Version),
+    region: sample<Region>(Region),
+    version: sample<Version>(Version),
 
     client: {
       name: faker.name.findName(),

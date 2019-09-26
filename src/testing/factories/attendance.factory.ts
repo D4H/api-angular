@@ -1,5 +1,5 @@
-import faker from 'faker';
 import deepmerge from 'deepmerge';
+import faker from 'faker';
 
 import { ActivityType, Attendance, AttendanceStatus } from '../../lib/models';
 import { Activity } from './activity.factory';

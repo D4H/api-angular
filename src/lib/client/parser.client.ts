@@ -61,9 +61,11 @@ export class ParserClient implements ClientRequestParser {
    */
 
   private headers(config: Config, url: string, options: HttpOptions = {}): Headers {
+    const client = { ...this.config.client, ...config.client };
+
     return {
-      'x-source-client': config.client.name || this.config.client.name,
-      'x-source-version': config.client.version || this.config.client.version,
+      'x-source-client': client.name,
+      'x-source-version': client.version,
       ...this.auth.bearerToken(config.tokens, url, options),
       ...options.headers
     };

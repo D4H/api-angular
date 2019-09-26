@@ -1,5 +1,5 @@
-import faker from 'faker';
 import deepmerge from 'deepmerge';
+import faker from 'faker';
 import { sequence } from './sequence';
 
 import { Currency, Team } from '../../lib/models';

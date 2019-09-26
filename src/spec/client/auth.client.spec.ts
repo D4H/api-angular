@@ -2,8 +2,8 @@ import faker from 'faker';
 import { TestBed } from '@angular/core/testing';
 
 import { AuthClient, MissingTokenError } from '../../lib/client';
-import { Config, routes } from '../../lib/providers';
 import { ClientTestModule, Factory } from '../../testing';
+import { Config, TokenType, Tokens, routes } from '../../lib/providers';
 
 describe('AuthClient', () => {
   let bearer: { Authorization: string };
@@ -19,7 +19,6 @@ describe('AuthClient', () => {
     });
 
     client = TestBed.get(AuthClient);
-    url = `/${faker.random.uuid()}/${faker.random.uuid()}`;
   });
 
   it('should be created', () => {
@@ -29,9 +28,11 @@ describe('AuthClient', () => {
   describe('bearerToken', () => {
     it('should have bearerToken accessor', () => {
       expect(typeof client.bearerToken).toBe('function');
+      expect(client.bearerToken.length).toBe(2);
     });
 
     it('should return undefined when URL is not authenticated', () => {
+      url = `/${faker.random.uuid()}/${faker.random.uuid()}`;
       expect(client.bearerToken(config.tokens, url)).toBe(undefined);
     });
 
@@ -55,6 +56,35 @@ describe('AuthClient', () => {
 
       expect(() => client.bearerToken(config.tokens, url))
         .toThrow(new MissingTokenError(url));
+    });
+  });
+
+  describe('getToken', () => {
+    let tokens: Tokens;
+
+    beforeEach(() => {
+      tokens = config.tokens;
+    });
+
+    it('should have getToken accessor', () => {
+      expect(typeof client.getToken).toBe('function');
+      expect(client.getToken.length).toBe(2);
+    });
+
+    it('should return undefined by default', () => {
+      expect(client.getToken(tokens, undefined)).toBe(undefined);
+    });
+
+    it('should return tokens.account for TokenType.Account', () => {
+      expect(client.getToken(tokens, TokenType.Account)).toBe(tokens.account);
+    });
+
+    it('should return tokens.account for TokenType.Organisation', () => {
+      expect(client.getToken(tokens, TokenType.Organisation)).toBe(tokens.organisation);
+    });
+
+    it('should return tokens.account for TokenType.Team', () => {
+      expect(client.getToken(tokens, TokenType.Team)).toBe(tokens.team);
     });
   });
 });

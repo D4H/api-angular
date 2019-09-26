@@ -36,6 +36,9 @@ describe('API Routes', () => {
           memberships: '/account/memberships',
           username: '/account/username'
         },
+        organisation: {
+          settings: '/organisation/settings'
+        },
         team: {
           image: '/team/image',
           settings: '/team/settings',

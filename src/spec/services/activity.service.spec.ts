@@ -70,7 +70,7 @@ describe('ActivityService', () => {
       req.flush({ data: activities });
     });
 
-    it('should return 400 Bad Request with an invalid search', () => {
+    it('should return BAD_REQUEST with an invalid search', () => {
       search = { limit: 'moo' } as any;
       url = ApiUrl(config, path, search);
 
@@ -109,7 +109,7 @@ describe('ActivityService', () => {
       req.flush({ data: activity });
     });
 
-    it('should return 404 Not Found with nonexistent Activity', () => {
+    it('should return NOT_FOUND with nonexistent Activity', () => {
       url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
 
       service.show(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {

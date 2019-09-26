@@ -1,15 +1,20 @@
-import { Cost } from './cost.model';
+import { Currency } from './units.model';
 import { CustomField } from './custom-field.model';
 import { IsoDate } from './iso-date.model';
 import { Weight } from './units.model';
 
+export interface EquipmentCost {
+  currency: Currency;
+  value: number;
+}
+
 export enum EquipmentStatus {
-  Inactive = 'Inactive',
-  Lost = 'Lost',
-  Operational = 'Operational',
-  Retired = 'Retired',
-  Unserviceable = 'Unserviceable',
-  Wishlist = 'Wishlist'
+  Inactive = 0,
+  Lost = 1,
+  Operational = 2,
+  Retired = 3,
+  Unserviceable = 4,
+  Wishlist = 5
 }
 
 export enum EquipmentType {
@@ -20,9 +25,9 @@ export enum EquipmentType {
 
 export interface Equipment {
   barcode: string;
-  cost_per_distance?: Cost;
-  cost_per_hour?: Cost;
-  cost_per_use?: Cost;
+  cost_per_distance?: EquipmentCost;
+  cost_per_hour?: EquipmentCost;
+  cost_per_use?: EquipmentCost;
   critical_alert: boolean;
   custom_fields?: Array<CustomField>;
   date_expires: IsoDate;
@@ -47,11 +52,11 @@ export interface Equipment {
   odometer_reading_total_allowed: number;
   quantity: number;
   ref: string;
-  replacement_cost: Cost;
+  replacement_cost: EquipmentCost;
   serial: string;
   team_id: number;
   title: string;
-  total_replacement_cost?: Cost;
+  total_replacement_cost: EquipmentCost;
   type: EquipmentType;
   urls?: object;
 
@@ -97,9 +102,9 @@ export interface Equipment {
   };
 
   status: {
-    id: number;
+    id: EquipmentStatus;
     is_all_child_op?: boolean;
-    title: EquipmentStatus;
+    title: string;
   };
 
   supplier: {

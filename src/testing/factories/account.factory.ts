@@ -1,5 +1,5 @@
-import faker from 'faker';
 import deepmerge from 'deepmerge';
+import faker from 'faker';
 
 import { Account } from '../../lib/models';
 import { Language } from './language.factory';

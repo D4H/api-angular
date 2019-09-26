@@ -74,7 +74,7 @@ describe('DutyService', () => {
       req.flush({ data: duties });
     });
 
-    it('should return 400 Bad Request with an invalid search', () => {
+    it('should return BAD_REQUEST with an invalid search', () => {
       search = { limit: 'moo' } as any;
       url = ApiUrl(config, path, search);
 
@@ -113,7 +113,7 @@ describe('DutyService', () => {
       req.flush({ data: duty });
     });
 
-    it('should return 404 Not Found with nonexistent duty', () => {
+    it('should return NOT_FOUND with nonexistent duty', () => {
       url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
 
       service.show(Number.MAX_SAFE_INTEGER).subscribe(
@@ -185,7 +185,7 @@ describe('DutyService', () => {
       });
     });
 
-    it('should return 400 Bad Request without a body', () => {
+    it('should return BAD_REQUEST without a body', () => {
       service.create(undefined).subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);
         expect(error.status).toBe(BAD_REQUEST);
@@ -199,7 +199,7 @@ describe('DutyService', () => {
       });
     });
 
-    it('should return 400 Bad Request with invalid attributes', () => {
+    it('should return BAD_REQUEST with invalid attributes', () => {
       service.create({ enddate: 'moo' } as any).subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);
         expect(error.status).toBe(BAD_REQUEST);
@@ -252,7 +252,7 @@ describe('DutyService', () => {
       req.flush({ data: updatedDuty });
     });
 
-    it('should return 400 Bad Request without a body', () => {
+    it('should return BAD_REQUEST without a body', () => {
       service.update(duty.id, undefined).subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);
         expect(error.status).toBe(BAD_REQUEST);
@@ -266,7 +266,7 @@ describe('DutyService', () => {
       });
     });
 
-    it('should return 400 Bad Request with invalid attributes', () => {
+    it('should return BAD_REQUEST with invalid attributes', () => {
       service.update(duty.id, { enddate: 'moo' } as any).subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);
         expect(error.status).toBe(BAD_REQUEST);

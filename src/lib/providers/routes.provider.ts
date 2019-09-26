@@ -12,6 +12,10 @@ export interface RouteConfig {
     username: string;
   };
 
+  organisation: {
+    settings: string;
+  };
+
   team: {
     activities: {
       index: string;
@@ -97,6 +101,10 @@ export const routes: RouteConfig = {
     authenticate: '/account/authenticate',
     memberships: '/account/memberships',
     username: '/account/username'
+  },
+
+  organisation: {
+    settings: '/organisation/settings'
   },
 
   team: {

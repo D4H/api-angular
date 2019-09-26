@@ -47,8 +47,8 @@ export const defaultConfig: Partial<Config> = {
   version: Version.V2,
 
   client: {
-    name: '',
-    version: ''
+    name: 'D4H API CLIENT',
+    version: '3.2.1'
   }
 };
 

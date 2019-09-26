@@ -1,4 +1,4 @@
-import { Cost } from './cost.model';
+import { Currency } from './units.model';
 import { XOR } from 'ts-xor';
 
 export type RoleInheritedEntity = XOR<
@@ -8,8 +8,16 @@ export type RoleInheritedEntity = XOR<
 
 export type Role = {
   bundle?: string;
-  cost_per_hour?: Cost;
-  cost_per_use?: Cost;
   id: number;
   title: string;
+
+  cost_per_hour?: {
+    currency: Currency;
+    value: number;
+  };
+
+  cost_per_use?: {
+    currency: Currency;
+    value: number;
+  };
 } & RoleInheritedEntity;

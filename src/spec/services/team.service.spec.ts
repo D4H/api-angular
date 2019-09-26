@@ -70,7 +70,7 @@ describe('TeamService', () => {
       expect(req.request.headers.get('Authorization')).toEqual(`Bearer ${membership.token}`);
     });
 
-    it('should return 404 Not Found with nonexistent membership', () => {
+    it('should return NOT_FOUND with nonexistent membership', () => {
       service.show(membership).subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);
         expect(error.status).toBe(NOT_FOUND);
@@ -138,7 +138,7 @@ describe('TeamService', () => {
       expect(req.request.headers.get('Authorization')).toEqual(`Bearer ${membership.token}`);
     });
 
-    it('should return 404 Not Found with nonexistent Membership', () => {
+    it('should return NOT_FOUND with nonexistent Membership', () => {
       service.image(membership).subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);
         expect(error.status).toBe(NOT_FOUND);
@@ -199,7 +199,7 @@ describe('TeamService', () => {
       });
     });
 
-    it('should return 400 Bad Request with no setting parameter', () => {
+    it('should return BAD_REQUEST with no setting parameter', () => {
       url = ApiUrl(config, routes.team.settings, { setting: undefined });
 
       service.settings(membership, undefined).subscribe(() => {}, error => {

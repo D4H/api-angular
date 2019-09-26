@@ -5,13 +5,13 @@ import { Attendance } from './attendance.factory';
 import { Brand } from './brand.factory';
 import { Category } from './category.factory';
 import { Config } from './config.factory';
-import { Cost } from './cost.factory';
 import { CustomField } from './custom-field.factory';
 import { Duty } from './duty.factory';
 import { EmergencyContact } from './emergency-contact.factory';
 import { Equipment } from './equipment.factory';
 import { EquipmentModel } from './equipment-model.factory';
 import { Group } from './group.factory';
+import { Inspection } from './inspection.factory';
 import { Language } from './language.factory';
 import { Location } from './location.factory';
 import { Member } from './member.factory';
@@ -93,13 +93,13 @@ Factory.add({
   Brand,
   Category,
   Config,
-  Cost,
   CustomField,
   Duty,
   EmergencyContact,
   Equipment,
   EquipmentModel,
   Group,
+  Inspection,
   Language,
   Location,
   Member,

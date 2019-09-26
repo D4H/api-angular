@@ -1,11 +1,8 @@
+import { Currency } from './units.model';
+import { EquipmentStatus, EquipmentType } from './equipment.model';
 import { InheritedEntity } from './inherited-entity.model';
 import { IsoDate } from './iso-date.model';
-
-export enum RepairInterval {
-  Day = 'DAY',
-  Month = 'MONTH',
-  Year = 'YEAR'
-}
+import { MembershipType } from './membership.model';
 
 /**
  * Repair Location
@@ -66,25 +63,57 @@ export enum RepairStatus {
  * These inherit from either a team or an organisation.
  */
 
-export type Repair = {
-  active: boolean;
-  all_kinds: boolean;
-  bundle: string;
+export interface Repair {
+  date_completed: IsoDate;
+  date_created: IsoDate;
   date_due: IsoDate;
   description: string;
-  gear_parent_id: number;
+  equipment_id: number;
+  equipment_ref: string;
+  equipment_status: EquipmentStatus;
+  equipment_title: string;
+  fund_id: number;
   id: number;
-  interval_unit: RepairInterval;
-  interval_value: number;
-  is_auto_unserviceable: boolean;
-  items_count: number;
-  items_due_count: number;
-
-  // FIXME: These XOR, one will be present when the other is not.
-  location_id: RepairLocation;
-  member_id: number;
-
-  remainder_unit: RepairInterval;
-  remainder_value: number;
+  repair_activity_id?: number;
+  team_id: number;
   title: string;
-} & InheritedEntity;
+
+  added_by: {
+    id: number;
+    name: string;
+    type: MembershipType;
+  };
+
+  assigned_to: {
+    id: number;
+    name: string;
+    type: MembershipType;
+  };
+
+  entity: {
+    id: number;
+    team_id: number;
+    type: EquipmentType;
+  };
+
+  repair: {
+    activity_id?: number;
+    cause: string;
+    cost: number;
+  };
+
+  repair_cause: {
+    id: RepairCause;
+    label: string;
+  };
+
+  repair_cost: {
+    symbol: Currency;
+    value: number;
+  };
+
+  status: {
+    id: RepairStatus;
+    label: string;
+  };
+}

@@ -1,5 +1,5 @@
-import faker from 'faker';
 import deepmerge from 'deepmerge';
+import faker from 'faker';
 import moment from 'moment';
 
 import { CustomField, CustomFieldType, CustomFieldValue } from '../../lib/models';
@@ -14,7 +14,7 @@ import { sequence } from './sequence';
  */
 
 export function CustomField(attributes: Partial<CustomField> = {}): CustomField {
-  const type: CustomFieldType = sample.enumerable(CustomFieldType);
+  const type: CustomFieldType = sample<CustomFieldType>(CustomFieldType);
   const value: CustomFieldValue = customFieldValue(type);
 
   return deepmerge<CustomField>({

@@ -70,7 +70,7 @@ describe('GroupService', () => {
       req.flush({ data: groups });
     });
 
-    it('should return 400 Bad Request with an invalid search', () => {
+    it('should return BAD_REQUEST with an invalid search', () => {
       search = { limit: 'moo' } as any;
       url = ApiUrl(config, path, search);
 
@@ -109,7 +109,7 @@ describe('GroupService', () => {
       req.flush({ data: group });
     });
 
-    it('should return 404 Not Found with nonexistent Group', () => {
+    it('should return NOT_FOUND with nonexistent Group', () => {
       url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
 
       service.show(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {

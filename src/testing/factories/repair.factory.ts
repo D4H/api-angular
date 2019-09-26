@@ -1,27 +1,80 @@
-import faker from 'faker';
 import deepmerge from 'deepmerge';
+import faker from 'faker';
 
-import { Repair, RepairInterval } from '../../lib/models';
+import { Equipment } from './equipment.factory';
+import { Member } from './member.factory';
 import { sample } from '../tools';
 import { sequence } from './sequence';
 
+import {
+  Currency,
+  MembershipType,
+  Repair,
+  RepairCause,
+  RepairLocation,
+  RepairStatus
+} from '../../lib/models';
+
+
+const cost = ({
+  symbol = faker.finance.currencySymbol() as Currency,
+  value = faker.random.number()
+} = {}) => ({ symbol, value });
+
 export function Repair(attributes: Partial<Repair> = {}): Repair {
+  const activityId = sequence('repair.activity_id');
+  const equipment = Equipment();
+  const member = Member();
+  const type: MembershipType = sample<MembershipType>(MembershipType);
+
   return deepmerge<Repair>({
-    active: faker.random.boolean(),
-    all_kinds: faker.random.boolean(),
-    bundle: 'foo',
-    date_due: faker.date.future().toISOString(),
-    gear_parent_id: sequence('repair.gear_parent_id'),
+    date_completed: faker.date.past().toISOString(),
+    date_created: faker.date.past().toISOString(),
+    date_due: faker.date.past().toISOString(),
+    description: faker.lorem.paragraph(),
+    equipment_id: equipment.id,
+    equipment_ref: equipment.ref,
+    equipment_status: equipment.status.id,
+    equipment_title: equipment.title,
+    fund_id: sequence('repair.fund_id'),
     id: sequence('repair.id'),
-    interval_unit: sample.enumerable(RepairInterval),
-    interval_value: faker.random.number(),
-    is_auto_unserviceable: faker.random.boolean(),
-    items_count: faker.random.number(),
-    items_due_count: faker.random.number(),
-    location_id: sequence('repair.location_id'),
-    member_id: sequence('repair.member_id'),
-    remainder_unit: sample.enumerable(RepairInterval),
-    remainder_value: faker.random.number(),
-    title: faker.commerce.productName()
+    repair_activity_id: activityId,
+    repair_cost: cost(),
+    team_id: sequence('repair.team_id'),
+    title: faker.lorem.sentence(),
+
+    added_by: {
+      id: member.id,
+      name: member.name,
+      type
+    },
+
+    assigned_to: {
+      id: member.id,
+      name: member.name,
+      type
+    },
+
+    entity: {
+      id: equipment.id,
+      team_id: equipment.team_id,
+      type: equipment.type
+    },
+
+    repair: {
+      activity_id: activityId,
+      cause: faker.lorem.word(),
+      cost: faker.random.number()
+    },
+
+    repair_cause: {
+      id: sample<RepairCause>(RepairCause),
+      label: faker.lorem.word()
+    },
+
+    status: {
+      id: sample<RepairStatus>(RepairStatus),
+      label: faker.lorem.word()
+    }
   }, attributes);
 }

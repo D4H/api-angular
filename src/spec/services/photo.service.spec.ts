@@ -1,7 +1,7 @@
 import faker from 'faker';
-import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
+import { NOT_FOUND, UNAUTHORIZED, getStatusText } from 'http-status-codes';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
@@ -71,11 +71,57 @@ describe('PhotoService', () => {
       req.flush(blob);
     });
 
+    it('should return undefined when response is not a Blob', () => {
+      service.get(path).subscribe((res: any) => {
+        expect(res).toBe(undefined);
+      });
+
+      req = http.expectOne({ url, method: 'GET' });
+      req.event(new HttpResponse({ body: undefined }));
+    });
+
     it('should throw an error when given an invalid URL', () => {
       url = `/${faker.random.uuid()}/${faker.lorem.word()}`;
 
       expect(() => service.get(url))
         .toThrow(new InvalidPhotoUrlError(url));
+    });
+  });
+
+  describe('errorHandler', () => {
+    let path: string;
+    let url: string;
+
+    beforeEach(() => {
+      path = `/${faker.random.uuid()}/image`;
+      url = ApiUrl(config, path);
+    });
+
+    it('should rescue from NOT_FOUND and return undefined', () => {
+      service.get(path).subscribe((res: any) => {
+        expect(res).toBe(undefined);
+      });
+
+      req = http.expectOne({ url, method: 'GET' });
+
+      req.event(new HttpResponse({
+        status: NOT_FOUND,
+        statusText: getStatusText(NOT_FOUND)
+      }));
+    });
+
+    it('should re-throw any error outside of NOT_FOUND', () => {
+      service.get(path).subscribe(() => {}, error => {
+        expect(error.constructor).toBe(HttpErrorResponse);
+        expect(error.status).toBe(UNAUTHORIZED);
+      });
+
+      req = http.expectOne({ url, method: 'GET' });
+
+      req.event(new HttpResponse({
+        status: UNAUTHORIZED,
+        statusText: getStatusText(UNAUTHORIZED)
+      }));
     });
   });
 

@@ -1,5 +1,5 @@
-import faker from 'faker';
 import deepmerge from 'deepmerge';
+import faker from 'faker';
 
 import { MemberPermission, PermissionType } from '../../lib/models';
 import { sample } from '../tools';
@@ -15,7 +15,7 @@ export function MemberPermission(attributes: Partial<MemberPermission> = {}): Me
     healthsafety: faker.random.boolean(),
     id: sequence('permission.id'),
     incidents: faker.random.boolean(),
-    name: sample.enumerable(PermissionType),
+    name: sample<PermissionType>(PermissionType),
     sms: faker.random.boolean()
   }, attributes);
 }

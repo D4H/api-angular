@@ -2,8 +2,6 @@
  * Photo Blob Factory
  * =============================================================================
  * @see https://stackoverflow.com/a/34670057/1433400
- *
- * Yes, I'm that lazy.
  */
 
 export function Photo(

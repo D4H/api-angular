@@ -13,10 +13,9 @@ import {
 } from 'http-status-codes';
 
 import { ApiError } from '../../lib/resources';
-import { sample } from '../tools';
 
 export function ApiError(attributes: Partial<ApiError> = {}): ApiError {
-  const statusCode = sample.array([
+  const statusCode = faker.random.arrayElement([
     BAD_REQUEST,
     FORBIDDEN,
     INTERNAL_SERVER_ERROR,

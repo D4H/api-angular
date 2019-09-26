@@ -135,9 +135,7 @@ export class PhotoService {
    * @see https://api.d4h.org/v2/documentation#operation/putTeamEquipmentEquipment_idImage
    */
 
-  NYI_update(url: string): Observable<void> {
-    return;
-  }
+  // protected abstract update(url: string): Observable<void>;
 
   /**
    * Sanitize Blob

@@ -83,7 +83,7 @@ describe('EquipmentService', () => {
       req.flush({ data: equipment });
     });
 
-    it('should return 400 Bad Request with an invalid search', () => {
+    it('should return BAD_REQUEST with an invalid search', () => {
       search = { limit: 'moo' } as any;
       url = ApiUrl(config, path, search);
 
@@ -122,7 +122,7 @@ describe('EquipmentService', () => {
       req.flush({ data: equipment });
     });
 
-    it('should return 404 Not Found with nonexistent gear', () => {
+    it('should return NOT_FOUND with nonexistent gear', () => {
       url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
 
       service.show(Number.MAX_SAFE_INTEGER).subscribe(
@@ -165,7 +165,7 @@ describe('EquipmentService', () => {
       req.flush({ data: equipment });
     });
 
-    it('should return 404 Not Found with nonexistent gear', () => {
+    it('should return NOT_FOUND with nonexistent gear', () => {
       url = ApiUrl(config, path(ref));
 
       service.barcode(ref).subscribe(
@@ -208,7 +208,7 @@ describe('EquipmentService', () => {
       req.flush({ data: equipment });
     });
 
-    it('should return 404 Not Found with nonexistent gear', () => {
+    it('should return NOT_FOUND with nonexistent gear', () => {
       url = ApiUrl(config, path(ref));
 
       service.ref(ref).subscribe(
@@ -264,7 +264,7 @@ describe('EquipmentService', () => {
       req.flush({ data: updatedEquipment });
     });
 
-    it('should return 400 Bad Request without a body', () => {
+    it('should return BAD_REQUEST without a body', () => {
       service.update(equipment.id, undefined).subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);
         expect(error.status).toBe(BAD_REQUEST);
@@ -278,7 +278,7 @@ describe('EquipmentService', () => {
       });
     });
 
-    it('should return 400 Bad Request with invalid attributes', () => {
+    it('should return BAD_REQUEST with invalid attributes', () => {
       service.update(equipment.id, { enddate: 'moo' } as any).subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);
         expect(error.status).toBe(BAD_REQUEST);
@@ -325,7 +325,7 @@ describe('EquipmentService', () => {
       req.flush(blob);
     });
 
-    it('should return 404 Not Found with nonexistent Gear ID', () => {
+    it('should return NOT_FOUND with nonexistent Gear ID', () => {
       url = ApiUrl(config, routes.team.equipment.image(Number.MAX_SAFE_INTEGER));
 
       service.image(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {

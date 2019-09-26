@@ -68,7 +68,7 @@ describe('AccountService', () => {
       req.flush({ data: account });
     });
 
-    it('should return 401 Unauthorized with an invalid password or username', () => {
+    it('should return UNAUTHORIZED with an invalid password or username', () => {
       service.authenticate(username, password).subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);
         expect(error.status).toBe(UNAUTHORIZED);
@@ -82,7 +82,7 @@ describe('AccountService', () => {
       });
     });
 
-    it('should return 400 Bad Request with a password of < 3 length', () => {
+    it('should return BAD_REQUEST with a password of < 3 length', () => {
       service.authenticate(username, '  ').subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);
         expect(error.status).toBe(BAD_REQUEST);
@@ -131,7 +131,7 @@ describe('AccountService', () => {
     });
 
     it('should return an array of Memberships scoped to a given type', () => {
-      const type: MembershipType = sample.enumerable(MembershipType);
+      const type: MembershipType = sample<MembershipType>(MembershipType);
 
       memberships = Factory.buildList<Membership>('Membership', 15);
       url = ApiUrl(config, path, { list_modules: false });
@@ -150,15 +150,17 @@ describe('AccountService', () => {
     let url: string;
     let username: Username;
 
+    beforeEach(() => {
+      username = Factory.build<Username>('Username');
+      url = ApiUrl(config, path, { username: username.username });
+    });
+
     it('should have username accessor', () => {
       expect(typeof service.username).toBe('function');
       expect(service.username.length).toBe(1);
     });
 
     it('should return a Username object for the given username', () => {
-      username = Factory.build<Username>('Username');
-      url = ApiUrl(config, path, { username: username.username });
-
       service.username(username.username)
         .subscribe((res: Username) => expect(res).toEqual(username));
 
@@ -166,7 +168,21 @@ describe('AccountService', () => {
       req.flush({ data: username });
     });
 
-    it('should rescue from a 404 Not Found and return a Username object', () => {
+    it('should re-throw any error ouside of NOT_FOUND', () => {
+      service.username(username.username).subscribe(() => {}, error => {
+        expect(error.constructor).toBe(HttpErrorResponse);
+        expect(error.status).toBe(UNAUTHORIZED);
+      });
+
+      req = http.expectOne({ url, method: 'GET' });
+
+      req.flush({}, {
+        status: UNAUTHORIZED,
+        statusText: getStatusText(UNAUTHORIZED)
+      });
+    });
+
+    it('should rescue from NOT_FOUND and return a Username object', () => {
       username = Factory.build<Username>('Username', { exists: false, language: undefined });
       url = ApiUrl(config, path, { username: username.username });
 

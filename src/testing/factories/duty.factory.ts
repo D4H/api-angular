@@ -1,5 +1,5 @@
-import faker from 'faker';
 import deepmerge from 'deepmerge';
+import faker from 'faker';
 
 import { Duty, DutyRepeatInterval, DutyType, Role } from '../../lib/models';
 import { Period } from './period.factory';
@@ -14,7 +14,7 @@ import { sequence } from './sequence';
  */
 
 export function Duty(attributes: Partial<Duty> = {}): Duty {
-  const type: DutyType = sample.enumerable(DutyType);
+  const type: DutyType = sample<DutyType>(DutyType);
   const { date, enddate } = Period();
 
   let role: { id: number, title: string } = {
@@ -36,7 +36,7 @@ export function Duty(attributes: Partial<Duty> = {}): Duty {
     member_id: sequence('duty.member_id'),
     notes: faker.lorem.paragraph(),
     parent_id: null,
-    repeat_every: sample.enumerable(DutyRepeatInterval),
+    repeat_every: sample<DutyRepeatInterval>(DutyRepeatInterval),
     repeat_until: enddate,
     role,
     team_id: sequence('duty.team_id'),

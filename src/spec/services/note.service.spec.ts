@@ -74,7 +74,7 @@ describe('NoteService', () => {
       req.flush({ data: notes });
     });
 
-    it('should return 400 Bad Request with an invalid search', () => {
+    it('should return BAD_REQUEST with an invalid search', () => {
       search = { limit: 'moo' } as any;
       url = ApiUrl(config, path, search);
 
@@ -113,7 +113,7 @@ describe('NoteService', () => {
       req.flush({ data: note });
     });
 
-    it('should return 404 Not Found with nonexistent note', () => {
+    it('should return NOT_FOUND with nonexistent note', () => {
       url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
 
       service.show(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {
@@ -158,7 +158,7 @@ describe('NoteService', () => {
       req.flush({ data: note });
     });
 
-    it('should return 400 Bad Request without a body', () => {
+    it('should return BAD_REQUEST without a body', () => {
       service.create(undefined).subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);
         expect(error.status).toBe(BAD_REQUEST);
@@ -172,7 +172,7 @@ describe('NoteService', () => {
       });
     });
 
-    it('should return 400 Bad Request with invalid attributes', () => {
+    it('should return BAD_REQUEST with invalid attributes', () => {
       service.create({ enddate: 'moo' } as any).subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);
         expect(error.status).toBe(BAD_REQUEST);
@@ -225,7 +225,7 @@ describe('NoteService', () => {
       req.flush({ data: updatedNote });
     });
 
-    it('should return 400 Bad Request without a body', () => {
+    it('should return BAD_REQUEST without a body', () => {
       service.update(note.id, undefined).subscribe(
         () => {},
         error => {
@@ -242,7 +242,7 @@ describe('NoteService', () => {
       });
     });
 
-    it('should return 400 Bad Request with invalid attributes', () => {
+    it('should return BAD_REQUEST with invalid attributes', () => {
       service.update(note.id, { enddate: 'moo' } as any).subscribe(() => {}, error => {
         expect(error.constructor).toBe(HttpErrorResponse);
         expect(error.status).toBe(BAD_REQUEST);

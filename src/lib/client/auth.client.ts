@@ -61,6 +61,26 @@ export class AuthClient implements ClientRequestAuth {
     }
   }
 
+  getToken(tokens: Tokens, tokenType: TokenType): string {
+    switch (tokenType) {
+      case TokenType.Account: {
+        return tokens.account;
+      }
+
+      case TokenType.Organisation: {
+        return tokens.organisation;
+      }
+
+      case TokenType.Team: {
+        return tokens.team;
+      }
+
+      default: {
+        return undefined;
+      }
+    }
+  }
+
   private tokenType(url: string): TokenType {
     const foundRoute: AuthenticatedRoute = this.routes.find(
       (authRoute: AuthenticatedRoute) => authRoute.match.test(url)
@@ -70,26 +90,6 @@ export class AuthClient implements ClientRequestAuth {
       return foundRoute.token;
     } else {
       return undefined;
-    }
-  }
-
-  private getToken(tokens: Tokens, tokenType: TokenType): string {
-    switch (tokenType) {
-      case TokenType.Account: {
-        return tokens.account;
-      }
-
-      case TokenType.Team: {
-        return tokens.team;
-      }
-
-      case TokenType.Organisation: {
-        return tokens.organisation;
-      }
-
-      default: {
-        return undefined;
-      }
     }
   }
 }

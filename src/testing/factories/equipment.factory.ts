@@ -1,11 +1,22 @@
-import faker from 'faker';
 import deepmerge from 'deepmerge';
+import faker from 'faker';
 
-import { Cost } from './cost.factory';
-import { Equipment, EquipmentStatus, EquipmentType } from '../../lib/models';
 import { Location } from './location.factory';
 import { sample } from '../tools';
 import { sequence } from './sequence';
+
+import {
+  Currency,
+  Equipment,
+  EquipmentCost,
+  EquipmentStatus,
+  EquipmentType
+} from '../../lib/models';
+
+const cost = ({
+  currency = faker.finance.currencySymbol() as Currency,
+  value = faker.random.number()
+} = {}) => ({ currency, value });
 
 export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
   const critical = faker.random.boolean();
@@ -14,40 +25,42 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
   const monitor = faker.random.boolean();
 
   return deepmerge<Equipment>({
-    barcode: faker.random.uuid(),
-    cost_per_distance: Cost(),
-    cost_per_hour: Cost(),
-    cost_per_use: Cost(),
-    critical_alert: critical,
-    custom_fields: [],
     // date_expires: Date;
-    date_firstuse: faker.date.past().toISOString(),
-    date_last_moved: faker.date.past().toISOString(),
     // date_last_status_change: Date;
-    date_manufactured: faker.date.past().toISOString(),
-    date_purchased: faker.date.past().toISOString(),
     // date_retired: Date;
     // date_warranty: Date;
-    expire_alert: monitor,
-    id,
     // is_all_child_op: boolean;
-    is_critical: critical,
-    is_monitor: monitor,
     // minutes_use: number;
-    notes: faker.lorem.paragraph(),
     // odometer_reading: number;
     // odometer_reading_date: Date;
     // odometer_reading_total: number;
     // odometer_reading_total_allowed: number;
-    quantity: faker.random.number({ min: 9, max: 15 }),
     // ref: string;
-    replacement_cost: Cost(),
     // serial: string;
+    // total_weight: Weight;
+
+    barcode: faker.random.uuid(),
+    cost_per_distance: cost(),
+    cost_per_hour: cost(),
+    cost_per_use: cost(),
+    critical_alert: critical,
+    custom_fields: [],
+    date_firstuse: faker.date.past().toISOString(),
+    date_last_moved: faker.date.past().toISOString(),
+    date_last_status_change: faker.date.past().toISOString(),
+    date_manufactured: faker.date.past().toISOString(),
+    date_purchased: faker.date.past().toISOString(),
+    expire_alert: monitor,
+    id,
+    is_critical: critical,
+    is_monitor: monitor,
+    notes: faker.lorem.paragraph(),
+    quantity: faker.random.number({ min: 9, max: 15 }),
+    replacement_cost: cost(),
     team_id: sequence('equipment.team_id'),
     title: faker.commerce.productName(),
-    total_replacement_cost: Cost(),
-    // total_weight: Weight;
-    type: sample.enumerable(EquipmentType),
+    total_replacement_cost: cost(),
+    type: sample<EquipmentType>(EquipmentType),
 
     brand: {
       id: sequence('equipment.brand.id'),
@@ -86,8 +99,8 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
     },
 
     status: {
-      id: sequence('equipment.status.id'),
-      title: sample.enumerable(EquipmentStatus)
+      id: sample<EquipmentStatus>(EquipmentStatus),
+      title: faker.commerce.productName()
     },
 
     supplier: {

@@ -4,7 +4,7 @@ import traverse from 'traverse';
 import { TestBed } from '@angular/core/testing';
 
 import { API_URL_REGEX, ApiUrl, ClientTestModule, Factory } from '../../testing';
-import { Config } from '../../lib/providers';
+import { Config, defaultConfig } from '../../lib/providers';
 import { ParserClient } from '../../lib/client';
 
 describe('ParserClient', () => {
@@ -43,6 +43,12 @@ describe('ParserClient', () => {
     it('should generate a URL matching test regex', () => {
       expect(API_URL_REGEX.test(client.url(config, path))).toBe(true);
     });
+
+    it('should use defaultConfig.version when the config.version is undefined', () => {
+      config.version = undefined;
+      const result: string = new URL(client.url(config, path)).pathname;
+      expect(result.startsWith(`/${defaultConfig.version}`)).toBe(true);
+    });
   });
 
   describe('options', () => {
@@ -53,8 +59,8 @@ describe('ParserClient', () => {
 
     it('should set x-source-* headers', () => {
       const { headers } = client.options(config, '');
-      expect(headers['x-source-client']).toEqual(config.client.name);
-      expect(headers['x-source-version']).toEqual(config.client.version);
+      expect(headers['x-source-client']).toBe(config.client.name);
+      expect(headers['x-source-version']).toBe(config.client.version);
     });
 
     it('should stringify parameter Date() and moment() objects into an ISO string format', () => {
@@ -67,6 +73,26 @@ describe('ParserClient', () => {
 
       const { params } = client.options(config, '', options);
       Object.values(params).forEach(value => expect(typeof value).toBe('string'));
+    });
+
+    it('should use defaultConfig.client when config.client is undefined', () => {
+      config.client = undefined;
+      const { headers } = client.options(config, '');
+      expect(headers['x-source-client']).toBe(defaultConfig.client.name);
+      expect(headers['x-source-version']).toBe(defaultConfig.client.version);
+    });
+
+    it('should merge options.headers', () => {
+      const options = {
+        headers: {
+          'x-foo': 'bar',
+          'x-bar': 'foo'
+        }
+      };
+
+      const { headers } = client.options(config, '', options);
+      expect(headers['x-foo']).toBe('bar');
+      expect(headers['x-bar']).toBe('foo');
     });
   });
 });

@@ -1,4 +1,11 @@
+import { InheritedEntity } from './inherited-entity.model';
 import { IsoDate } from './iso-date.model';
+
+export enum InspectionInterval {
+  Day = 'DAY',
+  Month = 'MONTH',
+  Year = 'YEAR'
+}
 
 export enum InspectionResult {
   Incomplete,
@@ -10,8 +17,7 @@ export enum InspectionResult {
   Unserviceable
 }
 
-// GET /team/inspections(/:id)
-export interface Inspection {
+export type Inspection = {
   active: boolean;
   all_kinds: boolean;
   bundle: string;
@@ -19,21 +25,18 @@ export interface Inspection {
   description: string;
   gear_parent_id: number;
   id: number;
-  interval_unit: number;
+  interval_unit: InspectionInterval;
   interval_value: number;
   is_auto_unserviceable: boolean;
   items_count: number;
   items_due_count: number;
   location_id: number;
   member_id: number;
-  organisation_id: number;
-  reminder_unit: number;
+  reminder_unit: InspectionInterval;
   reminder_value: number;
-  team_id: number;
   title: string;
-}
+} & InheritedEntity;
 
-// GET /team/inspections/:id/items
 export interface InspectionItem {
   completed: boolean;
   date_completed: IsoDate;
@@ -50,7 +53,6 @@ export interface InspectionItem {
   title: string;
 }
 
-// GET /team/inspections/:id/equipment
 export interface InspectionEquipment {
   completed: boolean;
   date_completed: IsoDate;

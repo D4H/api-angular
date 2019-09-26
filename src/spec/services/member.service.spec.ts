@@ -80,7 +80,7 @@ describe('MemberService', () => {
       req.flush({ data: members });
     });
 
-    it('should return 400 Bad Request with an invalid search', () => {
+    it('should return BAD_REQUEST with an invalid search', () => {
       search = { limit: 'moo' } as any;
       url = ApiUrl(config, path, search);
 
@@ -126,7 +126,7 @@ describe('MemberService', () => {
       req.flush({ data: member });
     });
 
-    it('should return 404 Not Found with nonexistent Member', () => {
+    it('should return NOT_FOUND with nonexistent Member', () => {
       url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
 
       service.show(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {
@@ -179,7 +179,7 @@ describe('MemberService', () => {
       req.flush({ data: updatedMember });
     });
 
-    it('should return 400 Bad Request without a body', () => {
+    it('should return BAD_REQUEST without a body', () => {
       service.update(member.id, undefined).subscribe(
         () => {},
         error => {
@@ -234,7 +234,7 @@ describe('MemberService', () => {
     });
 
 
-    it('should return 404 Not Found with nonexistent Member', () => {
+    it('should return NOT_FOUND with nonexistent Member', () => {
       url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
 
       service.groups(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {
@@ -283,7 +283,7 @@ describe('MemberService', () => {
       req.flush(blob);
     });
 
-    it('should return 404 Not Found with nonexistent Member ID', () => {
+    it('should return NOT_FOUND with nonexistent Member ID', () => {
       url = ApiUrl(config, routes.team.members.image(Number.MAX_SAFE_INTEGER));
 
       service.image(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {

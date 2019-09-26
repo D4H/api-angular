@@ -1,5 +1,5 @@
-import faker from 'faker';
 import deepmerge from 'deepmerge';
+import faker from 'faker';
 import moment from 'moment';
 
 import { Period } from '../../lib/models';

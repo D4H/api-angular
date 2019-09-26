@@ -1,5 +1,5 @@
-import faker from 'faker';
 import deepmerge from 'deepmerge';
+import faker from 'faker';
 
 import { Group } from '../../lib/models';
 import { sequence } from './sequence';

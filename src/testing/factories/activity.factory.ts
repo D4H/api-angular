@@ -1,5 +1,5 @@
-import faker from 'faker';
 import deepmerge from 'deepmerge';
+import faker from 'faker';
 
 import { Activity, ActivityType } from '../../lib/models';
 import { Period } from './period.factory';
@@ -14,7 +14,7 @@ export function Activity(attributes: Partial<Activity> = {}): Activity {
   const { date, enddate } = Period();
 
   return deepmerge<Activity>({
-    activity: sample.enumerable(ActivityType),
+    activity: sample<ActivityType>(ActivityType),
     archived: faker.random.boolean(),
     // bearing
     count_attendance: sequence('activity.count_attendance'),

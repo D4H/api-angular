@@ -1,5 +1,5 @@
-import faker from 'faker';
 import deepmerge from 'deepmerge';
+import faker from 'faker';
 import { sequence } from './sequence';
 
 import { Language } from './language.factory';
@@ -13,7 +13,7 @@ export function Membership(attributes: Partial<Membership> = {}): Membership {
     lastlogin: faker.date.past().toISOString(),
     name: faker.name.findName(),
     token: faker.random.uuid().replace(/-/g, ''),
-    type: sample.enumerable<MembershipType>(MembershipType),
+    type: sample<MembershipType>(MembershipType),
 
     organisation: {
       id: sequence('membership.organisation_id'),
