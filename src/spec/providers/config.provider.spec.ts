@@ -29,7 +29,7 @@ describe('Config Providers', () => {
 
         client: {
           name: 'D4H API CLIENT',
-          version: '3.2.1'
+          version: '3.2.2'
         }
       };
 

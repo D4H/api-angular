@@ -23,6 +23,7 @@ const cost = ({
 
 export function Repair(attributes: Partial<Repair> = {}): Repair {
   const activityId = sequence('repair.activity_id');
+  const dueDate: Date = faker.date.between(faker.date.past(), faker.date.future());
   const equipment = Equipment();
   const member = Member();
   const type: MembershipType = sample<MembershipType>(MembershipType);
@@ -30,7 +31,7 @@ export function Repair(attributes: Partial<Repair> = {}): Repair {
   return deepmerge<Repair>({
     date_completed: faker.date.past().toISOString(),
     date_created: faker.date.past().toISOString(),
-    date_due: faker.date.past().toISOString(),
+    date_due: dueDate.toISOString(),
     description: faker.lorem.paragraph(),
     equipment_id: equipment.id,
     equipment_ref: equipment.ref,
