@@ -84,7 +84,7 @@ export interface Repair {
     type: MembershipType;
   };
 
-  assigned_to: {
+  assigned_to?: {
     id: number;
     name: string;
     type: MembershipType;

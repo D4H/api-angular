@@ -34,10 +34,10 @@ export interface Search {
 
 export interface Page {
   offset: number;
+  pageCount: number;
+  pageCurrent: number;
   pageSize: number;
   rowReturned: number;
-  pageCurrent: number;
-  pageCount: number;
   rowsTotal: number;
 }
 
