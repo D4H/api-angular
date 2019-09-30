@@ -1,5 +1,5 @@
-import { Duty, DutyType } from '../models';
 import { DateParameter, Response, Search } from './shared.res';
+import { Duty, DutyType } from '../models';
 
 /**
  * GET /team/duties
@@ -59,7 +59,7 @@ export interface Change {
 export interface Update extends Response<Duty> {}
 
 /**
- * GET /account/username
+ * DELETE /team/duties/:id
  * =============================================================================
  * @see https://api.d4h.org/v2/documentation#operation/deleteTeamDutiesDuty_id
  */

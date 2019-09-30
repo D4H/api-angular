@@ -1,5 +1,5 @@
-import { Group } from '../models';
 import { DateParameter, Response, Search } from './shared.res';
+import { Group } from '../models';
 
 /**
  * GET /team/groups

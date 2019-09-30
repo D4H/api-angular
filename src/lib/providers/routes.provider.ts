@@ -54,6 +54,12 @@ export interface RouteConfig {
       show(id: number): string;
     };
 
+    inspections: {
+      index: string;
+      show(id: number): string;
+      update(id: number): string;
+    };
+
     members: {
       index: string;
       labels: string;
@@ -149,6 +155,12 @@ export const routes: RouteConfig = {
       show: (id: number): string => `/team/groups/${id}`
     },
 
+    inspections: {
+      index: '/team/inspections',
+      show: (id: number): string => `/team/inspections/${id}`,
+      update: (id: number): string => `/team/inspections/${id}`
+    },
+
     members: {
       index: '/team/members',
       labels: '/team/members/status-labels',
@@ -215,8 +227,8 @@ export const API_ROUTES = new InjectionToken<RouteConfig>(
 
 export enum TokenType {
   Account = 'account',
-  Team = 'team',
-  Organisation = 'organisation'
+  Organisation = 'organisation',
+  Team = 'team'
 }
 
 export interface AuthenticatedRoute {

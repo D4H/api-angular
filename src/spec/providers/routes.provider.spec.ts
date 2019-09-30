@@ -74,6 +74,11 @@ describe('API Routes', () => {
             index: '/team/groups',
             show: `/team/groups/${id}`
           },
+          inspections: {
+            index: '/team/inspections',
+            show: `/team/inspections/${id}`,
+            update: `/team/inspections/${id}`
+          },
           members: {
             index: '/team/members',
             labels: '/team/members/status-labels',
@@ -164,18 +169,12 @@ describe('API Routes', () => {
   });
 
   describe('TokenType', () => {
-    enum ComparisonRegions {
-      Account = 'account',
-      Team = 'team',
-      Organisation = 'organisation'
-    }
+    it('should have keys "Account", "Organisation", and "Team"', () => {
+      expect(Object.keys(TokenType)).toEqual(['Account', 'Organisation', 'Team']);
+    });
 
-    it('should equal the comparison enumerable object', () => {
-      expect(Object.keys(TokenType)).toEqual(Object.keys(ComparisonRegions));
-
-      Object.keys(ComparisonRegions).forEach(key => {
-        expect(TokenType[key]).toEqual(ComparisonRegions[key]);
-      });
+    it('should have values "account", "organisation", and "team"', () => {
+      expect(Object.values(TokenType)).toEqual(['account', 'organisation', 'team']);
     });
   });
 });

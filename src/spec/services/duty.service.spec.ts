@@ -59,10 +59,6 @@ describe('DutyService', () => {
       req.flush({ data: duties });
     });
 
-    // DUTY: Testing the correctness of search parameters against the API is
-    // beyond the scope of this test, given the lack of an API testing backend
-    // which the developer-or anyone else-can run.
-
     it('should accept optional search parameters and return an array of Duties', () => {
       search = { limit: 5, offset: 15 };
       url = ApiUrl(config, path, search);

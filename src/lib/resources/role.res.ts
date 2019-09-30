@@ -1,5 +1,5 @@
-import { Role } from '../models';
 import { DateParameter, Response, Search } from './shared.res';
+import { Role } from '../models';
 
 /**
  * GET /team/roles

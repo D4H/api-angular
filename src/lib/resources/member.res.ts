@@ -1,5 +1,3 @@
-import { SafeUrl } from '@angular/platform-browser';
-
 import { DateParameter, Response, Search } from './shared.res';
 
 import {

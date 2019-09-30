@@ -17,6 +17,15 @@ export enum InspectionResult {
   Unserviceable
 }
 
+/**
+ * Inspection
+ * =============================================================================
+ * An Inspection record has these XOR fields:
+ *
+ *  - organisation_id ^ team_id
+ *  - location_id ^ member_id
+ */
+
 export type Inspection = {
   active: boolean;
   all_kinds: boolean;

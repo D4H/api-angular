@@ -11,7 +11,6 @@ import {
   MembershipType,
   Repair,
   RepairCause,
-  RepairLocation,
   RepairStatus
 } from '../../lib/models';
 

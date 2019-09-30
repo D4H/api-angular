@@ -1,5 +1,5 @@
-import { Note } from '../models';
 import { DateParameter, Response, Search } from './shared.res';
+import { Note } from '../models';
 
 /**
  * GET /team/whiteboard
@@ -56,7 +56,7 @@ export interface Change {
 export interface Update extends Response<Note> {}
 
 /**
- * GET /account/username
+ * DELETE /team/whiteboard/:id
  * =============================================================================
  * @see https://api.d4h.org/v2/documentation#operation/deleteTeamWhiteboardMessage_id
  */

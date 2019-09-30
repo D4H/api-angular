@@ -1,10 +1,10 @@
-import { Repair, RepairCause, RepairLocation, RepairStatus } from '../models';
 import { DateParameter, Response, Search } from './shared.res';
+import { LocationType, Repair, RepairCause, RepairStatus } from '../models';
 
 /**
  * GET /team/repairs
  * =============================================================================
- * Search location_id can be a number or RepairLocation per clarification by
+ * Search location_id can be a number or LocationType per clarification by
  * @tdtm:
  *
  * > "Either an int location Id or 'all' or 'outbox' etc
@@ -18,7 +18,7 @@ export interface Search extends Search {
   equipment_id?: number;
   fund_id?: number;
   id?: number;
-  location_id?: RepairLocation;
+  location_id?: LocationType;
   member_id?: number;
   status?: RepairStatus;
 }

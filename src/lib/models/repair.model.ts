@@ -2,36 +2,8 @@ import { Currency } from './units.model';
 import { EquipmentStatus, EquipmentType } from './equipment.model';
 import { InheritedEntity } from './inherited-entity.model';
 import { IsoDate } from './iso-date.model';
+import { LocationType } from './location.model';
 import { MembershipType } from './membership.model';
-
-/**
- * Repair Location
- * =============================================================================
- * Just an item of equipment can be assigned to a team member, so too can the
- * location of a repair be a person. Clarification comes per @tdtm.
- *
- * Literal    Type      Explanation
- * -----------------------------------------------------------------------------
- * null       Null      Default/omitted status. Same as passing 'all'.
- * number     Number    The ID of a Location record. Number >= 1.
- * none       String    Item which has no location assigned.
- * inbox      String    Item inbound from another team into the current team.
- * outbox     String    Item outbound towards from the curent team to another.
- * personal   String    Item assigned to people (but no person in particular).
- */
-
-export enum LocationType {
-  All = 'all',
-  Inbox = 'inbox',
-  None = 'none',
-  Outbox = 'outbox',
-  Personal = 'personal'
-}
-
-export type RepairLocation
-  = null
-  | number
-  | LocationType;
 
 /**
  * Repair Cause

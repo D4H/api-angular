@@ -1,5 +1,5 @@
-import { InspectionResult, Equipment } from '../models';
 import { DateParameter, Response, Search } from './shared.res';
+import { Equipment, InspectionResult } from '../models';
 
 /**
  * GET /team/equipment

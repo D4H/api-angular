@@ -170,6 +170,10 @@ Interface | Method | Purpose
     * `ref(ref)`: Fetch Equipment item item by reference.
     * `update(id[, params])`
     * `image(id, [params])`
+* Inspection
+    * `index([search])`
+    * `show(id)`
+    * `update(id[, params])`
 * Member
     * `index([search])`
     * `show(id)`
