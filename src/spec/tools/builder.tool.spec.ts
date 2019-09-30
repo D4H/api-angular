@@ -90,6 +90,7 @@ describe('Factory', () => {
         'EquipmentModel',
         'Group',
         'Inspection',
+        'InspectionItem',
         'Language',
         'Location',
         'Member',

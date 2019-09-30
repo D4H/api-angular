@@ -12,6 +12,7 @@ import { Equipment } from './equipment.factory';
 import { EquipmentModel } from './equipment-model.factory';
 import { Group } from './group.factory';
 import { Inspection } from './inspection.factory';
+import { InspectionItem } from './inspection-item.factory';
 import { Language } from './language.factory';
 import { Location } from './location.factory';
 import { Member } from './member.factory';
@@ -100,6 +101,7 @@ Factory.add({
   EquipmentModel,
   Group,
   Inspection,
+  InspectionItem,
   Language,
   Location,
   Member,

@@ -54,6 +54,12 @@ export interface RouteConfig {
       show(id: number): string;
     };
 
+    inspectionItems: {
+      index(inspectionId: number): string;
+      show(inspectionId: number, id: number): string;
+      update(inspectionID: number, id: number): string;
+    };
+
     inspections: {
       index: string;
       show(id: number): string;
@@ -153,6 +159,12 @@ export const routes: RouteConfig = {
     groups: {
       index: '/team/groups',
       show: (id: number): string => `/team/groups/${id}`
+    },
+
+    inspectionItems: {
+      index: (inspectionId: number) => `/team/inspections/${inspectionId}/items`,
+      show: (inspectionId: number, id: number) => `/team/inspections/${inspectionId}/items/${id}`,
+      update: (inspectionId: number, id: number) => `/team/inspections/${inspectionId}/items/${id}`
     },
 
     inspections: {

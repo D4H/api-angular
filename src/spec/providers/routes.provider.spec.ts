@@ -26,7 +26,7 @@ describe('API Routes', () => {
       const resolvedRouteConfig = map(routes, function(value: any): void {
         if (typeof value === 'function') {
           /* tslint:disable-next-line no-invalid-this */
-          this.update(value(id));
+          this.update(value(id, id));
         }
       });
 
@@ -73,6 +73,11 @@ describe('API Routes', () => {
           groups: {
             index: '/team/groups',
             show: `/team/groups/${id}`
+          },
+          inspectionItems: {
+            index: `/team/inspections/${id}/items`,
+            show: `/team/inspections/${id}/items/${id}`,
+            update: `/team/inspections/${id}/items/${id}`
           },
           inspections: {
             index: '/team/inspections',

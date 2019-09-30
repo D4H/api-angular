@@ -174,6 +174,10 @@ Interface | Method | Purpose
     * `index([search])`
     * `show(id)`
     * `update(id[, params])`
+* InspectionItem
+    * `index(inspectionId, [search])`
+    * `show(inspectionId, id)`
+    * `update(inspectionId, id[, params])`
 * Member
     * `index([search])`
     * `show(id)`

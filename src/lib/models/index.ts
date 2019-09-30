@@ -10,6 +10,8 @@ export * from './equipment.model';
 export * from './general.model';
 export * from './group.model';
 export * from './inherited-entity.model';
+export * from './inspection-equipment.model';
+export * from './inspection-item.model';
 export * from './inspection.model';
 export * from './iso-date.model';
 export * from './language.model';

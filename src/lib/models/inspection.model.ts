@@ -7,16 +7,6 @@ export enum InspectionInterval {
   Year = 'YEAR'
 }
 
-export enum InspectionResult {
-  Incomplete,
-  Operational,
-  ToMonitor,
-  RepairRequired,
-  Retired,
-  Lost,
-  Unserviceable
-}
-
 /**
  * Inspection
  * =============================================================================
@@ -45,41 +35,3 @@ export type Inspection = {
   reminder_value: number;
   title: string;
 } & InheritedEntity;
-
-export interface InspectionItem {
-  completed: boolean;
-  date_completed: IsoDate;
-  date_due: IsoDate;
-  description: string;
-  equipment_id: number;
-  id: number;
-  inspection_id: number;
-  last_modified: IsoDate;
-  member_id: number;
-  repair_id: number;
-  status: InspectionResult;
-  team_id: number;
-  title: string;
-}
-
-export interface InspectionEquipment {
-  completed: boolean;
-  date_completed: IsoDate;
-  date_due: IsoDate;
-  description: string;
-  equipment_id: number;
-  id: number;
-  inspection_id: number;
-  last_modified: IsoDate;
-  location: Array<string>;
-  member_id: number;
-  ref: string;
-  repair_id: number;
-  status: InspectionResult;
-  team_id: number;
-
-  kind: {
-    id: number;
-    title: string;
-  };
-}
