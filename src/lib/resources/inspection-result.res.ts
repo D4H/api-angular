@@ -2,9 +2,9 @@ import { DateParameter, Response, Search } from './shared.res';
 
 import {
   InspectionInterval,
-  InspectionItem,
-  InspectionResult,
-  LocationType
+  ResultStatus,
+  LocationType,
+  Result
 } from '../models';
 
 /**
@@ -18,7 +18,7 @@ export interface Search extends Search {
   location_id?: LocationType;
 }
 
-export interface Index extends Response<Array<InspectionItem>> {}
+export interface Index extends Response<Array<Result>> {}
 
 /**
  * GET /team/inspections/:id
@@ -26,7 +26,7 @@ export interface Index extends Response<Array<InspectionItem>> {}
  * @see https://api.d4h.org/v2/documentation#operation/getTeamInspectionsInspection_idItemsItem_id
  */
 
-export interface Show extends Response<InspectionItem> {}
+export interface Show extends Response<Result> {}
 
 /**
  * PUT /team/inspections/:id
@@ -37,7 +37,7 @@ export interface Show extends Response<InspectionItem> {}
 export interface Change {
   date_completed?: DateParameter;
   description?: string;
-  status?: InspectionResult;
+  status?: ResultStatus;
 }
 
-export interface Update extends Response<InspectionItem> {}
+export interface Update extends Response<Result> {}

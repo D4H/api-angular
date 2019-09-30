@@ -54,12 +54,6 @@ export interface RouteConfig {
       show(id: number): string;
     };
 
-    inspectionItems: {
-      index(inspectionId: number): string;
-      show(inspectionId: number, id: number): string;
-      update(inspectionID: number, id: number): string;
-    };
-
     inspections: {
       index: string;
       show(id: number): string;
@@ -91,6 +85,12 @@ export interface RouteConfig {
       index: string;
       show(id: number): string;
       update(id: number): string;
+    };
+
+    results: {
+      index(inspectionId: number): string;
+      show(inspectionId: number, id: number): string;
+      update(inspectionID: number, id: number): string;
     };
 
     roles: {
@@ -161,12 +161,6 @@ export const routes: RouteConfig = {
       show: (id: number): string => `/team/groups/${id}`
     },
 
-    inspectionItems: {
-      index: (inspectionId: number) => `/team/inspections/${inspectionId}/items`,
-      show: (inspectionId: number, id: number) => `/team/inspections/${inspectionId}/items/${id}`,
-      update: (inspectionId: number, id: number) => `/team/inspections/${inspectionId}/items/${id}`
-    },
-
     inspections: {
       index: '/team/inspections',
       show: (id: number): string => `/team/inspections/${id}`,
@@ -198,6 +192,12 @@ export const routes: RouteConfig = {
       index: '/team/repairs',
       show: (id: number): string => `/team/repairs/${id}`,
       update: (id: number): string => `/team/repairs/${id}`
+    },
+
+    results: {
+      index: (inspectionId: number) => `/team/inspections/${inspectionId}/items`,
+      show: (inspectionId: number, id: number) => `/team/inspections/${inspectionId}/items/${id}`,
+      update: (inspectionId: number, id: number) => `/team/inspections/${inspectionId}/items/${id}`
     },
 
     roles: {

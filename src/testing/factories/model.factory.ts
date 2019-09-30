@@ -2,18 +2,18 @@ import deepmerge from 'deepmerge';
 import faker from 'faker';
 
 import { Brand } from './brand.factory';
-import { EquipmentModel } from '../../lib/models';
+import { Model } from '../../lib/models';
 import { sequence } from './sequence';
 
-export function EquipmentModel(attributes: Partial<EquipmentModel> = {}): EquipmentModel {
+export function Model(attributes: Partial<Model> = {}): Model {
   const count = faker.random.number();
-  const id = sequence('equipment_model.id');
+  const id = sequence('model.id');
   // tslint:disable-next-line variable-name
-  const organisation_id = sequence('equipment_model.organisation_id');
+  const organisation_id = sequence('model.organisation_id');
   const weight = faker.random.number();
   const brand = Brand({ organisation_id, team_id: null });
 
-  return deepmerge<EquipmentModel>({
+  return deepmerge<Model>({
     id,
     count,
     count_inservice: 0,

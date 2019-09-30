@@ -1,8 +1,6 @@
 import { Currency } from './units.model';
 import { EquipmentStatus, EquipmentType } from './equipment.model';
-import { InheritedEntity } from './inherited-entity.model';
 import { IsoDate } from './iso-date.model';
-import { LocationType } from './location.model';
 import { MembershipType } from './membership.model';
 
 /**
@@ -32,7 +30,6 @@ export enum RepairStatus {
 /**
  * Repair
  * =============================================================================
- * These inherit from either a team or an organisation.
  */
 
 export interface Repair {

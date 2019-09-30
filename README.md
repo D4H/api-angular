@@ -174,7 +174,7 @@ Interface | Method | Purpose
     * `index([search])`
     * `show(id)`
     * `update(id[, params])`
-* InspectionItem
+* Result (Inspection Result)
     * `index(inspectionId, [search])`
     * `show(inspectionId, id)`
     * `update(inspectionId, id[, params])`

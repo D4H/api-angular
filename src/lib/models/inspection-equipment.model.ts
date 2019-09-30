@@ -1,11 +1,14 @@
 import { IsoDate } from './iso-date.model';
-import { InspectionResult } from './inspection-item.model';
+import { ResultStatus } from './result.model';
 
 /**
  * Inspection Equipment
  * =============================================================================
- * Returned from /team/inspections/:id/equipment(:/id). Waiting on @tdtm for
- * information on any uses.
+ * From /team/inspections/:id/equipment
+ *
+ * This appears to be a stubbed record used in some dashboard view. For the time
+ * being developer-users can ignore this, because it will be deprecated in
+ * favour of a new inspection_id=number parameter on /team/equipment.
  */
 
 export interface InspectionEquipment {
@@ -21,7 +24,7 @@ export interface InspectionEquipment {
   member_id: number;
   ref: string;
   repair_id: number;
-  status: InspectionResult;
+  status: ResultStatus;
   team_id: number;
 
   kind: {

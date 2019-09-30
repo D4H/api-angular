@@ -9,21 +9,21 @@ import { CustomField } from './custom-field.factory';
 import { Duty } from './duty.factory';
 import { EmergencyContact } from './emergency-contact.factory';
 import { Equipment } from './equipment.factory';
-import { EquipmentModel } from './equipment-model.factory';
 import { Group } from './group.factory';
 import { Inspection } from './inspection.factory';
-import { InspectionItem } from './inspection-item.factory';
 import { Language } from './language.factory';
 import { Location } from './location.factory';
 import { Member } from './member.factory';
 import { MemberPermission } from './permission.factory';
 import { Membership, MembershipModule } from './membership.factory';
+import { Model } from './model.factory';
 import { Note } from './note.factory';
 import { Password } from './password.factory';
 import { Period } from './period.factory';
 import { Photo } from './photo.factory';
 import { ProxyError } from './proxy-error.factory';
 import { Repair } from './repair.factory';
+import { Result } from './result.factory';
 import { Role } from './role.factory';
 import { StatusLabel } from './status.factory';
 import { Team } from './team.factory';
@@ -98,22 +98,22 @@ Factory.add({
   Duty,
   EmergencyContact,
   Equipment,
-  EquipmentModel,
   Group,
   Inspection,
-  InspectionItem,
   Language,
   Location,
   Member,
   MemberPermission,
   Membership,
   MembershipModule,
+  Model,
   Note,
   Password,
   Period,
   Photo,
   ProxyError,
   Repair,
+  Result,
   Role,
   StatusLabel,
   Team,

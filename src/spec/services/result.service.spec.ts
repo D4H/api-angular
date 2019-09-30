@@ -6,16 +6,16 @@ import { TestBed } from '@angular/core/testing';
 
 import { ApiUrl, ClientTestModule, Factory } from '../../testing';
 import { Config, routes } from '../../lib/providers';
-import { Inspection, InspectionItem } from '../../lib/models';
-import { InspectionItemService } from '../../lib/services';
-import { InspectionItems } from '../../lib/resources';
+import { Inspection, Result } from '../../lib/models';
+import { InspectionResults } from '../../lib/resources';
+import { ResultService } from '../../lib/services';
 
-describe('InspectionItemService', () => {
+describe('ResultService', () => {
   const config: Config = Factory.build<Config>('Config');
   let http: HttpTestingController;
   let inspection: Inspection;
   let req: TestRequest;
-  let service: InspectionItemService;
+  let service: ResultService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,13 +23,13 @@ describe('InspectionItemService', () => {
         ClientTestModule.forRoot(config)
       ],
       providers: [
-        InspectionItemService
+        ResultService
       ]
     });
 
     http = TestBed.get(HttpTestingController);
     inspection = Factory.build<Inspection>('Inspection');
-    service = TestBed.get(InspectionItemService);
+    service = TestBed.get(ResultService);
   });
 
   it('should be created', () => {
@@ -37,14 +37,14 @@ describe('InspectionItemService', () => {
   });
 
   describe('index', () => {
-    let items: Array<InspectionItem>;
+    let items: Array<Result>;
     let path: string;
-    let search: InspectionItems.Search;
+    let search: InspectionResults.Search;
     let url: string;
 
     beforeEach(() => {
-      items = Factory.buildList<InspectionItem>('InspectionItem', 7, { inspection_id: inspection.id });
-      path = routes.team.inspectionItems.index(inspection.id);
+      items = Factory.buildList<Result>('Result', 7, { inspection_id: inspection.id });
+      path = routes.team.results.index(inspection.id);
     });
 
     it('should have index accessor', () => {
@@ -52,21 +52,21 @@ describe('InspectionItemService', () => {
       expect(service.index.length).toBe(1);
     });
 
-    it('should return an array of InspectionItems', () => {
+    it('should return an array of InspectionResults', () => {
       url = ApiUrl(config, path);
 
       service.index(inspection.id)
-        .subscribe((res: Array<InspectionItem>) => expect(res).toEqual(items));
+        .subscribe((res: Array<Result>) => expect(res).toEqual(items));
 
       req = http.expectOne({ url, method: 'GET' });
       req.flush({ data: items });
     });
 
-    it('should accept optional search parameters and return an array of InspectionItems', () => {
+    it('should accept optional search parameters and return an array of InspectionResults', () => {
       search = { limit: 5, offset: 15 };
       url = ApiUrl(config, path, search);
 
-      service.index(inspection.id, search).subscribe((res: Array<InspectionItem>) => {
+      service.index(inspection.id, search).subscribe((res: Array<Result>) => {
         expect(res).toEqual(items);
       });
 
@@ -93,13 +93,13 @@ describe('InspectionItemService', () => {
   });
 
   describe('show', () => {
-    let item: InspectionItem;
+    let item: Result;
     let path: string;
     let url: string;
 
     beforeEach(() => {
-      item = Factory.build<InspectionItem>('InspectionItem');
-      path = routes.team.inspectionItems.show(inspection.id, item.id);
+      item = Factory.build<Result>('Result');
+      path = routes.team.results.show(inspection.id, item.id);
       url = ApiUrl(config, path);
     });
 
@@ -108,8 +108,8 @@ describe('InspectionItemService', () => {
       expect(service.show.length).toBe(2);
     });
 
-    it('should return a single InspectionItem', () => {
-      service.show(inspection.id, item.id).subscribe((res: InspectionItem) => {
+    it('should return a single Result', () => {
+      service.show(inspection.id, item.id).subscribe((res: Result) => {
         expect(res).toEqual(item);
       });
 
@@ -135,10 +135,10 @@ describe('InspectionItemService', () => {
   });
 
   describe('update', () => {
-    let attributes: InspectionItems.Change;
-    let item: InspectionItem;
+    let attributes: InspectionResults.Change;
+    let item: Result;
     let path: string;
-    let updatedItem: InspectionItem;
+    let updatedItem: Result;
     let url: string;
 
     it('should have create accessor', () => {
@@ -147,8 +147,8 @@ describe('InspectionItemService', () => {
     });
 
     beforeEach(() => {
-      item = Factory.build<InspectionItem>('InspectionItem');
-      path = routes.team.inspectionItems.update(inspection.id, item.id);
+      item = Factory.build<Result>('Result');
+      path = routes.team.results.update(inspection.id, item.id);
       url = ApiUrl(config, path);
 
       attributes = {
@@ -163,8 +163,8 @@ describe('InspectionItemService', () => {
       };
     });
 
-    it('should return an updated InspectionItem', () => {
-      service.update(inspection.id, item.id, attributes).subscribe((res: InspectionItem) => {
+    it('should return an updated Result', () => {
+      service.update(inspection.id, item.id, attributes).subscribe((res: Result) => {
         expect(res).toEqual(updatedItem);
       });
 

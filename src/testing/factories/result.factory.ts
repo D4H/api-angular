@@ -1,12 +1,12 @@
 import deepmerge from 'deepmerge';
 import faker from 'faker';
 
-import { InspectionItem, InspectionResult } from '../../lib/models';
+import { ResultStatus, Result } from '../../lib/models';
 import { sample } from '../tools';
 import { sequence } from './sequence';
 
-export function InspectionItem(attributes: Partial<InspectionItem> = {}): InspectionItem {
-  return deepmerge<InspectionItem>({
+export function Result(attributes: Partial<Result> = {}): Result {
+  return deepmerge<Result>({
     completed: faker.random.boolean(),
     date_completed: faker.date.past().toISOString(),
     date_due: faker.date.future().toISOString(),
@@ -16,7 +16,7 @@ export function InspectionItem(attributes: Partial<InspectionItem> = {}): Inspec
     last_modified: faker.date.past().toISOString(),
     member_id: sequence('inspection_item.member_id'),
     repair_id: sequence('inspection_item.repair_id'),
-    status: sample<InspectionResult>(InspectionResult),
+    status: sample<ResultStatus>(ResultStatus),
     team_id: sequence('inspection_item.team_id'),
     title: faker.lorem.sentence()
   }, attributes);

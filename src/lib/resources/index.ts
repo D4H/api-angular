@@ -4,7 +4,7 @@ import * as Attendances from './attendance.res';
 import * as Duties from './duty.res';
 import * as Gear from './equipment.res';
 import * as Groups from './group.res';
-import * as InspectionItems from './inspection-item.res';
+import * as InspectionResults from './inspection-result.res';
 import * as Inspections from './inspection.res';
 import * as Members from './member.res';
 import * as Notes from './note.res';
@@ -29,7 +29,7 @@ export {
   Duties,
   Gear,
   Groups,
-  InspectionItems,
+  InspectionResults,
   Inspections,
   Members,
   Notes,

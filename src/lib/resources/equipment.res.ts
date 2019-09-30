@@ -1,5 +1,5 @@
 import { DateParameter, Response, Search } from './shared.res';
-import { Equipment, InspectionResult } from '../models';
+import { Equipment, ResultStatus } from '../models';
 
 /**
  * GET /team/equipment
@@ -22,7 +22,7 @@ export interface Search extends Search {
   model_id?: number;
   parent_id?: number;
   ref?: string;
-  status?: InspectionResult;
+  status?: ResultStatus;
   supplersref_id?: number;
   supplier_id?: number;
 }
@@ -52,7 +52,7 @@ export interface Change {
   parent_id?: number;
   // TODO: Asked @tdtm about status_id in Slack.
   // Per docs: "Valid values: 1 3 4 5"
-  status_id?: InspectionResult;
+  status_id?: ResultStatus;
 }
 
 export interface Update extends Response<Equipment> {}

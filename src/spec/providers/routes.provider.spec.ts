@@ -74,11 +74,6 @@ describe('API Routes', () => {
             index: '/team/groups',
             show: `/team/groups/${id}`
           },
-          inspectionItems: {
-            index: `/team/inspections/${id}/items`,
-            show: `/team/inspections/${id}/items/${id}`,
-            update: `/team/inspections/${id}/items/${id}`
-          },
           inspections: {
             index: '/team/inspections',
             show: `/team/inspections/${id}`,
@@ -106,6 +101,11 @@ describe('API Routes', () => {
             index: '/team/repairs',
             show: `/team/repairs/${id}`,
             update: `/team/repairs/${id}`
+          },
+          results: {
+            index: `/team/inspections/${id}/items`,
+            show: `/team/inspections/${id}/items/${id}`,
+            update: `/team/inspections/${id}/items/${id}`
           },
           roles: {
             index: '/team/roles',

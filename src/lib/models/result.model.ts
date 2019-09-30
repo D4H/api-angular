@@ -6,7 +6,7 @@ import { IsoDate } from './iso-date.model';
  * The numeric status of an inspection of an item of equipment.
  */
 
-export enum InspectionResult {
+export enum ResultStatus {
   Incomplete,
   Operational,
   ToMonitor,
@@ -17,12 +17,20 @@ export enum InspectionResult {
 }
 
 /**
- * Inspection Item
+ * Inspection Result
  * =============================================================================
- * Returned from /team/inspections/:id/items(:id).
+ * From: /team/inspections/:id/items(/:id)
+ *
+ * This is the result of an inspection, which holds a list of items to actually
+ * inspect. This is logically, e.g. opening a box and ensuring the contents are
+ * present.
+ *
+ * XOR attributes:
+ *
+ *  - location_id ^ member_id
  */
 
-export interface InspectionItem {
+export interface Result {
   completed: boolean;
   date_completed: IsoDate;
   date_due: IsoDate;
@@ -31,9 +39,10 @@ export interface InspectionItem {
   id: number;
   inspection_id: number;
   last_modified: IsoDate;
-  member_id: number;
+  location_id?: number;
+  member_id?: number;
   repair_id: number;
-  status: InspectionResult;
+  status: ResultStatus;
   team_id: number;
   title: string;
 }
