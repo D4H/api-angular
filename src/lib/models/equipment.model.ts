@@ -96,6 +96,11 @@ export interface Equipment {
     title: string;
   };
 
+  pending?: {
+    team_id: number;
+    location_id: number;
+  };
+
   retired_reason: {
     id: number;
     title: string;

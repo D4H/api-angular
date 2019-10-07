@@ -1,4 +1,5 @@
 export * from './lib/models';
+export * from './lib/permissions';
 export * from './lib/providers';
 export * from './lib/resources';
 export * from './lib/services';
