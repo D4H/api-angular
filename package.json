@@ -1,8 +1,12 @@
 {
   "name": "@d4h/angular",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "description": "Angular services and interfaces for the D4H API.",
   "homepage": "https://d4htechnologies.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/D4H/api-angular"
+  },
   "author": {
     "name": "Mark Grealish",
     "email": "mark.grealish@d4h.org",
