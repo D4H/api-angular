@@ -33,6 +33,14 @@ export interface ConfigProvider {
   config$: Observable<Config>;
 }
 
+/**
+ * Client Tokens
+ * =============================================================================
+ */
+
+export const CLIENT_NAME = 'D4H API CLIENT';
+export const CLIENT_VERSION = '3.4.2';
+
 export const CLIENT_CONFIG = new InjectionToken<ConfigProvider>(
   'CLIENT_CONFIGURATION'
 );
@@ -47,8 +55,8 @@ export const defaultConfig: Partial<Config> = {
   version: Version.V2,
 
   client: {
-    name: 'D4H API CLIENT',
-    version: '3.4.1'
+    name: CLIENT_NAME,
+    version: CLIENT_VERSION
   }
 };
 
