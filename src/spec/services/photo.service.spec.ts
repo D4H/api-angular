@@ -5,13 +5,8 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import {
-  API_PHOTO_URL_REGEX,
-  ApiUrl,
-  ClientTestModule,
-  Factory
-} from '../../testing';
-
+import { API_PHOTO_URL_REGEX, ApiUrl, Factory } from '../../testing';
+import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
 import { InvalidPhotoUrlError, PhotoService } from '../../lib/services';
 import { Membership } from '../../lib/models';

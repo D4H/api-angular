@@ -7,7 +7,8 @@ import { TestBed } from '@angular/core/testing';
 import { Activities } from '../../lib/resources';
 import { Activity } from '../../lib/models';
 import { ActivityService } from '../../lib/services';
-import { ApiUrl, ClientTestModule, Factory } from '../../testing';
+import { ApiUrl, Factory } from '../../testing';
+import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
 
 describe('ActivityService', () => {

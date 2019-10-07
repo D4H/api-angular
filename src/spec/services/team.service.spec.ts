@@ -5,13 +5,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import {
-  API_PHOTO_URL_REGEX,
-  ApiUrl,
-  ClientTestModule,
-  Factory
-} from '../../testing';
-
+import { API_PHOTO_URL_REGEX, ApiUrl, Factory } from '../../testing';
+import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
 import { Membership, Setting, SettingData, Team } from '../../lib/models';
 import { TeamService, PhotoService } from '../../lib/services';

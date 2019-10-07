@@ -4,7 +4,8 @@ import { OK } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
 import { ApiHttpClient } from '../../lib/client';
-import { ApiUrl, ClientTestModule, Factory } from '../../testing';
+import { ApiUrl, Factory } from '../../testing';
+import { ClientTestModule } from '../client-test.module';
 import { Config, Region, TokenType, Version } from '../../lib/providers';
 
 describe('ApiHttpClient', () => {

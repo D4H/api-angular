@@ -4,7 +4,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { ApiUrl, ClientTestModule, Factory } from '../../testing';
+import { ApiUrl, Factory } from '../../testing';
+import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
 import { Role } from '../../lib/models';
 import { RoleService } from '../../lib/services';

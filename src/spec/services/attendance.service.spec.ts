@@ -4,10 +4,11 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
-import { ApiUrl, ClientTestModule, Factory, sample } from '../../testing';
+import { ApiUrl, Factory, sample } from '../../testing';
 import { Attendance, AttendanceStatus } from '../../lib/models';
 import { AttendanceService } from '../../lib/services';
 import { Attendances } from '../../lib/resources';
+import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
 
 describe('AttendanceService', () => {

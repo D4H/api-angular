@@ -5,7 +5,8 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { TestBed } from '@angular/core/testing';
 
 import { Groups } from '../../lib/resources';
-import { ApiUrl, ClientTestModule, Factory } from '../../testing';
+import { ApiUrl, Factory } from '../../testing';
+import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
 import { Group } from '../../lib/models';
 import { GroupService } from '../../lib/services';
