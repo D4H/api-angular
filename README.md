@@ -209,7 +209,7 @@ Interface | Method | Purpose
     * `settings(team, setting)`
 
 ## Support and Feedback
-Feel free to email <support@d4h.org> or tweet [@d4h](https://twitter.com/d4h/).
+Feel free to email <support@d4h.org>, [open an issue](https://github.com/D4H/api-angular/issues/new) or tweet [@d4h](https://twitter.com/d4h/).
 
 ## License
 Copyright (C) 2019 [D4H](https://d4htechnologies.com/)
