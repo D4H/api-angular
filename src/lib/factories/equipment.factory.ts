@@ -1,7 +1,10 @@
 import deepmerge from 'deepmerge';
 import faker from 'faker';
 
+import { Brand } from './brand.factory';
+import { Category } from './category.factory';
 import { Location } from './location.factory';
+import { Model } from './model.factory';
 import { sample, sequence } from '../tools';
 
 import {
@@ -18,9 +21,12 @@ const cost = ({
 } = {}) => ({ currency, value });
 
 export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
+  const brand = Brand();
+  const category = Category();
   const critical = faker.random.boolean();
   const id = sequence('equipment.id');
   const location = Location();
+  const model = Model();
   const monitor = faker.random.boolean();
 
   return deepmerge<Equipment>({
@@ -62,13 +68,13 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
     type: sample<EquipmentType>(EquipmentType),
 
     brand: {
-      id: sequence('equipment.brand.id'),
-      title: faker.commerce.productName()
+      id: brand.id,
+      title: brand.title
     },
 
     category: {
-      id: sequence('equipment.category.id'),
-      title: faker.commerce.productName()
+      id: category.id,
+      title: category.title
     },
 
     kind: {
@@ -93,8 +99,8 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
     },
 
     model: {
-      id: sequence('equipment.model.id'),
-      title: faker.commerce.productName()
+      id: model.id,
+      title: model.title
     },
 
     status: {

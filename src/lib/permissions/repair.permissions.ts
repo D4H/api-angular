@@ -1,5 +1,5 @@
 import { Member, Permission, Repair } from '../models';
-import { Operation } from './operations';
+import { Operation } from '../providers';
 
 /**
  * Repair Operation Permissions
@@ -31,19 +31,23 @@ import { Operation } from './operations';
 
 export function repairs(
   member: Member,
-  repair?: Repair,
-  operation: Operation = Operation.Read
+  operation: Operation = Operation.Read,
+  repair?: Repair
 ): boolean {
   switch (operation) {
-    case Operation.Read:
+    case Operation.Read: {
       return Boolean(member);
-    case Operation.Create:
+    }
+
+    case Operation.Create: {
       return (
         [Permission.Editor, Permission.Owner].includes(member.permission.name)
         || member.permission.gear
         || member.permission.gear_basic
       );
-    case Operation.Update:
+    }
+
+    case Operation.Update: {
       return Boolean(repair) && (
         [Permission.Editor, Permission.Owner].includes(member.permission.name)
         || member.permission.gear
@@ -51,7 +55,10 @@ export function repairs(
         || repair.added_by.id === member.id
         || repair.assigned_to.id === member.id
       );
-    default:
+    }
+
+    default: {
       return false;
+    }
   }
 }

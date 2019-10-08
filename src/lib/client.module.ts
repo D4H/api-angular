@@ -1,13 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
+import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import {
-  InjectionToken,
-  ModuleWithProviders,
-  NgModule,
-  Provider,
-  Type
-} from '@angular/core';
 
 import {
   API_AUTHENTICATED_ROUTES,

@@ -1,2 +1,2 @@
-export * from './operations';
-export * from './permissions.tool';
+export * from './inspection.permissions';
+export * from './repair.permissions';

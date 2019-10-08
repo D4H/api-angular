@@ -1,5 +1,5 @@
 import { Inspection, Member, Permission } from '../models';
-import { Operation } from './operations';
+import { Operation } from '../providers';
 
 /**
  * Inspection Operation Permissions
@@ -19,20 +19,25 @@ import { Operation } from './operations';
 
 export function inspections(
   member: Member,
-  inspection?: Inspection,
-  operation: Operation = Operation.Read
+  operation: Operation = Operation.Read,
+  inspection?: Inspection
 ): boolean {
   switch (operation) {
-    case Operation.Read:
+    case Operation.Read: {
       return Boolean(member);
-    case Operation.Update:
+    }
+
+    case Operation.Update: {
       return Boolean(inspection) && (
         [Permission.Editor, Permission.Owner].includes(member.permission.name)
         || member.permission.gear
         || member.permission.gear_basic
         || inspection.member_id === member.id
       );
-    default:
+    }
+
+    default: {
       return false;
+    }
   }
 }
