@@ -1,6 +1,6 @@
 import faker from 'faker';
 
-import { sequence } from '../../testing';
+import { sequence } from '../../lib/tools';
 
 describe('sequence', () => {
   let key: string;

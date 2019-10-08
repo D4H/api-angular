@@ -3,8 +3,7 @@ import faker from 'faker';
 
 import { Equipment } from './equipment.factory';
 import { Member } from './member.factory';
-import { sample } from '../tools';
-import { sequence } from './sequence';
+import { sample, sequence } from '../tools';
 
 import {
   Currency,

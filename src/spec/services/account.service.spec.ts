@@ -5,7 +5,8 @@ import { BAD_REQUEST, NOT_FOUND, UNAUTHORIZED, getStatusText } from 'http-status
 import { TestBed } from '@angular/core/testing';
 
 import { AccountService } from '../../lib/services';
-import { ApiUrl, Factory, sample } from '../../testing';
+import { ApiUrl, sample } from '../../lib/tools';
+import { Factory } from '../../lib/factories';
 import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
 

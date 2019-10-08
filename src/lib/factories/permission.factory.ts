@@ -2,8 +2,7 @@ import deepmerge from 'deepmerge';
 import faker from 'faker';
 
 import { MemberPermissions, Permission } from '../../lib/models';
-import { sample } from '../tools';
-import { sequence } from './sequence';
+import { sample, sequence } from '../tools';
 
 export function MemberPermission(attributes: Partial<MemberPermissions> = {}): MemberPermissions {
   return deepmerge<MemberPermissions>({

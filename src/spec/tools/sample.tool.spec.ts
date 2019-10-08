@@ -1,4 +1,4 @@
-import { sample } from '../../testing/tools';
+import { sample } from '../../lib/tools';
 
 describe('sample', () => {
   const numerics: Array<number> = [0, 1, 2];

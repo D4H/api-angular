@@ -3,8 +3,7 @@ import faker from 'faker';
 import moment from 'moment';
 
 import { CustomField, CustomFieldType, CustomFieldValue } from '../../lib/models';
-import { sample } from '../tools';
-import { sequence } from './sequence';
+import { sample, sequence } from '../tools';
 
 /**
  * Custom Field Factory

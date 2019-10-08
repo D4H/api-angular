@@ -3,7 +3,7 @@ import faker from 'faker';
 
 import { Note } from '../../lib/models';
 import { Period } from './period.factory';
-import { sequence } from './sequence';
+import { sequence } from '../tools';
 
 export function Note(attributes: Partial<Note> = {}): Note {
   const { date, enddate } = Period();

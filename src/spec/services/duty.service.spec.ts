@@ -4,12 +4,13 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { BAD_REQUEST, CREATED, NOT_FOUND, getStatusText } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
-import { ApiUrl, Factory } from '../../testing';
+import { ApiUrl } from '../../lib/tools';
 import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
 import { Duties } from '../../lib/resources';
 import { Duty } from '../../lib/models';
 import { DutyService } from '../../lib/services';
+import { Factory } from '../../lib/factories';
 
 describe('DutyService', () => {
   const config: Config = Factory.build<Config>('Config');

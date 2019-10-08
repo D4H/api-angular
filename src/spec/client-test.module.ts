@@ -4,7 +4,7 @@ import { TestBedStatic } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { ApiHttpClient, AuthClient, ParserClient } from '../lib/client';
-import { Factory } from '../testing/factories';
+import { Factory } from '../lib/factories';
 
 import {
   CLIENT_CONFIG,

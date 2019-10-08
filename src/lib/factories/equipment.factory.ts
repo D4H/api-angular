@@ -2,8 +2,7 @@ import deepmerge from 'deepmerge';
 import faker from 'faker';
 
 import { Location } from './location.factory';
-import { sample } from '../tools';
-import { sequence } from './sequence';
+import { sample, sequence } from '../tools';
 
 import {
   Currency,

@@ -2,7 +2,7 @@ import deepmerge from 'deepmerge';
 import faker from 'faker';
 
 import { Location } from '../../lib/models';
-import { sequence } from './sequence';
+import { sequence } from '../tools';
 
 export function Location(attributes: Partial<Location> = {}): Location {
   return deepmerge<Location>({

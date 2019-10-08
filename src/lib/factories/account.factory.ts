@@ -3,7 +3,7 @@ import faker from 'faker';
 
 import { Account } from '../../lib/models';
 import { Language } from './language.factory';
-import { sequence } from './sequence';
+import { sequence } from '../tools';
 
 export function Account(attributes: Partial<Account> = {}): Account {
   const createdDate: string = faker.date.past().toISOString();

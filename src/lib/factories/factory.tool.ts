@@ -41,45 +41,40 @@ export class UnknownFactoryError extends Error {
   }
 }
 
+export type Builder<T> = (...args: Array<any>) => T;
+
 export interface FactoryList {
-  [key: string]: () => {};
+  [key: string]: Builder<any>;
 }
 
-export interface FactoryBuilder {
-  factories: FactoryList;
-  add(factories: { [key: string]: () => {} }): object;
-  build<T>(factory: string, ...rest: Array<any>): T;
-  buildList<T>(factory: string, length: number, ...rest: Array<any>): Array<T>;
-}
+export class Factory {
+  static factories: FactoryList = {};
 
-export const Factory: FactoryBuilder = {
-  factories: {},
-
-  add(factories: FactoryList): any {
-    this.factories = {
+  static add(factories: FactoryList): FactoryList {
+    Factory.factories = {
       ...factories,
-      ...this.factories
+      ...Factory.factories
     };
 
-    return this.factories;
-  },
+    return Factory.factories;
+  }
 
-  build<T>(factory: string, ...rest: Array<any>): T {
-    if (typeof this.factories[factory] === 'function') {
-      return this.factories[factory](...rest) as T;
-    } else {
-      throw new UnknownFactoryError(factory);
-    }
-  },
-
-  buildList<T>(factory: string, length: number, ...rest: Array<any>): Array<T> {
-    if (typeof this.factories[factory] === 'function') {
-      return Array.from({ length }).map(() => this.build(factory, ...rest) as T);
+  static build<T>(factory: string, ...rest: Array<any>): T {
+    if (typeof Factory.factories[factory] === 'function') {
+      return Factory.factories[factory](...rest) as T;
     } else {
       throw new UnknownFactoryError(factory);
     }
   }
-};
+
+  static buildList<T>(factory: string, length: number, ...rest: Array<any>): Array<T> {
+    if (typeof Factory.factories[factory] === 'function') {
+      return Array.from({ length }).map(() => Factory.build(factory, ...rest) as T);
+    } else {
+      throw new UnknownFactoryError(factory);
+    }
+  }
+}
 
 /**
  * Register D4H Model Factories

@@ -1,6 +1,6 @@
 import deepmerge from 'deepmerge';
 import faker from 'faker';
-import { sequence } from './sequence';
+import { sequence } from '../tools';
 
 import { Language } from './language.factory';
 import { Membership, MembershipModule, MembershipType } from '../../lib/models';

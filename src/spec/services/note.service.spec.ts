@@ -4,9 +4,10 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
-import { ApiUrl, Factory } from '../../testing';
+import { ApiUrl } from '../../lib/tools';
 import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
+import { Factory } from '../../lib/factories';
 import { Note } from '../../lib/models';
 import { NoteService } from '../../lib/services';
 import { Notes } from '../../lib/resources';

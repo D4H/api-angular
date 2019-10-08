@@ -3,7 +3,7 @@ import faker from 'faker';
 
 import { Brand } from './brand.factory';
 import { Model } from '../../lib/models';
-import { sequence } from './sequence';
+import { sequence } from '../tools';
 
 export function Model(attributes: Partial<Model> = {}): Model {
   const count = faker.random.number();

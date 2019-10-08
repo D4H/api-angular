@@ -2,7 +2,7 @@ import deepmerge from 'deepmerge';
 import faker from 'faker';
 
 import { Currency, Role } from '../../lib/models';
-import { sequence } from './sequence';
+import { sequence } from '../tools';
 
 const cost = ({
   currency = faker.finance.currencySymbol() as Currency,

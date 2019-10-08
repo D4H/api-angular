@@ -2,8 +2,7 @@ import deepmerge from 'deepmerge';
 import faker from 'faker';
 
 import { Inspection, InspectionInterval } from '../../lib/models';
-import { sample } from '../tools';
-import { sequence } from './sequence';
+import { sample, sequence } from '../tools';
 
 export function Inspection(attributes: Partial<Inspection> = {}): Inspection {
   return deepmerge<Inspection>({

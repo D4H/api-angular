@@ -4,8 +4,7 @@ import faker from 'faker';
 import { ActivityType, Attendance, AttendanceStatus } from '../../lib/models';
 import { Activity } from './activity.factory';
 import { Period } from './period.factory';
-import { sample } from '../tools';
-import { sequence } from './sequence';
+import { sample, sequence } from '../tools';
 
 /**
  * Attendance Factory

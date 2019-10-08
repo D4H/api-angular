@@ -7,8 +7,7 @@ import { DutyType, Member, OperationalStatus } from '../../lib/models';
 import { EmergencyContact } from './emergency-contact.factory';
 import { MemberPermission } from './permission.factory';
 import { StatusLabel } from './status.factory';
-import { sample } from '../tools';
-import { sequence } from './sequence';
+import { sample, sequence } from '../tools';
 
 /**
  * Member Factory

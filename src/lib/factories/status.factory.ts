@@ -2,8 +2,7 @@ import deepmerge from 'deepmerge';
 import faker from 'faker';
 
 import { OperationalStatus, StatusLabel } from '../../lib/models';
-import { sample } from '../tools';
-import { sequence } from './sequence';
+import { sample, sequence } from '../tools';
 
 export function StatusLabel(attributes: Partial<StatusLabel> = {}): StatusLabel {
   const organisationId: number = sequence('status-label.organisation_id');

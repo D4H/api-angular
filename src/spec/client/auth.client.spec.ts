@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { AuthClient, MissingTokenError } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Config, TokenType, Tokens, routes } from '../../lib/providers';
-import { Factory } from '../../testing';
+import { Factory } from '../../lib/factories';
 
 describe('AuthClient', () => {
   let bearer: { Authorization: string };

@@ -2,8 +2,7 @@ import deepmerge from 'deepmerge';
 import faker from 'faker';
 
 import { ResultStatus, Result } from '../../lib/models';
-import { sample } from '../tools';
-import { sequence } from './sequence';
+import { sample, sequence } from '../tools';
 
 export function Result(attributes: Partial<Result> = {}): Result {
   return deepmerge<Result>({

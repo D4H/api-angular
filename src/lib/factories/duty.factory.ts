@@ -3,8 +3,7 @@ import faker from 'faker';
 
 import { Duty, DutyRepeatInterval, DutyType, Role } from '../../lib/models';
 import { Period } from './period.factory';
-import { sample } from '../tools';
-import { sequence } from './sequence';
+import { sample, sequence } from '../tools';
 
 /**
  * Duty Factory
