@@ -3,7 +3,9 @@ import moment from 'moment';
 import traverse from 'traverse';
 import { TestBed } from '@angular/core/testing';
 
-import { API_URL_REGEX, ApiUrl, ClientTestModule, Factory } from '../../testing';
+import { API_URL_REGEX, ApiUrl } from '../../lib/tools';
+import { Factory } from '../../lib/factories';
+import { ClientTestModule } from '../client-test.module';
 import { Config, defaultConfig } from '../../lib/providers';
 import { ParserClient } from '../../lib/client';
 

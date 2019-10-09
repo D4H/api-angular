@@ -1,7 +1,8 @@
 import faker from 'faker';
 
-import { API_URL_REGEX, ApiUrl, Factory } from '../../testing';
+import { API_URL_REGEX, ApiUrl } from '../../lib/tools';
 import { Config } from '../../lib/providers';
+import { Factory } from '../../lib/factories';
 
 describe('ApiUrl', () => {
   let config: Config;

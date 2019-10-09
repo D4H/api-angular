@@ -6,7 +6,7 @@ import { Store, select } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
 
 import { CLIENT_CONFIG, Config, ConfigProvider } from '../../lib/providers';
-import { Factory } from '../../testing';
+import { Factory } from '../../lib/factories';
 
 interface State {
   client: Config;

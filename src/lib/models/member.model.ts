@@ -77,14 +77,15 @@ export interface MemberOperationalStatus {
  *  3. GET /team/members/:id with token belonging to >= PermissionType.Editor
  */
 
-export enum PermissionType {
+export enum Permission {
   None = 'none',
-  Editor = 'editor',
   Member = 'member',
+  MemberPlus = 'memberplus',
+  Editor = 'editor',
   Owner = 'owner'
 }
 
-export interface MemberPermission {
+export interface MemberPermissions {
   documents: boolean;
   events: boolean;
   exercises: boolean;
@@ -93,7 +94,7 @@ export interface MemberPermission {
   healthsafety: boolean;
   id: number;
   incidents: boolean;
-  name: PermissionType;
+  name: Permission;
   sms: boolean;
 }
 
@@ -133,7 +134,7 @@ export interface Member {
   on_call: boolean;
   pager: string;
   pager_email: string;
-  permission?: MemberPermission; // Restricted.
+  permission?: MemberPermissions; // Restricted.
   position: string;
   ref: string;
   status: MemberOperationalStatus;

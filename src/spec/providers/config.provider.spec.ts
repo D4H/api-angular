@@ -3,11 +3,25 @@ import { InjectionToken } from '@angular/core';
 import {
   CLIENT_CONFIG,
   CLIENT_DEFAULT_CONFIG,
+  CLIENT_NAME,
+  CLIENT_VERSION,
   Version,
   defaultConfig
 } from '../../lib/providers';
 
 describe('Config Providers', () => {
+  describe('CLIENT_VERSION', () => {
+    it('should be a semantic version', () => {
+      expect(CLIENT_VERSION).toMatch(/^\d+\.\d+\.\d+$/);
+    });
+  });
+
+  describe('CLIENT_NAME', () => {
+    it('should be "D4H API CLIENT"', () => {
+      expect(CLIENT_NAME).toBe('D4H API CLIENT');
+    });
+  });
+
   describe('CLIENT_CONFIG', () => {
     it('should match the comparison token', () => {
       const token = new InjectionToken('CLIENT_CONFIGURATION');
@@ -28,8 +42,8 @@ describe('Config Providers', () => {
         version: Version.V2,
 
         client: {
-          name: 'D4H API CLIENT',
-          version: '3.4.1'
+          name: CLIENT_NAME,
+          version: CLIENT_VERSION
         }
       };
 
