@@ -28,11 +28,11 @@ export function inspections(
     }
 
     case Operation.Update: {
-      return Boolean(inspection) && (
+      return (
         [Permission.Editor, Permission.Owner].includes(member.permission.name)
         || member.permission.gear
         || member.permission.gear_basic
-        || inspection.member_id === member.id
+        || Boolean(inspection) && inspection.member_id === member.id
       );
     }
 

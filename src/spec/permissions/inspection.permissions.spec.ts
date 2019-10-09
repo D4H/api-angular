@@ -45,7 +45,6 @@ describe('Inspection Permissions', () => {
       expect(inspections(member)).toBe(true);
       expect(inspections(member, Operation.Read, null)).toBe(true);
       expect(inspections(member, Operation.Read, inspection)).toBe(true);
-      expect(inspections(member, Operation.Read, inspection)).toBe(true);
     });
   });
 
@@ -54,32 +53,32 @@ describe('Inspection Permissions', () => {
       expect(inspections(member, Operation.Update, inspection)).toBe(false);
     });
 
-    it('should be false without a inspection', () => {
-      member.permission.name = Permission.Editor;
-      expect(inspections(member, Operation.Update, null)).toBe(false);
-    });
-
     it('should be true for permission.name === Permission.Owner', () => {
       member.permission.name = Permission.Owner;
-      expect(inspections(member, Operation.Update, inspection)).toBe(true);
+      expect(inspections(member, Operation.Update)).toBe(true);
     });
 
     it('should be true for permission.name === Permission.Editor', () => {
       member.permission.name = Permission.Editor;
-      expect(inspections(member, Operation.Update, inspection)).toBe(true);
+      expect(inspections(member, Operation.Update)).toBe(true);
     });
 
     it('should be true for permission.gear === true', () => {
       member.permission.gear = true;
-      expect(inspections(member, Operation.Update, inspection)).toBe(true);
+      expect(inspections(member, Operation.Update)).toBe(true);
     });
 
     it('should be true for permission.gear_basic === true', () => {
       member.permission.gear_basic = true;
-      expect(inspections(member, Operation.Update, inspection)).toBe(true);
+      expect(inspections(member, Operation.Update)).toBe(true);
     });
 
-    it('should be true for inspection.member_id === member.id', () => {
+    it('should be false for repair.member_id === member.id without a repair', () => {
+      inspection.member_id = member.id;
+      expect(inspections(member, Operation.Update)).toBe(false);
+    });
+
+    it('should be true for inspection.member_id === member.id with a repair', () => {
       inspection.member_id = member.id;
       expect(inspections(member, Operation.Update, inspection)).toBe(true);
     });

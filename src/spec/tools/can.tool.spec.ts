@@ -121,7 +121,12 @@ describe('Can', () => {
       expect(typeof can.update).toBe('function');
     });
 
-    it('should call can.action with given arguments', () => {
+    it('should call can.action without a record', () => {
+      can.update(member, 'repairs');
+      expect(can.action).toHaveBeenCalledWith(member, 'repairs', Operation.Update, undefined);
+    });
+
+    it('should call can.action with a record', () => {
       can.update(member, 'repairs', record);
       expect(can.action).toHaveBeenCalledWith(member, 'repairs', Operation.Update, record);
     });
@@ -136,7 +141,12 @@ describe('Can', () => {
       expect(typeof can.destroy).toBe('function');
     });
 
-    it('should call can.action with given arguments', () => {
+    it('should call can.action without a record', () => {
+      can.destroy(member, 'repairs');
+      expect(can.action).toHaveBeenCalledWith(member, 'repairs', Operation.Destroy, undefined);
+    });
+
+    it('should call can.action with a record', () => {
       can.destroy(member, 'repairs', record);
       expect(can.action).toHaveBeenCalledWith(member, 'repairs', Operation.Destroy, record);
     });

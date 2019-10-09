@@ -48,12 +48,12 @@ export function repairs(
     }
 
     case Operation.Update: {
-      return Boolean(repair) && (
+      return (
         [Permission.Editor, Permission.Owner].includes(member.permission.name)
         || member.permission.gear
         || member.permission.gear_basic
-        || repair.added_by.id === member.id
-        || repair.assigned_to.id === member.id
+        || Boolean(repair) && repair.added_by.id === member.id
+        || Boolean(repair) && repair.assigned_to.id === member.id
       );
     }
 
