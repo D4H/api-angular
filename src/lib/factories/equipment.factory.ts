@@ -12,13 +12,19 @@ import {
   Equipment,
   EquipmentCost,
   EquipmentStatus,
-  EquipmentType
+  EquipmentType,
+  Weight
 } from '../../lib/models';
 
 const cost = ({
   currency = faker.finance.currencySymbol() as Currency,
   value = faker.random.number()
 } = {}) => ({ currency, value });
+
+const weight = ({
+  units = 'kg' as Weight,
+  value = faker.random.number()
+} = {}) => ({ units, value });
 
 export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
   const brand = Brand();
@@ -30,10 +36,6 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
   const monitor = faker.random.boolean();
 
   return deepmerge<Equipment>({
-    // date_expires: Date;
-    // date_last_status_change: Date;
-    // date_retired: Date;
-    // date_warranty: Date;
     // is_all_child_op: boolean;
     // minutes_use: number;
     // odometer_reading: number;
@@ -41,8 +43,6 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
     // odometer_reading_total: number;
     // odometer_reading_total_allowed: number;
     // ref: string;
-    // serial: string;
-    // total_weight: Weight;
 
     barcode: faker.random.uuid(),
     cost_per_distance: cost(),
@@ -50,11 +50,14 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
     cost_per_use: cost(),
     critical_alert: critical,
     custom_fields: [],
+    date_expires: faker.date.future().toISOString(),
     date_firstuse: faker.date.past().toISOString(),
     date_last_moved: faker.date.past().toISOString(),
     date_last_status_change: faker.date.past().toISOString(),
     date_manufactured: faker.date.past().toISOString(),
     date_purchased: faker.date.past().toISOString(),
+    date_retired: faker.date.future().toISOString(),
+    date_warranty: faker.date.future().toISOString(),
     expire_alert: monitor,
     id,
     is_critical: critical,
@@ -62,10 +65,13 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
     notes: faker.lorem.paragraph(),
     quantity: faker.random.number({ min: 9, max: 15 }),
     replacement_cost: cost(),
+    serial: faker.random.uuid(),
     team_id: sequence('equipment.team_id'),
     title: faker.commerce.productName(),
     total_replacement_cost: cost(),
+    total_weight: weight(),
     type: sample<EquipmentType>(EquipmentType),
+    weight: weight(),
 
     brand: {
       id: brand.id,
