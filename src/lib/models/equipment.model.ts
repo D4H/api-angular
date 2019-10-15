@@ -1,12 +1,7 @@
-import { Currency } from './units.model';
+import { CurrencyCost } from './cost.model';
 import { CustomField } from './custom-field.model';
 import { IsoDate } from './iso-date.model';
 import { Weight } from './units.model';
-
-export interface EquipmentCost {
-  currency: Currency;
-  value: number;
-}
 
 export enum EquipmentStatus {
   Inactive = 0,
@@ -25,9 +20,9 @@ export enum EquipmentType {
 
 export interface Equipment {
   barcode: string;
-  cost_per_distance?: EquipmentCost;
-  cost_per_hour?: EquipmentCost;
-  cost_per_use?: EquipmentCost;
+  cost_per_distance?: CurrencyCost;
+  cost_per_hour?: CurrencyCost;
+  cost_per_use?: CurrencyCost;
   critical_alert: boolean;
   custom_fields?: Array<CustomField>;
   date_expires: IsoDate;
@@ -52,11 +47,11 @@ export interface Equipment {
   odometer_reading_total_allowed: number;
   quantity: number;
   ref: string;
-  replacement_cost: EquipmentCost;
+  replacement_cost: CurrencyCost;
   serial: string;
   team_id: number;
   title: string;
-  total_replacement_cost: EquipmentCost;
+  total_replacement_cost: CurrencyCost;
   type: EquipmentType;
   urls?: object;
 

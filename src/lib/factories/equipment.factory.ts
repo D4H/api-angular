@@ -3,23 +3,17 @@ import faker from 'faker';
 
 import { Brand } from './brand.factory';
 import { Category } from './category.factory';
+import { CurrencyCost } from './cost.factory';
 import { Location } from './location.factory';
 import { Model } from './model.factory';
 import { sample, sequence } from '../tools';
 
 import {
-  Currency,
   Equipment,
-  EquipmentCost,
   EquipmentStatus,
   EquipmentType,
   Weight
 } from '../../lib/models';
-
-const cost = ({
-  currency = faker.finance.currencySymbol() as Currency,
-  value = faker.random.number()
-} = {}) => ({ currency, value });
 
 const weight = ({
   units = 'kg' as Weight,
@@ -45,9 +39,9 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
     // ref: string;
 
     barcode: faker.random.uuid(),
-    cost_per_distance: cost(),
-    cost_per_hour: cost(),
-    cost_per_use: cost(),
+    cost_per_distance: CurrencyCost(),
+    cost_per_hour: CurrencyCost(),
+    cost_per_use: CurrencyCost(),
     critical_alert: critical,
     custom_fields: [],
     date_expires: faker.date.future().toISOString(),
@@ -64,11 +58,11 @@ export function Equipment(attributes: Partial<Equipment> = {}): Equipment {
     is_monitor: monitor,
     notes: faker.lorem.paragraph(),
     quantity: faker.random.number({ min: 9, max: 15 }),
-    replacement_cost: cost(),
+    replacement_cost: CurrencyCost(),
     serial: faker.random.uuid(),
     team_id: sequence('equipment.team_id'),
     title: faker.commerce.productName(),
-    total_replacement_cost: cost(),
+    total_replacement_cost: CurrencyCost(),
     total_weight: weight(),
     type: sample<EquipmentType>(EquipmentType),
     weight: weight(),
