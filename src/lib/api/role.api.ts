@@ -1,4 +1,4 @@
-import { DateParameter, Response, Search } from './shared.res';
+import { DateParameter, Response, Search } from './shared.api';
 import { Role } from '../models';
 
 /**

@@ -9,7 +9,7 @@ import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
 import { Factory } from '../../lib/factories';
 import { Inspection, Result } from '../../lib/models';
-import { InspectionResults } from '../../lib/resources';
+import { InspectionResults } from '../../lib/api';
 import { ResultService } from '../../lib/services';
 
 describe('ResultService', () => {

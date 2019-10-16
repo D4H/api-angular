@@ -6,7 +6,7 @@ import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { Repair } from '../models';
-import { Repairs } from '../resources';
+import { Repairs } from '../api';
 
 @Injectable({ providedIn: ClientModule })
 export class RepairService {

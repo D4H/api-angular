@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { Attendance } from '../models';
-import { Attendances } from '../resources';
+import { Attendances } from '../api';
 import { ClientModule } from '../client.module';
 
 @Injectable({ providedIn: ClientModule })

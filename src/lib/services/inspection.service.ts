@@ -6,7 +6,7 @@ import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { Inspection } from '../models';
-import { Inspections } from '../resources';
+import { Inspections } from '../api';
 
 @Injectable({ providedIn: ClientModule })
 export class InspectionService {

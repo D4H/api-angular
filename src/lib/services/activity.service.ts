@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
-import { Activities } from '../resources';
+import { Activities } from '../api';
 import { Activity } from '../models';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';

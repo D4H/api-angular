@@ -10,7 +10,7 @@ import { Config, routes } from '../../lib/providers';
 import { Factory } from '../../lib/factories';
 import { Group } from '../../lib/models';
 import { GroupService } from '../../lib/services';
-import { Groups } from '../../lib/resources';
+import { Groups } from '../../lib/api';
 
 describe('GroupService', () => {
   const config: Config = Factory.build<Config>('Config');

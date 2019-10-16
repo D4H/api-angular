@@ -1,4 +1,4 @@
-import { DateParameter } from './shared.res';
+import { DateParameter } from './shared.api';
 
 /**
  * GET /organisation/image

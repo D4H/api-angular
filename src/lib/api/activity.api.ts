@@ -1,5 +1,5 @@
 import { Activity, ActivityType } from '../models';
-import { DateParameter, Response, Search } from './shared.res';
+import { DateParameter, Response, Search } from './shared.api';
 
 /**
  * GET /team/activities

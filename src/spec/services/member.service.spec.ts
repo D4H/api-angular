@@ -11,7 +11,7 @@ import { Config, routes } from '../../lib/providers';
 import { Factory } from '../../lib/factories';
 import { Group, Member, OperationalStatus, StatusLabel } from '../../lib/models';
 import { MemberService, PhotoService } from '../../lib/services';
-import { Members } from '../../lib/resources';
+import { Members } from '../../lib/api';
 
 describe('MemberService', () => {
   const config: Config = Factory.build<Config>('Config');

@@ -4,7 +4,7 @@ import { HttpTestingController, TestRequest } from '@angular/common/http/testing
 import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
 
-import { Activities } from '../../lib/resources';
+import { Activities } from '../../lib/api';
 import { Activity } from '../../lib/models';
 import { ActivityService } from '../../lib/services';
 import { ApiUrl } from '../../lib/tools';

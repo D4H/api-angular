@@ -12,7 +12,7 @@ import {
   getStatusText
 } from 'http-status-codes';
 
-import { ApiError } from '../../lib/resources';
+import { ApiError } from '../../lib/api';
 
 export function ApiError(attributes: Partial<ApiError> = {}): ApiError {
   const statusCode = faker.random.arrayElement([

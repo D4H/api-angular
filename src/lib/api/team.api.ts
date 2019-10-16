@@ -1,4 +1,4 @@
-import { Response } from './shared.res';
+import { Response } from './shared.api';
 import { Setting, SettingData, Team } from '../models';
 
 /**
