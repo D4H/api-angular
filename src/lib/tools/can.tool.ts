@@ -57,11 +57,11 @@ export class Can {
     return this.action(member, type, Operation.Read, record);
   }
 
-  update<T>(member: Member, type: string, record: T): boolean {
+  update<T>(member: Member, type: string, record?: T): boolean {
     return this.action(member, type, Operation.Update, record);
   }
 
-  destroy<T>(member: Member, type: string, record: T): boolean {
+  destroy<T>(member: Member, type: string, record?: T): boolean {
     return this.action(member, type, Operation.Destroy, record);
   }
 }

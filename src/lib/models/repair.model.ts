@@ -1,12 +1,7 @@
-import { Currency } from './units.model';
 import { EquipmentStatus, EquipmentType } from './equipment.model';
 import { IsoDate } from './iso-date.model';
 import { MembershipType } from './membership.model';
-
-/**
- * Repair Cause
- * =============================================================================
- */
+import { SymbolCost } from './cost.model';
 
 export enum RepairCause {
   Unknown = 0,
@@ -16,24 +11,14 @@ export enum RepairCause {
   Maintenance = 4
 }
 
-/**
- * Repair Status
- * =============================================================================
- */
-
 export enum RepairStatus {
   Completed = 0,
   InProgress = 1,
   NotStarted = 8
 }
 
-/**
- * Repair
- * =============================================================================
- */
-
 export interface Repair {
-  date_completed: IsoDate;
+  date_completed?: IsoDate;
   date_created: IsoDate;
   date_due: IsoDate;
   description: string;
@@ -44,6 +29,7 @@ export interface Repair {
   fund_id: number;
   id: number;
   repair_activity_id?: number;
+  repair_cost: SymbolCost;
   team_id: number;
   title: string;
 
@@ -74,11 +60,6 @@ export interface Repair {
   repair_cause: {
     id: RepairCause;
     label: string;
-  };
-
-  repair_cost: {
-    symbol: Currency;
-    value: number;
   };
 
   status: {

@@ -83,6 +83,7 @@ describe('Factory', () => {
         'Brand',
         'Category',
         'Config',
+        'CurrencyCost',
         'CustomField',
         'Duty',
         'EmergencyContact',
@@ -105,6 +106,7 @@ describe('Factory', () => {
         'Result',
         'Role',
         'StatusLabel',
+        'SymbolCost',
         'Team',
         'Username'
       ];

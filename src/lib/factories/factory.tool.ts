@@ -5,6 +5,7 @@ import { Attendance } from './attendance.factory';
 import { Brand } from './brand.factory';
 import { Category } from './category.factory';
 import { Config } from './config.factory';
+import { CurrencyCost, SymbolCost } from './cost.factory';
 import { CustomField } from './custom-field.factory';
 import { Duty } from './duty.factory';
 import { EmergencyContact } from './emergency-contact.factory';
@@ -89,6 +90,7 @@ Factory.add({
   Brand,
   Category,
   Config,
+  CurrencyCost,
   CustomField,
   Duty,
   EmergencyContact,
@@ -111,6 +113,7 @@ Factory.add({
   Result,
   Role,
   StatusLabel,
+  SymbolCost,
   Team,
   Username
 });

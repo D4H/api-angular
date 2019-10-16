@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 
 import { CLIENT_PERMISSIONS } from './providers/permissions.provider';
-import { inspections, repairs } from './permissions';
+import { equipment, inspections, repairs } from './permissions';
 
 @NgModule({
   providers: [
     {
       provide: CLIENT_PERMISSIONS,
-      useValue: { inspections, repairs },
+      useValue: { equipment, inspections, repairs },
       multi: true
     }
   ]

@@ -3,21 +3,9 @@ import faker from 'faker';
 
 import { Equipment } from './equipment.factory';
 import { Member } from './member.factory';
+import { MembershipType, Repair, RepairCause, RepairStatus } from '../../lib/models';
+import { SymbolCost } from './cost.factory';
 import { sample, sequence } from '../tools';
-
-import {
-  Currency,
-  MembershipType,
-  Repair,
-  RepairCause,
-  RepairStatus
-} from '../../lib/models';
-
-
-const cost = ({
-  symbol = faker.finance.currencySymbol() as Currency,
-  value = faker.random.number()
-} = {}) => ({ symbol, value });
 
 export function Repair(attributes: Partial<Repair> = {}): Repair {
   const activityId = sequence('repair.activity_id');
@@ -38,7 +26,7 @@ export function Repair(attributes: Partial<Repair> = {}): Repair {
     fund_id: sequence('repair.fund_id'),
     id: sequence('repair.id'),
     repair_activity_id: activityId,
-    repair_cost: cost(),
+    repair_cost: SymbolCost(),
     team_id: sequence('repair.team_id'),
     title: faker.lorem.sentence(),
 
