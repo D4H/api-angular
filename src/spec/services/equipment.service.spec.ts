@@ -11,7 +11,7 @@ import { Config, routes } from '../../lib/providers';
 import { Equipment, EquipmentStatus } from '../../lib/models';
 import { EquipmentService, PhotoService } from '../../lib/services';
 import { Factory } from '../../lib/factories';
-import { Gear } from '../../lib/resources';
+import { Gear } from '../../lib/api';
 
 describe('EquipmentService', () => {
   const config: Config = Factory.build<Config>('Config');

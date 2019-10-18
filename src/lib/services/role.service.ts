@@ -6,7 +6,7 @@ import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { Role } from '../models';
-import { Roles } from '../resources';
+import { Roles } from '../api';
 
 @Injectable({ providedIn: ClientModule })
 export class RoleService {

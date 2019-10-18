@@ -9,7 +9,7 @@ import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { HttpOptions } from '../providers';
 import { Membership } from '../models';
-import { Photos } from '../resources';
+import { Photos } from '../api';
 
 export class InvalidPhotoUrlError extends Error {
   constructor(url: string) {

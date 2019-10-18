@@ -7,7 +7,7 @@ import { TestBed } from '@angular/core/testing';
 import { ApiUrl, sample } from '../../lib/tools';
 import { Attendance, AttendanceStatus } from '../../lib/models';
 import { AttendanceService } from '../../lib/services';
-import { Attendances } from '../../lib/resources';
+import { Attendances } from '../../lib/api';
 import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
 import { Factory } from '../../lib/factories';

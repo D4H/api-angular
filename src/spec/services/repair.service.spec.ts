@@ -10,7 +10,7 @@ import { Config, routes } from '../../lib/providers';
 import { Factory } from '../../lib/factories';
 import { Repair } from '../../lib/models';
 import { RepairService } from '../../lib/services';
-import { Repairs } from '../../lib/resources';
+import { Repairs } from '../../lib/api';
 
 describe('RepairService', () => {
   const config: Config = Factory.build<Config>('Config');

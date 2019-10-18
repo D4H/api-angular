@@ -10,7 +10,7 @@ import { Config, routes } from '../../lib/providers';
 import { Factory } from '../../lib/factories';
 import { Note } from '../../lib/models';
 import { NoteService } from '../../lib/services';
-import { Notes } from '../../lib/resources';
+import { Notes } from '../../lib/api';
 
 describe('NoteService', () => {
   const config: Config = Factory.build<Config>('Config');

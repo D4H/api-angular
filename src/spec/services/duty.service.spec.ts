@@ -7,7 +7,7 @@ import { TestBed } from '@angular/core/testing';
 import { ApiUrl } from '../../lib/tools';
 import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
-import { Duties } from '../../lib/resources';
+import { Duties } from '../../lib/api';
 import { Duty } from '../../lib/models';
 import { DutyService } from '../../lib/services';
 import { Factory } from '../../lib/factories';

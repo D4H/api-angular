@@ -10,7 +10,7 @@ import { Config, routes } from '../../lib/providers';
 import { Factory } from '../../lib/factories';
 import { Role } from '../../lib/models';
 import { RoleService } from '../../lib/services';
-import { Roles } from '../../lib/resources';
+import { Roles } from '../../lib/api';
 
 describe('RoleService', () => {
   const config: Config = Factory.build<Config>('Config');

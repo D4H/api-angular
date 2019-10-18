@@ -6,7 +6,7 @@ import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { Group } from '../models';
-import { Groups } from '../resources';
+import { Groups } from '../api';
 
 @Injectable({ providedIn: ClientModule })
 export class GroupService {

@@ -8,7 +8,7 @@ import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { Equipment } from '../models';
 import { PhotoService } from './photo.service';
-import { Gear, Photos } from '../resources';
+import { Gear, Photos } from '../api';
 
 @Injectable({ providedIn: ClientModule })
 export class EquipmentService {

@@ -6,7 +6,7 @@ import { catchError, map, take } from 'rxjs/operators';
 
 import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { Account, Membership, MembershipType, Username } from '../models';
-import { Accounts } from '../resources';
+import { Accounts } from '../api';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 

@@ -8,7 +8,7 @@ import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { Membership, Setting, SettingData, Team } from '../models';
 import { PhotoService } from './photo.service';
-import { Photos, Teams } from '../resources';
+import { Photos, Teams } from '../api';
 
 /**
  * Membership Team/Organisation Service

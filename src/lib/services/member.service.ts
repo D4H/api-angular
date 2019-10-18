@@ -7,7 +7,7 @@ import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { Group, Member, EmergencyContact, StatusLabel } from '../models';
-import { Members, Photos } from '../resources';
+import { Members, Photos } from '../api';
 import { PhotoService } from './photo.service';
 
 @Injectable({ providedIn: ClientModule })
