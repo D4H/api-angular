@@ -45,7 +45,10 @@ describe('ResultService', () => {
     let url: string;
 
     beforeEach(() => {
-      items = Factory.buildList<Result>('Result', 7, { inspection_id: inspection.id });
+      items = Factory.buildList<Result>('Result', {
+        attributes: { inspection_id: inspection.id }
+      });
+
       path = routes.team.results.index(inspection.id);
     });
 

@@ -43,7 +43,7 @@ describe('AttendanceService', () => {
     let url: string;
 
     beforeEach(() => {
-      attendances = Factory.buildList<Attendance>('Attendance', 7);
+      attendances = Factory.buildList<Attendance>('Attendance');
     });
 
     it('should have index accessor', () => {

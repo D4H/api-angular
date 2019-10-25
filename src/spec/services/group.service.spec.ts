@@ -43,7 +43,7 @@ describe('GroupService', () => {
     let url: string;
 
     beforeEach(() => {
-      groups = Factory.buildList<Group>('Group', 7);
+      groups = Factory.buildList<Group>('Group');
     });
 
     it('should have index accessor', () => {

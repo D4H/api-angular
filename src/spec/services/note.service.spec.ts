@@ -43,7 +43,7 @@ describe('NoteService', () => {
     let url: string;
 
     beforeEach(() => {
-      notes = Factory.buildList<Note>('Note', 7);
+      notes = Factory.buildList<Note>('Note');
     });
 
     it('should have index accessor', () => {

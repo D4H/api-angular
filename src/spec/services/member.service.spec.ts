@@ -45,7 +45,7 @@ describe('MemberService', () => {
     let url: string;
 
     beforeEach(() => {
-      members = Factory.buildList<Member>('Member', 15);
+      members = Factory.buildList<Member>('Member');
     });
 
     it('should have index accessor', () => {
@@ -199,7 +199,7 @@ describe('MemberService', () => {
     let url: string;
 
     beforeEach(() => {
-      groups = Factory.buildList<Group>('Group', 15);
+      groups = Factory.buildList<Group>('Group');
       member = Factory.build<Member>('Member');
     });
 

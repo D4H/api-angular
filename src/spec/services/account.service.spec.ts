@@ -111,7 +111,7 @@ describe('AccountService', () => {
     });
 
     it('should return an array of Memberships', () => {
-      memberships = Factory.buildList<Membership>('Membership', 15);
+      memberships = Factory.buildList<Membership>('Membership');
       url = ApiUrl(config, path, { list_modules: false });
 
       service.memberships()
@@ -122,8 +122,11 @@ describe('AccountService', () => {
     });
 
     it('should return an array of Memberships with optional team modules', () => {
-      memberships = Factory.buildList<Membership>('Membership', 15, { unit: { modules } });
       url = ApiUrl(config, path, { list_modules: true });
+
+      memberships = Factory.buildList<Membership>('Membership', {
+        attributes: { unit: { modules } }
+      });
 
       service.memberships({ list_modules: true })
         .subscribe(res => expect(res).toEqual(memberships));
@@ -135,7 +138,7 @@ describe('AccountService', () => {
     it('should return an array of Memberships scoped to a given type', () => {
       const type: MembershipType = sample<MembershipType>(MembershipType);
 
-      memberships = Factory.buildList<Membership>('Membership', 15);
+      memberships = Factory.buildList<Membership>('Membership');
       url = ApiUrl(config, path, { list_modules: false });
 
       service.memberships({ type }).subscribe(

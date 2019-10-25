@@ -1,3 +1,5 @@
+import faker from 'faker';
+
 import { Account } from './account.factory';
 import { Activity } from './activity.factory';
 import { ApiError } from './api-error.factory';
@@ -42,6 +44,11 @@ export class UnknownFactoryError extends Error {
   }
 }
 
+interface BuildListOptions {
+  attributes?: object;
+  count?: number;
+}
+
 export type Builder<T> = (...args: Array<any>) => T;
 
 export interface FactoryList {
@@ -68,9 +75,12 @@ export class Factory {
     }
   }
 
-  static buildList<T>(factory: string, length: number, ...rest: Array<any>): Array<T> {
+  static buildList<T>(
+    factory: string,
+    { count, attributes }: BuildListOptions = { attributes: {}, count: faker.random.number({ min: 1, max: 15 }) }
+  ): Array<T> {
     if (typeof Factory.factories[factory] === 'function') {
-      return Array.from({ length }).map(() => Factory.build(factory, ...rest) as T);
+      return Array.from({ length: count }).map(() => Factory.build(factory, attributes) as T);
     } else {
       throw new UnknownFactoryError(factory);
     }

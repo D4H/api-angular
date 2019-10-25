@@ -24,9 +24,8 @@ describe('Factory', () => {
       value = faker.random.uuid();
     });
 
-    it('should have the correct accessor', () => {
+    it('should be a function', () => {
       expect(typeof Factory.build).toBe('function');
-      expect(Factory.build.length).toBe(1);
     });
 
     it ('should throw an error when passed an invalid factory', () => {
@@ -44,28 +43,34 @@ describe('Factory', () => {
   });
 
   describe('buildList', () => {
-    let count: number;
-
-    beforeEach(() => {
-      count = faker.random.number({ min: 7, max: 15 });
-    });
-
-    it('should have the correct accessor', () => {
+    it('should be a function', () => {
       expect(typeof Factory.buildList).toBe('function');
-      expect(Factory.buildList.length).toBe(2);
     });
 
     it('should return the appropriate number of records', () => {
-      expect(Factory.buildList(factory, count).length).toEqual(count);
+      const count: number = faker.random.number({ min: 7, max: 15 });
+      expect(Factory.buildList(factory, { count }).length).toEqual(count);
     });
 
-    it ('should throw an error when passed an invalid factory', () => {
-      expect(() => Factory.buildList(badFactory, 1))
+    it('should throw an error when passed an invalid factory', () => {
+      expect(() => Factory.buildList(badFactory))
         .toThrow(new UnknownFactoryError(badFactory));
     });
 
     it('should build an array of objects based on input parameters', () => {
-      expect(Factory.buildList(factory, count)).toBeArrayOfObjects();
+      expect(Factory.buildList(factory)).toBeArrayOfObjects();
+    });
+
+    it('should produce between 1-15 records by default', () => {
+      spyOn(faker.random, 'number');
+      Factory.buildList(factory);
+      expect(faker.random.number).toHaveBeenCalledWith({ min: 1, max: 15 });
+    });
+
+    it('should pass {} by default for attributes', () => {
+      spyOn(Factory, 'build');
+      Factory.buildList(factory);
+      expect(Factory.build).toHaveBeenCalledWith(factory, {});
     });
   });
 
