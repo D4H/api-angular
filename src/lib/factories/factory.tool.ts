@@ -75,15 +75,13 @@ export class Factory {
     }
   }
 
-  static buildList<T>(
-    factory: string,
-    { count, attributes }: BuildListOptions = { attributes: {}, count: faker.random.number({ min: 1, max: 15 }) }
-  ): Array<T> {
-    if (typeof Factory.factories[factory] === 'function') {
-      return Array.from({ length: count }).map(() => Factory.build(factory, attributes) as T);
-    } else {
-      throw new UnknownFactoryError(factory);
-    }
+  static buildList<T>(factory: string, options: BuildListOptions = {}): Array<T> {
+    const {
+      attributes = {},
+      count = faker.random.number({ min: 1, max: 15 })
+    } = options;
+
+    return Array.from({ length: count }).map(() => Factory.build(factory, attributes) as T);
   }
 }
 
