@@ -4,12 +4,12 @@ import { IsoDate } from './iso-date.model';
 import { Weight } from './units.model';
 
 export enum EquipmentStatus {
-  Inactive = 0,
-  Lost = 1,
-  Operational = 2,
+  Operational = 1,
+  Unserviceable = 2,
   Retired = 3,
-  Unserviceable = 4,
-  Wishlist = 5
+  Lost = 4,
+  Wishlist = 5,
+  Inactive = 6
 }
 
 export enum EquipmentType {
