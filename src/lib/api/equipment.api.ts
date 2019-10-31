@@ -8,6 +8,7 @@ import { Equipment, EquipmentStatus } from '../models';
  */
 
 export interface Search extends Search {
+  barcode?: string;
   brand_id?: number;
   category_id?: number;
   fund_id?: number;
