@@ -17,10 +17,10 @@ export class ResultService {
 
   index(
     inspectionId: number,
-    search: InspectionResults.Search = {}
+    query: InspectionResults.Search = {}
   ): Observable<Array<Result>> {
     const route: string = this.routes.team.results.index(inspectionId);
-    const payload: HttpOptions = { params: search as any };
+    const payload: HttpOptions = { params: query as any };
 
     return this.http.get<InspectionResults.Index>(route, payload).pipe(
       map((res: InspectionResults.Index): Array<Result> => res.data)

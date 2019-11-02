@@ -15,9 +15,9 @@ export class RepairService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(search: Repairs.Search = {}): Observable<Array<Repair>> {
+  index(query: Repairs.Search = {}): Observable<Array<Repair>> {
     const route: string = this.routes.team.repairs.index;
-    const payload: HttpOptions = { params: search as any };
+    const payload: HttpOptions = { params: query as any };
 
     return this.http.get<Repairs.Index>(route, payload).pipe(
       map((res: Repairs.Index): Array<Repair> => res.data)

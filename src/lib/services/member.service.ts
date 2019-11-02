@@ -18,9 +18,9 @@ export class MemberService {
     private readonly photoService: PhotoService
   ) {}
 
-  index(search: Members.Search = {}): Observable<Array<Member>> {
+  index(query: Members.Search = {}): Observable<Array<Member>> {
     const route: string = this.routes.team.members.index;
-    const payload: HttpOptions = { params: search as any };
+    const payload: HttpOptions = { params: query as any };
 
     return this.http.get<Members.Index>(route, payload).pipe(
       map((res: Members.Index): Array<Member> => res.data)

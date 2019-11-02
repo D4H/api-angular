@@ -18,9 +18,9 @@ export class EquipmentService {
     private readonly photoService: PhotoService
   ) {}
 
-  index(search: Gear.Search = {}): Observable<Array<Equipment>> {
+  index(query: Gear.Search = {}): Observable<Array<Equipment>> {
     const route: string = this.routes.team.equipment.index;
-    const payload: HttpOptions = { params: search as any };
+    const payload: HttpOptions = { params: query as any };
 
     return this.http.get<Gear.Index>(route, payload).pipe(
       map((res: Gear.Index): Array<Equipment> => res.data)

@@ -15,9 +15,9 @@ export class InspectionService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(search: Inspections.Search = {}): Observable<Array<Inspection>> {
+  index(query: Inspections.Search = {}): Observable<Array<Inspection>> {
     const route: string = this.routes.team.inspections.index;
-    const payload: HttpOptions = { params: search as any };
+    const payload: HttpOptions = { params: query as any };
 
     return this.http.get<Inspections.Index>(route, payload).pipe(
       map((res: Inspections.Index): Array<Inspection> => res.data)
