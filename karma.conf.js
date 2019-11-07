@@ -16,7 +16,7 @@ module.exports = config => {
       'ChromeHeadless'
     ],
     client: {
-      // captureConsole: false,
+      captureConsole: false,
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     reporters: [
