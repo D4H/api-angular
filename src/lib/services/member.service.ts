@@ -54,7 +54,7 @@ export class MemberService {
   image(id: number | 'me', params: Photos.Params = {}): Observable<SafeUrl> {
     const route: string = this.routes.team.members.image(id);
 
-    return this.photoService.get(route, params);
+    return this.photoService.get(route, { params } as any);
   }
 
   labels(): Observable<Members.LabelData> {

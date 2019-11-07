@@ -166,7 +166,7 @@ describe('MemberService', () => {
       expect(service.update.length).toBe(1);
     });
 
-    it('should return an updated Note', () => {
+    it('should return an updated Member', () => {
       service.update(member.id, attributes)
         .subscribe((res: Member) => expect(res).toEqual(updatedMember));
 

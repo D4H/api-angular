@@ -54,9 +54,8 @@ describe('TeamService', () => {
       url = ApiUrl(config, routes.team.show(membership.unit.id));
     });
 
-    it('should have show accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.show).toBe('function');
-      expect(service.show.length).toBe(1);
     });
 
     it('should return a single Team', () => {
@@ -117,9 +116,8 @@ describe('TeamService', () => {
       url = ApiUrl(config, routes.team.image, { version });
     });
 
-    it('should have image accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.image).toBe('function');
-      expect(service.image.length).toBe(1);
     });
 
     it('should return a SafeUrl when given a Membership', () => {
@@ -165,9 +163,8 @@ describe('TeamService', () => {
       };
     });
 
-    it('should have settings accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.settings).toBe('function');
-      expect(service.settings.length).toBe(2);
     });
 
     it('should return information about a valid setting parameter', () => {

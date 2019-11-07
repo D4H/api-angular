@@ -9,8 +9,7 @@ import { API_PHOTO_URL_REGEX, ApiUrl } from '../../lib/tools';
 import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
 import { Factory } from '../../lib/factories';
-import { InvalidPhotoUrlError, PhotoService } from '../../lib/services';
-import { Membership } from '../../lib/models';
+import { PhotoService } from '../../lib/services';
 
 describe('PhotoService', () => {
   const config: Config = Factory.build<Config>('Config');
@@ -75,13 +74,6 @@ describe('PhotoService', () => {
       req = http.expectOne({ url, method: 'GET' });
       req.event(new HttpResponse({ body: undefined }));
     });
-
-    it('should throw an error when given an invalid URL', () => {
-      url = `/${faker.random.uuid()}/${faker.lorem.word()}`;
-
-      expect(() => service.get(url))
-        .toThrow(new InvalidPhotoUrlError(url));
-    });
   });
 
   describe('errorHandler', () => {
@@ -100,10 +92,10 @@ describe('PhotoService', () => {
 
       req = http.expectOne({ url, method: 'GET' });
 
-      req.event(new HttpResponse({
+      req.flush(null, {
         status: NOT_FOUND,
         statusText: getStatusText(NOT_FOUND)
-      }));
+      });
     });
 
     it('should re-throw any error outside of NOT_FOUND', () => {
@@ -114,56 +106,10 @@ describe('PhotoService', () => {
 
       req = http.expectOne({ url, method: 'GET' });
 
-      req.event(new HttpResponse({
+      req.flush(null, {
         status: UNAUTHORIZED,
         statusText: getStatusText(UNAUTHORIZED)
-      }));
-    });
-  });
-
-  describe('membership', () => {
-    let blob: Blob;
-    let membership: Membership;
-    let path: string;
-    let url: string;
-    let version: string;
-
-    beforeEach(() => {
-      blob = Factory.build<Blob>('Photo');
-      membership = Factory.build<Membership>('Membership');
-      path = routes.team.image;
-      version = new Date(membership.unit.id * 1000000).toISOString();
-      url = ApiUrl(config, path, { version });
-    });
-
-    it('should have membership accessor', () => {
-      expect(typeof service.membership).toBe('function');
-      expect(service.membership.length).toBe(2);
-    });
-
-    it('should return a SafeUrl when given a valid URL and Membership', () => {
-      service.membership(path, membership).subscribe((res: any) => {
-        expect(res.hasOwnProperty('changingThisBreaksApplicationSecurity')).toBe(true);
-        expect(API_PHOTO_URL_REGEX.test(res.changingThisBreaksApplicationSecurity)).toBe(true);
       });
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush(blob);
-
-      expect(req.request.headers.get('Authorization')).toEqual(`Bearer ${membership.token}`);
-    });
-
-    it('should accept overriding version parameter', () => {
-      const date: Date = new Date();
-      url = ApiUrl(config, path, { version: date.toISOString() });
-
-      service.membership(path, membership, { version: date }).subscribe((res: any) => {
-        expect(res.hasOwnProperty('changingThisBreaksApplicationSecurity')).toBe(true);
-        expect(API_PHOTO_URL_REGEX.test(res.changingThisBreaksApplicationSecurity)).toBe(true);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush(blob);
     });
   });
 });

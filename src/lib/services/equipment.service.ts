@@ -62,6 +62,6 @@ export class EquipmentService {
   image(id: number, params: Photos.Params = {}): Observable<SafeUrl> {
     const route: string = this.routes.team.equipment.image(id);
 
-    return this.photoService.get(route, params);
+    return this.photoService.get(route, { params } as any);
   }
 }

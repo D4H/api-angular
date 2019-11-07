@@ -16,7 +16,7 @@ module.exports = config => {
       'ChromeHeadless'
     ],
     client: {
-      captureConsole: false,
+      // captureConsole: false,
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     reporters: [
@@ -37,6 +37,7 @@ module.exports = config => {
       'karma-mocha-reporter'
     ],
     mochaReporter: {
+      ignoreSkipped: true,
       showDiff: true
     },
     coverageIstanbulReporter: {

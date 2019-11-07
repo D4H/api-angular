@@ -1,17 +1,17 @@
-import faker from 'faker';
+import { Inject, Injectable } from '@angular/core';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
 
-import { CLIENT_CONFIG, Config, ConfigProvider } from '../../lib/providers';
+import { CLIENT_CONFIG, Config, ConfigProvider } from '../../lib/providers/config.provider';
 import { Factory } from '../../lib/factories';
 
 interface State {
   client: Config;
 }
 
+@Injectable()
 class ConfigSelector implements ConfigProvider {
   readonly config$: Observable<Config>;
 
@@ -20,6 +20,7 @@ class ConfigSelector implements ConfigProvider {
   }
 }
 
+@Injectable()
 class ConfigConsumer {
   constructor(
     @Inject(CLIENT_CONFIG) readonly configurator: ConfigProvider
@@ -50,7 +51,12 @@ describe('NgRx Config Selector', () => {
 
     consumer = TestBed.get(ConfigConsumer);
     selector = TestBed.get(ConfigSelector);
-    store = TestBed.get<Store<State>>(Store);
+    store = TestBed.get(Store);
+  });
+
+  it('should be created', () => {
+    expect(consumer).toBeTruthy();
+    expect(selector).toBeTruthy();
   });
 
   describe('ConfigSelector', () => {
