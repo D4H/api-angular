@@ -60,6 +60,12 @@ export interface RouteConfig {
       update(id: number): string;
     };
 
+    locations: {
+      index: string;
+      show(id: number): string;
+      destroy(id: number): string;
+    };
+
     members: {
       index: string;
       labels: string;
@@ -165,6 +171,12 @@ export const routes: RouteConfig = {
       index: '/team/inspections',
       show: (id: number): string => `/team/inspections/${id}`,
       update: (id: number): string => `/team/inspections/${id}`
+    },
+
+    locations: {
+      index: '/team/locations',
+      show: (id: number): string => `/team/locations/${id}`,
+      destroy: (id: number): string => `/team/locations/${id}`
     },
 
     members: {

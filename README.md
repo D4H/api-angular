@@ -178,6 +178,10 @@ Interface | Method | Purpose
     * `index(inspectionId, [search])`
     * `show(inspectionId, id)`
     * `update(inspectionId, id[, params])`
+* Location
+    * `index([search])`
+    * `show(id)`
+    * `destroy(id)`
 * Member
     * `index([search])`
     * `show(id)`
