@@ -1,34 +1,39 @@
 import faker from 'faker';
-import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
+import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
+import { cold, hot } from 'jasmine-marbles';
 
-import { ApiUrl } from '../../lib/tools';
+import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Config, routes } from '../../lib/providers';
 import { Factory } from '../../lib/factories';
 import { Group } from '../../lib/models';
 import { GroupService } from '../../lib/services';
 import { Groups } from '../../lib/api';
+import { routes } from '../../lib/providers';
 
 describe('GroupService', () => {
-  const config: Config = Factory.build<Config>('Config');
-  let http: HttpTestingController;
-  let req: TestRequest;
+  let error: HttpErrorResponse;
+  let http: any;
+  let result$: Observable<any>;
   let service: GroupService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ClientTestModule.forRoot(config)
+        ClientTestModule
       ],
       providers: [
-        GroupService
+        GroupService,
+        {
+          provide: ApiHttpClient,
+          useValue: jasmine.createSpyObj('http', ['get', 'post', 'put', 'delete'])
+        }
       ]
     });
 
-    http = TestBed.get(HttpTestingController);
+    error = Factory.build<HttpErrorResponse>('HttpError');
+    http = TestBed.get<ApiHttpClient>(ApiHttpClient);
     service = TestBed.get(GroupService);
   });
 
@@ -38,93 +43,57 @@ describe('GroupService', () => {
 
   describe('index', () => {
     const path: string = routes.team.groups.index;
-    let search: Groups.Search;
     let groups: Array<Group>;
-    let url: string;
+    let search: Groups.Search;
 
     beforeEach(() => {
       groups = Factory.buildList<Group>('Group');
-    });
-
-    it('should have index accessor', () => {
-      expect(typeof service.index).toBe('function');
-      expect(service.index.length).toBe(1);
-    });
-
-    it('should return an array of Groups', () => {
-      url = ApiUrl(config, path);
-
-      service.index()
-        .subscribe((res: Array<Group>) => expect(res).toEqual(groups));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: groups });
-    });
-
-    it('should accept optional search parameters and return an array of Groups', () => {
       search = { limit: 5, offset: 15 };
-      url = ApiUrl(config, path, search);
-
-      service.index(search)
-        .subscribe((res: Array<Group>) => expect(res).toEqual(groups));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: groups });
     });
 
-    it('should return BAD_REQUEST with an invalid search', () => {
-      search = { limit: 'moo' } as any;
-      url = ApiUrl(config, path, search);
+    it('should be a function', () => {
+      expect(typeof service.index).toBe('function');
+    });
 
-      service.index(search).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
+    it('should call http.get and return an array of groups', () => {
+      http.get.and.returnValue(of({ data: groups }));
+      result$ = hot('(a|)', { a: groups });
+      expect(service.index(search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: search });
+    });
 
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.index(search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
   });
 
   describe('show', () => {
     const path: (id: number) => string = routes.team.groups.show;
     let group: Group;
-    let url: string;
 
     beforeEach(() => {
       group = Factory.build<Group>('Group');
-      url = ApiUrl(config, path(group.id));
     });
 
-    it('should have show accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.show).toBe('function');
-      expect(service.show.length).toBe(1);
     });
 
-    it('should return a single Group', () => {
-      service.show(group.id).subscribe((res: Group) => expect(res).toEqual(group));
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: group });
+    it('should call http.get and return a group', () => {
+      http.get.and.returnValue(of({ data: group }));
+      result$ = hot('(a|)', { a: group });
+      expect(service.show(group.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(group.id));
     });
 
-    it('should return NOT_FOUND with nonexistent Group', () => {
-      url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
-
-      service.show(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(NOT_FOUND);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: NOT_FOUND,
-        statusText: getStatusText(NOT_FOUND)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.show(group.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(group.id));
     });
   });
 });

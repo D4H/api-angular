@@ -1,37 +1,48 @@
 import faker from 'faker';
-import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
+import { NOT_FOUND } from 'http-status-codes';
+import { Observable, of, throwError } from 'rxjs';
+import { SafeUrl } from '@angular/platform-browser';
 import { TestBed } from '@angular/core/testing';
+import { cold, hot } from 'jasmine-marbles';
 
-import { API_PHOTO_URL_REGEX, ApiUrl, sample } from '../../lib/tools';
+import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Config, routes } from '../../lib/providers';
 import { Factory } from '../../lib/factories';
 import { Group, Member, OperationalStatus, StatusLabel } from '../../lib/models';
 import { MemberService, PhotoService } from '../../lib/services';
 import { Members } from '../../lib/api';
+import { routes } from '../../lib/providers';
 
 describe('MemberService', () => {
-  const config: Config = Factory.build<Config>('Config');
-  let http: HttpTestingController;
-  let req: TestRequest;
+  let error: HttpErrorResponse;
+  let http: any;
+  let photoService: any;
+  let result$: Observable<any>;
   let service: MemberService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ClientTestModule.forRoot(config)
+        ClientTestModule
       ],
       providers: [
         MemberService,
-        PhotoService
+        {
+          provide: PhotoService,
+          useValue: jasmine.createSpyObj('photoService', ['get'])
+        },
+        {
+          provide: ApiHttpClient,
+          useValue: jasmine.createSpyObj('http', ['get', 'post', 'put', 'delete'])
+        }
       ]
     });
 
-    http = TestBed.get(HttpTestingController);
-    service = TestBed.get(MemberService);
+    error = Factory.build<HttpErrorResponse>('HttpError');
+    http = TestBed.get<ApiHttpClient>(ApiHttpClient);
+    service = TestBed.get<MemberService>(MemberService);
+    photoService = TestBed.get<PhotoService>(PhotoService);
   });
 
   it('should be created', () => {
@@ -40,272 +51,161 @@ describe('MemberService', () => {
 
   describe('index', () => {
     const path: string = routes.team.members.index;
-    let members: Array<Member>;
+    let member: Array<Member>;
     let search: Members.Search;
-    let url: string;
 
     beforeEach(() => {
-      members = Factory.buildList<Member>('Member');
+      member = Factory.buildList<Member>('Member');
+      search = { limit: 5, offset: 15 };
     });
 
-    it('should have index accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.index).toBe('function');
-      expect(service.index.length).toBe(0);
     });
 
-    it('should return an array of Members', () => {
-      search = { limit: 5, offset: 15 };
-      url = ApiUrl(config, path, search);
-
-      service.index(search)
-        .subscribe((res: Array<Member>) => expect(res).toEqual(members));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: members });
+    it('should call http.get and return an array of members', () => {
+      http.get.and.returnValue(of({ data: member }));
+      result$ = hot('(a|)', { a: member });
+      expect(service.index(search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
 
-    it('should accept optional search parameters and return an array of Members', () => {
-      search = { limit: 5, offset: 15 };
-      url = ApiUrl(config, path, search);
-
-      service.index(search)
-        .subscribe((res: Array<Member>) => expect(res).toEqual(members));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: members });
-    });
-
-    it('should return BAD_REQUEST with an invalid search', () => {
-      search = { limit: 'moo' } as any;
-      url = ApiUrl(config, path, search);
-
-      service.index(search).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.index()).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: {} });
     });
   });
 
   describe('show', () => {
-    const path: (id: number | 'me') => string = routes.team.members.show;
+    const path: (id: number) => string = routes.team.members.show;
     let member: Member;
-    let url: string;
 
     beforeEach(() => {
       member = Factory.build<Member>('Member');
     });
 
-    it('should have show accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.show).toBe('function');
-      expect(service.show.length).toBe(1);
     });
 
-    it('should return a single Member with numeric ID', () => {
-      url = ApiUrl(config, path(member.id));
-      service.show(member.id).subscribe((res: Member) => expect(res).toEqual(member));
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: member });
+    it('should call http.get and return a member', () => {
+      http.get.and.returnValue(of({ data: member }));
+      result$ = hot('(a|)', { a: member });
+      expect(service.show(member.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(member.id));
     });
 
-    it('should return a single Member with string "me" ID', () => {
-      url = ApiUrl(config, path('me'));
-      service.show('me').subscribe((res: Member) => expect(res).toEqual(member));
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: member });
-    });
-
-    it('should return NOT_FOUND with nonexistent Member', () => {
-      url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
-
-      service.show(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(NOT_FOUND);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: NOT_FOUND,
-        statusText: getStatusText(NOT_FOUND)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.show(member.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(member.id));
     });
   });
 
   describe('update', () => {
-    const path: (id: number | 'me') => string = routes.team.members.update;
-    let attributes: Members.Change;
+    const path: (id: number) => string = routes.team.members.update;
+    let attributes: Partial<Member>;
     let member: Member;
-    let updatedMember: Member;
-    let url: string;
+
+    it('should be a function', () => {
+      expect(typeof service.update).toBe('function');
+    });
 
     beforeEach(() => {
       member = Factory.build<Member>('Member');
-      url = ApiUrl(config, path(member.id));
 
       attributes = {
-        name: faker.name.findName(),
-        email: faker.internet.email(),
-        notes: faker.lorem.sentence()
-      };
-
-      updatedMember = {
-        ...member,
-        ...attributes
+        email: member.email,
+        name: member.name,
+        ref: member.ref
       };
     });
 
-    it('should have update accessor', () => {
-      expect(typeof service.update).toBe('function');
-      expect(service.update.length).toBe(1);
+    it('should call http.put and return a member', () => {
+      http.put.and.returnValue(of({ data: member }));
+      result$ = hot('(a|)', { a: member });
+      expect(service.update(member.id, attributes)).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(member.id), attributes);
     });
 
-    it('should return an updated Member', () => {
-      service.update(member.id, attributes)
-        .subscribe((res: Member) => expect(res).toEqual(updatedMember));
-
-      req = http.expectOne({ url, method: 'PUT' });
-      req.flush({ data: updatedMember });
-    });
-
-    it('should return BAD_REQUEST without a body', () => {
-      service.update(member.id, undefined).subscribe(
-        () => {},
-        error => {
-          expect(error.constructor).toBe(HttpErrorResponse);
-          expect(error.status).toBe(BAD_REQUEST);
-        }
-      );
-
-      req = http.expectOne({ url, method: 'PUT' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.put.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.update(member.id)).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(member.id), {});
     });
   });
 
   describe('groups', () => {
-    const path: (id: number | 'me') => string = routes.team.members.groups;
+    const path: (id: number) => string = routes.team.members.groups;
     let groups: Array<Group>;
     let member: Member;
-    let url: string;
 
     beforeEach(() => {
       groups = Factory.buildList<Group>('Group');
       member = Factory.build<Member>('Member');
     });
 
-    it('should have groups accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.groups).toBe('function');
-      expect(service.groups.length).toBe(1);
     });
 
-    it('should return an array of Group records with a numeric ID', () => {
-      url = ApiUrl(config, path(member.id));
-
-      service.groups(member.id)
-        .subscribe((res: Array<Group>) => expect(res).toEqual(groups));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: groups });
+    it('should call http.get and return an array of groups', () => {
+      http.get.and.returnValue(of({ data: groups }));
+      result$ = hot('(a|)', { a: groups });
+      expect(service.groups(member.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(member.id));
     });
 
-    it('should return an array of Group records with a string "me" ID', () => {
-      url = ApiUrl(config, path('me'));
-
-      service.groups('me')
-        .subscribe((res: Array<Group>) => expect(res).toEqual(groups));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: groups });
-    });
-
-
-    it('should return NOT_FOUND with nonexistent Member', () => {
-      url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
-
-      service.groups(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(NOT_FOUND);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: NOT_FOUND,
-        statusText: getStatusText(NOT_FOUND)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.groups(member.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(member.id));
     });
   });
 
   describe('image', () => {
-    let blob: Blob;
-    let path: string;
-    let safeUrl: SafeUrl;
-    let sanitizer: DomSanitizer;
-    let url: string;
-    let memberId: number;
+    const path: (id: number) => string = routes.team.members.image;
+    let member: Member;
+    let image: SafeUrl;
 
     beforeEach(() => {
-      blob = Factory.build<Blob>('Photo');
-      memberId = faker.random.number();
-      path = routes.team.members.image(memberId);
-      sanitizer = TestBed.get(DomSanitizer);
-      safeUrl = sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-      url = ApiUrl(config, path);
+      member = Factory.build<Member>('Member');
+      image = Factory.build<SafeUrl>('SafeUrl');
     });
 
-    it('should have image accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.image).toBe('function');
-      expect(service.image.length).toBe(1);
     });
 
-    it('should return a SafeUrl when given a valid URL', () => {
-      service.image(memberId).subscribe((res: any) => {
-        expect(res.hasOwnProperty('changingThisBreaksApplicationSecurity')).toBe(true);
-        expect(API_PHOTO_URL_REGEX.test(res.changingThisBreaksApplicationSecurity)).toBe(true);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush(blob);
+    it('should call photoService.get and return a SafeUrl', () => {
+      photoService.get.and.returnValue(of(image));
+      result$ = hot('(a|)', { a: image });
+      expect(service.image(member.id)).toBeObservable(result$);
+      expect(photoService.get).toHaveBeenCalledWith(path(member.id), { params: {} });
     });
 
-    it('should return NOT_FOUND with nonexistent Member ID', () => {
-      url = ApiUrl(config, routes.team.members.image(Number.MAX_SAFE_INTEGER));
-
-      service.image(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(NOT_FOUND);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush(blob, {
-        status: NOT_FOUND,
-        statusText: getStatusText(NOT_FOUND)
-      });
+    it('should call photoService.get and return null when image does not exist', () => {
+      error = { ...error, status: NOT_FOUND };
+      photoService.get.and.returnValue(of(null));
+      result$ = hot('(a|)', { a: null });
+      expect(service.image(member.id)).toBeObservable(result$);
+      expect(photoService.get).toHaveBeenCalledWith(path(member.id), { params: {} });
     });
   });
 
   describe('labels', () => {
     const path: string = routes.team.members.labels;
     let data: Members.LabelData;
-    let url: string;
-
-    it('should have labels accessor', () => {
-      expect(typeof service.labels).toBe('function');
-      expect(service.labels.length).toBe(0);
-    });
+    let member: Member;
 
     beforeEach(() => {
+      member = Factory.build<Member>('Member');
+
       data = [
         Factory.build<StatusLabel & { type: OperationalStatus.Operational }>
           ('StatusLabel', { type: OperationalStatus.Operational }),
@@ -318,14 +218,15 @@ describe('MemberService', () => {
       ];
     });
 
-    it('should return a LabelData structure', () => {
-      url = ApiUrl(config, path);
+    it('should be a function', () => {
+      expect(typeof service.labels).toBe('function');
+    });
 
-      service.labels()
-        .subscribe((res: Members.LabelData) => expect(res).toEqual(data));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data });
+    it('should call http.get and return an array of labels', () => {
+      http.get.and.returnValue(of({ data }));
+      result$ = hot('(a|)', { a: data });
+      expect(service.labels()).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path);
     });
   });
 });

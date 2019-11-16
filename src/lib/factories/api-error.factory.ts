@@ -20,7 +20,6 @@ export function ApiError(attributes: Partial<ApiError> = {}): ApiError {
     FORBIDDEN,
     INTERNAL_SERVER_ERROR,
     NOT_ACCEPTABLE,
-    NOT_FOUND,
     UNAUTHORIZED,
     UNPROCESSABLE_ENTITY
   ]);

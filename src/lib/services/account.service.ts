@@ -69,7 +69,7 @@ export class AccountService {
       map((res: Accounts.Username): Username => ({ ...res.data, exists: true })),
       catchError((error: HttpErrorResponse): Observable<Username> => {
         if (error.status === NOT_FOUND) {
-          return of({ username, exists: false, language: undefined });
+          return of({ username, exists: false, language: null });
         } else {
           return throwError(error);
         }

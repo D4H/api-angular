@@ -90,7 +90,7 @@ export class TeamService {
     const options: HttpOptions = {
       headers: this.headers(team),
       params: {
-        version: new Date(Number(team.unit.id) * multiplier),
+        version: new Date(Number(team.unit.id) * multiplier).toISOString(),
         ...params as any
       }
     };

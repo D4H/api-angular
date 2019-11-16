@@ -1,34 +1,39 @@
 import faker from 'faker';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
-import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
+import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
+import { cold, hot } from 'jasmine-marbles';
 
 import { Activities } from '../../lib/api';
 import { Activity } from '../../lib/models';
 import { ActivityService } from '../../lib/services';
-import { ApiUrl } from '../../lib/tools';
+import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Config, routes } from '../../lib/providers';
 import { Factory } from '../../lib/factories';
+import { routes } from '../../lib/providers';
 
 describe('ActivityService', () => {
-  const config: Config = Factory.build<Config>('Config');
-  let http: HttpTestingController;
-  let req: TestRequest;
+  let error: HttpErrorResponse;
+  let http: any;
+  let result$: Observable<any>;
   let service: ActivityService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ClientTestModule.forRoot(config)
+        ClientTestModule
       ],
       providers: [
-        ActivityService
+        ActivityService,
+        {
+          provide: ApiHttpClient,
+          useValue: jasmine.createSpyObj('http', ['get', 'post', 'put', 'delete'])
+        }
       ]
     });
 
-    http = TestBed.get(HttpTestingController);
+    error = Factory.build<HttpErrorResponse>('HttpError');
+    http = TestBed.get<ApiHttpClient>(ApiHttpClient);
     service = TestBed.get(ActivityService);
   });
 
@@ -38,93 +43,57 @@ describe('ActivityService', () => {
 
   describe('index', () => {
     const path: string = routes.team.activities.index;
-    let search: Activities.Search;
     let activities: Array<Activity>;
-    let url: string;
+    let search: Activities.Search;
 
     beforeEach(() => {
       activities = Factory.buildList<Activity>('Activity');
-    });
-
-    it('should have index accessor', () => {
-      expect(typeof service.index).toBe('function');
-      expect(service.index.length).toBe(1);
-    });
-
-    it('should return an array of Activities', () => {
-      url = ApiUrl(config, path);
-
-      service.index()
-        .subscribe((res: Array<Activity>) => expect(res).toEqual(activities));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: activities });
-    });
-
-    it('should accept optional search parameters and return an array of Activities', () => {
       search = { limit: 5, offset: 15 };
-      url = ApiUrl(config, path, search);
-
-      service.index(search)
-        .subscribe((res: Array<Activity>) => expect(res).toEqual(activities));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: activities });
     });
 
-    it('should return BAD_REQUEST with an invalid search', () => {
-      search = { limit: 'moo' } as any;
-      url = ApiUrl(config, path, search);
+    it('should be a function', () => {
+      expect(typeof service.index).toBe('function');
+    });
 
-      service.index(search).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
+    it('should call http.get and return an array of activities', () => {
+      http.get.and.returnValue(of({ data: activities }));
+      result$ = hot('(a|)', { a: activities });
+      expect(service.index(search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: search });
+    });
 
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.index(search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
   });
 
   describe('show', () => {
     const path: (id: number) => string = routes.team.activities.show;
     let activity: Activity;
-    let url: string;
 
     beforeEach(() => {
       activity = Factory.build<Activity>('Activity');
-      url = ApiUrl(config, path(activity.id));
     });
 
-    it('should have show accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.show).toBe('function');
-      expect(service.show.length).toBe(1);
     });
 
-    it('should return a single Activity', () => {
-      service.show(activity.id).subscribe((res: Activity) => expect(res).toEqual(activity));
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: activity });
+    it('should call http.get and return an activity', () => {
+      http.get.and.returnValue(of({ data: activity }));
+      result$ = hot('(a|)', { a: activity });
+      expect(service.show(activity.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(activity.id));
     });
 
-    it('should return NOT_FOUND with nonexistent Activity', () => {
-      url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
-
-      service.show(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(NOT_FOUND);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: NOT_FOUND,
-        statusText: getStatusText(NOT_FOUND)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.show(activity.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(activity.id));
     });
   });
 });

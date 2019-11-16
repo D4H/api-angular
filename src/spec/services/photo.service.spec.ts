@@ -1,34 +1,44 @@
 import faker from 'faker';
-import { NOT_FOUND, UNAUTHORIZED, getStatusText } from 'http-status-codes';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NOT_FOUND, UNAUTHORIZED, getStatusText } from 'http-status-codes';
+import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
+import { cold, hot } from 'jasmine-marbles';
 
-import { API_PHOTO_URL_REGEX, ApiUrl } from '../../lib/tools';
+import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
 import { Factory } from '../../lib/factories';
 import { PhotoService } from '../../lib/services';
 
 describe('PhotoService', () => {
-  const config: Config = Factory.build<Config>('Config');
-  let http: HttpTestingController;
-  let req: TestRequest;
+  let error: HttpErrorResponse;
+  let http: any;
+  let result$: Observable<any>;
+  let sanitizer: any;
   let service: PhotoService;
-  let sanitizer: DomSanitizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ClientTestModule.forRoot(config)
+        ClientTestModule
       ],
       providers: [
-        PhotoService
+        PhotoService,
+        {
+          provide: DomSanitizer,
+          useValue: jasmine.createSpyObj('http', ['bypassSecurityTrustResourceUrl'])
+        },
+        {
+          provide: ApiHttpClient,
+          useValue: jasmine.createSpyObj('http', ['get', 'post', 'put', 'delete'])
+        }
       ]
     });
 
-    http = TestBed.get(HttpTestingController);
+    error = Factory.build<HttpErrorResponse>('HttpError');
+    http = TestBed.get<ApiHttpClient>(ApiHttpClient);
     sanitizer = TestBed.get(DomSanitizer);
     service = TestBed.get(PhotoService);
   });
@@ -42,74 +52,45 @@ describe('PhotoService', () => {
     let blob: Blob;
     let path: string;
     let safeUrl: SafeUrl;
-    let url: string;
 
     beforeEach(() => {
-      blob = Factory.build<Blob>('Photo');
+      blob = Factory.build<Blob>('Blob');
+      safeUrl = Factory.build<SafeUrl>('SafeUrl', blob);
       path = `/${faker.random.uuid()}/image`;
-      safeUrl = sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-      url = ApiUrl(config, path);
     });
 
-    it('should have get accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.get).toBe('function');
-      expect(service.get.length).toBe(1);
     });
 
-    it('should return a SafeUrl when given a valid URL', () => {
-      service.get(path).subscribe((res: any) => {
-        expect(res.hasOwnProperty('changingThisBreaksApplicationSecurity')).toBe(true);
-        expect(API_PHOTO_URL_REGEX.test(res.changingThisBreaksApplicationSecurity)).toBe(true);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush(blob);
+    it('should call http.get and return a SafeUrl', () => {
+      http.get.and.returnValue(of(blob));
+      sanitizer.bypassSecurityTrustResourceUrl.and.returnValue(safeUrl);
+      result$ = hot('(a|)', { a: safeUrl });
+      expect(service.get(path)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { responseType: 'blob' });
     });
 
-    it('should return undefined when response is not a Blob', () => {
-      service.get(path).subscribe((res: any) => {
-        expect(res).toBe(undefined);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.event(new HttpResponse({ body: undefined }));
-    });
-  });
-
-  describe('errorHandler', () => {
-    let path: string;
-    let url: string;
-
-    beforeEach(() => {
-      path = `/${faker.random.uuid()}/image`;
-      url = ApiUrl(config, path);
+    it('should return null when response is not a Blob', () => {
+      http.get.and.returnValue(of(undefined));
+      result$ = hot('(a|)', { a: null });
+      expect(service.get(path)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { responseType: 'blob' });
     });
 
-    it('should rescue from NOT_FOUND and return undefined', () => {
-      service.get(path).subscribe((res: any) => {
-        expect(res).toBe(undefined);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush(null, {
-        status: NOT_FOUND,
-        statusText: getStatusText(NOT_FOUND)
-      });
+    it('should return null when error response is NOT_FOUND', () => {
+      error = { ...error, status: NOT_FOUND };
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('(a|)', { a: null });
+      expect(service.get(path)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { responseType: 'blob' });
     });
 
-    it('should re-throw any error outside of NOT_FOUND', () => {
-      service.get(path).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(UNAUTHORIZED);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush(null, {
-        status: UNAUTHORIZED,
-        statusText: getStatusText(UNAUTHORIZED)
-      });
+    it('should throw an error with any other invalid response', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.get(path)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { responseType: 'blob' });
     });
   });
 });

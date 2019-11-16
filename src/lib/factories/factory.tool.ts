@@ -4,6 +4,7 @@ import { Account } from './account.factory';
 import { Activity } from './activity.factory';
 import { ApiError } from './api-error.factory';
 import { Attendance } from './attendance.factory';
+import { Blob, SafeUrl } from './blob.factory';
 import { Brand } from './brand.factory';
 import { Category } from './category.factory';
 import { Config } from './config.factory';
@@ -13,6 +14,7 @@ import { Duty } from './duty.factory';
 import { EmergencyContact } from './emergency-contact.factory';
 import { Equipment } from './equipment.factory';
 import { Group } from './group.factory';
+import { HttpError } from './http-error.factory';
 import { Inspection } from './inspection.factory';
 import { Language } from './language.factory';
 import { Location } from './location.factory';
@@ -23,7 +25,6 @@ import { Model } from './model.factory';
 import { Note } from './note.factory';
 import { Password } from './password.factory';
 import { Period } from './period.factory';
-import { Photo } from './photo.factory';
 import { ProxyError } from './proxy-error.factory';
 import { Repair } from './repair.factory';
 import { Result } from './result.factory';
@@ -95,6 +96,7 @@ Factory.add({
   Activity,
   ApiError,
   Attendance,
+  Blob,
   Brand,
   Category,
   Config,
@@ -104,6 +106,7 @@ Factory.add({
   EmergencyContact,
   Equipment,
   Group,
+  HttpError,
   Inspection,
   Language,
   Location,
@@ -115,11 +118,11 @@ Factory.add({
   Note,
   Password,
   Period,
-  Photo,
   ProxyError,
   Repair,
   Result,
   Role,
+  SafeUrl,
   StatusLabel,
   SymbolCost,
   Team,

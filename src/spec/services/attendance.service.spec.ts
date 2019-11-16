@@ -1,34 +1,39 @@
 import faker from 'faker';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
-import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
+import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
+import { cold, hot } from 'jasmine-marbles';
 
-import { ApiUrl, sample } from '../../lib/tools';
-import { Attendance, AttendanceStatus } from '../../lib/models';
+import { ApiHttpClient } from '../../lib/client';
+import { Attendance } from '../../lib/models';
 import { AttendanceService } from '../../lib/services';
 import { Attendances } from '../../lib/api';
 import { ClientTestModule } from '../client-test.module';
-import { Config, routes } from '../../lib/providers';
 import { Factory } from '../../lib/factories';
+import { routes } from '../../lib/providers';
 
 describe('AttendanceService', () => {
-  const config: Config = Factory.build<Config>('Config');
-  let http: HttpTestingController;
-  let req: TestRequest;
+  let error: HttpErrorResponse;
+  let http: any;
+  let result$: Observable<any>;
   let service: AttendanceService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ClientTestModule.forRoot(config)
+        ClientTestModule
       ],
       providers: [
-        AttendanceService
+        AttendanceService,
+        {
+          provide: ApiHttpClient,
+          useValue: jasmine.createSpyObj('http', ['get', 'post', 'put', 'delete'])
+        }
       ]
     });
 
-    http = TestBed.get(HttpTestingController);
+    error = Factory.build<HttpErrorResponse>('HttpError');
+    http = TestBed.get<ApiHttpClient>(ApiHttpClient);
     service = TestBed.get(AttendanceService);
   });
 
@@ -38,251 +43,152 @@ describe('AttendanceService', () => {
 
   describe('index', () => {
     const path: string = routes.team.attendances.index;
-    let search: Attendances.Search;
     let attendances: Array<Attendance>;
-    let url: string;
+    let search: Attendances.Search;
 
     beforeEach(() => {
       attendances = Factory.buildList<Attendance>('Attendance');
-    });
-
-    it('should have index accessor', () => {
-      expect(typeof service.index).toBe('function');
-      expect(service.index.length).toBe(1);
-    });
-
-    it('should return an array of Attendances', () => {
-      url = ApiUrl(config, path);
-
-      service.index()
-        .subscribe((res: Array<Attendance>) => expect(res).toEqual(attendances));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: attendances });
-    });
-
-    it('should accept optional search parameters and return an array of Attendances', () => {
       search = { limit: 5, offset: 15 };
-      url = ApiUrl(config, path, search);
-
-      service.index(search)
-        .subscribe((res: Array<Attendance>) => expect(res).toEqual(attendances));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: attendances });
     });
 
-    it('should return BAD_REQUEST with an invalid search', () => {
-      search = { limit: 'moo' } as any;
-      url = ApiUrl(config, path, search);
+    it('should be a function', () => {
+      expect(typeof service.index).toBe('function');
+    });
 
-      service.index(search).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST); }
-      );
+    it('should call http.get and return an array of attendances', () => {
+      http.get.and.returnValue(of({ data: attendances }));
+      result$ = hot('(a|)', { a: attendances });
+      expect(service.index(search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: search });
+    });
 
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.index(search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
   });
 
   describe('show', () => {
     const path: (id: number) => string = routes.team.attendances.show;
     let attendance: Attendance;
-    let url: string;
 
     beforeEach(() => {
       attendance = Factory.build<Attendance>('Attendance');
-      url = ApiUrl(config, path(attendance.id));
     });
 
-    it('should have show accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.show).toBe('function');
-      expect(service.show.length).toBe(1);
     });
 
-    it('should return a single Attendance', () => {
-      service.show(attendance.id).subscribe((res: Attendance) => expect(res).toEqual(attendance));
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: attendance });
+    it('should call http.get and return a attendance', () => {
+      http.get.and.returnValue(of({ data: attendance }));
+      result$ = hot('(a|)', { a: attendance });
+      expect(service.show(attendance.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(attendance.id));
     });
 
-    it('should return NOT_FOUND with nonexistent attendance', () => {
-      url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
-
-      service.show(Number.MAX_SAFE_INTEGER).subscribe(
-        () => {},
-        error => {
-          expect(error.constructor).toBe(HttpErrorResponse);
-          expect(error.status).toBe(NOT_FOUND);
-        }
-      );
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: NOT_FOUND,
-        statusText: getStatusText(NOT_FOUND)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.show(attendance.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(attendance.id));
     });
   });
 
   describe('create', () => {
     const path: string = routes.team.attendances.index;
-    let attributes: Attendances.New;
     let attendance: Attendance;
-    let url: string;
+    let attributes: Attendances.New;
 
     beforeEach(() => {
       attendance = Factory.build<Attendance>('Attendance');
-      url = ApiUrl(config, path);
 
       attributes = {
         activity_id: attendance.activity.id,
-        date: attendance.date,
-        enddate: attendance.enddate,
         member: attendance.member.id,
-        role_id: attendance.role,
         status: attendance.status
       };
     });
 
-    it('should have create accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.create).toBe('function');
-      expect(service.create.length).toBe(1);
     });
 
-    it('should return a newly-created Attendance', () => {
-      service.create(attributes).subscribe((res: Attendance) => expect(res).toEqual(attendance));
-      req = http.expectOne({ url, method: 'POST' });
-      req.flush({ data: attendance });
+    it('should call http.post and return a attendance', () => {
+      http.post.and.returnValue(of({ data: attendance }));
+      result$ = hot('(a|)', { a: attendance });
+      expect(service.create(attributes)).toBeObservable(result$);
+      expect(http.post).toHaveBeenCalledWith(path, attributes);
     });
 
-    it('should return BAD_REQUEST without a body', () => {
-      service.create(undefined).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
-
-      req = http.expectOne({ url, method: 'POST' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
-    });
-
-    it('should return BAD_REQUEST with invalid attributes', () => {
-      service.create({ enddate: 'moo' } as any).subscribe(
-        () => {},
-        error => {
-          expect(error.constructor).toBe(HttpErrorResponse);
-          expect(error.status).toBe(BAD_REQUEST);
-        }
-      );
-
-      req = http.expectOne({ url, method: 'POST' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.post.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.create(attributes)).toBeObservable(result$);
+      expect(http.post).toHaveBeenCalledWith(path, attributes);
     });
   });
 
   describe('update', () => {
     const path: (id: number) => string = routes.team.attendances.update;
-    let attributes: Attendances.Change;
     let attendance: Attendance;
-    let updatedAttendance: Attendance;
-    let url: string;
+    let attributes: Attendances.Change;
 
-    it('should have create accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.update).toBe('function');
-      expect(service.update.length).toBe(2);
     });
 
     beforeEach(() => {
       attendance = Factory.build<Attendance>('Attendance');
-      url = ApiUrl(config, path(attendance.id));
 
       attributes = {
         date: attendance.date,
         enddate: attendance.enddate,
-        role_id: faker.random.number(),
-        status: sample<AttendanceStatus>(AttendanceStatus)
-      };
-
-      updatedAttendance = {
-        ...attendance,
-        date: attributes.date as string,
-        enddate: attributes.enddate as string,
-        role: attributes.role_id,
-        status: attributes.status
+        status: attendance.status
       };
     });
 
-    it('should return an updated Attendance', () => {
-      service.update(attendance.id, attributes)
-        .subscribe((res: Attendance) => expect(res).toEqual(updatedAttendance));
-
-      req = http.expectOne({ url, method: 'PUT' });
-      req.flush({ data: updatedAttendance });
+    it('should call http.put and return a attendance', () => {
+      http.put.and.returnValue(of({ data: attendance }));
+      result$ = hot('(a|)', { a: attendance });
+      expect(service.update(attendance.id, attributes)).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(attendance.id), attributes);
     });
 
-    it('should return BAD_REQUEST without a body', () => {
-      service.update(attendance.id, undefined).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
-
-      req = http.expectOne({ url, method: 'PUT' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
-    });
-
-    it('should return BAD_REQUEST with invalid attributes', () => {
-      service.update(attendance.id, { enddate: 'moo' } as any).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
-
-      req = http.expectOne({ url, method: 'PUT' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.put.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.update(attendance.id, attributes)).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(attendance.id), attributes);
     });
   });
 
   describe('destroy', () => {
     const path: (id: number) => string = routes.team.attendances.destroy;
     let attendance: Attendance;
-    let url: string;
 
     beforeEach(() => {
       attendance = Factory.build<Attendance>('Attendance');
-      url = ApiUrl(config, path(attendance.id));
     });
 
-    it('should have destroy accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.destroy).toBe('function');
     });
 
-    it('should return the identifier of the attendance', () => {
-      service.destroy(attendance.id)
-        .subscribe((res: number) => expect(res).toEqual(attendance.id));
+    it('should return the ID  of the attendance', () => {
+      http.delete.and.returnValue(of(undefined));
+      result$ = hot('(a|)', { a: attendance.id });
+      expect(service.destroy(attendance.id)).toBeObservable(result$);
+      expect(http.delete).toHaveBeenCalledWith(path(attendance.id));
+    });
 
-      req = http.expectOne({ url, method: 'DELETE' });
-      req.flush({});
+    it('should throw an error with any invalid request', () => {
+      http.delete.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.destroy(attendance.id)).toBeObservable(result$);
+      expect(http.delete).toHaveBeenCalledWith(path(attendance.id));
     });
   });
 });
