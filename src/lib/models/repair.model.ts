@@ -28,6 +28,7 @@ export interface Repair {
   equipment_title: string;
   fund_id: number;
   id: number;
+  location_id: number;
   repair_activity_id?: number;
   repair_cost: SymbolCost;
   team_id: number;
