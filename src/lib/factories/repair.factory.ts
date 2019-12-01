@@ -44,6 +44,7 @@ export function Repair(attributes: Partial<Repair> = {}): Repair {
 
     entity: {
       id: equipment.id,
+      location_id: equipment.location.location_id,
       team_id: equipment.team_id,
       type: equipment.type
     },
