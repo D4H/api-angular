@@ -49,7 +49,7 @@ describe('Inspection Permissions', () => {
   });
 
   describe('Operation.Update', () => {
-    it('should always be false', () => {
+    it('should always be false for member without gear permissions', () => {
       expect(inspections(member, Operation.Update, inspection)).toBe(false);
     });
 
