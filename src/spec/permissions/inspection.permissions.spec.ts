@@ -7,18 +7,26 @@ describe('Inspection Permissions', () => {
   let inspection: Inspection;
   let member: Member;
 
+  /**
+   * Create member with no relevant permissions and member.id different to
+   * inspecton.member_id, in order to avoid collisions/false positives in
+   * update permisson checks.
+   */
+
   beforeEach(() => {
-    member = {
-      id: 15,
+    member = Factory.build('Member', {
+      id: 7,
 
       permission: {
         gear: false,
         gear_basic: false,
         name: Permission.None
       }
-    } as Member;
+    });
 
-    inspection = Factory.build('Inspection');
+    inspection = Factory.build('Inspection', {
+      member_id: 15
+    });
   });
 
   it('should be a function', () => {

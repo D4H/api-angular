@@ -13,7 +13,7 @@ export function MemberPermission(attributes: Partial<MemberPermissions> = {}): M
     healthsafety: false,
     id: sequence('permission.id'),
     incidents: false,
-    name: Permission.Member,
+    name: Permission.None,
     sms: false
   }, attributes);
 }
