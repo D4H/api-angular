@@ -1,4 +1,5 @@
 import faker from 'faker';
+import { Factory } from '@d4h/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NOT_FOUND } from 'http-status-codes';
 import { Observable, of, throwError } from 'rxjs';
@@ -10,7 +11,6 @@ import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Equipment } from '../../lib/models';
 import { EquipmentService, PhotoService } from '../../lib/services';
-import { Factory } from '../../lib/factories';
 import { Search } from '../../lib/api';
 import { routes } from '../../lib/providers';
 

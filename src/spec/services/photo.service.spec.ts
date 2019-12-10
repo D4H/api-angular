@@ -1,5 +1,6 @@
 import faker from 'faker';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Factory } from '@d4h/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NOT_FOUND, UNAUTHORIZED, getStatusText } from 'http-status-codes';
 import { Observable, of, throwError } from 'rxjs';
@@ -9,7 +10,6 @@ import { cold, hot } from 'jasmine-marbles';
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Config, routes } from '../../lib/providers';
-import { Factory } from '../../lib/factories';
 import { PhotoService } from '../../lib/services';
 
 describe('PhotoService', () => {

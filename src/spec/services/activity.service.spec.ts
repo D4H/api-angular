@@ -1,4 +1,5 @@
 import faker from 'faker';
+import { Factory } from '@d4h/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
@@ -9,7 +10,6 @@ import { Activity } from '../../lib/models';
 import { ActivityService } from '../../lib/services';
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Factory } from '../../lib/factories';
 import { routes } from '../../lib/providers';
 
 describe('ActivityService', () => {

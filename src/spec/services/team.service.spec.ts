@@ -1,5 +1,6 @@
 import faker from 'faker';
 import { BAD_REQUEST, NOT_FOUND } from 'http-status-codes';
+import { Factory } from '@d4h/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { SafeUrl } from '@angular/platform-browser';
@@ -8,7 +9,6 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Factory } from '../../lib/factories';
 import { Membership, Setting, SettingData, Team } from '../../lib/models';
 import { TeamService, PhotoService } from '../../lib/services';
 import { Teams } from '../../lib/api';

@@ -1,3 +1,4 @@
+import { Factory } from '@d4h/testing';
 import { Inject, Injectable } from '@angular/core';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Observable } from 'rxjs';
@@ -5,7 +6,6 @@ import { Store, select } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
 
 import { CLIENT_CONFIG, Config, ConfigProvider } from '../../lib/providers/config.provider';
-import { Factory } from '../../lib/factories';
 
 interface State {
   client: Config;

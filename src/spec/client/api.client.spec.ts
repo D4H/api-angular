@@ -1,4 +1,5 @@
 import faker from 'faker';
+import { Factory } from '@d4h/testing';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { OK } from 'http-status-codes';
 import { TestBed } from '@angular/core/testing';
@@ -7,7 +8,6 @@ import { ApiHttpClient } from '../../lib/client';
 import { ApiUrl } from '../../lib/tools';
 import { ClientTestModule } from '../client-test.module';
 import { Config, Region, TokenType, Version } from '../../lib/providers';
-import { Factory } from '../../lib/factories';
 
 describe('ApiHttpClient', () => {
   const config: Config = Factory.build<Config>('Config');

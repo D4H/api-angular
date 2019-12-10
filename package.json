@@ -1,6 +1,6 @@
 {
   "name": "@d4h/angular",
-  "version": "3.7.5",
+  "version": "4.0.0",
   "description": "Angular services and interfaces for the D4H API.",
   "homepage": "https://d4htechnologies.com/",
   "repository": {
@@ -27,8 +27,6 @@
     "@angular/core": ">= 7 < 9"
   },
   "dependencies": {
-    "deepmerge": "^4.2.2",
-    "faker": "^4.1.0",
     "http-status-codes": "^1.4.0",
     "moment": "^2.24.0",
     "ts-xor": "^1.0.8",

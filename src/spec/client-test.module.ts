@@ -1,10 +1,10 @@
+import { Factory } from '@d4h/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { TestBedStatic } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { ApiHttpClient, AuthClient, ParserClient } from '../lib/client';
-import { Factory } from '../lib/factories';
 
 import {
   CLIENT_CONFIG,

@@ -1,4 +1,5 @@
 import faker from 'faker';
+import { Factory } from '@d4h/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
@@ -6,7 +7,6 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Factory } from '../../lib/factories';
 import { Inspection } from '../../lib/models';
 import { InspectionService } from '../../lib/services';
 import { Inspections } from '../../lib/api';
@@ -58,8 +58,8 @@ describe('InspectionService', () => {
     it('should call http.get and return an array of inspections', () => {
       http.get.and.returnValue(of({ data: inspections }));
       result$ = hot('(a|)', { a: inspections });
-      expect(service.index(search)).toBeObservable(result$);
-      expect(http.get).toHaveBeenCalledWith(path, { params: search });
+      expect(service.index()).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: {} });
     });
 
     it('should throw an error with any invalid request', () => {
@@ -121,6 +121,13 @@ describe('InspectionService', () => {
       result$ = hot('(a|)', { a: inspection });
       expect(service.update(inspection.id, attributes)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(inspection.id), attributes);
+    });
+
+    it('should pass empty attributes object by default', () => {
+      http.put.and.returnValue(of({ data: inspection }));
+      result$ = hot('(a|)', { a: inspection });
+      expect(service.update(inspection.id)).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(inspection.id), {});
     });
 
     it('should throw an error with any invalid request', () => {

@@ -1,5 +1,6 @@
 import faker from 'faker';
 import { BAD_REQUEST, NOT_FOUND, UNAUTHORIZED } from 'http-status-codes';
+import { Factory, sample } from '@d4h/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
@@ -7,9 +8,8 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { AccountService } from '../../lib/services';
 import { ApiHttpClient } from '../../lib/client';
-import { ApiUrl, sample } from '../../lib/tools';
+import { ApiUrl } from '../../lib/tools';
 import { ClientTestModule } from '../client-test.module';
-import { Factory } from '../../lib/factories';
 import { routes } from '../../lib/providers';
 
 import {
@@ -107,7 +107,7 @@ describe('AccountService', () => {
     it('should call http.get and return an array of memberships', () => {
       http.get.and.returnValue(of({ data: { documents: memberships } }));
       result$ = hot('(a|)', { a: memberships });
-      expect(service.memberships({})).toBeObservable(result$);
+      expect(service.memberships()).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: { list_modules: false }});
     });
 
