@@ -1,37 +1,48 @@
 import faker from 'faker';
-import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Factory } from '@d4h/testing';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
+import { NOT_FOUND } from 'http-status-codes';
+import { Observable, of, throwError } from 'rxjs';
+import { SafeUrl } from '@angular/platform-browser';
 import { TestBed } from '@angular/core/testing';
+import { cold, hot } from 'jasmine-marbles';
 
-import { API_PHOTO_URL_REGEX, ApiUrl, sample } from '../../lib/tools';
+import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Config, routes } from '../../lib/providers';
-import { Equipment, EquipmentStatus } from '../../lib/models';
+import { Equipment } from '../../lib/models';
 import { EquipmentService, PhotoService } from '../../lib/services';
-import { Factory } from '../../lib/factories';
-import { Gear } from '../../lib/api';
+import { Search } from '../../lib/api';
+import { routes } from '../../lib/providers';
 
 describe('EquipmentService', () => {
-  const config: Config = Factory.build<Config>('Config');
-  let http: HttpTestingController;
-  let req: TestRequest;
+  let error: HttpErrorResponse;
+  let http: any;
+  let photoService: any;
+  let result$: Observable<any>;
   let service: EquipmentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ClientTestModule.forRoot(config)
+        ClientTestModule
       ],
       providers: [
         EquipmentService,
-        PhotoService
+        {
+          provide: PhotoService,
+          useValue: jasmine.createSpyObj('photoService', ['get'])
+        },
+        {
+          provide: ApiHttpClient,
+          useValue: jasmine.createSpyObj('http', ['get', 'post', 'put', 'delete'])
+        }
       ]
     });
 
-    http = TestBed.get(HttpTestingController);
-    service = TestBed.get(EquipmentService);
+    error = Factory.build<HttpErrorResponse>('HttpError');
+    http = TestBed.get<ApiHttpClient>(ApiHttpClient);
+    service = TestBed.get<EquipmentService>(EquipmentService);
+    photoService = TestBed.get<PhotoService>(PhotoService);
   });
 
   it('should be created', () => {
@@ -40,296 +51,175 @@ describe('EquipmentService', () => {
 
   describe('index', () => {
     const path: string = routes.team.equipment.index;
-    let search: Gear.Search;
     let equipment: Array<Equipment>;
-    let url: string;
+    let search: Search;
 
     beforeEach(() => {
-      equipment = Factory.buildList<Equipment>('Equipment', 7);
-    });
-
-    it('should have index accessor', () => {
-      expect(typeof service.index).toBe('function');
-      expect(service.index.length).toBe(0);
-    });
-
-    it('should return an array of Gear', () => {
-      url = ApiUrl(config, path);
-
-      service.index()
-        .subscribe((res: Array<Equipment>) => expect(res).toEqual(equipment));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: equipment });
-    });
-
-    it('should accept optional search parameters and return an array of Gear', () => {
+      equipment = Factory.buildList<Equipment>('Equipment');
       search = { limit: 5, offset: 15 };
-      url = ApiUrl(config, path, search);
-
-      service.index(search)
-        .subscribe((res: Array<Equipment>) => expect(res).toEqual(equipment));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: equipment });
     });
 
-    it('should return BAD_REQUEST with an invalid search', () => {
-      search = { limit: 'moo' } as any;
-      url = ApiUrl(config, path, search);
+    it('should be a function', () => {
+      expect(typeof service.index).toBe('function');
+    });
 
-      service.index(search).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST); }
-      );
+    it('should call http.get and return an array of equipment', () => {
+      http.get.and.returnValue(of({ data: equipment }));
+      result$ = hot('(a|)', { a: equipment });
+      expect(service.index(search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: search });
+    });
 
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.index()).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: {} });
     });
   });
 
   describe('show', () => {
     const path: (id: number) => string = routes.team.equipment.show;
     let equipment: Equipment;
-    let url: string;
 
     beforeEach(() => {
       equipment = Factory.build<Equipment>('Equipment');
-      url = ApiUrl(config, path(equipment.id));
     });
 
-    it('should have show accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.show).toBe('function');
-      expect(service.show.length).toBe(1);
     });
 
-    it('should return a single Equipment', () => {
-      service.show(equipment.id).subscribe((res: Equipment) => expect(res).toEqual(equipment));
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: equipment });
+    it('should call http.get and return an equipment', () => {
+      http.get.and.returnValue(of({ data: equipment }));
+      result$ = hot('(a|)', { a: equipment });
+      expect(service.show(equipment.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(equipment.id));
     });
 
-    it('should return NOT_FOUND with nonexistent gear', () => {
-      url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
-
-      service.show(Number.MAX_SAFE_INTEGER).subscribe(
-        () => {},
-        error => {
-          expect(error.constructor).toBe(HttpErrorResponse);
-          expect(error.status).toBe(NOT_FOUND);
-        }
-      );
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: NOT_FOUND,
-        statusText: getStatusText(NOT_FOUND)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.show(equipment.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(equipment.id));
     });
   });
 
-  describe('barcode', () => {
-    const path: (ref: string) => string = routes.team.equipment.barcode;
+  describe('update', () => {
+    const path: (id: number) => string = routes.team.equipment.update;
+    let attributes: Partial<Equipment>;
     let equipment: Equipment;
-    let ref: string;
-    let url: string;
+
+    it('should be a function', () => {
+      expect(typeof service.update).toBe('function');
+    });
 
     beforeEach(() => {
       equipment = Factory.build<Equipment>('Equipment');
-      url = ApiUrl(config, path(equipment.ref));
-      ref = faker.random.word();
+
+      attributes = {
+        barcode: equipment.barcode,
+        is_critical: true,
+        is_monitor: false
+      };
     });
 
-    it('should have barcode accessor', () => {
-      expect(typeof service.barcode).toBe('function');
-      expect(service.barcode.length).toBe(1);
+    it('should call http.put and return a equipment', () => {
+      http.put.and.returnValue(of({ data: equipment }));
+      result$ = hot('(a|)', { a: equipment });
+      expect(service.update(equipment.id, attributes)).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(equipment.id), attributes);
     });
 
-    it('should return a single Equipment', () => {
-      service.barcode(equipment.ref).subscribe((res: Equipment) => expect(res).toEqual(equipment));
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: equipment });
-    });
-
-    it('should return NOT_FOUND with nonexistent gear', () => {
-      url = ApiUrl(config, path(ref));
-
-      service.barcode(ref).subscribe(
-        () => {},
-        error => {
-          expect(error.constructor).toBe(HttpErrorResponse);
-          expect(error.status).toBe(NOT_FOUND);
-        }
-      );
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: NOT_FOUND,
-        statusText: getStatusText(NOT_FOUND)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.put.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.update(equipment.id)).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(equipment.id), {});
     });
   });
 
   describe('ref', () => {
     const path: (ref: string) => string = routes.team.equipment.ref;
     let equipment: Equipment;
-    let ref: string;
-    let url: string;
 
     beforeEach(() => {
       equipment = Factory.build<Equipment>('Equipment');
-      url = ApiUrl(config, path(equipment.ref));
-      ref = faker.random.word();
     });
 
-    it('should have ref accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.ref).toBe('function');
-      expect(service.ref.length).toBe(1);
     });
 
-    it('should return a single Equipment', () => {
-      service.ref(equipment.ref).subscribe((res: Equipment) => expect(res).toEqual(equipment));
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: equipment });
+    it('should call http.get and return an equipment', () => {
+      http.get.and.returnValue(of({ data: equipment }));
+      result$ = hot('(a|)', { a: equipment });
+      expect(service.ref(equipment.ref)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(equipment.ref));
     });
 
-    it('should return NOT_FOUND with nonexistent gear', () => {
-      url = ApiUrl(config, path(ref));
-
-      service.ref(ref).subscribe(
-        () => {},
-        error => {
-          expect(error.constructor).toBe(HttpErrorResponse);
-          expect(error.status).toBe(NOT_FOUND);
-        }
-      );
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: NOT_FOUND,
-        statusText: getStatusText(NOT_FOUND)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.ref(equipment.ref)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(equipment.ref));
     });
   });
 
-  describe('update', () => {
-    const path: (id: number) => string = routes.team.equipment.update;
-    let attributes: Gear.Change;
+  describe('barcode', () => {
+    const path: (barcode: string) => string = routes.team.equipment.barcode;
     let equipment: Equipment;
-    let updatedEquipment: Equipment;
-    let url: string;
-
-    it('should have create accessor', () => {
-      expect(typeof service.update).toBe('function');
-      expect(service.update.length).toBe(1);
-    });
 
     beforeEach(() => {
       equipment = Factory.build<Equipment>('Equipment');
-      url = ApiUrl(config, path(equipment.id));
-
-      attributes = {
-        is_critical: faker.random.boolean(),
-        is_monitor: faker.random.boolean(),
-        barcode: faker.random.uuid()
-      };
-
-      updatedEquipment = {
-        ...equipment,
-        ...attributes
-      };
     });
 
-    it('should return an updated Equipment', () => {
-      service.update(equipment.id, attributes)
-        .subscribe((res: Equipment) => expect(res).toEqual(updatedEquipment));
-
-      req = http.expectOne({ url, method: 'PUT' });
-      req.flush({ data: updatedEquipment });
+    it('should be a function', () => {
+      expect(typeof service.barcode).toBe('function');
     });
 
-    it('should return BAD_REQUEST without a body', () => {
-      service.update(equipment.id, undefined).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
-
-      req = http.expectOne({ url, method: 'PUT' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should call http.get and return an equipment', () => {
+      http.get.and.returnValue(of({ data: equipment }));
+      result$ = hot('(a|)', { a: equipment });
+      expect(service.barcode(equipment.barcode)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(equipment.barcode));
     });
 
-    it('should return BAD_REQUEST with invalid attributes', () => {
-      service.update(equipment.id, { enddate: 'moo' } as any).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
-
-      req = http.expectOne({ url, method: 'PUT' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.barcode(equipment.barcode)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(equipment.barcode));
     });
   });
 
   describe('image', () => {
-    let blob: Blob;
-    let equipmentId: number;
-    let path: string;
-    let safeUrl: SafeUrl;
-    let sanitizer: DomSanitizer;
-    let url: string;
+    const path: (id: number) => string = routes.team.equipment.image;
+    let equipment: Equipment;
+    let image: SafeUrl;
 
     beforeEach(() => {
-      blob = Factory.build<Blob>('Photo');
-      equipmentId = faker.random.number();
-      path = routes.team.equipment.image(equipmentId);
-      sanitizer = TestBed.get(DomSanitizer);
-      safeUrl = sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-      url = ApiUrl(config, path);
+      equipment = Factory.build<Equipment>('Equipment');
+      image = Factory.build<SafeUrl>('SafeUrl');
     });
 
-    it('should have image accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.image).toBe('function');
-      expect(service.image.length).toBe(1);
     });
 
-    it('should return a SafeUrl when given a valid URL', () => {
-      service.image(equipmentId).subscribe((res: any) => {
-        expect(res.hasOwnProperty('changingThisBreaksApplicationSecurity')).toBe(true);
-        expect(API_PHOTO_URL_REGEX.test(res.changingThisBreaksApplicationSecurity)).toBe(true);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush(blob);
+    it('should call photoService.get and return a SafeUrl', () => {
+      photoService.get.and.returnValue(of(image));
+      result$ = hot('(a|)', { a: image });
+      expect(service.image(equipment.id)).toBeObservable(result$);
+      expect(photoService.get).toHaveBeenCalledWith(path(equipment.id), { params: {} });
     });
 
-    it('should return NOT_FOUND with nonexistent Gear ID', () => {
-      url = ApiUrl(config, routes.team.equipment.image(Number.MAX_SAFE_INTEGER));
-
-      service.image(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(NOT_FOUND);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush(blob, {
-        status: NOT_FOUND,
-        statusText: getStatusText(NOT_FOUND)
-      });
+    it('should call photoService.get and return null when image does not exist', () => {
+      error = { ...error, status: NOT_FOUND };
+      photoService.get.and.returnValue(of(null));
+      result$ = hot('(a|)', { a: null });
+      expect(service.image(equipment.id)).toBeObservable(result$);
+      expect(photoService.get).toHaveBeenCalledWith(path(equipment.id), { params: {} });
     });
   });
 });

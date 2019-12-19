@@ -15,22 +15,16 @@ export class ResultService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(
-    inspectionId: number,
-    search: InspectionResults.Search = {}
-  ): Observable<Array<Result>> {
+  index(inspectionId: number, query: InspectionResults.Search = {}): Observable<Array<Result>> {
     const route: string = this.routes.team.results.index(inspectionId);
-    const payload: HttpOptions = { params: search as any };
+    const payload: HttpOptions = { params: query as any };
 
     return this.http.get<InspectionResults.Index>(route, payload).pipe(
       map((res: InspectionResults.Index): Array<Result> => res.data)
     );
   }
 
-  show(
-    inspectionId: number,
-    id: number
-  ): Observable<Result> {
+  show(inspectionId: number, id: number): Observable<Result> {
     const route: string = this.routes.team.results.show(inspectionId, id);
 
     return this.http.get<InspectionResults.Show>(route).pipe(
@@ -38,11 +32,7 @@ export class ResultService {
     );
   }
 
-  update(
-    inspectionId: number,
-    id: number,
-    body: InspectionResults.Change = {}
-  ): Observable<Result> {
+  update(inspectionId: number, id: number, body: InspectionResults.Change = {}): Observable<Result> {
     const route: string = this.routes.team.results.update(inspectionId, id);
 
     return this.http.put<InspectionResults.Update>(route, body).pipe(

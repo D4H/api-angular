@@ -15,9 +15,9 @@ export class NoteService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(search?: Notes.Search): Observable<Array<Note>> {
+  index(query?: Notes.Search): Observable<Array<Note>> {
     const route: string = this.routes.team.notes.index;
-    const payload: HttpOptions = { params: search as any };
+    const payload: HttpOptions = { params: query as any };
 
     return this.http.get<Notes.Index>(route, payload).pipe(
       map((res: Notes.Index): Array<Note> => res.data)

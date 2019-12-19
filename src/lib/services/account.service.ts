@@ -33,20 +33,20 @@ export class AccountService {
    * quite annoying.
    */
 
-  memberships(search: Accounts.Search = {}): Observable<Array<Membership>> {
+  memberships(query: Accounts.Search = {}): Observable<Array<Membership>> {
     const route: string = this.routes.account.memberships;
 
     const payload: HttpOptions = {
       params: {
-        list_modules: Boolean(search.list_modules) as any
+        list_modules: Boolean(query.list_modules) as any
       }
     };
 
     return this.http.get<Accounts.Memberships>(route, payload).pipe(
       map((res: Accounts.Memberships): Array<Membership> => res.data.documents),
       map((memberships: Array<Membership>): Array<Membership> => {
-        if (search.type) {
-          return memberships.filter(membership => membership.type === search.type);
+        if (query.type) {
+          return memberships.filter(membership => membership.type === query.type);
         } else {
           return memberships;
         }
@@ -69,7 +69,7 @@ export class AccountService {
       map((res: Accounts.Username): Username => ({ ...res.data, exists: true })),
       catchError((error: HttpErrorResponse): Observable<Username> => {
         if (error.status === NOT_FOUND) {
-          return of({ username, exists: false, language: undefined });
+          return of({ username, exists: false, language: null });
         } else {
           return throwError(error);
         }

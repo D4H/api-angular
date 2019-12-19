@@ -1,8 +1,8 @@
+import { Factory } from '@d4h/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { CLIENT_PERMISSIONS, Operation } from '../../lib/providers';
 import { Can, UnknownPermissionError } from '../../lib/tools';
-import { Factory } from '../../lib/factories';
 import { Member, Repair } from '../../lib/models';
 import { inspections, repairs } from '../../lib/permissions';
 

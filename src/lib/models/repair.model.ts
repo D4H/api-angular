@@ -12,9 +12,9 @@ export enum RepairCause {
 }
 
 export enum RepairStatus {
-  Completed = 0,
-  InProgress = 1,
-  NotStarted = 8
+  NotStarted = 0,
+  Completed = 1,
+  InProgress = 8
 }
 
 export interface Repair {
@@ -47,6 +47,7 @@ export interface Repair {
 
   entity: {
     id: number;
+    location_id: number;
     team_id: number;
     type: EquipmentType;
   };

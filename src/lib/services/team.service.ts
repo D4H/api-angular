@@ -35,7 +35,7 @@ export class TeamService {
     const route: string = this.routes.team.show(team.unit.id);
 
     const payload: HttpOptions = {
-      headers: { Authorization: `Bearer ${team.token}` }
+      headers: this.headers(team)
     };
 
     return this.http.get<Teams.Show>(route, payload).pipe(
@@ -43,22 +43,77 @@ export class TeamService {
     );
   }
 
+  /**
+   * Fetch Photo for Team Membership
+   * ===========================================================================
+   * Although not clearly noted in API documentation, adding the
+   * "version=foo" parameter in a request modifies the response:
+   *
+   *  1. The API will return an image if it has been modified since the time.
+   *  2. Else the server will return 204 No Content.
+   *
+   * The 204 No Content signal comes without CORS headers, and is treated as an
+   * error response to boot. This violation of CORS security causes browsers to
+   * kill the request without notifying the JavaScript application. Successfully
+   * using "?version=foo" ironically causes a programmatic request to blackhole
+   * from the point of the JavaScript application.
+   *
+   * Despite that the intended function of "?version=foo" is cache images, in
+   * practice the parameter so completely broken that the only actual use I have
+   * found for this has been to /break/ caching behaviour in browsers.
+   *
+   * Teams aren't RESTful resources e.g. /team/:id/image -> /team/image, with
+   * requests differentiated by API bearer token.  Native browsers (Safari and
+   * Chrome) are aggressive about caching programmatic blob requests. They
+   * ignore the bearer token, so logically different requests will return the
+   * wrong cached photo.
+   *
+   * In order to break caching behaviour and ensure that the browser returns the
+   * correct image in all cases, I set version with a date keyed to the team's
+   * ID, with a multiplier to magnify differences.
+   *
+   * @example
+   *
+   *   new Date(900 * 1000000) // Sun Jan 11 1970 11:00:00 GMT+0100
+   *   new Date(901 * 1000000) // Thu Jan 01 1970 01:16:40 GMT+0100
+   *
+   * This is a necessary terrible, horrible, no good, very bad hack.
+   *
+   * @see https://api.d4h.org/v2/documentation#operation/getMembershipMembersMemberImage
+   * @see https://api.d4h.org/v2/documentation#operation/getMembershipImage
+   */
+
   image(team: Membership, params: Photos.Params = {}): Observable<SafeUrl> {
+    const multiplier = 1000000;
     const route: string = this.routes.team.image;
 
-    return this.photoService.membership(route, team, params);
+    const options: HttpOptions = {
+      headers: this.headers(team),
+      params: {
+        version: new Date(Number(team.unit.id) * multiplier).toISOString(),
+        ...params as any
+      }
+    };
+
+    return this.photoService.get(route, options);
   }
 
   settings(team: Membership, setting: Setting): Observable<SettingData> {
     const route: string = this.routes.team.settings;
 
     const options: HttpOptions = {
-      headers: { Authorization: `Bearer ${team.token}` },
+      headers: this.headers(team),
       params: { setting }
     };
 
     return this.http.get<Teams.Setting>(route, options).pipe(
       map((res: Teams.Setting): SettingData => res.data)
     );
+  }
+
+  private headers(team: Membership): { Authorization: string } {
+    return {
+      Authorization: `Bearer ${team.token}`
+    };
   }
 }

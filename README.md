@@ -6,7 +6,7 @@
 
 1. Model interfaces, e.g. `Member`, `Attendance`.
 2. Object services: `MemberService`, `AttendanceSerivice`.
-3. Route and fixture factories for D4H endpoints and business objects.
+3. API endpoint interfaces: `Members.Update`, `Attendances.Index`.
 
 ## Installation
 
@@ -178,6 +178,10 @@ Interface | Method | Purpose
     * `index(inspectionId, [search])`
     * `show(inspectionId, id)`
     * `update(inspectionId, id[, params])`
+* Location
+    * `index([search])`
+    * `show(id)`
+    * `destroy(id)`
 * Member
     * `index([search])`
     * `show(id)`

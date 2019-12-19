@@ -15,9 +15,9 @@ export class ActivityService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(search?: Activities.Search): Observable<Array<Activity>> {
+  index(query?: Activities.Search): Observable<Array<Activity>> {
     const route: string = this.routes.team.activities.index;
-    const payload: HttpOptions = { params: search as any };
+    const payload: HttpOptions = { params: query as any };
 
     return this.http.get<Activities.Index>(route, payload).pipe(
       map((res: Activities.Index): Array<Activity> => res.data)

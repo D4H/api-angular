@@ -1,34 +1,39 @@
 import faker from 'faker';
-import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
+import { Factory } from '@d4h/testing';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
+import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
+import { cold, hot } from 'jasmine-marbles';
 
-import { ApiUrl } from '../../lib/tools';
+import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Config, routes } from '../../lib/providers';
-import { Factory } from '../../lib/factories';
 import { Role } from '../../lib/models';
 import { RoleService } from '../../lib/services';
 import { Roles } from '../../lib/api';
+import { routes } from '../../lib/providers';
 
 describe('RoleService', () => {
-  const config: Config = Factory.build<Config>('Config');
-  let http: HttpTestingController;
-  let req: TestRequest;
+  let error: HttpErrorResponse;
+  let http: any;
+  let result$: Observable<any>;
   let service: RoleService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ClientTestModule.forRoot(config)
+        ClientTestModule
       ],
       providers: [
-        RoleService
+        RoleService,
+        {
+          provide: ApiHttpClient,
+          useValue: jasmine.createSpyObj('http', ['get', 'post', 'put', 'delete'])
+        }
       ]
     });
 
-    http = TestBed.get(HttpTestingController);
+    error = Factory.build<HttpErrorResponse>('HttpError');
+    http = TestBed.get<ApiHttpClient>(ApiHttpClient);
     service = TestBed.get(RoleService);
   });
 
@@ -38,93 +43,57 @@ describe('RoleService', () => {
 
   describe('index', () => {
     const path: string = routes.team.roles.index;
-    let search: Roles.Search;
     let roles: Array<Role>;
-    let url: string;
+    let search: Roles.Search;
 
     beforeEach(() => {
-      roles = Factory.buildList<Role>('Role', 7);
-    });
-
-    it('should have index accessor', () => {
-      expect(typeof service.index).toBe('function');
-      expect(service.index.length).toBe(1);
-    });
-
-    it('should return an array of Roles', () => {
-      url = ApiUrl(config, path);
-
-      service.index()
-        .subscribe((res: Array<Role>) => expect(res).toEqual(roles));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: roles });
-    });
-
-    it('should accept optional search parameters and return an array of Roles', () => {
+      roles = Factory.buildList<Role>('Role');
       search = { limit: 5, offset: 15 };
-      url = ApiUrl(config, path, search);
-
-      service.index(search)
-        .subscribe((res: Array<Role>) => expect(res).toEqual(roles));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: roles });
     });
 
-    it('should return BAD_REQUEST with an invalid search', () => {
-      search = { limit: 'moo' } as any;
-      url = ApiUrl(config, path, search);
+    it('should be a function', () => {
+      expect(typeof service.index).toBe('function');
+    });
 
-      service.index(search).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
+    it('should call http.get and return an array of roles', () => {
+      http.get.and.returnValue(of({ data: roles }));
+      result$ = hot('(a|)', { a: roles });
+      expect(service.index(search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: search });
+    });
 
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.index(search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
   });
 
   describe('show', () => {
     const path: (id: number) => string = routes.team.roles.show;
     let role: Role;
-    let url: string;
 
     beforeEach(() => {
       role = Factory.build<Role>('Role');
-      url = ApiUrl(config, path(role.id));
     });
 
-    it('should have show accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.show).toBe('function');
-      expect(service.show.length).toBe(1);
     });
 
-    it('should return a single Role', () => {
-      service.show(role.id).subscribe((res: Role) => expect(res).toEqual(role));
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: role });
+    it('should call http.get and return a role', () => {
+      http.get.and.returnValue(of({ data: role }));
+      result$ = hot('(a|)', { a: role });
+      expect(service.show(role.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(role.id));
     });
 
-    it('should return NOT_FOUND with nonexistent Role', () => {
-      url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
-
-      service.show(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(NOT_FOUND);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: NOT_FOUND,
-        statusText: getStatusText(NOT_FOUND)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.show(role.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(role.id));
     });
   });
 });

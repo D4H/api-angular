@@ -1,4 +1,5 @@
-import { Factory } from '../../lib/factories';
+import { Factory } from '@d4h/testing';
+
 import { Member, Permission, Equipment } from '../../lib/models';
 import { Operation } from '../../lib/providers';
 import { equipment } from '../../lib/permissions/equipment.permissions';

@@ -1,34 +1,39 @@
 import faker from 'faker';
+import { Factory } from '@d4h/testing';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
-import { BAD_REQUEST, CREATED, NOT_FOUND, getStatusText } from 'http-status-codes';
+import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
+import { cold, hot } from 'jasmine-marbles';
 
-import { ApiUrl } from '../../lib/tools';
+import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Config, routes } from '../../lib/providers';
 import { Duties } from '../../lib/api';
 import { Duty } from '../../lib/models';
 import { DutyService } from '../../lib/services';
-import { Factory } from '../../lib/factories';
+import { routes } from '../../lib/providers';
 
 describe('DutyService', () => {
-  const config: Config = Factory.build<Config>('Config');
-  let http: HttpTestingController;
-  let req: TestRequest;
+  let error: HttpErrorResponse;
+  let http: any;
+  let result$: Observable<any>;
   let service: DutyService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ClientTestModule.forRoot(config)
+        ClientTestModule
       ],
       providers: [
-        DutyService
+        DutyService,
+        {
+          provide: ApiHttpClient,
+          useValue: jasmine.createSpyObj('http', ['get', 'post', 'put', 'delete'])
+        }
       ]
     });
 
-    http = TestBed.get(HttpTestingController);
+    error = Factory.build<HttpErrorResponse>('HttpError');
+    http = TestBed.get<ApiHttpClient>(ApiHttpClient);
     service = TestBed.get(DutyService);
   });
 
@@ -40,94 +45,55 @@ describe('DutyService', () => {
     const path: string = routes.team.duties.index;
     let duties: Array<Duty>;
     let search: Duties.Search;
-    let url: string;
 
     beforeEach(() => {
-      duties = Factory.buildList<Duty>('Duty', 7);
-    });
-
-    it('should have index accessor', () => {
-      expect(typeof service.index).toBe('function');
-      expect(service.index.length).toBe(1);
-    });
-
-    it('should return an array of Duties', () => {
-      url = ApiUrl(config, path);
-
-      service.index()
-        .subscribe((res: Array<Duty>) => expect(res).toEqual(duties));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: duties });
-    });
-
-    it('should accept optional search parameters and return an array of Duties', () => {
+      duties = Factory.buildList<Duty>('Duty');
       search = { limit: 5, offset: 15 };
-      url = ApiUrl(config, path, search);
-
-      service.index(search)
-        .subscribe((res: Array<Duty>) => expect(res).toEqual(duties));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: duties });
     });
 
-    it('should return BAD_REQUEST with an invalid search', () => {
-      search = { limit: 'moo' } as any;
-      url = ApiUrl(config, path, search);
+    it('should be a function', () => {
+      expect(typeof service.index).toBe('function');
+    });
 
-      service.index(search).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
+    it('should call http.get and return an array of duties', () => {
+      http.get.and.returnValue(of({ data: duties }));
+      result$ = hot('(a|)', { a: duties });
+      expect(service.index(search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: search });
+    });
 
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.index(search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
   });
 
   describe('show', () => {
     const path: (id: number) => string = routes.team.duties.show;
     let duty: Duty;
-    let url: string;
 
     beforeEach(() => {
       duty = Factory.build<Duty>('Duty');
-      url = ApiUrl(config, path(duty.id));
     });
 
-    it('should have show accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.show).toBe('function');
-      expect(service.show.length).toBe(1);
     });
 
-    it('should return a single Duty', () => {
-      service.show(duty.id).subscribe((res: Duty) => expect(res).toEqual(duty));
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: duty });
+    it('should call http.get and return a duty', () => {
+      http.get.and.returnValue(of({ data: duty }));
+      result$ = hot('(a|)', { a: duty });
+      expect(service.show(duty.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(duty.id));
     });
 
-    it('should return NOT_FOUND with nonexistent duty', () => {
-      url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
-
-      service.show(Number.MAX_SAFE_INTEGER).subscribe(
-        () => {},
-        error => {
-          expect(error.constructor).toBe(HttpErrorResponse);
-          expect(error.status).toBe(NOT_FOUND);
-        }
-      );
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: NOT_FOUND,
-        statusText: getStatusText(NOT_FOUND)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.show(duty.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(duty.id));
     });
   });
 
@@ -135,11 +101,9 @@ describe('DutyService', () => {
     const path: string = routes.team.duties.index;
     let attributes: Duties.New;
     let duty: Duty;
-    let url: string;
 
     beforeEach(() => {
       duty = Factory.build<Duty>('Duty');
-      url = ApiUrl(config, path);
 
       attributes = {
         end_date: duty.enddate,
@@ -151,64 +115,30 @@ describe('DutyService', () => {
       };
     });
 
-    it('should have create accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.create).toBe('function');
-      expect(service.create.length).toBe(1);
     });
 
-    it('should return a newly-created Duty', () => {
-      service.create(attributes).subscribe((res: Duty) => expect(res).toEqual(duty));
-      req = http.expectOne({ url, method: 'POST' });
-      req.flush({ data: duty });
+    it('should call http.post and return a duty', () => {
+      http.post.and.returnValue(of({ data: duty }));
+      result$ = hot('(a|)', { a: duty });
+      expect(service.create(attributes)).toBeObservable(result$);
+      expect(http.post).toHaveBeenCalledWith(path, attributes);
     });
 
-    /**
-     * Test for edge case where a duty will fail to create.
-     *
-     * @see https://github.com/D4H/decisions-project/issues/2737
-     */
-
-    it('should return undefined when a duty fails to create', () => {
-      const data = {
-        statusCode: 200,
-        message: "Successfully processed, but no period was added as it's the same as default."
-      };
-
-      service.create(attributes).subscribe((res: Duty) => expect(res).toEqual(undefined));
-      req = http.expectOne({ url, method: 'POST' });
-
-      req.flush({ data }, {
-        status: CREATED,
-        statusText: getStatusText(CREATED)
-      });
+    it('should call http.post and return undefined when res.data.id is not a number', () => {
+      duty.id = null;
+      http.post.and.returnValue(of({ data: duty }));
+      result$ = hot('(a|)', { a: undefined });
+      expect(service.create(attributes)).toBeObservable(result$);
+      expect(http.post).toHaveBeenCalledWith(path, attributes);
     });
 
-    it('should return BAD_REQUEST without a body', () => {
-      service.create(undefined).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
-
-      req = http.expectOne({ url, method: 'POST' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
-    });
-
-    it('should return BAD_REQUEST with invalid attributes', () => {
-      service.create({ enddate: 'moo' } as any).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
-
-      req = http.expectOne({ url, method: 'POST' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.post.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.create(attributes)).toBeObservable(result$);
+      expect(http.post).toHaveBeenCalledWith(path, attributes);
     });
   });
 
@@ -216,89 +146,60 @@ describe('DutyService', () => {
     const path: (id: number) => string = routes.team.duties.update;
     let attributes: Duties.Change;
     let duty: Duty;
-    let updatedDuty: Duty;
-    let url: string;
 
-    it('should have create accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.update).toBe('function');
-      expect(service.update.length).toBe(2);
     });
 
     beforeEach(() => {
       duty = Factory.build<Duty>('Duty');
-      url = ApiUrl(config, path(duty.id));
 
       attributes = {
         end_date: faker.date.future(),
         start_date: faker.date.future(),
         notes: faker.lorem.paragraph()
       };
-
-      updatedDuty = {
-        ...duty,
-        date: attributes.start_date as string,
-        enddate: attributes.end_date as string,
-        notes: attributes.notes
-      };
     });
 
-    it('should return an updated Duty', () => {
-      service.update(duty.id, attributes)
-        .subscribe((res: Duty) => expect(res).toEqual(updatedDuty));
-
-      req = http.expectOne({ url, method: 'PUT' });
-      req.flush({ data: updatedDuty });
+    it('should call http.put and return a duty', () => {
+      http.put.and.returnValue(of({ data: duty }));
+      result$ = hot('(a|)', { a: duty });
+      expect(service.update(duty.id, attributes)).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(duty.id), attributes);
     });
 
-    it('should return BAD_REQUEST without a body', () => {
-      service.update(duty.id, undefined).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
-
-      req = http.expectOne({ url, method: 'PUT' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
-    });
-
-    it('should return BAD_REQUEST with invalid attributes', () => {
-      service.update(duty.id, { enddate: 'moo' } as any).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
-
-      req = http.expectOne({ url, method: 'PUT' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.put.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.update(duty.id, attributes)).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(duty.id), attributes);
     });
   });
 
   describe('destroy', () => {
     const path: (id: number) => string = routes.team.duties.destroy;
     let duty: Duty;
-    let url: string;
 
     beforeEach(() => {
       duty = Factory.build<Duty>('Duty');
-      url = ApiUrl(config, path(duty.id));
     });
 
-    it('should have destroy accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.destroy).toBe('function');
     });
 
-    it('should return the identifier of the duty', () => {
-      service.destroy(duty.id)
-        .subscribe((res: number) => expect(res).toEqual(duty.id));
+    it('should return the ID  of the duty', () => {
+      http.delete.and.returnValue(of(undefined));
+      result$ = hot('(a|)', { a: duty.id });
+      expect(service.destroy(duty.id)).toBeObservable(result$);
+      expect(http.delete).toHaveBeenCalledWith(path(duty.id));
+    });
 
-      req = http.expectOne({ url, method: 'DELETE' });
-      req.flush({});
+    it('should throw an error with any invalid request', () => {
+      http.delete.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.destroy(duty.id)).toBeObservable(result$);
+      expect(http.delete).toHaveBeenCalledWith(path(duty.id));
     });
   });
 });

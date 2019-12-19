@@ -1,5 +1,5 @@
 import { DateParameter, Response, Search } from './shared.api';
-import { Equipment, ResultStatus } from '../models';
+import { Equipment, EquipmentStatus } from '../models';
 
 /**
  * GET /team/equipment
@@ -8,6 +8,7 @@ import { Equipment, ResultStatus } from '../models';
  */
 
 export interface Search extends Search {
+  barcode?: string;
   brand_id?: number;
   category_id?: number;
   fund_id?: number;
@@ -22,7 +23,7 @@ export interface Search extends Search {
   model_id?: number;
   parent_id?: number;
   ref?: string;
-  status?: ResultStatus;
+  status?: EquipmentStatus;
   supplersref_id?: number;
   supplier_id?: number;
 }
@@ -50,9 +51,12 @@ export interface Change {
   location_id?: number;
   member?: number | 'me';
   parent_id?: number;
-  // TODO: Asked @tdtm about status_id in Slack.
   // Per docs: "Valid values: 1 3 4 5"
-  status_id?: ResultStatus;
+  status_id?:
+    EquipmentStatus.Operational
+    | EquipmentStatus.Retired
+    | EquipmentStatus.Lost
+    | EquipmentStatus.Wishlist;
 }
 
 export interface Update extends Response<Equipment> {}

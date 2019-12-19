@@ -1,34 +1,39 @@
 import faker from 'faker';
-import { BAD_REQUEST, NOT_FOUND, getStatusText } from 'http-status-codes';
+import { Factory } from '@d4h/testing';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
+import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
+import { cold, hot } from 'jasmine-marbles';
 
-import { ApiUrl } from '../../lib/tools';
+import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Config, routes } from '../../lib/providers';
-import { Factory } from '../../lib/factories';
 import { Inspection } from '../../lib/models';
 import { InspectionService } from '../../lib/services';
 import { Inspections } from '../../lib/api';
+import { routes } from '../../lib/providers';
 
 describe('InspectionService', () => {
-  const config: Config = Factory.build<Config>('Config');
-  let http: HttpTestingController;
-  let req: TestRequest;
+  let error: HttpErrorResponse;
+  let http: any;
+  let result$: Observable<any>;
   let service: InspectionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ClientTestModule.forRoot(config)
+        ClientTestModule
       ],
       providers: [
-        InspectionService
+        InspectionService,
+        {
+          provide: ApiHttpClient,
+          useValue: jasmine.createSpyObj('http', ['get', 'post', 'put', 'delete'])
+        }
       ]
     });
 
-    http = TestBed.get(HttpTestingController);
+    error = Factory.build<HttpErrorResponse>('HttpError');
+    http = TestBed.get<ApiHttpClient>(ApiHttpClient);
     service = TestBed.get(InspectionService);
   });
 
@@ -40,91 +45,55 @@ describe('InspectionService', () => {
     const path: string = routes.team.inspections.index;
     let inspections: Array<Inspection>;
     let search: Inspections.Search;
-    let url: string;
 
     beforeEach(() => {
-      inspections = Factory.buildList<Inspection>('Inspection', 7);
-    });
-
-    it('should have index accessor', () => {
-      expect(typeof service.index).toBe('function');
-      expect(service.index.length).toBe(0);
-    });
-
-    it('should return an array of Inspections', () => {
-      url = ApiUrl(config, path);
-
-      service.index()
-        .subscribe((res: Array<Inspection>) => expect(res).toEqual(inspections));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: inspections });
-    });
-
-    it('should accept optional search parameters and return an array of Inspections', () => {
+      inspections = Factory.buildList<Inspection>('Inspection');
       search = { limit: 5, offset: 15 };
-      url = ApiUrl(config, path, search);
-
-      service.index(search)
-        .subscribe((res: Array<Inspection>) => expect(res).toEqual(inspections));
-
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: inspections });
     });
 
-    it('should return BAD_REQUEST with an invalid search', () => {
-      search = { limit: 'moo' } as any;
-      url = ApiUrl(config, path, search);
+    it('should be a function', () => {
+      expect(typeof service.index).toBe('function');
+    });
 
-      service.index(search).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
+    it('should call http.get and return an array of inspections', () => {
+      http.get.and.returnValue(of({ data: inspections }));
+      result$ = hot('(a|)', { a: inspections });
+      expect(service.index()).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: {} });
+    });
 
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.index(search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
   });
 
   describe('show', () => {
     const path: (id: number) => string = routes.team.inspections.show;
     let inspection: Inspection;
-    let url: string;
 
     beforeEach(() => {
       inspection = Factory.build<Inspection>('Inspection');
-      url = ApiUrl(config, path(inspection.id));
     });
 
-    it('should have show accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.show).toBe('function');
-      expect(service.show.length).toBe(1);
     });
 
-    it('should return a single Inspection', () => {
-      service.show(inspection.id).subscribe((res: Inspection) => expect(res).toEqual(inspection));
-      req = http.expectOne({ url, method: 'GET' });
-      req.flush({ data: inspection });
+    it('should call http.get and return a inspection', () => {
+      http.get.and.returnValue(of({ data: inspection }));
+      result$ = hot('(a|)', { a: inspection });
+      expect(service.show(inspection.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(inspection.id));
     });
 
-    it('should return NOT_FOUND with nonexistent inspection', () => {
-      url = ApiUrl(config, path(Number.MAX_SAFE_INTEGER));
-
-      service.show(Number.MAX_SAFE_INTEGER).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(NOT_FOUND);
-      });
-
-      req = http.expectOne({ url, method: 'GET' });
-
-      req.flush({}, {
-        status: NOT_FOUND,
-        statusText: getStatusText(NOT_FOUND)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.get.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.show(inspection.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(inspection.id));
     });
   });
 
@@ -132,67 +101,40 @@ describe('InspectionService', () => {
     const path: (id: number) => string = routes.team.inspections.update;
     let attributes: Inspections.Change;
     let inspection: Inspection;
-    let updatedInspection: Inspection;
-    let url: string;
 
-    it('should have create accessor', () => {
+    it('should be a function', () => {
       expect(typeof service.update).toBe('function');
-      expect(service.update.length).toBe(1);
     });
 
     beforeEach(() => {
       inspection = Factory.build<Inspection>('Inspection');
-      url = ApiUrl(config, path(inspection.id));
 
       attributes = {
         all_kinds: faker.random.boolean(),
         description: faker.lorem.paragraph(),
         title: faker.lorem.sentence()
       };
-
-      updatedInspection = {
-        ...inspection,
-        ...attributes
-      };
     });
 
-    it('should return an updated Inspection', () => {
-      service.update(inspection.id, attributes)
-        .subscribe((res: Inspection) => expect(res).toEqual(updatedInspection));
-
-      req = http.expectOne({ url, method: 'PUT' });
-      req.flush({ data: updatedInspection });
+    it('should call http.put and return a inspection', () => {
+      http.put.and.returnValue(of({ data: inspection }));
+      result$ = hot('(a|)', { a: inspection });
+      expect(service.update(inspection.id, attributes)).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(inspection.id), attributes);
     });
 
-    it('should return BAD_REQUEST without a body', () => {
-      service.update(inspection.id, undefined).subscribe(
-        () => {},
-        error => {
-          expect(error.constructor).toBe(HttpErrorResponse);
-          expect(error.status).toBe(BAD_REQUEST);
-        }
-      );
-
-      req = http.expectOne({ url, method: 'PUT' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should pass empty attributes object by default', () => {
+      http.put.and.returnValue(of({ data: inspection }));
+      result$ = hot('(a|)', { a: inspection });
+      expect(service.update(inspection.id)).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(inspection.id), {});
     });
 
-    it('should return BAD_REQUEST with invalid attributes', () => {
-      service.update(inspection.id, { enddate: 'moo' } as any).subscribe(() => {}, error => {
-        expect(error.constructor).toBe(HttpErrorResponse);
-        expect(error.status).toBe(BAD_REQUEST);
-      });
-
-      req = http.expectOne({ url, method: 'PUT' });
-
-      req.flush({}, {
-        status: BAD_REQUEST,
-        statusText: getStatusText(BAD_REQUEST)
-      });
+    it('should throw an error with any invalid request', () => {
+      http.put.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.update(inspection.id, attributes)).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(inspection.id), attributes);
     });
   });
 });

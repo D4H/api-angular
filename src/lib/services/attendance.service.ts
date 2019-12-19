@@ -15,9 +15,9 @@ export class AttendanceService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(search?: Attendances.Search): Observable<Array<Attendance>> {
+  index(query?: Attendances.Search): Observable<Array<Attendance>> {
     const route: string = this.routes.team.attendances.index;
-    const payload: HttpOptions = { params: search as any };
+    const payload: HttpOptions = { params: query as any };
 
     return this.http.get<Attendances.Index>(route, payload).pipe(
       map((res: Attendances.Index): Array<Attendance> => res.data)
