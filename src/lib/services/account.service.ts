@@ -26,13 +26,6 @@ export class AccountService {
     );
   }
 
-  /**
-   * Determine if the username exists on the server. The server returns 404 Not
-   * Found if the username isn't found, so the method catches the error and
-   * returns Username with { existence: false } because the error can become
-   * quite annoying.
-   */
-
   memberships(query: Accounts.Search = {}): Observable<Array<Membership>> {
     const route: string = this.routes.account.memberships;
 
