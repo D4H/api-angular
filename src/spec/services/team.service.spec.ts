@@ -50,7 +50,7 @@ describe('TeamService', () => {
   });
 
   describe('show', () => {
-    const path: (id: number) => string = routes.team.show;
+    const path: string = routes.team.show;
     let membership: Membership;
     let team: Team;
 
@@ -69,7 +69,7 @@ describe('TeamService', () => {
       expect(service.show(membership)).toBeObservable(result$);
 
       expect(http.get).toHaveBeenCalledWith(
-        path(membership.unit.id),
+        path,
         { headers: { Authorization: `Bearer ${membership.token}` } }
       );
     });
@@ -81,7 +81,7 @@ describe('TeamService', () => {
       expect(service.show(membership)).toBeObservable(result$);
 
       expect(http.get).toHaveBeenCalledWith(
-        path(membership.unit.id),
+        path,
         { headers: { Authorization: `Bearer ${membership.token}` } }
       );
     });

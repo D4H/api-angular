@@ -32,7 +32,7 @@ export class TeamService {
   ) {}
 
   show(team: Membership): Observable<Team> {
-    const route: string = this.routes.team.show(team.unit.id);
+    const route: string = this.routes.team.show;
 
     const payload: HttpOptions = {
       headers: this.headers(team)

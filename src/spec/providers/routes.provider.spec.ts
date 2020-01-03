@@ -42,7 +42,7 @@ describe('API Routes', () => {
         team: {
           image: '/team/image',
           settings: '/team/settings',
-          show: `/team/teams/${id}`,
+          show: '/team',
           activities: {
             index: '/team/activities',
             show: `/team/activities/${id}`

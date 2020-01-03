@@ -110,7 +110,7 @@ export interface RouteConfig {
 
     image: string;
     settings: string;
-    show(id: number): string;
+    show: string;
   };
 }
 
@@ -128,7 +128,7 @@ export const routes: RouteConfig = {
   team: {
     image: '/team/image',
     settings: '/team/settings',
-    show: (id: number): string => `/team/teams/${id}`,
+    show: '/team',
 
     activities: {
       index: '/team/activities',
