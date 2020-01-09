@@ -8,8 +8,10 @@ import { Location } from '../models';
  */
 
 export interface Search extends Search {
+  equipment_id?: number;
   id?: number;
   team_id?: number;
+  title?: string;
 }
 
 export interface Index extends Response<Array<Location>> {}

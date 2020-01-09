@@ -146,32 +146,33 @@ Interface | Method | Purpose
     * `memberships([params])`
     * `username(username)`
 * Activity
-    * `index([search])`
+    * `index([query])`
     * `show(id)`
 * Attendance
-    * `index([search])`
+    * `index([query])`
     * `show(id)`
     * `create([params])`
     * `update(id[, params])`
     * `destroy(id)`
 * Duty
-    * `index([search])`
+    * `index([query])`
     * `show(id)`
     * `create([params])`
     * `update(id[, params])`
     * `destroy(id)`
 * Group
-    * `index([search])`
+    * `index([query])`
     * `show(id)`
 * Equipment
-    * `index([search])`
+    * `index([query])`
     * `show(id)`
     * `barcode(barcode)`: Fetch Equipment item by barcode.
     * `ref(ref)`: Fetch Equipment item item by reference.
     * `update(id[, params])`
     * `image(id, [params])`
+    * `search([text[, params]])`
 * Inspection
-    * `index([search])`
+    * `index([query])`
     * `show(id)`
     * `update(id[, params])`
 * Result (Inspection Result)
@@ -179,19 +180,21 @@ Interface | Method | Purpose
     * `show(inspectionId, id)`
     * `update(inspectionId, id[, params])`
 * Location
-    * `index([search])`
+    * `index([query])`
     * `show(id)`
     * `destroy(id)`
+    * `search([text[, params]])`
 * Member
-    * `index([search])`
+    * `index([query])`
     * `show(id)`
     * `update(id[, params])`
     * `destroy(id)`
     * `groups(id)`
     * `image(id, [params])`
     * `labels()`
+    * `search([text[, params]])`
 * Note
-    * `index([search])`
+    * `index([query])`
     * `show(id)`
     * `create([params])`
     * `update(id[, params])`
@@ -200,12 +203,12 @@ Interface | Method | Purpose
     * `get(url[, params])`
     * `membership(url, membership[, params])`
 * Repair
-    * `index([search])`
+    * `index([query])`
     * `show(id)`
     * `create([params])`
     * `update(id[, params])`
 * Role
-    * `index([search])`
+    * `index([query])`
     * `show(id)`
 * Team
     * `show(team)`

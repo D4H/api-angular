@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { SafeUrl } from '@angular/platform-browser';
 import { map } from 'rxjs/operators';
 
@@ -63,5 +63,22 @@ export class EquipmentService {
     const route: string = this.routes.team.equipment.image(id);
 
     return this.photoService.get(route, { params } as any);
+  }
+
+  search(query: string, params: Gear.Search = {}): Observable<Array<Equipment>> {
+    const route: string = this.routes.team.equipment.index;
+    const barcode: HttpOptions = { params: { barcode: query, ...params as any } };
+    const ref: HttpOptions = { params: { ref: query, ...params as any } };
+
+    return forkJoin([
+      this.http.get<Gear.Index>(route, barcode).pipe(
+        map((res: Gear.Index): Array<Equipment> => res.data)
+      ),
+      this.http.get<Gear.Index>(route, ref).pipe(
+        map((res: Gear.Index): Array<Equipment> => res.data)
+      )
+    ]).pipe(
+      map((data: Array<Array<Equipment>>) => Array.from(new Set(data.flat())))
+    );
   }
 }

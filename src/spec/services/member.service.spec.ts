@@ -229,4 +229,35 @@ describe('MemberService', () => {
       expect(http.get).toHaveBeenCalledWith(path);
     });
   });
+
+  describe('search', () => {
+    const path: string = routes.team.members.index;
+    let members: Array<Member>;
+    let query: string;
+    let search: Members.Search;
+
+    beforeEach(() => {
+      members = Factory.buildList<Member>('Member');
+      search = { limit: 5, offset: 15 };
+      query = faker.random.uuid();
+    });
+
+    it('should be a function', () => {
+      expect(typeof service.search).toBe('function');
+    });
+
+    it('should call http.get and return an array of members', () => {
+      http.get.and.returnValue(of({ data: members }));
+      result$ = hot('(a|)', { a: members });
+      expect(service.search(query, search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: { name: query, ...search } });
+    });
+
+    it('should call http.get with {} by default for params', () => {
+      http.get.and.returnValue(of({ data: members }));
+      result$ = hot('(a|)', { a: members });
+      expect(service.search(query)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: { name: query } });
+    });
+  });
 });

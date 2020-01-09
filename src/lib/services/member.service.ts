@@ -64,4 +64,13 @@ export class MemberService {
       map((res: Members.Labels): Members.LabelData => res.data)
     );
   }
+
+  search(query: string, params: Members.Search = {}): Observable<Array<Member>> {
+    const route: string = this.routes.team.members.index;
+    const payload: HttpOptions = { params: { name: query, ...params as any } };
+
+    return this.http.get<Members.Index>(route, payload).pipe(
+      map((res: Members.Index): Array<Member> => res.data)
+    );
+  }
 }

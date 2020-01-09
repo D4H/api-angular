@@ -39,7 +39,7 @@ export interface ConfigProvider {
  */
 
 export const CLIENT_NAME = 'D4H API CLIENT';
-export const CLIENT_VERSION = '4.0.1';
+export const CLIENT_VERSION = '4.1.0';
 
 export const CLIENT_CONFIG = new InjectionToken<ConfigProvider>(
   'CLIENT_CONFIGURATION'

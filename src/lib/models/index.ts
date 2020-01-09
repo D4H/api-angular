@@ -5,6 +5,7 @@ export * from './brand.model';
 export * from './category.model';
 export * from './cost.model';
 export * from './custom-field.model';
+export * from './destination.model';
 export * from './duty.model';
 export * from './equipment.model';
 export * from './general.model';

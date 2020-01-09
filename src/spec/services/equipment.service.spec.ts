@@ -222,4 +222,37 @@ describe('EquipmentService', () => {
       expect(photoService.get).toHaveBeenCalledWith(path(equipment.id), { params: {} });
     });
   });
+
+  describe('search', () => {
+    const path: string = routes.team.equipment.index;
+    let equipment: Array<Equipment>;
+    let search: Search;
+    let query: string;
+
+    beforeEach(() => {
+      equipment = Factory.buildList<Equipment>('Equipment');
+      search = { limit: 5, offset: 15 };
+      query = faker.random.uuid();
+    });
+
+    it('should be a function', () => {
+      expect(typeof service.search).toBe('function');
+    });
+
+    it('should call http.get and return an array of members', () => {
+      http.get.and.returnValue(of({ data: equipment }));
+      result$ = hot('(a|)', { a: equipment });
+      expect(service.search(query, search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: { barcode: query, ...search } });
+      expect(http.get).toHaveBeenCalledWith(path, { params: { ref: query, ...search } });
+    });
+
+    it('should call http.get with {} by default for params', () => {
+      http.get.and.returnValue(of({ data: equipment }));
+      result$ = hot('(a|)', { a: equipment });
+      expect(service.search(query)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: { barcode: query } });
+      expect(http.get).toHaveBeenCalledWith(path, { params: { ref: query } });
+    });
+  });
 });
