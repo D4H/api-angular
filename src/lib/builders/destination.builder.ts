@@ -4,6 +4,7 @@ import {
   Destination,
   DestinationType,
   Equipment,
+  EquipmentType,
   Member,
   Location
 } from '../models';
@@ -11,7 +12,7 @@ import {
 import { ClientModule } from '../client.module';
 
 /**
- * Convert Source Records to Destination
+ * Convert Equipment/Location/Member Records to Destination
  * =============================================================================
  */
 
@@ -19,7 +20,8 @@ import { ClientModule } from '../client.module';
 export class DestinationBuilder {
   equipment(equipment: Equipment): Destination {
     return {
-      description: equipment.ref,
+      assignable: equipment.type !== EquipmentType.Supply,
+      description: `#${equipment.ref}`,
       id: equipment.id,
       title: equipment.title,
       type: DestinationType.Equipment
@@ -27,21 +29,17 @@ export class DestinationBuilder {
   }
 
   equipmentContext(
-    destination: Partial<Destination>
+    { id, type }: { id: number, type: DestinationType }
   ): (equipment: Equipment) => Destination {
-    const context = (({ id, type }) => ({ id, type }))(destination);
-
     return (equipment: Equipment): Destination => ({
-      context,
-      description: equipment.ref,
-      id: equipment.id,
-      title: equipment.title,
-      type: DestinationType.Equipment
+      ...this.equipment(equipment),
+      context: { id: Number(id), type }
     });
   }
 
   location(location: Location): Destination {
     return {
+      assignable: true,
       description: location.bundle,
       id: location.id,
       title: location.title,
@@ -51,24 +49,11 @@ export class DestinationBuilder {
 
   member(member: Member): Destination {
     return {
+      assignable: true,
       description: member.position,
       id: member.id,
       title: member.name,
       type: DestinationType.Member
     };
-  }
-
-  // GET /team/equipment and PUT /team/equipment/:id have identical attribute names.
-  payload(destination: Partial<Destination>): object {
-    switch (destination.type) {
-      case DestinationType.Equipment:
-        return { parent_id: destination.id };
-      case DestinationType.Location:
-        return { location_id: destination.id };
-      case DestinationType.Member:
-        return { member: destination.id };
-      default:
-        return {};
-    }
   }
 }

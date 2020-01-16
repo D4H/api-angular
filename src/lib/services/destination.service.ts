@@ -11,7 +11,7 @@ import {
 } from '../models';
 
 import { ClientModule } from '../client.module';
-import { DestinationBuilder } from '../tools';
+import { DestinationBuilder } from '../builders';
 import { Destinations } from '../api';
 import { EquipmentService } from './equipment.service';
 import { LocationService } from './location.service';
@@ -26,9 +26,13 @@ import { MemberService } from './member.service';
  *  - Location: Put the toolkit on a shelf.
  *  - Member: Give the toolkit to a member.
  *
- * when one moves an item of Equipment to a new location. Users can browse
- * different locations, see the equipment contents of a destination, and assign
- * an item to that new destination.
+ * When searching, DestinationService searches for destinations by merging
+ * queries to multiple endpoints:
+ *
+ *  - GET /team/members?name=$QUERY
+ *  - GET /team/equipment?barcode=$QUERY
+ *  - GET /team/equipment?ref=$QUERY
+ *  - GET /team/locations?title=$QUERY
  */
 
 @Injectable({ providedIn: ClientModule })
@@ -40,19 +44,45 @@ export class DestinationService {
     private readonly memberService: MemberService
   ) {}
 
-  // TODO: Temporary. Will eventually permit query-by-type and limit/offset.
-  index(params: Destinations.Search = {}): Observable<Array<Destination>> {
-    return this.locationService.index(params).pipe(
-      map(locations => locations.map(this.builder.location))
-    );
+  index(
+    type: DestinationType,
+    params: Destinations.Search = {}
+  ): Observable<Array<Destination>> {
+    switch (type) {
+      case DestinationType.Equipment:
+        return this.equipmentService.index(params).pipe(
+          map(equipment => equipment.map(this.builder.equipment))
+        );
+      case DestinationType.Location:
+        return this.locationService.index(params).pipe(
+          map(locations => locations.map(this.builder.location))
+        );
+      case DestinationType.Member:
+        return this.memberService.index(params).pipe(
+          map(members => members.map(this.builder.member))
+        );
+      default:
+        return of([]);
+    }
   }
 
-  contents(destination: Partial<Destination>): Observable<Array<Destination>> {
-    const payload = this.builder.payload(destination);
-
-    return this.equipmentService.index(payload).pipe(
-      map(equipment => equipment.map(this.builder.equipmentContext(destination)))
-    );
+  show(type: DestinationType, id: number): Observable<Destination> {
+    switch (type) {
+      case DestinationType.Equipment:
+        return this.equipmentService.show(id).pipe(
+          map(this.builder.equipment)
+        );
+      case DestinationType.Location:
+        return this.locationService.show(id).pipe(
+          map(this.builder.location)
+        );
+      case DestinationType.Member:
+        return this.memberService.show(id).pipe(map(
+          this.builder.member)
+        );
+      default:
+        return of(null);
+    }
   }
 
   barcode(barcode: string): Observable<Destination> {
@@ -61,7 +91,27 @@ export class DestinationService {
     );
   }
 
-  search(query: string, params: Destinations.Search = {}): Observable<Array<Destination>> {
+  contents(type: DestinationType, id: number): Observable<Array<Destination>> {
+    const builder = this.builder.equipmentContext({ id, type });
+    const params = this.params({ id, type });
+
+    return this.equipmentService.index(params).pipe(
+      map(equipment => equipment.map(builder))
+    );
+  }
+
+  set(
+    equipmentId: number,
+    type: DestinationType,
+    id: number
+  ): Observable<Equipment> {
+    return this.equipmentService.move(equipmentId, type, id);
+  }
+
+  search(
+    query: string,
+    params: Destinations.Search = {}
+  ): Observable<Array<Destination>> {
     return forkJoin([
       this.equipmentService.search(query, params).pipe(
         map(equipment => equipment.map(this.builder.equipment))
@@ -77,9 +127,16 @@ export class DestinationService {
     );
   }
 
-  set(equipment: Equipment, destination: Partial<Destination>): Observable<Equipment> {
-    const payload = this.builder.payload(destination);
-
-    return this.equipmentService.update(equipment.id, payload);
+  private params(destination: Partial<Destination>): object {
+    switch (destination.type) {
+      case DestinationType.Equipment:
+        return { parent_id: destination.id };
+      case DestinationType.Location:
+        return { location_id: destination.id };
+      case DestinationType.Member:
+        return { member: destination.id };
+      default:
+        return {};
+    }
   }
 }

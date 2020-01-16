@@ -1,5 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
+import { DestinationType } from '../models';
+
 /**
  * API Routing Configuration
  * =============================================================================
@@ -44,6 +46,7 @@ export interface RouteConfig {
       index: string;
       show(id: number): string;
       barcode(barcode: string): string;
+      move(id: number, destinationType: DestinationType, destinationId: number): string;
       ref(ref: string): string;
       update(id: number): string;
       image(id: number): string;
@@ -159,6 +162,7 @@ export const routes: RouteConfig = {
       barcode: (barcode: string): string => `/team/equipment/barcode/${barcode}`,
       ref: (ref: string): string => `/team/equipment/ref/${ref}`,
       update: (id: number): string => `/team/equipment/${id}`,
+      move: (id, destinationType, destinationId) => `/team/equipment/${id}/${destinationType}/${destinationId}`,
       image: (id: number) => `/team/equipment/${id}/image`
     },
 

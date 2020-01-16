@@ -27,7 +27,10 @@ describe('LocationService', () => {
         LocationService,
         {
           provide: ApiHttpClient,
-          useValue: jasmine.createSpyObj('http', ['get', 'post', 'put', 'delete'])
+          useValue: jasmine.createSpyObj(
+            'http',
+            ['get', 'post', 'put', 'delete']
+          )
         }
       ]
     });
@@ -144,7 +147,9 @@ describe('LocationService', () => {
       http.get.and.returnValue(of({ data: locations }));
       result$ = hot('(a|)', { a: locations });
       expect(service.search(query, search)).toBeObservable(result$);
-      expect(http.get).toHaveBeenCalledWith(path, { params: { title: query, ...search } });
+
+      expect(http.get)
+        .toHaveBeenCalledWith(path, { params: { title: query, ...search } });
     });
 
     it('should call http.get with {} by default for params', () => {

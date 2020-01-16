@@ -40,7 +40,10 @@ export class LocationService {
     );
   }
 
-  search(query: string, params: Locations.Search = {}): Observable<Array<Location>> {
+  search(
+    query: string,
+    params: Locations.Search = {}
+  ): Observable<Array<Location>> {
     const route: string = this.routes.team.locations.index;
     const payload: HttpOptions = { params: { title: query, ...params as any } };
 

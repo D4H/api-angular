@@ -1,5 +1,5 @@
 import faker from 'faker';
-import { Factory } from '@d4h/testing';
+import { Factory, sample } from '@d4h/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NOT_FOUND } from 'http-status-codes';
 import { Observable, of, throwError } from 'rxjs';
@@ -9,7 +9,7 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Equipment } from '../../lib/models';
+import { DestinationType, Equipment } from '../../lib/models';
 import { EquipmentService, PhotoService } from '../../lib/services';
 import { Search } from '../../lib/api';
 import { routes } from '../../lib/providers';
@@ -136,6 +136,37 @@ describe('EquipmentService', () => {
       result$ = hot('#', null, error);
       expect(service.update(equipment.id)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(equipment.id), {});
+    });
+  });
+
+  describe('move', () => {
+    const path = routes.team.equipment.move;
+    let equipment: Equipment;
+    let id: number;
+    let type: DestinationType;
+
+    it('should be a function', () => {
+      expect(typeof service.update).toBe('function');
+    });
+
+    beforeEach(() => {
+      equipment = Factory.build<Equipment>('Equipment');
+      type = sample<DestinationType>(DestinationType);
+      id = faker.random.number();
+    });
+
+    it('should call http.put and return a equipment', () => {
+      http.put.and.returnValue(of({ data: equipment }));
+      result$ = hot('(a|)', { a: equipment });
+      expect(service.move(equipment.id, type, id )).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(equipment.id, type, id), {});
+    });
+
+    it('should throw an error with any invalid request', () => {
+      http.put.and.returnValue(throwError(error));
+      result$ = hot('#', null, error);
+      expect(service.move(equipment.id, type, id )).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(equipment.id, type, id), {});
     });
   });
 

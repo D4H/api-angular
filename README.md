@@ -141,79 +141,87 @@ Interface | Method | Purpose
 ### Available Resources
 @d4h/angular support operations currently used internally by D4H applications. If you require a resource not supported here, either [open an issue](https://github.com/D4H/angular/issues/new) or reach out to <support@d4h.org>.
 
-* Account
-    * `authenticate(username, password)`
-    * `memberships([params])`
-    * `username(username)`
-* Activity
-    * `index([query])`
-    * `show(id)`
-* Attendance
-    * `index([query])`
-    * `show(id)`
-    * `create([params])`
-    * `update(id[, params])`
-    * `destroy(id)`
-* Duty
-    * `index([query])`
-    * `show(id)`
-    * `create([params])`
-    * `update(id[, params])`
-    * `destroy(id)`
-* Group
-    * `index([query])`
-    * `show(id)`
-* Equipment
-    * `index([query])`
-    * `show(id)`
-    * `barcode(barcode)`: Fetch Equipment item by barcode.
-    * `ref(ref)`: Fetch Equipment item item by reference.
-    * `update(id[, params])`
-    * `image(id, [params])`
-    * `search([text[, params]])`
-* Inspection
-    * `index([query])`
-    * `show(id)`
-    * `update(id[, params])`
-* Result (Inspection Result)
-    * `index(inspectionId, [search])`
-    * `show(inspectionId, id)`
-    * `update(inspectionId, id[, params])`
-* Location
-    * `index([query])`
-    * `show(id)`
-    * `destroy(id)`
-    * `search([text[, params]])`
-* Member
-    * `index([query])`
-    * `show(id)`
-    * `update(id[, params])`
-    * `destroy(id)`
-    * `groups(id)`
-    * `image(id, [params])`
-    * `labels()`
-    * `search([text[, params]])`
-* Note
-    * `index([query])`
-    * `show(id)`
-    * `create([params])`
-    * `update(id[, params])`
-    * `destroy(id)`
-* Photo
-    * `get(url[, params])`
-    * `membership(url, membership[, params])`
-* Repair
-    * `index([query])`
-    * `show(id)`
-    * `create([params])`
-    * `update(id[, params])`
-* Role
-    * `index([query])`
-    * `show(id)`
-* Team
-    * `show(team)`
-    * `image(team,[ params])`
-    * `settings(team, setting)`
+- Account
+    - `authenticate(username, password)`
+    - `memberships([params])`
+    - `username(username)`
+- Activity
+    - `index([query])`
+    - `show(id)`
+- Attendance
+    - `index([query])`
+    - `show(id)`
+    - `create([params])`
+    - `update(id[, params])`
+    - `destroy(id)`
+- Destination: Query new destination for equipment from union of equipment, locations or members.
+    - `index([query])`
+    - `show(type, id)`
+    - `barcode(barcode)`
+    - `contents(type, id)`
+    - `set(equipmentId, type, id)`: Move equipment to new destination.
+    - `search(query[, params])`
+- Duty
+    - `index([query])`
+    - `show(id)`
+    - `create([params])`
+    - `update(id[, params])`
+    - `destroy(id)`
+- Group
+    - `index([query])`
+    - `show(id)`
+- Equipment
+    - `index([query])`
+    - `show(id)`
+    - `barcode(barcode)`: Fetch Equipment item by barcode.
+    - `ref(ref)`: Fetch Equipment item item by reference.
+    - `move(id, destinationType, destinationId)`: Move equipment to new destination.
+    - `update(id[, params])`
+    - `image(id, [params])`
+    - `search([text[, params]])`: Search equipment by `equipment.ref === text || equipment.barcode === text`
+- Inspection
+    - `index([query])`
+    - `show(id)`
+    - `update(id[, params])`
+- Result (Inspection Result)
+    - `index(inspectionId, [search])`
+    - `show(inspectionId, id)`
+    - `update(inspectionId, id[, params])`
+- Location
+    - `index([query])`
+    - `show(id)`
+    - `destroy(id)`
+    - `search([text[, params]])`
+- Member
+    - `index([query])`
+    - `show(id)`
+    - `update(id[, params])`
+    - `destroy(id)`
+    - `groups(id)`
+    - `image(id, [params])`
+    - `labels()`
+    - `search([text[, params]])`
+- Note
+    - `index([query])`
+    - `show(id)`
+    - `create([params])`
+    - `update(id[, params])`
+    - `destroy(id)`
+- Photo
+    - `get(url[, params])`
+    - `membership(url, membership[, params])`
+- Repair
+    - `index([query])`
+    - `show(id)`
+    - `create([params])`
+    - `update(id[, params])`
+- Role
+    - `index([query])`
+    - `show(id)`
+- Team
+    - `show(team)`
+    - `image(team,[ params])`
+    - `settings(team, setting)`
 
 ## Support and Feedback
 Feel free to email <support@d4h.org>, [open an issue](https://github.com/D4H/api-angular/issues/new) or tweet [@d4h](https://twitter.com/d4h/).
