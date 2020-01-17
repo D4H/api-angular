@@ -284,34 +284,72 @@ describe('DestinationService', () => {
     let locations: Array<Location>;
     let members: Array<Member>;
     let query: string;
+    let type: DestinationType;
 
     beforeEach(() => {
       equipment = Factory.buildList<Equipment>('Equipment');
       locations = Factory.buildList<Location>('Location');
       members = Factory.buildList<Member>('Member');
       query = faker.random.uuid();
-
-      destinations = [].concat(
-        equipment.map(builder.equipment),
-        locations.map(builder.location),
-        members.map(builder.member)
-      );
     });
 
     it('should be a function', () => {
       expect(typeof service.contents).toBe('function');
     });
 
-    it('should call index functions and return an array of destinations', () => {
+    it('should call all services with DestinationType.All', () => {
+      type = DestinationType.All;
+
+      destinations = [].concat(
+        equipment.map(builder.equipment),
+        locations.map(builder.location),
+        members.map(builder.member)
+      );
+
       equipmentService.search.and.returnValue(of(equipment));
       locationService.search.and.returnValue(of(locations));
       memberService.search.and.returnValue(of(members));
-
       result$ = hot('(a|)', { a: destinations });
-      expect(service.search(query)).toBeObservable(result$);
+
+      expect(service.search(DestinationType.All, query)).toBeObservable(result$);
       expect(equipmentService.search).toHaveBeenCalledWith(query, {});
       expect(locationService.search).toHaveBeenCalledWith(query, {});
       expect(memberService.search).toHaveBeenCalledWith(query, {});
+    });
+
+    it('should call equipmentService with DestinationType.Equipment', () => {
+      type = DestinationType.Equipment;
+      destinations = equipment.map(builder.equipment);
+      equipmentService.search.and.returnValue(of(equipment));
+      result$ = hot('(a|)', { a: destinations });
+      expect(service.search(type, query)).toBeObservable(result$);
+      expect(equipmentService.search).toHaveBeenCalledWith(query, {});
+    });
+
+    it('should call locationService with DestinationType.Location', () => {
+      type = DestinationType.Location;
+      destinations = locations.map(builder.location);
+      locationService.search.and.returnValue(of(locations));
+      result$ = hot('(a|)', { a: destinations });
+      expect(service.search(type, query)).toBeObservable(result$);
+      expect(locationService.search).toHaveBeenCalledWith(query, {});
+    });
+
+    it('should call memberService with DestinationType.Member', () => {
+      type = DestinationType.Member;
+      destinations = members.map(builder.member);
+      memberService.search.and.returnValue(of(members));
+      result$ = hot('(a|)', { a: destinations });
+      expect(service.search(type, query)).toBeObservable(result$);
+      expect(memberService.search).toHaveBeenCalledWith(query, {});
+    });
+
+    it('should return [] and call no services by default', () => {
+      result$ = hot('(a|)', { a: [] });
+      expect(service.search(null, query)).toBeObservable(result$);
+      expect(equipmentService.search).not.toHaveBeenCalled();
+      expect(locationService.search).not.toHaveBeenCalled();
+      expect(memberService.search).not.toHaveBeenCalled();
     });
   });
 

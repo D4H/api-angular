@@ -160,7 +160,7 @@ Interface | Method | Purpose
     - `barcode(barcode)`
     - `contents(type, id)`
     - `set(equipmentId, type, id)`: Move equipment to new destination.
-    - `search(query[, params])`
+    - `search(type, query[, params])`
 - Duty
     - `index([query])`
     - `show(id)`

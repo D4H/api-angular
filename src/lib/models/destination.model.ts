@@ -20,6 +20,7 @@
  */
 
 export enum DestinationType {
+  All = 'all',
   Equipment = 'gear',
   Location = 'gear_location',
   Member = 'member',

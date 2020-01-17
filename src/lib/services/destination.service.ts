@@ -109,22 +109,34 @@ export class DestinationService {
   }
 
   search(
+    type: DestinationType,
     query: string,
     params: Destinations.Search = {}
   ): Observable<Array<Destination>> {
-    return forkJoin([
-      this.equipmentService.search(query, params).pipe(
-        map(equipment => equipment.map(this.builder.equipment))
-      ),
-      this.locationService.search(query, params).pipe(
-        map(locations => locations.map(this.builder.location))
-      ),
-      this.memberService.search(query, params).pipe(
-        map(members => members.map(this.builder.member))
-      )
-    ]).pipe(
-      map((res: Array<Array<Destination>>) => res.flat())
-    );
+    switch (type) {
+      case DestinationType.All:
+        return forkJoin([
+          this.search(DestinationType.Equipment, query, params),
+          this.search(DestinationType.Location, query, params),
+          this.search(DestinationType.Member, query, params)
+        ]).pipe(
+          map((res: Array<Array<Destination>>) => res.flat())
+        );
+      case DestinationType.Equipment:
+        return this.equipmentService.search(query, params).pipe(
+          map(equipment => equipment.map(this.builder.equipment))
+        );
+      case DestinationType.Location:
+        return this.locationService.search(query, params).pipe(
+          map(location => location.map(this.builder.location))
+        );
+      case DestinationType.Member:
+        return this.memberService.search(query, params).pipe(
+          map(member => member.map(this.builder.member))
+        );
+      default:
+        return of([]);
+    }
   }
 
   private params(destination: Partial<Destination>): object {

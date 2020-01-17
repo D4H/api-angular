@@ -159,14 +159,14 @@ describe('EquipmentService', () => {
       http.put.and.returnValue(of({ data: equipment }));
       result$ = hot('(a|)', { a: equipment });
       expect(service.move(equipment.id, type, id )).toBeObservable(result$);
-      expect(http.put).toHaveBeenCalledWith(path(equipment.id, type, id), {});
+      expect(http.put).toHaveBeenCalledWith(path(equipment.id, type, id), null);
     });
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
       result$ = hot('#', null, error);
       expect(service.move(equipment.id, type, id )).toBeObservable(result$);
-      expect(http.put).toHaveBeenCalledWith(path(equipment.id, type, id), {});
+      expect(http.put).toHaveBeenCalledWith(path(equipment.id, type, id), null);
     });
   });
 
