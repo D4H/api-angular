@@ -42,11 +42,11 @@ describe('DestinationBuilder', () => {
 
     it('should convert Equipment to Destination', () => {
       expect(builder.equipment(equipment)).toEqual({
-        assignable: equipment.type !== EquipmentType.Supply,
         description: `#${equipment.ref}`,
         id: equipment.id,
         title: equipment.title,
-        type: DestinationType.Equipment
+        type: DestinationType.Equipment,
+        unassignable: equipment.type === EquipmentType.Supply
       });
     });
   });
@@ -66,12 +66,12 @@ describe('DestinationBuilder', () => {
 
     it('should convert Equipment to Destination', () => {
       expect(builder.equipmentContext(destination)(equipment)).toEqual({
-        assignable: equipment.type !== EquipmentType.Supply,
         context: { id: destination.id, type: destination.type },
         description: `#${equipment.ref}`,
         id: equipment.id,
         title: equipment.title,
-        type: DestinationType.Equipment
+        type: DestinationType.Equipment,
+        unassignable: equipment.type === EquipmentType.Supply
       });
     });
   });
@@ -89,11 +89,11 @@ describe('DestinationBuilder', () => {
 
     it('should convert Location to Destination', () => {
       expect(builder.location(location)).toEqual({
-        assignable: true,
         description: location.bundle,
         id: location.id,
         title: location.title,
-        type: DestinationType.Location
+        type: DestinationType.Location,
+        unassignable: false
       });
     });
   });
@@ -111,11 +111,11 @@ describe('DestinationBuilder', () => {
 
     it('should convert Member to Destination', () => {
       expect(builder.member(member)).toEqual({
-        assignable: true,
         description: member.position,
         id: member.id,
         title: member.name,
-        type: DestinationType.Member
+        type: DestinationType.Member,
+        unassignable: false
       });
     });
   });

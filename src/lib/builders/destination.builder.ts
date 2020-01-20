@@ -20,11 +20,11 @@ import { ClientModule } from '../client.module';
 export class DestinationBuilder {
   equipment(equipment: Equipment): Destination {
     return {
-      assignable: equipment.type !== EquipmentType.Supply,
       description: `#${equipment.ref}`,
       id: equipment.id,
       title: equipment.title,
-      type: DestinationType.Equipment
+      type: DestinationType.Equipment,
+      unassignable: equipment.type === EquipmentType.Supply
     };
   }
 
@@ -39,21 +39,21 @@ export class DestinationBuilder {
 
   location(location: Location): Destination {
     return {
-      assignable: true,
       description: location.bundle,
       id: location.id,
       title: location.title,
-      type: DestinationType.Location
+      type: DestinationType.Location,
+      unassignable: false
     };
   }
 
   member(member: Member): Destination {
     return {
-      assignable: true,
       description: member.position,
       id: member.id,
       title: member.name,
-      type: DestinationType.Member
+      type: DestinationType.Member,
+      unassignable: false
     };
   }
 }

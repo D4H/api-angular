@@ -12,9 +12,9 @@
  * different locations, see the equipment contents of a destination, and assign
  * an item to the new destination.
  *
- * assignable:
+ * unassignable:
  * -----------------------------------------------------------------------------
- * Some destinations are not assignable e.g. equipment of type 'supply'. These
+ * Some destinations are not unassignable e.g. equipment of type 'supply'. These
  * are consumables such as a box of pens. Logically a wrench should not go
  * inside a box of pens.
  */
@@ -28,11 +28,11 @@ export enum DestinationType {
 }
 
 export interface Destination {
-  assignable: boolean;
   description: string;
   id: number;
   title: string;
   type: DestinationType;
+  unassignable: boolean;
 
   context?: {
     id: number;
