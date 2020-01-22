@@ -35,6 +35,13 @@ export interface RouteConfig {
       image(id: number): string;
     };
 
+    categories: {
+      index: string;
+      show(id: number): string;
+      update(id: number): string;
+      destroy(id: number): string;
+    };
+
     duties: {
       index: string;
       show(id: number): string;
@@ -147,6 +154,13 @@ export const routes: RouteConfig = {
 
     brands: {
       image: (id: number) => `/team/equipment/brands/${id}/image`
+    },
+
+    categories: {
+      index: '/team/equipment/categories',
+      show: (id: number): string => `/team/equipment/categories/${id}`,
+      update: (id: number): string => `/team/equipment/categories/${id}`,
+      destroy: (id: number): string => `/team/equipment/categories/${id}`
     },
 
     duties: {

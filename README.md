@@ -154,6 +154,12 @@ Interface | Method | Purpose
     - `create([params])`
     - `update(id[, params])`
     - `destroy(id)`
+- Category
+    - `index([query])`
+    - `show(id)`
+    - `create([params])`
+    - `update(id[, params])`
+    - `destroy(id)`
 - Destination: Query new destination for equipment from union of equipment, locations or members.
     - `index([query])`
     - `show(type, id)`

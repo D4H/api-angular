@@ -56,6 +56,12 @@ describe('API Routes', () => {
           brands: {
             image: `/team/equipment/brands/${id}/image`
           },
+          categories: {
+            index: '/team/equipment/categories',
+            show: `/team/equipment/categories/${id}`,
+            update: `/team/equipment/categories/${id}`,
+            destroy: `/team/equipment/categories/${id}`
+          },
           duties: {
             index: '/team/duties',
             show: `/team/duties/${id}`,

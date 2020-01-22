@@ -1,6 +1,6 @@
 {
   "name": "@d4h/angular",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "Angular services and interfaces for the D4H API.",
   "homepage": "https://d4htechnologies.com/",
   "repository": {
