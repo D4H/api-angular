@@ -97,7 +97,7 @@ export class UsernameComponent {
 D4H Angular applications rely on [NgRx](https://ngrx.io/) for internal state management. Store states are a singleton class instance-selectors only work while instantiated. With some slight changes it is quite possible to inject a selected configuration:
 
 ```typescript
-import { CLIENT_CONFIG, ClientModule } from '@4h/angular';
+import { CLIENT_CONFIG, ClientConfig, ClientModule } from '@4h/angular';
 import { Provider } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
@@ -106,8 +106,8 @@ import { AppState, getClientConfig } from '@app/store';
 const clientConfigProvider: Provider = {
   provide: CLIENT_CONFIG,
   deps: [Store],
-  useFactory(store: Store<AppState>) {
-    return store.pipe(select(getClientConfig))
+  useFactory(store: Store<AppState>): Observable<ClientConfig> {
+    return store.pipe(select(getClientConfig));
   }
 };
 
