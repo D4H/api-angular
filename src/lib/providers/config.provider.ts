@@ -29,19 +29,15 @@ export interface Config {
   version?: Version;
 }
 
-export interface ConfigProvider {
-  config$: Observable<Config>;
-}
-
 /**
  * Client Tokens
  * =============================================================================
  */
 
 export const CLIENT_NAME = 'D4H API CLIENT';
-export const CLIENT_VERSION = '4.2.0';
+export const CLIENT_VERSION = '5.0.0';
 
-export const CLIENT_CONFIG = new InjectionToken<ConfigProvider>(
+export const CLIENT_CONFIG = new InjectionToken<Observable<Config>>(
   'CLIENT_CONFIGURATION'
 );
 

@@ -40,9 +40,7 @@ export class ClientModule {
   static forFeature(configProvider: Provider): ModuleWithProviders {
     return {
       ngModule: ClientModule,
-      providers: [
-        configProvider
-      ]
+      providers: [configProvider]
     };
   }
 }

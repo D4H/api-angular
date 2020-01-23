@@ -1,4 +1,4 @@
-[![Codeship Status for D4H/api-angular](https://app.codeship.com/projects/3862bfd0-911f-0137-6172-7e8373628817/status?branch=master)](https://app.codeship.com/projects/356368)
+[![GitHubStatus for D4H/client](https://github.com/d4h/decisions-mobile-apps/workflows/Test%20@d4h/decisions-mobile-apps/badge.svg)](https://www.npmjs.com/package/@d4h/client)
 ![npm](https://img.shields.io/npm/v/@d4h/angular.svg)
 
 # @d4h/angular
@@ -49,13 +49,16 @@ interface Config {
 ```
 
 ## Use
-Import and call `ClientModule.forRoot()` with a configuration. Configuration must be wrapped in a `ConfigProvider` object that yields the configuration as an observable.
+Import and call `ClientModule.forFeature()` with a configuration. Configuration must be passed as an observable, using the [`of` operator](https://www.learnrxjs.io/learn-rxjs/operators/creation/of) at its simplest.
 
 ```typescript
-import { CLIENT_CONFIG, ClientModule, ConfigProvider, Region } from '@4h/angular';
+import { CLIENT_CONFIG, ClientConfig } from '@4h/angular';
+import { Provider } from '@angular/core';
+import { of } from 'rxjs';
 
-const clientConfig: ConfigProvider = {
-  config$: of({
+const clientConfigProvider: Provider = {
+  provide: CLIENT_CONFIG,
+  useValue: of({
     region: Region.Staging,
 
     client: {
@@ -67,14 +70,12 @@ const clientConfig: ConfigProvider = {
       account: 'YdRM8Tz78tIfJ3jqhyzz',
       team: 'LKYW5USNLWAwyqy5VNcA'
     }
-  })
+  }
 };
 
 @NgModule({
   imports: [
-    ClientModule.forRoot(
-      { provide: CLIENT_CONFIG, useValue: clientConfig }
-    )
+    ClientModule.forFeature(clientConfigProvider)
   ]
 })
 export class AppModule {}
@@ -96,23 +97,23 @@ export class UsernameComponent {
 D4H Angular applications rely on [NgRx](https://ngrx.io/) for internal state management. Store states are a singleton class instance-selectors only work while instantiated. With some slight changes it is quite possible to inject a selected configuration:
 
 ```typescript
-import { CLIENT_CONFIG, ClientModule, ConfigProvider } from '@4h/angular';
-import { selectConfig } from 'my/store/config/selector';
+import { CLIENT_CONFIG, ClientModule } from '@4h/angular';
+import { Provider } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 
-@Injectable({ providedIn: 'root' })
-export class ConfigurationSelector implements ConfigProvider {
-  readonly config$: Observable<Config>;
+import { AppState, getClientConfig } from '@app/store';
 
-  constructor(private readonly store: Store<AppState>) {
-    this.config$ = this.store.select(selectConfig);
+const clientConfigProvider: Provider = {
+  provide: CLIENT_CONFIG,
+  deps: [Store],
+  useFactory(store: Store<AppState>) {
+    return store.pipe(select(getClientConfig))
   }
-}
+};
 
 @NgModule({
   imports: [
-    ClientModule.forRoot(
-      { provide: CLIENT_CONFIG, useClass: ConfigurationSelector }
-    )
+    ClientModule.forFeature(clientConfigProvider)
   ]
 })
 export class AppModule {}
