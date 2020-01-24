@@ -139,14 +139,28 @@ export class DestinationService {
     }
   }
 
+  /**
+   * Context/Search Query Params
+   * ===========================================================================
+   * Per the issue linked below, the below combination should yield only direct
+   * child equipment of the member or location. For example, if a member has a
+   * toolkit with tools asssigned, the query would only return the toolkit, not
+   * its tools.
+   *
+   *  - location: { location_id: number, parent_id: null }
+   *  - member: { member: number, parent_id: null }
+   *
+   * @see https://github.com/D4H/decisions-project/issues/4180
+   */
+
   private params(destination: Partial<Destination>): object {
     switch (destination.type) {
       case DestinationType.Equipment:
         return { parent_id: destination.id };
       case DestinationType.Location:
-        return { location_id: destination.id };
+        return { location_id: destination.id, parent_id: null };
       case DestinationType.Member:
-        return { member: destination.id };
+        return { member: destination.id, parent_id: null };
       default:
         return {};
     }

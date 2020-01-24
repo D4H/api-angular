@@ -256,7 +256,7 @@ describe('DestinationService', () => {
       equipmentService.index.and.returnValue(of(equipment));
       result$ = hot('(a|)', { a: destinations });
       expect(service.contents(type, id)).toBeObservable(result$);
-      expect(equipmentService.index).toHaveBeenCalledWith({ location_id: id });
+      expect(equipmentService.index).toHaveBeenCalledWith({ location_id: id, parent_id: null });
     });
 
     it('should call equipmentService.index with member', () => {
@@ -265,7 +265,7 @@ describe('DestinationService', () => {
       equipmentService.index.and.returnValue(of(equipment));
       result$ = hot('(a|)', { a: destinations });
       expect(service.contents(type, id)).toBeObservable(result$);
-      expect(equipmentService.index).toHaveBeenCalledWith({ member: id });
+      expect(equipmentService.index).toHaveBeenCalledWith({ member: id, parent_id: null });
     });
 
     it('should call equipmentService.index with {}', () => {
