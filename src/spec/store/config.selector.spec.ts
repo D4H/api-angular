@@ -1,90 +1,70 @@
 import { Factory } from '@d4h/testing';
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, Provider } from '@angular/core';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { Observable } from 'rxjs';
+import { Observable, isObservable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
+import { cold, hot } from 'jasmine-marbles';
 
-import { CLIENT_CONFIG, Config, ConfigProvider } from '../../lib/providers/config.provider';
+import { CLIENT_CONFIG, Config } from '../../lib/providers/config.provider';
+
+/**
+ * NgRx Client Config
+ * =============================================================================
+ * Test an NgRx store selector for the client config per README.md.
+ */
 
 interface State {
-  client: Config;
-}
-
-@Injectable()
-class ConfigSelector implements ConfigProvider {
-  readonly config$: Observable<Config>;
-
-  constructor(private readonly store: Store<State>) {
-    this.config$ = this.store.pipe(select('client'));
-  }
+  config: Config;
 }
 
 @Injectable()
 class ConfigConsumer {
   constructor(
-    @Inject(CLIENT_CONFIG) readonly configurator: ConfigProvider
+    @Inject(CLIENT_CONFIG) readonly config$: Observable<Config>
   ) {}
 }
 
-/**
- * Test an NgRx store selector for the client config per README.md.
- */
-
-describe('NgRx Config Selector', () => {
+describe('NgRx Client Config Selector', () => {
   let config: Config;
+  let configProvider: Provider;
   let consumer: ConfigConsumer;
-  let selector: ConfigSelector;
+  let result$: Observable<any>;
   let store: MockStore<State>;
 
   beforeEach(() => {
     config = Factory.build('Config');
 
+    configProvider = {
+      provide: CLIENT_CONFIG,
+      deps: [Store],
+      useFactory(state: Store<State>): Observable<Config> {
+        return state.pipe(select('config'));
+      }
+    };
+
     TestBed.configureTestingModule({
       providers: [
         ConfigConsumer,
-        ConfigSelector,
-        provideMockStore({ initialState: { client: config } }),
-        { provide: CLIENT_CONFIG, useClass: ConfigSelector }
+        configProvider,
+        provideMockStore({ initialState: { config } })
       ]
     });
 
     consumer = TestBed.get(ConfigConsumer);
-    selector = TestBed.get(ConfigSelector);
     store = TestBed.get(Store);
   });
 
   it('should be created', () => {
     expect(consumer).toBeTruthy();
-    expect(selector).toBeTruthy();
   });
 
-  describe('ConfigSelector', () => {
-    it('should should instantiate ConfigSelector', () => {
-      expect(selector).toBeTruthy();
-      expect(typeof selector.config$).toBe('object');
-    });
-
-    it('should yield configuration in state', done => {
-      selector.config$.subscribe(stateConfig => {
-        expect(stateConfig).toEqual(config);
-        done();
-      });
-    });
+  it('should have config$', () => {
+    expect(isObservable(consumer.config$)).toBe(true);
   });
 
-  describe('ConfigConsumer', () => {
-    it('should should instantiate ConfigConsumer', () => {
-      expect(consumer).toBeTruthy();
-      expect(typeof consumer.configurator).toBe('object');
-      expect(typeof consumer.configurator.config$).toBe('object');
-    });
-
-    it('should use injected configuration selector', done => {
-      consumer.configurator.config$.subscribe(consumerConfig => {
-        expect(consumerConfig).toEqual(config);
-        done();
-      });
-    });
+  it('should provide observable config', () => {
+    result$ = hot('(a)', { a: config });
+    expect(consumer.config$).toBeObservable(result$);
   });
 });

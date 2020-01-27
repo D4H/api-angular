@@ -1,5 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
+import { DestinationType } from '../models';
+
 /**
  * API Routing Configuration
  * =============================================================================
@@ -33,6 +35,13 @@ export interface RouteConfig {
       image(id: number): string;
     };
 
+    categories: {
+      index: string;
+      show(id: number): string;
+      update(id: number): string;
+      destroy(id: number): string;
+    };
+
     duties: {
       index: string;
       show(id: number): string;
@@ -44,6 +53,7 @@ export interface RouteConfig {
       index: string;
       show(id: number): string;
       barcode(barcode: string): string;
+      move(id: number, destinationType: DestinationType, destinationId: number): string;
       ref(ref: string): string;
       update(id: number): string;
       image(id: number): string;
@@ -110,7 +120,7 @@ export interface RouteConfig {
 
     image: string;
     settings: string;
-    show(id: number): string;
+    show: string;
   };
 }
 
@@ -128,7 +138,7 @@ export const routes: RouteConfig = {
   team: {
     image: '/team/image',
     settings: '/team/settings',
-    show: (id: number): string => `/team/teams/${id}`,
+    show: '/team',
 
     activities: {
       index: '/team/activities',
@@ -146,6 +156,13 @@ export const routes: RouteConfig = {
       image: (id: number) => `/team/equipment/brands/${id}/image`
     },
 
+    categories: {
+      index: '/team/equipment/categories',
+      show: (id: number): string => `/team/equipment/categories/${id}`,
+      update: (id: number): string => `/team/equipment/categories/${id}`,
+      destroy: (id: number): string => `/team/equipment/categories/${id}`
+    },
+
     duties: {
       index: '/team/duties',
       show: (id: number): string => `/team/duties/${id}`,
@@ -159,6 +176,7 @@ export const routes: RouteConfig = {
       barcode: (barcode: string): string => `/team/equipment/barcode/${barcode}`,
       ref: (ref: string): string => `/team/equipment/ref/${ref}`,
       update: (id: number): string => `/team/equipment/${id}`,
+      move: (id, destinationType, destinationId) => `/team/equipment/${id}/${destinationType}/${destinationId}`,
       image: (id: number) => `/team/equipment/${id}/image`
     },
 

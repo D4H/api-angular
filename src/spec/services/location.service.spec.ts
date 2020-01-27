@@ -27,7 +27,10 @@ describe('LocationService', () => {
         LocationService,
         {
           provide: ApiHttpClient,
-          useValue: jasmine.createSpyObj('http', ['get', 'post', 'put', 'delete'])
+          useValue: jasmine.createSpyObj(
+            'http',
+            ['get', 'post', 'put', 'delete']
+          )
         }
       ]
     });
@@ -121,6 +124,39 @@ describe('LocationService', () => {
       result$ = hot('#', null, error);
       expect(service.destroy(location.id)).toBeObservable(result$);
       expect(http.delete).toHaveBeenCalledWith(path(location.id));
+    });
+  });
+
+  describe('search', () => {
+    const path: string = routes.team.locations.index;
+    let locations: Array<Location>;
+    let query: string;
+    let search: Locations.Search;
+
+    beforeEach(() => {
+      locations = Factory.buildList<Location>('Location');
+      search = { limit: 5, offset: 15 };
+      query = faker.random.uuid();
+    });
+
+    it('should be a function', () => {
+      expect(typeof service.search).toBe('function');
+    });
+
+    it('should call http.get and return an array of locations', () => {
+      http.get.and.returnValue(of({ data: locations }));
+      result$ = hot('(a|)', { a: locations });
+      expect(service.search(query, search)).toBeObservable(result$);
+
+      expect(http.get)
+        .toHaveBeenCalledWith(path, { params: { title: query, ...search } });
+    });
+
+    it('should call http.get with {} by default for params', () => {
+      http.get.and.returnValue(of({ data: locations }));
+      result$ = hot('(a|)', { a: locations });
+      expect(service.search(query)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: { title: query } });
     });
   });
 });

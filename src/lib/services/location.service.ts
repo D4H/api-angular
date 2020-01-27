@@ -39,4 +39,16 @@ export class LocationService {
       map((): number => id)
     );
   }
+
+  search(
+    query: string,
+    params: Locations.Search = {}
+  ): Observable<Array<Location>> {
+    const route: string = this.routes.team.locations.index;
+    const payload: HttpOptions = { params: { title: query, ...params as any } };
+
+    return this.http.get<Locations.Index>(route, payload).pipe(
+      map((res: Locations.Index): Array<Location> => res.data)
+    );
+  }
 }

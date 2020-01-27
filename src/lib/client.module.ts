@@ -37,21 +37,10 @@ import {
   ]
 })
 export class ClientModule {
-  static forRoot(configProvider: Provider): ModuleWithProviders {
-    return {
-      ngModule: ClientModule,
-      providers: [
-        configProvider
-      ]
-    };
-  }
-
   static forFeature(configProvider: Provider): ModuleWithProviders {
     return {
       ngModule: ClientModule,
-      providers: [
-        configProvider
-      ]
+      providers: [configProvider]
     };
   }
 }

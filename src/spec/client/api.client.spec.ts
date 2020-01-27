@@ -10,14 +10,16 @@ import { ClientTestModule } from '../client-test.module';
 import { Config, Region, TokenType, Version } from '../../lib/providers';
 
 describe('ApiHttpClient', () => {
-  const config: Config = Factory.build<Config>('Config');
   let client: ApiHttpClient;
+  let config: Config;
   let http: HttpTestingController;
   let path: string;
   let req: TestRequest;
   let url: string;
 
   beforeEach(() => {
+    config = Factory.build('Config');
+
     TestBed.configureTestingModule({
       imports: [ClientTestModule.forRoot(config)]
     });

@@ -26,7 +26,7 @@ describe('API Routes', () => {
       const resolvedRouteConfig = map(routes, function(value: any): void {
         if (typeof value === 'function') {
           /* tslint:disable-next-line no-invalid-this */
-          this.update(value(id, id));
+          this.update(value(id, id, id));
         }
       });
 
@@ -42,7 +42,7 @@ describe('API Routes', () => {
         team: {
           image: '/team/image',
           settings: '/team/settings',
-          show: `/team/teams/${id}`,
+          show: '/team',
           activities: {
             index: '/team/activities',
             show: `/team/activities/${id}`
@@ -56,6 +56,12 @@ describe('API Routes', () => {
           brands: {
             image: `/team/equipment/brands/${id}/image`
           },
+          categories: {
+            index: '/team/equipment/categories',
+            show: `/team/equipment/categories/${id}`,
+            update: `/team/equipment/categories/${id}`,
+            destroy: `/team/equipment/categories/${id}`
+          },
           duties: {
             index: '/team/duties',
             show: `/team/duties/${id}`,
@@ -66,6 +72,7 @@ describe('API Routes', () => {
             index: '/team/equipment',
             show: `/team/equipment/${id}`,
             barcode: `/team/equipment/barcode/${id}`,
+            move: `/team/equipment/${id}/${id}/${id}`,
             ref: `/team/equipment/ref/${id}`,
             update: `/team/equipment/${id}`,
             image: `/team/equipment/${id}/image`

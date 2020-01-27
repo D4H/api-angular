@@ -31,7 +31,7 @@ import {
     { provide: API_ROUTES, useValue: routes },
     { provide: API_AUTHENTICATED_ROUTES, useValue: authenticatedRoutes },
     { provide: CLIENT_DEFAULT_CONFIG, useValue: defaultConfig },
-    { provide: CLIENT_CONFIG, useValue: { config$: of(defaultConfig) } }
+    { provide: CLIENT_CONFIG, useValue: of(defaultConfig) }
   ]
 })
 export class ClientTestModule {
@@ -41,7 +41,7 @@ export class ClientTestModule {
     return {
       ngModule: ClientTestModule,
       providers: [
-        { provide: CLIENT_CONFIG, useValue: { config$: of(config) } }
+        { provide: CLIENT_CONFIG, useValue: of(config) }
       ]
     };
   }

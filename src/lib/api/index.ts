@@ -1,6 +1,8 @@
 import * as Accounts from './account.api';
 import * as Activities from './activity.api';
 import * as Attendances from './attendance.api';
+import * as Categories from './category.api';
+import * as Destinations from './destination.api';
 import * as Duties from './duty.api';
 import * as Gear from './equipment.api';
 import * as Groups from './group.api';
@@ -27,6 +29,8 @@ export {
   Accounts,
   Activities,
   Attendances,
+  Categories,
+  Destinations,
   Duties,
   Gear,
   Groups,

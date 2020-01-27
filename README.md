@@ -1,4 +1,4 @@
-[![Codeship Status for D4H/api-angular](https://app.codeship.com/projects/3862bfd0-911f-0137-6172-7e8373628817/status?branch=master)](https://app.codeship.com/projects/356368)
+[![GitHubStatus for D4H/client](https://github.com/d4h/decisions-mobile-apps/workflows/Test%20@d4h/decisions-mobile-apps/badge.svg)](https://www.npmjs.com/package/@d4h/client)
 ![npm](https://img.shields.io/npm/v/@d4h/angular.svg)
 
 # @d4h/angular
@@ -49,13 +49,16 @@ interface Config {
 ```
 
 ## Use
-Import and call `ClientModule.forRoot()` with a configuration. Configuration must be wrapped in a `ConfigProvider` object that yields the configuration as an observable.
+Import and call `ClientModule.forFeature()` with a configuration. Configuration must be passed as an observable, using the [`of` operator](https://www.learnrxjs.io/learn-rxjs/operators/creation/of) at its simplest.
 
 ```typescript
-import { CLIENT_CONFIG, ClientModule, ConfigProvider, Region } from '@4h/angular';
+import { CLIENT_CONFIG, ClientConfig } from '@4h/angular';
+import { Provider } from '@angular/core';
+import { of } from 'rxjs';
 
-const clientConfig: ConfigProvider = {
-  config$: of({
+const clientConfigProvider: Provider = {
+  provide: CLIENT_CONFIG,
+  useValue: of({
     region: Region.Staging,
 
     client: {
@@ -67,14 +70,12 @@ const clientConfig: ConfigProvider = {
       account: 'YdRM8Tz78tIfJ3jqhyzz',
       team: 'LKYW5USNLWAwyqy5VNcA'
     }
-  })
+  }
 };
 
 @NgModule({
   imports: [
-    ClientModule.forRoot(
-      { provide: CLIENT_CONFIG, useValue: clientConfig }
-    )
+    ClientModule.forFeature(clientConfigProvider)
   ]
 })
 export class AppModule {}
@@ -96,23 +97,23 @@ export class UsernameComponent {
 D4H Angular applications rely on [NgRx](https://ngrx.io/) for internal state management. Store states are a singleton class instance-selectors only work while instantiated. With some slight changes it is quite possible to inject a selected configuration:
 
 ```typescript
-import { CLIENT_CONFIG, ClientModule, ConfigProvider } from '@4h/angular';
-import { selectConfig } from 'my/store/config/selector';
+import { CLIENT_CONFIG, ClientConfig, ClientModule } from '@4h/angular';
+import { Provider } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 
-@Injectable({ providedIn: 'root' })
-export class ConfigurationSelector implements ConfigProvider {
-  readonly config$: Observable<Config>;
+import { AppState, getClientConfig } from '@app/store';
 
-  constructor(private readonly store: Store<AppState>) {
-    this.config$ = this.store.select(selectConfig);
+const clientConfigProvider: Provider = {
+  provide: CLIENT_CONFIG,
+  deps: [Store],
+  useFactory(store: Store<AppState>): Observable<ClientConfig> {
+    return store.pipe(select(getClientConfig));
   }
-}
+};
 
 @NgModule({
   imports: [
-    ClientModule.forRoot(
-      { provide: CLIENT_CONFIG, useClass: ConfigurationSelector }
-    )
+    ClientModule.forFeature(clientConfigProvider)
   ]
 })
 export class AppModule {}
@@ -141,76 +142,93 @@ Interface | Method | Purpose
 ### Available Resources
 @d4h/angular support operations currently used internally by D4H applications. If you require a resource not supported here, either [open an issue](https://github.com/D4H/angular/issues/new) or reach out to <support@d4h.org>.
 
-* Account
-    * `authenticate(username, password)`
-    * `memberships([params])`
-    * `username(username)`
-* Activity
-    * `index([search])`
-    * `show(id)`
-* Attendance
-    * `index([search])`
-    * `show(id)`
-    * `create([params])`
-    * `update(id[, params])`
-    * `destroy(id)`
-* Duty
-    * `index([search])`
-    * `show(id)`
-    * `create([params])`
-    * `update(id[, params])`
-    * `destroy(id)`
-* Group
-    * `index([search])`
-    * `show(id)`
-* Equipment
-    * `index([search])`
-    * `show(id)`
-    * `barcode(barcode)`: Fetch Equipment item by barcode.
-    * `ref(ref)`: Fetch Equipment item item by reference.
-    * `update(id[, params])`
-    * `image(id, [params])`
-* Inspection
-    * `index([search])`
-    * `show(id)`
-    * `update(id[, params])`
-* Result (Inspection Result)
-    * `index(inspectionId, [search])`
-    * `show(inspectionId, id)`
-    * `update(inspectionId, id[, params])`
-* Location
-    * `index([search])`
-    * `show(id)`
-    * `destroy(id)`
-* Member
-    * `index([search])`
-    * `show(id)`
-    * `update(id[, params])`
-    * `destroy(id)`
-    * `groups(id)`
-    * `image(id, [params])`
-    * `labels()`
-* Note
-    * `index([search])`
-    * `show(id)`
-    * `create([params])`
-    * `update(id[, params])`
-    * `destroy(id)`
-* Photo
-    * `get(url[, params])`
-    * `membership(url, membership[, params])`
-* Repair
-    * `index([search])`
-    * `show(id)`
-    * `create([params])`
-    * `update(id[, params])`
-* Role
-    * `index([search])`
-    * `show(id)`
-* Team
-    * `show(team)`
-    * `image(team,[ params])`
-    * `settings(team, setting)`
+- Account
+    - `authenticate(username, password)`
+    - `memberships([params])`
+    - `username(username)`
+- Activity
+    - `index([query])`
+    - `show(id)`
+- Attendance
+    - `index([query])`
+    - `show(id)`
+    - `create([params])`
+    - `update(id[, params])`
+    - `destroy(id)`
+- Category
+    - `index([query])`
+    - `show(id)`
+    - `create([params])`
+    - `update(id[, params])`
+    - `destroy(id)`
+- Destination: Query new destination for equipment from union of equipment, locations or members.
+    - `index([query])`
+    - `show(type, id)`
+    - `barcode(barcode)`
+    - `contents(type, id)`
+    - `set(equipmentId, type, id)`: Move equipment to new destination.
+    - `search(type, query[, params])`
+- Duty
+    - `index([query])`
+    - `show(id)`
+    - `create([params])`
+    - `update(id[, params])`
+    - `destroy(id)`
+- Group
+    - `index([query])`
+    - `show(id)`
+- Equipment
+    - `index([query])`
+    - `show(id)`
+    - `barcode(barcode)`: Fetch Equipment item by barcode.
+    - `ref(ref)`: Fetch Equipment item item by reference.
+    - `move(id, destinationType, destinationId)`: Move equipment to new destination.
+    - `update(id[, params])`
+    - `image(id, [params])`
+    - `search([text[, params]])`: Search equipment by `equipment.ref === text || equipment.barcode === text`
+- Inspection
+    - `index([query])`
+    - `show(id)`
+    - `update(id[, params])`
+- Result (Inspection Result)
+    - `index(inspectionId, [search])`
+    - `show(inspectionId, id)`
+    - `update(inspectionId, id[, params])`
+- Location
+    - `index([query])`
+    - `show(id)`
+    - `destroy(id)`
+    - `search([text[, params]])`
+- Member
+    - `index([query])`
+    - `show(id)`
+    - `update(id[, params])`
+    - `destroy(id)`
+    - `groups(id)`
+    - `image(id, [params])`
+    - `labels()`
+    - `search([text[, params]])`
+- Note
+    - `index([query])`
+    - `show(id)`
+    - `create([params])`
+    - `update(id[, params])`
+    - `destroy(id)`
+- Photo
+    - `get(url[, params])`
+    - `membership(url, membership[, params])`
+- Repair
+    - `index([query])`
+    - `show(id)`
+    - `create([params])`
+    - `update(id[, params])`
+- Role
+    - `index([query])`
+    - `show(id)`
+- Team
+    - `show(team)`
+    - `image(team,[ params])`
+    - `settings(team, setting)`
 
 ## Support and Feedback
 Feel free to email <support@d4h.org>, [open an issue](https://github.com/D4H/api-angular/issues/new) or tweet [@d4h](https://twitter.com/d4h/).

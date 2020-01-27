@@ -5,9 +5,8 @@ import { map, mergeMap, take } from 'rxjs/operators';
 
 import {
   CLIENT_CONFIG,
-  Config,
   ClientRequestParser,
-  ConfigProvider,
+  Config,
   Headers,
   HttpOptions,
   Params
@@ -29,13 +28,13 @@ import { ParserClient } from './parser.client';
 @Injectable({ providedIn: ClientModule })
 export class ApiHttpClient {
   constructor(
-    @Inject(CLIENT_CONFIG) private readonly configurator: ConfigProvider,
+    @Inject(CLIENT_CONFIG) private readonly config$: Observable<Config>,
     private readonly http: HttpClient,
     private readonly parser: ParserClient
   ) {}
 
   get<T>(url: string, options: HttpOptions = {}): Observable<T> {
-    return this.configurator.config$.pipe(
+    return this.config$.pipe(
       take(1),
       mergeMap((config: Config): Observable<T> => this.http.get<T>(
         this.parser.url(config, url),
@@ -45,7 +44,7 @@ export class ApiHttpClient {
   }
 
   post<T>(url: string, body: any, options: HttpOptions = {}): Observable<T> {
-    return this.configurator.config$.pipe(
+    return this.config$.pipe(
       take(1),
       mergeMap((config: Config): Observable<T> => this.http.post<T>(
         this.parser.url(config, url),
@@ -56,7 +55,7 @@ export class ApiHttpClient {
   }
 
   put<T>(url: string, body: any, options: HttpOptions = {}): Observable<T> {
-    return this.configurator.config$.pipe(
+    return this.config$.pipe(
       take(1),
       mergeMap((config: Config): Observable<T> => this.http.put<T>(
         this.parser.url(config, url),
@@ -67,7 +66,7 @@ export class ApiHttpClient {
   }
 
   delete<T>(url: string, options: HttpOptions = {}): Observable<T> {
-    return this.configurator.config$.pipe(
+    return this.config$.pipe(
       take(1),
       mergeMap((config: Config): Observable<T> => this.http.delete<T>(
         this.parser.url(config, url),

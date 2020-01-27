@@ -48,9 +48,6 @@ export interface Change {
   barcode?: string;
   is_critical?: boolean;
   is_monitor?: boolean;
-  location_id?: number;
-  member?: number | 'me';
-  parent_id?: number;
   // Per docs: "Valid values: 1 3 4 5"
   status_id?:
     EquipmentStatus.Operational
