@@ -1,9 +1,6 @@
 import faker from 'faker';
 import { Factory, sample } from '@d4h/testing';
-import { HttpErrorResponse } from '@angular/common/http';
-import { NOT_FOUND } from 'http-status-codes';
 import { Observable, of, throwError } from 'rxjs';
-import { SafeUrl } from '@angular/platform-browser';
 import { TestBed } from '@angular/core/testing';
 import { cold, hot } from 'jasmine-marbles';
 

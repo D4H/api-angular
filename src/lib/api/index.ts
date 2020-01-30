@@ -1,6 +1,7 @@
 import * as Accounts from './account.api';
 import * as Activities from './activity.api';
 import * as Attendances from './attendance.api';
+import * as CalendarEvents from './calendar-event.api';
 import * as Categories from './category.api';
 import * as Destinations from './destination.api';
 import * as Duties from './duty.api';
@@ -29,6 +30,7 @@ export {
   Accounts,
   Activities,
   Attendances,
+  CalendarEvents,
   Categories,
   Destinations,
   Duties,

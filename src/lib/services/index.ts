@@ -1,6 +1,7 @@
 export * from './account.service';
 export * from './activity.service';
 export * from './attendance.service';
+export * from './calendar.service';
 export * from './category.service';
 export * from './destination.service';
 export * from './duty.service';

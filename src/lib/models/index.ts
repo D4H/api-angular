@@ -2,6 +2,7 @@ export * from './account.model';
 export * from './activity.model';
 export * from './attendance.model';
 export * from './brand.model';
+export * from './calendar-event.model';
 export * from './category.model';
 export * from './cost.model';
 export * from './custom-field.model';
