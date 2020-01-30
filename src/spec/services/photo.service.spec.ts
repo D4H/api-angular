@@ -55,7 +55,7 @@ describe('PhotoService', () => {
 
     beforeEach(() => {
       blob = Factory.build<Blob>('Blob');
-      safeUrl = Factory.build<SafeUrl>('SafeUrl', blob);
+      safeUrl = Factory.build<SafeUrl>('SafeUrl', { blob });
       path = `/${faker.random.uuid()}/image`;
     });
 
