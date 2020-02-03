@@ -77,7 +77,7 @@ describe('TeamService', () => {
     it('should return NOT_FOUND with nonexistent membership', () => {
       error = { ...error, status: NOT_FOUND };
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(membership)).toBeObservable(result$);
 
       expect(http.get).toHaveBeenCalledWith(
@@ -145,12 +145,12 @@ describe('TeamService', () => {
     it('should throw BAD_REQUEST with no setting parameter', () => {
       error = { ...error, status: BAD_REQUEST };
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
-      expect(service.settings(membership, null)).toBeObservable(result$);
+      result$ = hot('#', undefined, error);
+      expect(service.settings(membership, undefined)).toBeObservable(result$);
 
       expect(http.get).toHaveBeenCalledWith(path, {
         headers: { Authorization: `Bearer ${membership.token}` },
-        params: { setting: null }
+        params: { setting: undefined }
       });
     });
   });

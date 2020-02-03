@@ -64,7 +64,7 @@ describe('RepairService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index()).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: {} });
     });
@@ -91,7 +91,7 @@ describe('RepairService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(repair.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(repair.id));
     });
@@ -126,7 +126,7 @@ describe('RepairService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.post.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.create(attributes)).toBeObservable(result$);
       expect(http.post).toHaveBeenCalledWith(path, attributes);
     });
@@ -160,7 +160,7 @@ describe('RepairService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.update(repair.id)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(repair.id), {});
     });

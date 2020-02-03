@@ -64,7 +64,7 @@ describe('DutyService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
@@ -91,7 +91,7 @@ describe('DutyService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(duty.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(duty.id));
     });
@@ -127,7 +127,7 @@ describe('DutyService', () => {
     });
 
     it('should call http.post and return undefined when res.data.id is not a number', () => {
-      duty.id = null;
+      duty.id = undefined;
       http.post.and.returnValue(of({ data: duty }));
       result$ = hot('(a|)', { a: undefined });
       expect(service.create(attributes)).toBeObservable(result$);
@@ -136,7 +136,7 @@ describe('DutyService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.post.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.create(attributes)).toBeObservable(result$);
       expect(http.post).toHaveBeenCalledWith(path, attributes);
     });
@@ -170,7 +170,7 @@ describe('DutyService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.update(duty.id, attributes)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(duty.id), attributes);
     });
@@ -197,7 +197,7 @@ describe('DutyService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.delete.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.destroy(duty.id)).toBeObservable(result$);
       expect(http.delete).toHaveBeenCalledWith(path(duty.id));
     });

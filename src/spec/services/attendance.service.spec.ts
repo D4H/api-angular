@@ -64,7 +64,7 @@ describe('AttendanceService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
@@ -91,7 +91,7 @@ describe('AttendanceService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(attendance.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(attendance.id));
     });
@@ -125,7 +125,7 @@ describe('AttendanceService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.post.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.create(attributes)).toBeObservable(result$);
       expect(http.post).toHaveBeenCalledWith(path, attributes);
     });
@@ -159,7 +159,7 @@ describe('AttendanceService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.update(attendance.id, attributes)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(attendance.id), attributes);
     });
@@ -186,7 +186,7 @@ describe('AttendanceService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.delete.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.destroy(attendance.id)).toBeObservable(result$);
       expect(http.delete).toHaveBeenCalledWith(path(attendance.id));
     });

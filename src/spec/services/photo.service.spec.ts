@@ -71,24 +71,24 @@ describe('PhotoService', () => {
       expect(http.get).toHaveBeenCalledWith(path, { responseType: 'blob' });
     });
 
-    it('should return null when response is not a Blob', () => {
+    it('should return undefined when response is not a Blob', () => {
       http.get.and.returnValue(of(undefined));
-      result$ = hot('(a|)', { a: null });
+      result$ = hot('(a|)', { a: undefined });
       expect(service.get(path)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { responseType: 'blob' });
     });
 
-    it('should return null when error response is NOT_FOUND', () => {
+    it('should return undefined when error response is NOT_FOUND', () => {
       error = { ...error, status: NOT_FOUND };
       http.get.and.returnValue(throwError(error));
-      result$ = hot('(a|)', { a: null });
+      result$ = hot('(a|)', { a: undefined });
       expect(service.get(path)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { responseType: 'blob' });
     });
 
     it('should throw an error with any other invalid response', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.get(path)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { responseType: 'blob' });
     });

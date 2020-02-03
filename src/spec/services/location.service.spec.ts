@@ -67,7 +67,7 @@ describe('LocationService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
@@ -94,7 +94,7 @@ describe('LocationService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(location.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(location.id));
     });
@@ -121,7 +121,7 @@ describe('LocationService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.delete.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.destroy(location.id)).toBeObservable(result$);
       expect(http.delete).toHaveBeenCalledWith(path(location.id));
     });

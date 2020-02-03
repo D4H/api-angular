@@ -81,7 +81,7 @@ export class DestinationService {
           this.builder.member)
         );
       default:
-        return of(null);
+        return of(undefined);
     }
   }
 
@@ -153,14 +153,16 @@ export class DestinationService {
    * @see https://github.com/D4H/decisions-project/issues/4180
    */
 
-  private params(destination: Partial<Destination>): object {
-    switch (destination.type) {
+  private params({ id, type }: { id: number, type: DestinationType }): object {
+    switch (type) {
       case DestinationType.Equipment:
-        return { parent_id: destination.id };
+        return { parent_id: id };
       case DestinationType.Location:
-        return { location_id: destination.id, parent_id: null };
+        // tslint:disable-next-line no-null-keyword
+        return { location_id: id, parent_id: null };
       case DestinationType.Member:
-        return { member: destination.id, parent_id: null };
+        // tslint:disable-next-line no-null-keyword
+        return { member: id, parent_id: null };
       default:
         return {};
     }

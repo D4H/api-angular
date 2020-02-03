@@ -49,7 +49,7 @@ describe('CalendarEventBuilder', () => {
         : attendance.activity.title;
 
       expect(builder.attendance(attendance)).toEqual({
-        color: null,
+        color: undefined,
         end: attendance.enddate,
         event_id: attendance.id,
         event_status: attendance.status,
@@ -83,7 +83,7 @@ describe('CalendarEventBuilder', () => {
     });
 
     it('should have event_type Activity', () => {
-      attendance.activity.type = null;
+      attendance.activity.type = undefined;
 
       expect(builder.attendance(attendance).event_type)
         .toBe(CalendarEventType.Activity);
@@ -96,7 +96,7 @@ describe('CalendarEventBuilder', () => {
     });
 
     it('should have title without reference', () => {
-      attendance.activity.ref = null;
+      attendance.activity.ref = undefined;
 
       expect(builder.attendance(attendance).text)
         .toBe(attendance.activity.title);
@@ -116,7 +116,7 @@ describe('CalendarEventBuilder', () => {
 
     it('should convert Duty to CalendarEvent', () => {
       expect(builder.duty(duty)).toEqual({
-        color: null,
+        color: undefined,
         end: duty.enddate,
         event_id: duty.id,
         event_status: duty.type,
@@ -129,13 +129,13 @@ describe('CalendarEventBuilder', () => {
     });
 
     it('should have text duty.role.title', () => {
-      duty.role = { id: null, title: faker.random.uuid() };
+      duty.role = { id: undefined, title: faker.random.uuid() };
       expect(builder.duty(duty).text).toBe(duty.role.title);
     });
 
-    it('should have text null', () => {
-      duty.role = null;
-      expect(builder.duty(duty).text).toBe(null);
+    it('should have text undefined', () => {
+      duty.role = undefined;
+      expect(builder.duty(duty).text).toBe(undefined);
     });
   });
 });

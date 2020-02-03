@@ -72,7 +72,7 @@ describe('MemberService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index()).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: {} });
     });
@@ -99,7 +99,7 @@ describe('MemberService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(member.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(member.id));
     });
@@ -133,7 +133,7 @@ describe('MemberService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.update(member.id)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(member.id), {});
     });
@@ -162,7 +162,7 @@ describe('MemberService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.groups(member.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(member.id));
     });
@@ -189,10 +189,10 @@ describe('MemberService', () => {
       expect(photoService.get).toHaveBeenCalledWith(path(member.id), { params: {} });
     });
 
-    it('should call photoService.get and return null when image does not exist', () => {
+    it('should call photoService.get and return undefined when image does not exist', () => {
       error = { ...error, status: NOT_FOUND };
-      photoService.get.and.returnValue(of(null));
-      result$ = hot('(a|)', { a: null });
+      photoService.get.and.returnValue(of(undefined));
+      result$ = hot('(a|)', { a: undefined });
       expect(service.image(member.id)).toBeObservable(result$);
       expect(photoService.get).toHaveBeenCalledWith(path(member.id), { params: {} });
     });

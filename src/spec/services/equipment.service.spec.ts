@@ -72,7 +72,7 @@ describe('EquipmentService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index()).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: {} });
     });
@@ -99,7 +99,7 @@ describe('EquipmentService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(equipment.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(equipment.id));
     });
@@ -133,7 +133,7 @@ describe('EquipmentService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.update(equipment.id)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(equipment.id), {});
     });
@@ -159,14 +159,14 @@ describe('EquipmentService', () => {
       http.put.and.returnValue(of({ data: equipment }));
       result$ = hot('(a|)', { a: equipment });
       expect(service.move(equipment.id, type, id )).toBeObservable(result$);
-      expect(http.put).toHaveBeenCalledWith(path(equipment.id, type, id), null);
+      expect(http.put).toHaveBeenCalledWith(path(equipment.id, type, id), undefined);
     });
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.move(equipment.id, type, id )).toBeObservable(result$);
-      expect(http.put).toHaveBeenCalledWith(path(equipment.id, type, id), null);
+      expect(http.put).toHaveBeenCalledWith(path(equipment.id, type, id), undefined);
     });
   });
 
@@ -191,7 +191,7 @@ describe('EquipmentService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.ref(equipment.ref)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(equipment.ref));
     });
@@ -218,7 +218,7 @@ describe('EquipmentService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.barcode(equipment.barcode)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(equipment.barcode));
     });
@@ -245,10 +245,10 @@ describe('EquipmentService', () => {
       expect(photoService.get).toHaveBeenCalledWith(path(equipment.id), { params: {} });
     });
 
-    it('should call photoService.get and return null when image does not exist', () => {
+    it('should call photoService.get and return undefined when image does not exist', () => {
       error = { ...error, status: NOT_FOUND };
-      photoService.get.and.returnValue(of(null));
-      result$ = hot('(a|)', { a: null });
+      photoService.get.and.returnValue(of(undefined));
+      result$ = hot('(a|)', { a: undefined });
       expect(service.image(equipment.id)).toBeObservable(result$);
       expect(photoService.get).toHaveBeenCalledWith(path(equipment.id), { params: {} });
     });

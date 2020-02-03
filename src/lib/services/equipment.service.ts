@@ -67,7 +67,7 @@ export class EquipmentService {
     const route: string = this.routes.team.equipment
       .move(id, destinationType, destinationId);
 
-    return this.http.put<Gear.Update>(route, null).pipe(
+    return this.http.put<Gear.Update>(route, undefined).pipe(
       map((res: Gear.Update): Equipment => res.data)
     );
   }

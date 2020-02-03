@@ -66,7 +66,7 @@ describe('ResultService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index(inspection.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(inspection.id), { params: {} });
     });
@@ -95,7 +95,7 @@ describe('ResultService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(inspection.id, result.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(inspection.id, result.id));
     });
@@ -130,7 +130,7 @@ describe('ResultService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.update(inspection.id, result.id)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(inspection.id, result.id), {});
     });

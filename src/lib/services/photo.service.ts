@@ -16,7 +16,7 @@ import { Photos } from '../api';
  * For the given URL and parameters:
  *
  *  1. Fetch the photograph blob.
- *  2. Convert it into a SafeUrl, or null if the API returned nothing.
+ *  2. Convert it into a SafeUrl, or undefined if the API returned nothing.
  *
  * @see https://api.d4h.org/v2/documentation#operation/getMembershipMembersMemberImage
  * @see https://api.d4h.org/v2/documentation#operation/getMembershipImage
@@ -47,7 +47,7 @@ export class PhotoService {
         URL.createObjectURL(blob)
       );
     } else {
-      return null;
+      return undefined;
     }
   }
 
@@ -63,7 +63,7 @@ export class PhotoService {
 
   private errorHandler(error: HttpErrorResponse): Observable<HttpErrorResponse> {
     if (error.status === NOT_FOUND) {
-      return of(null);
+      return of(undefined);
     } else {
       return throwError(error);
     }

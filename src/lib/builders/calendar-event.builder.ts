@@ -29,7 +29,7 @@ import {
 export class CalendarEventBuilder {
   attendance(attendance: Attendance): CalendarEvent {
     return {
-      color: null,
+      color: undefined,
       end: attendance.enddate,
       event_id: attendance.id,
       event_status: attendance.status,
@@ -43,7 +43,7 @@ export class CalendarEventBuilder {
 
   duty(duty: Duty): CalendarEvent {
     return {
-      color: null,
+      color: undefined,
       end: duty.enddate,
       event_id: duty.id,
       event_status: duty.type,
@@ -82,7 +82,7 @@ export class CalendarEventBuilder {
     if (duty.role) {
       return duty.role.title;
     } else {
-      return null;
+      return undefined;
     }
   }
 }

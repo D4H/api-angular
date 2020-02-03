@@ -1,3 +1,5 @@
+// tslint:disable no-null-keyword
+
 import faker from 'faker';
 import { Factory, sample } from '@d4h/testing';
 import { Observable, of, throwError } from 'rxjs';
@@ -133,9 +135,9 @@ describe('DestinationService', () => {
       expect(memberService.index).toHaveBeenCalledWith(params);
     });
 
-    it('should not call any service and return null', () => {
+    it('should not call any service and return undefined', () => {
       result$ = hot('(a|)', { a: [] });
-      expect(service.index(null)).toBeObservable(result$);
+      expect(service.index(undefined)).toBeObservable(result$);
       expect(equipmentService.index).not.toHaveBeenCalled();
       expect(locationService.index).not.toHaveBeenCalled();
       expect(memberService.index).not.toHaveBeenCalled();
@@ -191,9 +193,9 @@ describe('DestinationService', () => {
       expect(memberService.show).toHaveBeenCalledWith(id);
     });
 
-    it('should not call any service and return null', () => {
-      result$ = hot('(a|)', { a: null });
-      expect(service.show(null, id)).toBeObservable(result$);
+    it('should not call any service and return undefined', () => {
+      result$ = hot('(a|)', { a: undefined });
+      expect(service.show(undefined, id)).toBeObservable(result$);
       expect(equipmentService.show).not.toHaveBeenCalled();
       expect(locationService.show).not.toHaveBeenCalled();
       expect(memberService.show).not.toHaveBeenCalled();
@@ -266,7 +268,7 @@ describe('DestinationService', () => {
     });
 
     it('should call equipmentService.index with {}', () => {
-      type = null;
+      type = undefined;
       destinations = equipment.map(builder.equipmentContext({ id, type }));
       equipmentService.index.and.returnValue(of(equipment));
       result$ = hot('(a|)', { a: destinations });
@@ -343,7 +345,7 @@ describe('DestinationService', () => {
 
     it('should return [] and call no services by default', () => {
       result$ = hot('(a|)', { a: [] });
-      expect(service.search(null, query)).toBeObservable(result$);
+      expect(service.search(undefined, query)).toBeObservable(result$);
       expect(equipmentService.search).not.toHaveBeenCalled();
       expect(locationService.search).not.toHaveBeenCalled();
       expect(memberService.search).not.toHaveBeenCalled();
