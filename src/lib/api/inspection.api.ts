@@ -1,5 +1,5 @@
 import { DateParameter, Response, Search } from './shared.api';
-import { Inspection, InspectionInterval, LocationType } from '../models';
+import { Inspection, Interval, LocationType } from '../models';
 
 /**
  * GET /team/inspections
@@ -34,11 +34,11 @@ export interface Change {
   all_kinds?: boolean;
   description?: string;
   gear_parent_id?: number;
-  interval_unit?: InspectionInterval;
+  interval_unit?: Interval;
   interval_value?: number;
   location_id?: number;
   member_id?: number;
-  reminder_unit?: InspectionInterval;
+  reminder_unit?: Interval;
   reminder_value?: number;
   title?: string;
 }

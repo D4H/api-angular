@@ -1,11 +1,5 @@
 import { DateParameter, Response, Search } from './shared.api';
-
-import {
-  InspectionInterval,
-  ResultStatus,
-  LocationType,
-  Result
-} from '../models';
+import { LocationType, Result, ResultStatus } from '../models';
 
 /**
  * GET /team/inspections

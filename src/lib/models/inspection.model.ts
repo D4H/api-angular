@@ -1,11 +1,6 @@
 import { InheritedEntity } from './inherited-entity.model';
+import { Interval } from './interval.model';
 import { IsoDate } from './iso-date.model';
-
-export enum InspectionInterval {
-  Day = 'DAY',
-  Month = 'MONTH',
-  Year = 'YEAR'
-}
 
 /**
  * Inspection
@@ -27,10 +22,10 @@ export interface Inspection {
   all_kinds: boolean;
   bundle: string;
   date_due: IsoDate;
-  description: string;
+  description?: string; // Only present when set in web.
   gear_parent_id: number;
   id: number;
-  interval_unit: InspectionInterval;
+  interval_unit: Interval;
   interval_value: number;
   is_auto_unserviceable: boolean;
   items_count: number;
@@ -38,7 +33,7 @@ export interface Inspection {
   location_id: number;
   member_id: number;
   organisation_id?: number;
-  reminder_unit: InspectionInterval;
+  reminder_unit: Interval;
   reminder_value: number;
   team_id?: number;
   title: string;

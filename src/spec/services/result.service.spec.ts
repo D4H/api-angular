@@ -8,7 +8,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Inspection, Result } from '../../lib/models';
-import { InspectionResults } from '../../lib/api';
+import { Results } from '../../lib/api';
 import { ResultService } from '../../lib/services';
 import { routes } from '../../lib/providers';
 
@@ -45,7 +45,7 @@ describe('ResultService', () => {
     const path: (id: number) => string = routes.team.results.index;
     let inspection: Inspection;
     let results: Array<Result>;
-    let search: InspectionResults.Search;
+    let search: Results.Search;
 
     beforeEach(() => {
       inspection = Factory.build<Inspection>('Inspection');
@@ -103,7 +103,7 @@ describe('ResultService', () => {
 
   describe('update', () => {
     const path: (inspectionId: number, id: number) => string = routes.team.results.update;
-    let attributes: InspectionResults.Change;
+    let attributes: Results.Change;
     let inspection: Inspection;
     let result: Result;
 
