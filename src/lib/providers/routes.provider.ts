@@ -104,9 +104,9 @@ export interface RouteConfig {
     };
 
     results: {
-      index(inspectionId: number): string;
-      show(inspectionId: number, id: number): string;
-      update(inspectionID: number, id: number): string;
+      index: string;
+      show(id: number): string;
+      update(id: number): string;
     };
 
     roles: {
@@ -225,9 +225,9 @@ export const routes: RouteConfig = {
     },
 
     results: {
-      index: (inspectionId: number) => `/team/inspections/${inspectionId}/items`,
-      show: (inspectionId: number, id: number) => `/team/inspections/${inspectionId}/items/${id}`,
-      update: (inspectionId: number, id: number) => `/team/inspections/${inspectionId}/items/${id}`
+      index: '/team/inspection-results',
+      show: (id: number) => `/team/inspection-results/${id}`,
+      update: (id: number) => `/team/inspection-results/${id}`
     },
 
     roles: {

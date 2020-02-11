@@ -13,7 +13,7 @@ import * as Members from './member.api';
 import * as Notes from './note.api';
 import * as Photos from './photo.api';
 import * as Repairs from './repair.api';
-import * as Results from './inspection-result.api';
+import * as InspectionResults from './inspection-result.api';
 import * as Roles from './role.api';
 import * as Teams from './team.api';
 
@@ -36,13 +36,13 @@ export {
   Duties,
   Gear,
   Groups,
+  InspectionResults,
   Inspections,
   Locations,
   Members,
   Notes,
   Photos,
   Repairs,
-  Results,
   Roles,
   Teams
 };

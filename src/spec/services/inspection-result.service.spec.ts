@@ -8,15 +8,15 @@ import { cold, hot } from 'jasmine-marbles';
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Inspection, Result } from '../../lib/models';
-import { Results } from '../../lib/api';
-import { ResultService } from '../../lib/services';
+import { InspectionResults } from '../../lib/api';
+import { InspectionResultService } from '../../lib/services';
 import { routes } from '../../lib/providers';
 
-describe('ResultService', () => {
+describe('InspectionResultService', () => {
   let error: HttpErrorResponse;
   let http: any;
   let result$: Observable<any>;
-  let service: ResultService;
+  let service: InspectionResultService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -24,17 +24,17 @@ describe('ResultService', () => {
         ClientTestModule
       ],
       providers: [
-        ResultService,
+        InspectionResultService,
         {
           provide: ApiHttpClient,
-          useValue: jasmine.createSpyObj('http', ['get', 'post', 'put', 'delete'])
+          useValue: jasmine.createSpyObj('http', ['get', 'put'])
         }
       ]
     });
 
     error = Factory.build<HttpErrorResponse>('HttpError');
     http = TestBed.get<ApiHttpClient>(ApiHttpClient);
-    service = TestBed.get(ResultService);
+    service = TestBed.get(InspectionResultService);
   });
 
   it('should be created', () => {
@@ -42,13 +42,11 @@ describe('ResultService', () => {
   });
 
   describe('index', () => {
-    const path: (id: number) => string = routes.team.results.index;
-    let inspection: Inspection;
+    const path: string = routes.team.results.index;
     let results: Array<Result>;
-    let search: Results.Search;
+    let search: InspectionResults.Search;
 
     beforeEach(() => {
-      inspection = Factory.build<Inspection>('Inspection');
       results = Factory.buildList<Result>('Result');
       search = { limit: 5, offset: 15 };
     });
@@ -60,25 +58,23 @@ describe('ResultService', () => {
     it('should call http.get and return an array of results', () => {
       http.get.and.returnValue(of({ data: results }));
       result$ = hot('(a|)', { a: results });
-      expect(service.index(inspection.id, search)).toBeObservable(result$);
-      expect(http.get).toHaveBeenCalledWith(path(inspection.id), { params: search });
+      expect(service.index(search)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
       result$ = hot('#', undefined, error);
-      expect(service.index(inspection.id)).toBeObservable(result$);
-      expect(http.get).toHaveBeenCalledWith(path(inspection.id), { params: {} });
+      expect(service.index()).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path, { params: {} });
     });
   });
 
   describe('show', () => {
-    const path: (inspectionId: number, id: number) => string = routes.team.results.show;
-    let inspection: Inspection;
+    const path: (id: number) => string = routes.team.results.show;
     let result: Result;
 
     beforeEach(() => {
-      inspection = Factory.build<Inspection>('Inspection');
       result = Factory.build<Result>('Result');
     });
 
@@ -89,22 +85,21 @@ describe('ResultService', () => {
     it('should call http.get and return a result', () => {
       http.get.and.returnValue(of({ data: result }));
       result$ = hot('(a|)', { a: result });
-      expect(service.show(inspection.id, result.id)).toBeObservable(result$);
-      expect(http.get).toHaveBeenCalledWith(path(inspection.id, result.id));
+      expect(service.show(result.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(result.id));
     });
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
       result$ = hot('#', undefined, error);
-      expect(service.show(inspection.id, result.id)).toBeObservable(result$);
-      expect(http.get).toHaveBeenCalledWith(path(inspection.id, result.id));
+      expect(service.show(result.id)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(result.id));
     });
   });
 
   describe('update', () => {
-    const path: (inspectionId: number, id: number) => string = routes.team.results.update;
-    let attributes: Results.Change;
-    let inspection: Inspection;
+    const path: (id: number) => string = routes.team.results.update;
+    let attributes: InspectionResults.Change;
     let result: Result;
 
     it('should be a function', () => {
@@ -112,7 +107,6 @@ describe('ResultService', () => {
     });
 
     beforeEach(() => {
-      inspection = Factory.build<Inspection>('Inspection');
       result = Factory.build<Result>('Result');
 
       attributes = {
@@ -124,15 +118,15 @@ describe('ResultService', () => {
     it('should call http.put and return a result', () => {
       http.put.and.returnValue(of({ data: result }));
       result$ = hot('(a|)', { a: result });
-      expect(service.update(inspection.id, result.id, attributes)).toBeObservable(result$);
-      expect(http.put).toHaveBeenCalledWith(path(inspection.id, result.id), attributes);
+      expect(service.update(result.id, attributes)).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(result.id), attributes);
     });
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
       result$ = hot('#', undefined, error);
-      expect(service.update(inspection.id, result.id)).toBeObservable(result$);
-      expect(http.put).toHaveBeenCalledWith(path(inspection.id, result.id), {});
+      expect(service.update(result.id)).toBeObservable(result$);
+      expect(http.put).toHaveBeenCalledWith(path(result.id), {});
     });
   });
 });

@@ -32,17 +32,28 @@ export enum ResultStatus {
 
 export interface Result {
   completed: boolean;
+  created_at: IsoDate;
   date_completed: IsoDate;
   date_due: IsoDate;
   description: string;
-  equipment_id: number;
   id: number;
-  inspection_id: number;
-  last_modified: IsoDate;
-  location_id?: number;
-  member_id?: number;
+  member_id: number;
+  notification_sent: boolean;
+  reminder_date: IsoDate;
+  reminder_sent: boolean;
   repair_id: number;
   status: ResultStatus;
   team_id: number;
-  title: string;
+  updated_at: IsoDate;
+
+  equipment: {
+    id: number;
+    ref: string;
+    title: string;
+  };
+
+  inspection: {
+    id: number;
+    title: string;
+  };
 }

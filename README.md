@@ -142,42 +142,44 @@ Interface | Method | Purpose
 ### Available Resources
 @d4h/angular support operations currently used internally by D4H applications. If you require a resource not supported here, either [open an issue](https://github.com/D4H/angular/issues/new) or reach out to <support@d4h.org>.
 
-- Account
+- `AccountService`:
     - `authenticate(username, password)`
     - `memberships([params])`
     - `username(username)`
-- Activity
+- `ActivityService`:
     - `index([query])`
     - `show(id)`
-- Attendance
-    - `index([query])`
-    - `show(id)`
-    - `create([params])`
-    - `update(id[, params])`
-    - `destroy(id)`
-- Category
+- `AttendanceService`:
     - `index([query])`
     - `show(id)`
     - `create([params])`
     - `update(id[, params])`
     - `destroy(id)`
-- Destination: Query new destination for equipment from union of equipment, locations or members.
+- `CalendarService`
+    - `index([query])`: Query union of `Attendance` and `Duty` records in a common format suitable for use in JavaScript calendar software.
+- `CategoryService`:
+    - `index([query])`
+    - `show(id)`
+    - `create([params])`
+    - `update(id[, params])`
+    - `destroy(id)`
+- `DestinationService`: Query new destination for equipment from union of equipment, locations or members.
     - `index([query])`
     - `show(type, id)`
     - `barcode(barcode)`
     - `contents(type, id)`
     - `set(equipmentId, type, id)`: Move equipment to new destination.
     - `search(type, query[, params])`
-- Duty
+- `DutyService`:
     - `index([query])`
     - `show(id)`
     - `create([params])`
     - `update(id[, params])`
     - `destroy(id)`
-- Group
+- `GroupService`:
     - `index([query])`
     - `show(id)`
-- Equipment
+- `EquipmentService`:
     - `index([query])`
     - `show(id)`
     - `barcode(barcode)`: Fetch Equipment item by barcode.
@@ -186,20 +188,20 @@ Interface | Method | Purpose
     - `update(id[, params])`
     - `image(id, [params])`
     - `search([text[, params]])`: Search equipment by `equipment.ref === text || equipment.barcode === text`
-- Inspection
+- `InspectionService`:
     - `index([query])`
     - `show(id)`
     - `update(id[, params])`
-- Result (Inspection Result)
-    - `index(inspectionId, [search])`
-    - `show(inspectionId, id)`
-    - `update(inspectionId, id[, params])`
-- Location
+- `InspectionResultService`:
+    - `index([search])`
+    - `show(id)`
+    - `update(id[, params])`
+- `LocationService`:
     - `index([query])`
     - `show(id)`
     - `destroy(id)`
     - `search([text[, params]])`
-- Member
+- `MemberService`:
     - `index([query])`
     - `show(id)`
     - `update(id[, params])`
@@ -208,24 +210,24 @@ Interface | Method | Purpose
     - `image(id, [params])`
     - `labels()`
     - `search([text[, params]])`
-- Note
+- `NoteService`:
     - `index([query])`
     - `show(id)`
     - `create([params])`
     - `update(id[, params])`
     - `destroy(id)`
-- Photo
+- `PhotoService`:
     - `get(url[, params])`
     - `membership(url, membership[, params])`
-- Repair
+- `RepairService`:
     - `index([query])`
     - `show(id)`
     - `create([params])`
     - `update(id[, params])`
-- Role
+- `RoleService`:
     - `index([query])`
     - `show(id)`
-- Team
+- `TeamService`:
     - `show(team)`
     - `image(team,[ params])`
     - `settings(team, setting)`

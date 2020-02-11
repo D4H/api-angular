@@ -115,9 +115,9 @@ describe('API Routes', () => {
             update: `/team/repairs/${id}`
           },
           results: {
-            index: `/team/inspections/${id}/items`,
-            show: `/team/inspections/${id}/items/${id}`,
-            update: `/team/inspections/${id}/items/${id}`
+            index: '/team/inspection-results',
+            show: `/team/inspection-results/${id}`,
+            update: `/team/inspection-results/${id}`
           },
           roles: {
             index: '/team/roles',

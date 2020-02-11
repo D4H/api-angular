@@ -15,6 +15,7 @@ export interface Search extends Search {
   id?: number;
   include_current?: boolean;
   include_other?: boolean;
+  inspection_id?: number;
   is_critical?: boolean;
   is_expired?: boolean;
   kind_id?: number;
