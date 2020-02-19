@@ -1,5 +1,5 @@
 import { DateParameter, Response, Search } from './shared.api';
-import { Inspection, Interval, LocationType } from '../models';
+import { Inspection, Interval } from '../models';
 
 /**
  * GET /team/inspections
@@ -10,7 +10,7 @@ import { Inspection, Interval, LocationType } from '../models';
 export interface Search extends Search {
   item_id?: number;
   kinds_id?: number;
-  location_id?: LocationType;
+  location_id?: number;
 }
 
 export interface Index extends Response<Array<Inspection>> {}

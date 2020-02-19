@@ -23,6 +23,7 @@ export interface Inspection {
   bundle: string;
   date_due: IsoDate;
   description?: string; // Only present when set in web.
+  equipment_id?: number;
   gear_parent_id: number;
   id: number;
   interval_unit: Interval;
@@ -30,7 +31,7 @@ export interface Inspection {
   is_auto_unserviceable: boolean;
   items_count: number;
   items_due_count: number;
-  location_id: number;
+  location_id?: number;
   member_id: number;
   organisation_id?: number;
   reminder_unit: Interval;

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { pluck } from 'rxjs/operators';
 
 import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
@@ -20,7 +20,7 @@ export class InspectionService {
     const payload: HttpOptions = { params: query as any };
 
     return this.http.get<Inspections.Index>(route, payload).pipe(
-      map((res: Inspections.Index): Array<Inspection> => res.data)
+      pluck('data')
     );
   }
 
@@ -28,7 +28,7 @@ export class InspectionService {
     const route: string = this.routes.team.inspections.show(id);
 
     return this.http.get<Inspections.Show>(route).pipe(
-      map((res: Inspections.Show): Inspection => res.data)
+      pluck('data')
     );
   }
 
@@ -36,7 +36,7 @@ export class InspectionService {
     const route: string = this.routes.team.inspections.update(id);
 
     return this.http.put<Inspections.Update>(route, body).pipe(
-      map((res: Inspections.Update): Inspection => res.data)
+      pluck('data')
     );
   }
 }
