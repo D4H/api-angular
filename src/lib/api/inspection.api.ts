@@ -8,9 +8,11 @@ import { Inspection, Interval } from '../models';
  */
 
 export interface Search extends Search {
-  item_id?: number;
+  equipment_id?: number;
+  item_id?: number; // Inspection result ID.
   kinds_id?: number;
   location_id?: number;
+  team_id?: number;
 }
 
 export interface Index extends Response<Array<Inspection>> {}

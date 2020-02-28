@@ -44,11 +44,13 @@ export interface Result {
 
   equipment: {
     id: number;
+    location_id: number;
     ref: string;
     title: string;
   };
 
   inspection: {
+    description: string;
     id: number;
     title: string;
   };
