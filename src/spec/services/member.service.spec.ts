@@ -11,7 +11,7 @@ import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Group, Member, OperationalStatus, StatusLabel } from '../../lib/models';
 import { MemberService, PhotoService } from '../../lib/services';
-import { Members } from '../../lib/api';
+import { Members, Page } from '../../lib/api';
 import { routes } from '../../lib/providers';
 
 describe('MemberService', () => {
@@ -51,11 +51,13 @@ describe('MemberService', () => {
 
   describe('index', () => {
     const path: string = routes.team.members.index;
-    let member: Array<Member>;
+    let data: Array<Member>;
+    let page: Page;
     let search: Members.Search;
 
     beforeEach(() => {
-      member = Factory.buildList<Member>('Member');
+      data = Factory.buildList('Member');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -64,8 +66,8 @@ describe('MemberService', () => {
     });
 
     it('should call http.get and return an array of members', () => {
-      http.get.and.returnValue(of({ data: member }));
-      result$ = hot('(a|)', { a: member });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
@@ -232,12 +234,14 @@ describe('MemberService', () => {
 
   describe('search', () => {
     const path: string = routes.team.members.index;
-    let members: Array<Member>;
+    let data: Array<Member>;
+    let page: Page;
     let query: string;
     let search: Members.Search;
 
     beforeEach(() => {
-      members = Factory.buildList<Member>('Member');
+      data = Factory.buildList('Member');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
       query = faker.random.uuid();
     });
@@ -247,15 +251,15 @@ describe('MemberService', () => {
     });
 
     it('should call http.get and return an array of members', () => {
-      http.get.and.returnValue(of({ data: members }));
-      result$ = hot('(a|)', { a: members });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.search(query, search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: { name: query, ...search } });
     });
 
     it('should call http.get with {} by default for params', () => {
-      http.get.and.returnValue(of({ data: members }));
-      result$ = hot('(a|)', { a: members });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.search(query)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: { name: query } });
     });

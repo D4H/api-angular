@@ -9,7 +9,7 @@ import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Category } from '../../lib/models';
 import { CategoryService } from '../../lib/services';
-import { Categories } from '../../lib/api';
+import { Categories, Page } from '../../lib/api';
 import { routes } from '../../lib/providers';
 
 describe('CategoryService', () => {
@@ -43,11 +43,13 @@ describe('CategoryService', () => {
 
   describe('index', () => {
     const path: string = routes.team.categories.index;
-    let categories: Array<Category>;
+    let data: Array<Category>;
+    let page: Page;
     let search: Categories.Search;
 
     beforeEach(() => {
-      categories = Factory.buildList<Category>('Category');
+      data = Factory.buildList('Category');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -56,8 +58,8 @@ describe('CategoryService', () => {
     });
 
     it('should call http.get and return an array of categories', () => {
-      http.get.and.returnValue(of({ data: categories }));
-      result$ = hot('(a|)', { a: categories });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });

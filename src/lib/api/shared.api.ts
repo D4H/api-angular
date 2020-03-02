@@ -26,22 +26,6 @@ export interface Search {
 }
 
 /**
- * Query Pagination Information
- * =============================================================================
- * Query responses will eventually all have Datatabes-compatibile paging
- * information.
- */
-
-export interface Page {
-  offset: number;
-  pageCount: number;
-  pageCurrent: number;
-  pageSize: number;
-  rowReturned: number;
-  rowsTotal: number;
-}
-
-/**
  * Query DateParameterParameter
  * =============================================================================
  * Two values are accepted in before/after date fields in the API:
@@ -58,7 +42,23 @@ export interface Page {
 export type DateParameter = Date | moment.Moment | string | 'now';
 
 /**
- * Root Response Object
+ * Query Pagination Information
+ * =============================================================================
+ * Query responses will eventually all have Datatabes-compatibile paging
+ * information.
+ */
+
+export interface Page {
+  offset: number;
+  pageCount: number;
+  pageCurrent: number;
+  pageSize: number;
+  rowReturned: number;
+  rowsTotal: number;
+}
+
+/**
+ * API Response Object
  * =============================================================================
  * All responses have a status code and a meta object for any errors. The meta
  * object will only hold data in error responses.
@@ -68,6 +68,18 @@ export interface Response<T> {
   data: T;
   statusCode: number;
   meta?: Page;
+}
+
+/**
+ * API Index Output
+ * =============================================================================
+ * The public data-and-pagination output from a service index function. Return
+ * the array of data and attached pagination.
+ */
+
+export interface Index<T> {
+  data: Array<T>;
+  page?: Page;
 }
 
 /**

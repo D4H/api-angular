@@ -20,6 +20,7 @@ import * as Teams from './team.api';
 export {
   ApiError,
   DateParameter,
+  Index,
   ModelError,
   Page,
   Response,

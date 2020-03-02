@@ -7,9 +7,9 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
+import { Page, Roles } from '../../lib/api';
 import { Role } from '../../lib/models';
 import { RoleService } from '../../lib/services';
-import { Roles } from '../../lib/api';
 import { routes } from '../../lib/providers';
 
 describe('RoleService', () => {
@@ -43,11 +43,13 @@ describe('RoleService', () => {
 
   describe('index', () => {
     const path: string = routes.team.roles.index;
-    let roles: Array<Role>;
+    let data: Array<Role>;
+    let page: Page;
     let search: Roles.Search;
 
     beforeEach(() => {
-      roles = Factory.buildList<Role>('Role');
+      data = Factory.buildList('Role');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -55,9 +57,9 @@ describe('RoleService', () => {
       expect(typeof service.index).toBe('function');
     });
 
-    it('should call http.get and return an array of roles', () => {
-      http.get.and.returnValue(of({ data: roles }));
-      result$ = hot('(a|)', { a: roles });
+    it('should call http.get and return an array of data', () => {
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });

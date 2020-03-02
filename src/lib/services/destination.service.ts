@@ -51,15 +51,15 @@ export class DestinationService {
     switch (type) {
       case DestinationType.Equipment:
         return this.equipmentService.index(params).pipe(
-          map(equipment => equipment.map(this.builder.equipment))
+          map(({ data }) => data.map(this.builder.equipment))
         );
       case DestinationType.Location:
         return this.locationService.index(params).pipe(
-          map(locations => locations.map(this.builder.location))
+          map(({ data }) => data.map(this.builder.location))
         );
       case DestinationType.Member:
         return this.memberService.index(params).pipe(
-          map(members => members.map(this.builder.member))
+          map(({ data }) => data.map(this.builder.member))
         );
       default:
         return of([]);
@@ -92,20 +92,15 @@ export class DestinationService {
   }
 
   contents(type: DestinationType, id: number): Observable<Array<Destination>> {
-    const builder = this.builder.equipmentContext({ id, type });
-    const params = this.params({ id, type });
+    const payload = this.params({ id, type });
 
-    return this.equipmentService.index(params).pipe(
-      map(equipment => equipment.map(builder))
+    return this.equipmentService.index(payload).pipe(
+      map(({ data }) => data.map(this.builder.equipmentContext({ id, type })))
     );
   }
 
-  set(
-    equipmentId: number,
-    type: DestinationType,
-    id: number
-  ): Observable<Equipment> {
-    return this.equipmentService.move(equipmentId, type, id);
+  set(gearId: number, type: DestinationType, id: number): Observable<Equipment> {
+    return this.equipmentService.move(gearId, type, id);
   }
 
   search(
@@ -124,15 +119,15 @@ export class DestinationService {
         );
       case DestinationType.Equipment:
         return this.equipmentService.search(query, params).pipe(
-          map(equipment => equipment.map(this.builder.equipment))
+          map(({ data }) => data.map(this.builder.equipment))
         );
       case DestinationType.Location:
         return this.locationService.search(query, params).pipe(
-          map(location => location.map(this.builder.location))
+          map(({ data }) => data.map(this.builder.location))
         );
       case DestinationType.Member:
         return this.memberService.search(query, params).pipe(
-          map(member => member.map(this.builder.member))
+          map(({ data }) => data.map(this.builder.member))
         );
       default:
         return of([]);

@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
-import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
+import { API_ROUTES, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
+import { Index, Roles } from '../api';
 import { Role } from '../models';
-import { Roles } from '../api';
 
 @Injectable({ providedIn: ClientModule })
 export class RoleService {
@@ -15,12 +15,12 @@ export class RoleService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query?: Roles.Search): Observable<Array<Role>> {
+  index(query?: Roles.Search): Observable<Index<Role>> {
     const route: string = this.routes.team.roles.index;
-    const payload: HttpOptions = { params: query as any };
+    const payload: any = { params: query };
 
     return this.http.get<Roles.Index>(route, payload).pipe(
-      map((res: Roles.Index): Array<Role> => res.data)
+      map(({ data, meta: page }) => ({ data, page }))
     );
   }
 
@@ -28,7 +28,7 @@ export class RoleService {
     const route: string = this.routes.team.roles.show(id);
 
     return this.http.get<Roles.Show>(route).pipe(
-      map((res: Roles.Show): Role => res.data)
+      pluck('data')
     );
   }
 }

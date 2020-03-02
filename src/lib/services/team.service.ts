@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SafeUrl } from '@angular/platform-browser';
-import { catchError, map } from 'rxjs/operators';
+import { pluck } from 'rxjs/operators';
 
 import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
@@ -39,7 +39,7 @@ export class TeamService {
     };
 
     return this.http.get<Teams.Show>(route, payload).pipe(
-      map((res: Teams.Show): Team => res.data)
+      pluck('data')
     );
   }
 
@@ -107,7 +107,7 @@ export class TeamService {
     };
 
     return this.http.get<Teams.Setting>(route, options).pipe(
-      map((res: Teams.Setting): SettingData => res.data)
+      pluck('data')
     );
   }
 

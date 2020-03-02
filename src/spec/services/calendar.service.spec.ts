@@ -70,8 +70,8 @@ describe('CalendarService', () => {
     });
 
     it('should call attendanceService, dutyService and return calendar events', () => {
-      attendanceService.index.and.returnValue(of(attendances));
-      dutyService.index.and.returnValue(of(duties));
+      attendanceService.index.and.returnValue(of({ data: attendances }));
+      dutyService.index.and.returnValue(of({ data: duties }));
       result$ = hot('(a|)', { a: events });
 
       expect(service.index()).toBeObservable(result$);

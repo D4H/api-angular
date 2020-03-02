@@ -7,7 +7,7 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Duties } from '../../lib/api';
+import { Duties, Page } from '../../lib/api';
 import { Duty } from '../../lib/models';
 import { DutyService } from '../../lib/services';
 import { routes } from '../../lib/providers';
@@ -43,11 +43,13 @@ describe('DutyService', () => {
 
   describe('index', () => {
     const path: string = routes.team.duties.index;
-    let duties: Array<Duty>;
+    let data: Array<Duty>;
+    let page: Page;
     let search: Duties.Search;
 
     beforeEach(() => {
-      duties = Factory.buildList<Duty>('Duty');
+      data = Factory.buildList<Duty>('Duty');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -56,8 +58,8 @@ describe('DutyService', () => {
     });
 
     it('should call http.get and return an array of duties', () => {
-      http.get.and.returnValue(of({ data: duties }));
-      result$ = hot('(a|)', { a: duties });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });

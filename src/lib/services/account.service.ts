@@ -2,9 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { NOT_FOUND } from 'http-status-codes';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, take } from 'rxjs/operators';
+import { catchError, map, pluck } from 'rxjs/operators';
 
-import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
+import { API_ROUTES, RouteConfig } from '../providers';
 import { Account, Membership, MembershipType, Username } from '../models';
 import { Accounts } from '../api';
 import { ApiHttpClient } from '../client/api.client';
@@ -19,24 +19,19 @@ export class AccountService {
 
   authenticate(username: string, password: string): Observable<Account> {
     const route: string = this.routes.account.authenticate;
-    const body: any = { username, password };
+    const payload: any = { username, password };
 
-    return this.http.post<Accounts.Authenticate>(route, body).pipe(
-      map((res: Accounts.Authenticate): Account => res.data)
+    return this.http.post<Accounts.Authenticate>(route, payload).pipe(
+      pluck('data')
     );
   }
 
   memberships(query: Accounts.Search = {}): Observable<Array<Membership>> {
     const route: string = this.routes.account.memberships;
-
-    const payload: HttpOptions = {
-      params: {
-        list_modules: Boolean(query.list_modules) as any
-      }
-    };
+    const payload: any = { params: { list_modules: Boolean(query.list_modules) } };
 
     return this.http.get<Accounts.Memberships>(route, payload).pipe(
-      map((res: Accounts.Memberships): Array<Membership> => res.data.documents),
+      pluck('data', 'documents'),
       map((memberships: Array<Membership>): Array<Membership> => {
         if (query.type) {
           return memberships.filter(membership => membership.type === query.type);
@@ -56,7 +51,7 @@ export class AccountService {
 
   username(username: string): Observable<Username> {
     const route: string = this.routes.account.username;
-    const payload: HttpOptions = { params: { username } as any };
+    const payload: any = { params: { username } };
 
     return this.http.get<Accounts.Username>(route, payload).pipe(
       map((res: Accounts.Username): Username => ({ ...res.data, exists: true })),

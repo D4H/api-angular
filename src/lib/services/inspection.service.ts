@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
-import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
+import { API_ROUTES, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { Inspection } from '../models';
-import { Inspections } from '../api';
+import { Index, Inspections } from '../api';
 
 @Injectable({ providedIn: ClientModule })
 export class InspectionService {
@@ -15,12 +15,12 @@ export class InspectionService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query: Inspections.Search = {}): Observable<Array<Inspection>> {
+  index(query: Inspections.Search = {}): Observable<Index<Inspection>> {
     const route: string = this.routes.team.inspections.index;
-    const payload: HttpOptions = { params: query as any };
+    const payload: any = { params: query };
 
     return this.http.get<Inspections.Index>(route, payload).pipe(
-      pluck('data')
+      map(({ data, meta: page }) => ({ data, page }))
     );
   }
 

@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
-import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
-import { Activities } from '../api';
+import { API_ROUTES, RouteConfig } from '../providers';
+import { Activities, Index } from '../api';
 import { Activity } from '../models';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
@@ -15,12 +15,12 @@ export class ActivityService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query?: Activities.Search): Observable<Array<Activity>> {
+  index(params: Activities.Search = {}): Observable<Index<Activity>> {
     const route: string = this.routes.team.activities.index;
-    const payload: HttpOptions = { params: query as any };
+    const payload: any = { params };
 
     return this.http.get<Activities.Index>(route, payload).pipe(
-      map((res: Activities.Index): Array<Activity> => res.data)
+      map(({ data, meta: page }) => ({ data, page }))
     );
   }
 
@@ -28,7 +28,7 @@ export class ActivityService {
     const route: string = this.routes.team.activities.show(id);
 
     return this.http.get<Activities.Show>(route).pipe(
-      map((res: Activities.Show): Activity => res.data)
+      pluck('data')
     );
   }
 }

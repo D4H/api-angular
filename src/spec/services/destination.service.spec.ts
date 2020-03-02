@@ -98,7 +98,7 @@ describe('DestinationService', () => {
     it('should call equipmentService.index', () => {
       destinations = equipment.map(builder.equipment);
       type = DestinationType.Equipment;
-      equipmentService.index.and.returnValue(of(equipment));
+      equipmentService.index.and.returnValue(of({ data: equipment }));
       result$ = hot('(a|)', { a: destinations });
 
       expect(service.index(type, params)).toBeObservable(result$);
@@ -108,7 +108,7 @@ describe('DestinationService', () => {
     it('should call locationService.index', () => {
       destinations = locations.map(builder.location);
       type = DestinationType.Location;
-      locationService.index.and.returnValue(of(locations));
+      locationService.index.and.returnValue(of({ data: locations }));
       result$ = hot('(a|)', { a: destinations });
 
       expect(service.index(type, params)).toBeObservable(result$);
@@ -118,7 +118,7 @@ describe('DestinationService', () => {
     it('should call locationService.index with defaults', () => {
       destinations = locations.map(builder.location);
       type = DestinationType.Location;
-      locationService.index.and.returnValue(of(locations));
+      locationService.index.and.returnValue(of({ data: locations }));
       result$ = hot('(a|)', { a: destinations });
 
       expect(service.index(type)).toBeObservable(result$);
@@ -128,7 +128,7 @@ describe('DestinationService', () => {
     it('should call memberService.index', () => {
       destinations = members.map(builder.member);
       type = DestinationType.Member;
-      memberService.index.and.returnValue(of(members));
+      memberService.index.and.returnValue(of({ data: members }));
       result$ = hot('(a|)', { a: destinations });
 
       expect(service.index(type, params)).toBeObservable(result$);
@@ -243,7 +243,7 @@ describe('DestinationService', () => {
     it('should call equipmentService.index with parent_id', () => {
       type = DestinationType.Equipment;
       destinations = equipment.map(builder.equipmentContext({ id, type }));
-      equipmentService.index.and.returnValue(of(equipment));
+      equipmentService.index.and.returnValue(of({ data: equipment }));
       result$ = hot('(a|)', { a: destinations });
       expect(service.contents(type, id)).toBeObservable(result$);
       expect(equipmentService.index).toHaveBeenCalledWith({ parent_id: id });
@@ -252,7 +252,7 @@ describe('DestinationService', () => {
     it('should call equipmentService.index with location_id', () => {
       type = DestinationType.Location;
       destinations = equipment.map(builder.equipmentContext({ id, type }));
-      equipmentService.index.and.returnValue(of(equipment));
+      equipmentService.index.and.returnValue(of({ data: equipment }));
       result$ = hot('(a|)', { a: destinations });
       expect(service.contents(type, id)).toBeObservable(result$);
       expect(equipmentService.index).toHaveBeenCalledWith({ location_id: id, parent_id: null });
@@ -261,7 +261,7 @@ describe('DestinationService', () => {
     it('should call equipmentService.index with member', () => {
       type = DestinationType.Member;
       destinations = equipment.map(builder.equipmentContext({ id, type }));
-      equipmentService.index.and.returnValue(of(equipment));
+      equipmentService.index.and.returnValue(of({ data: equipment }));
       result$ = hot('(a|)', { a: destinations });
       expect(service.contents(type, id)).toBeObservable(result$);
       expect(equipmentService.index).toHaveBeenCalledWith({ member: id, parent_id: null });
@@ -270,7 +270,7 @@ describe('DestinationService', () => {
     it('should call equipmentService.index with {}', () => {
       type = undefined;
       destinations = equipment.map(builder.equipmentContext({ id, type }));
-      equipmentService.index.and.returnValue(of(equipment));
+      equipmentService.index.and.returnValue(of({ data: equipment }));
       result$ = hot('(a|)', { a: destinations });
       expect(service.contents(type, id)).toBeObservable(result$);
       expect(equipmentService.index).toHaveBeenCalledWith({});
@@ -305,9 +305,9 @@ describe('DestinationService', () => {
         members.map(builder.member)
       );
 
-      equipmentService.search.and.returnValue(of(equipment));
-      locationService.search.and.returnValue(of(locations));
-      memberService.search.and.returnValue(of(members));
+      equipmentService.search.and.returnValue(of({ data: equipment }));
+      locationService.search.and.returnValue(of({ data: locations }));
+      memberService.search.and.returnValue(of({ data: members }));
       result$ = hot('(a|)', { a: destinations });
 
       expect(service.search(DestinationType.All, query)).toBeObservable(result$);
@@ -319,7 +319,7 @@ describe('DestinationService', () => {
     it('should call equipmentService with DestinationType.Equipment', () => {
       type = DestinationType.Equipment;
       destinations = equipment.map(builder.equipment);
-      equipmentService.search.and.returnValue(of(equipment));
+      equipmentService.search.and.returnValue(of({ data: equipment }));
       result$ = hot('(a|)', { a: destinations });
       expect(service.search(type, query)).toBeObservable(result$);
       expect(equipmentService.search).toHaveBeenCalledWith(query, {});
@@ -328,7 +328,7 @@ describe('DestinationService', () => {
     it('should call locationService with DestinationType.Location', () => {
       type = DestinationType.Location;
       destinations = locations.map(builder.location);
-      locationService.search.and.returnValue(of(locations));
+      locationService.search.and.returnValue(of({ data: locations }));
       result$ = hot('(a|)', { a: destinations });
       expect(service.search(type, query)).toBeObservable(result$);
       expect(locationService.search).toHaveBeenCalledWith(query, {});
@@ -337,7 +337,7 @@ describe('DestinationService', () => {
     it('should call memberService with DestinationType.Member', () => {
       type = DestinationType.Member;
       destinations = members.map(builder.member);
-      memberService.search.and.returnValue(of(members));
+      memberService.search.and.returnValue(of({ data: members }));
       result$ = hot('(a|)', { a: destinations });
       expect(service.search(type, query)).toBeObservable(result$);
       expect(memberService.search).toHaveBeenCalledWith(query, {});

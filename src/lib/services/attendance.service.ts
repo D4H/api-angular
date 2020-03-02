@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
-import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
+import { API_ROUTES, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { Attendance } from '../models';
-import { Attendances } from '../api';
+import { Attendances, Index } from '../api';
 import { ClientModule } from '../client.module';
 
 @Injectable({ providedIn: ClientModule })
@@ -15,12 +15,12 @@ export class AttendanceService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query?: Attendances.Search): Observable<Array<Attendance>> {
+  index(query: Attendances.Search = {}): Observable<Index<Attendance>> {
     const route: string = this.routes.team.attendances.index;
-    const payload: HttpOptions = { params: query as any };
+    const payload: any = { params: query };
 
     return this.http.get<Attendances.Index>(route, payload).pipe(
-      map((res: Attendances.Index): Array<Attendance> => res.data)
+      map(({ data, meta: page }) => ({ data, page }))
     );
   }
 
@@ -28,7 +28,7 @@ export class AttendanceService {
     const route: string = this.routes.team.attendances.show(id);
 
     return this.http.get<Attendances.Show>(route).pipe(
-      map((res: Attendances.Show): Attendance => res.data)
+      pluck('data')
     );
   }
 
@@ -36,7 +36,7 @@ export class AttendanceService {
     const route: string = this.routes.team.attendances.index;
 
     return this.http.post<Attendances.Create>(route, body).pipe(
-      map((res: Attendances.Create): Attendance => res.data)
+      pluck('data')
     );
   }
 
@@ -44,7 +44,7 @@ export class AttendanceService {
     const route: string = this.routes.team.attendances.update(id);
 
     return this.http.put<Attendances.Show>(route, body).pipe(
-      map((res: Attendances.Update): Attendance => res.data)
+      pluck('data')
     );
   }
 

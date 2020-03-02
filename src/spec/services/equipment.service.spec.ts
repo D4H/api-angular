@@ -11,7 +11,7 @@ import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { DestinationType, Equipment } from '../../lib/models';
 import { EquipmentService, PhotoService } from '../../lib/services';
-import { Search } from '../../lib/api';
+import { Page, Search } from '../../lib/api';
 import { routes } from '../../lib/providers';
 
 describe('EquipmentService', () => {
@@ -51,11 +51,13 @@ describe('EquipmentService', () => {
 
   describe('index', () => {
     const path: string = routes.team.equipment.index;
-    let equipment: Array<Equipment>;
+    let data: Array<Equipment>;
+    let page: Page;
     let search: Search;
 
     beforeEach(() => {
-      equipment = Factory.buildList<Equipment>('Equipment');
+      data = Factory.buildList('Equipment');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -64,8 +66,8 @@ describe('EquipmentService', () => {
     });
 
     it('should call http.get and return an array of equipment', () => {
-      http.get.and.returnValue(of({ data: equipment }));
-      result$ = hot('(a|)', { a: equipment });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
@@ -83,7 +85,7 @@ describe('EquipmentService', () => {
     let equipment: Equipment;
 
     beforeEach(() => {
-      equipment = Factory.build<Equipment>('Equipment');
+      equipment = Factory.build('Equipment');
     });
 
     it('should be a function', () => {
@@ -256,12 +258,12 @@ describe('EquipmentService', () => {
 
   describe('search', () => {
     const path: string = routes.team.equipment.index;
-    let equipment: Array<Equipment>;
+    let data: Array<Equipment>;
     let search: Search;
     let query: string;
 
     beforeEach(() => {
-      equipment = Factory.buildList<Equipment>('Equipment');
+      data = Factory.buildList<Equipment>('Equipment');
       search = { limit: 5, offset: 15 };
       query = faker.random.uuid();
     });
@@ -271,16 +273,16 @@ describe('EquipmentService', () => {
     });
 
     it('should call http.get and return an array of members', () => {
-      http.get.and.returnValue(of({ data: equipment }));
-      result$ = hot('(a|)', { a: equipment });
+      http.get.and.returnValue(of({ data }));
+      result$ = hot('(a|)', { a: { data } });
       expect(service.search(query, search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: { barcode: query, ...search } });
       expect(http.get).toHaveBeenCalledWith(path, { params: { ref: query, ...search } });
     });
 
     it('should call http.get with {} by default for params', () => {
-      http.get.and.returnValue(of({ data: equipment }));
-      result$ = hot('(a|)', { a: equipment });
+      http.get.and.returnValue(of({ data }));
+      result$ = hot('(a|)', { a: { data } });
       expect(service.search(query)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: { barcode: query } });
       expect(http.get).toHaveBeenCalledWith(path, { params: { ref: query } });

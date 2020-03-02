@@ -28,7 +28,7 @@ describe('PhotoService', () => {
         PhotoService,
         {
           provide: DomSanitizer,
-          useValue: jasmine.createSpyObj('http', ['bypassSecurityTrustResourceUrl'])
+          useValue: jasmine.createSpyObj('sanitizer', ['bypassSecurityTrustResourceUrl'])
         },
         {
           provide: ApiHttpClient,

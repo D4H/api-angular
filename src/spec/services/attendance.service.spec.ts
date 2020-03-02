@@ -8,7 +8,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { ApiHttpClient } from '../../lib/client';
 import { Attendance } from '../../lib/models';
 import { AttendanceService } from '../../lib/services';
-import { Attendances } from '../../lib/api';
+import { Attendances, Page } from '../../lib/api';
 import { ClientTestModule } from '../client-test.module';
 import { routes } from '../../lib/providers';
 
@@ -43,11 +43,13 @@ describe('AttendanceService', () => {
 
   describe('index', () => {
     const path: string = routes.team.attendances.index;
-    let attendances: Array<Attendance>;
+    let data: Array<Attendance>;
+    let page: Page;
     let search: Attendances.Search;
 
     beforeEach(() => {
-      attendances = Factory.buildList<Attendance>('Attendance');
+      data = Factory.buildList<Attendance>('Attendance');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -56,8 +58,8 @@ describe('AttendanceService', () => {
     });
 
     it('should call http.get and return an array of attendances', () => {
-      http.get.and.returnValue(of({ data: attendances }));
-      result$ = hot('(a|)', { a: attendances });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });

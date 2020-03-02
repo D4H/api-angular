@@ -29,10 +29,10 @@ export class CalendarService {
   index(search: CalendarEvents.Search = {}): Observable<Array<CalendarEvent>> {
     return forkJoin([
       this.attendanceService.index(search).pipe(
-        map(attendances => attendances.map(atn => this.builder.attendance(atn)))
+        map(({ data }) => data.map(item => this.builder.attendance(item)))
       ),
       this.dutyService.index(search).pipe(
-        map(duties => duties.map(duty => this.builder.duty(duty)))
+        map(({ data }) => data.map(item => this.builder.duty(item)))
       )
     ]).pipe(
       map((data: Array<Array<CalendarEvent>>) => data.flat())

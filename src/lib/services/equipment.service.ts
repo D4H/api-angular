@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import { SafeUrl } from '@angular/platform-browser';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
-import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
+import { API_ROUTES, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { DestinationType, Equipment } from '../models';
+import { Gear, Index, Photos } from '../api';
 import { PhotoService } from './photo.service';
-import { Gear, Photos } from '../api';
 
 @Injectable({ providedIn: ClientModule })
 export class EquipmentService {
@@ -18,12 +18,12 @@ export class EquipmentService {
     private readonly photoService: PhotoService
   ) {}
 
-  index(query: Gear.Search = {}): Observable<Array<Equipment>> {
+  index(query: Gear.Search = {}): Observable<Index<Equipment>> {
     const route: string = this.routes.team.equipment.index;
-    const payload: HttpOptions = { params: query as any };
+    const payload: any = { params: query };
 
     return this.http.get<Gear.Index>(route, payload).pipe(
-      map((res: Gear.Index): Array<Equipment> => res.data)
+      map(({ data, meta: page }) => ({ data, page }))
     );
   }
 
@@ -31,7 +31,7 @@ export class EquipmentService {
     const route: string = this.routes.team.equipment.show(id);
 
     return this.http.get<Gear.Show>(route).pipe(
-      map((res: Gear.Show): Equipment => res.data)
+      pluck('data')
     );
   }
 
@@ -39,7 +39,7 @@ export class EquipmentService {
     const route: string = this.routes.team.equipment.barcode(barcode);
 
     return this.http.get<Gear.Show>(route).pipe(
-      map((res: Gear.Show): Equipment => res.data)
+      pluck('data')
     );
   }
 
@@ -47,7 +47,7 @@ export class EquipmentService {
     const route: string = this.routes.team.equipment.ref(ref);
 
     return this.http.get<Gear.Show>(route).pipe(
-      map((res: Gear.Show): Equipment => res.data)
+      pluck('data')
     );
   }
 
@@ -55,7 +55,7 @@ export class EquipmentService {
     const route: string = this.routes.team.equipment.update(id);
 
     return this.http.put<Gear.Update>(route, body).pipe(
-      map((res: Gear.Update): Equipment => res.data)
+      pluck('data')
     );
   }
 
@@ -68,34 +68,31 @@ export class EquipmentService {
       .move(id, destinationType, destinationId);
 
     return this.http.put<Gear.Update>(route, undefined).pipe(
-      map((res: Gear.Update): Equipment => res.data)
+      pluck('data')
     );
   }
 
-  image(id: number, params: Photos.Params = {}): Observable<SafeUrl> {
+  image(id: number, query: Photos.Params = {}): Observable<SafeUrl> {
     const route: string = this.routes.team.equipment.image(id);
+    const payload: any = { params: query };
 
-    return this.photoService.get(route, { params } as any);
+    return this.photoService.get(route, payload);
   }
 
   // Equipment searches are by barcode OR ref. Returns union of two queries.
-  search(
-    query: string,
-    params: Gear.Search = {}
-  ): Observable<Array<Equipment>> {
+
+  search(query: string, params: Gear.Search = {}): Observable<Index<Equipment>> {
     const route: string = this.routes.team.equipment.index;
-    const barcode = { params: { barcode: query, ...params } };
-    const ref = { params: { ref: query, ...params } };
+    const barcode: any = { params: { ...params, barcode: query } };
+    const ref: any = { params: { ...params, ref: query } };
 
     return forkJoin([
-      this.http.get<Gear.Index>(route, barcode as any).pipe(
-        map((res: Gear.Index): Array<Equipment> => res.data)
-      ),
-      this.http.get<Gear.Index>(route, ref as any).pipe(
-        map((res: Gear.Index): Array<Equipment> => res.data)
-      )
+      this.http.get<Gear.Index>(route, barcode).pipe(pluck('data')),
+      this.http.get<Gear.Index>(route, ref).pipe(pluck('data'))
     ]).pipe(
-      map((data: Array<Array<Equipment>>) => Array.from(new Set(data.flat())))
+      map((data: Array<Array<Equipment>>) => ({
+        data: Array.from(new Set(data.flat()))
+      }))
     );
   }
 }
