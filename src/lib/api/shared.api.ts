@@ -91,11 +91,11 @@ export interface Index<T> {
  */
 
 export interface ModelError {
-  constraint: string;
-  key: string;
-  message: string;
-  path: string;
-  type: string;
+  constraint: string; // Validation failure type.
+  key: string; // Attribute.
+  message: string; // Actual validation failue.
+  path: string; // Attribute or path.to[0].attribute.
+  type: string; // Type of failing attribute, e.g. string, number.
 }
 
 /**
@@ -115,7 +115,7 @@ export interface ApiError {
 
   validation?: {
     errors: Array<ModelError>;
-    keys: Array<string>;
+    keys?: Array<string>;
     source: string;
   };
 }
