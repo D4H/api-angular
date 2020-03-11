@@ -34,6 +34,7 @@ export interface Inspection {
   location_id?: number;
   member_id: number;
   organisation_id?: number;
+  reminder_date: IsoDate;
   reminder_unit: Interval;
   reminder_value: number;
   team_id?: number;
