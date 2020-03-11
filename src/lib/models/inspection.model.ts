@@ -1,4 +1,3 @@
-import { InheritedEntity } from './inherited-entity.model';
 import { Interval } from './interval.model';
 import { IsoDate } from './iso-date.model';
 
@@ -11,10 +10,11 @@ import { IsoDate } from './iso-date.model';
  * business object. An inspection is an equipment inventory. Each interval_unit *
  * interval_value, the fixed list of items on it are re-inspected.
  *
- * An Inspection record has these XOR fields:
+ * Inspection is inheritable from organization. Only one of these will be
+ * present:
  *
- *  - organisation_id ^ team_id
- *  - location_id ^ member_id
+ *  - organisation_id
+ *  - team_id
  */
 
 export interface Inspection {

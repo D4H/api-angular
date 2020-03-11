@@ -11,7 +11,6 @@ export * from './duty.model';
 export * from './equipment.model';
 export * from './general.model';
 export * from './group.model';
-export * from './inherited-entity.model';
 export * from './inspection.model';
 export * from './interval.model';
 export * from './iso-date.model';

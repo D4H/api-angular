@@ -1,13 +1,11 @@
 /**
  * Equipment Model
  * =============================================================================
- * From /team/equipment/models
+ * Equipment Model is inheritable from organization. Only one of these will be
+ * present:
  *
- * This is a /model/ of equipment, e.g. a Dell monitor, or Apple laptop.
- *
- * XOR attributes:
- *
- *  - organisation_id ^ team_id;
+ *  - organisation_id
+ *  - team_id
  */
 
 export interface Model {
