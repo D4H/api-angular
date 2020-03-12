@@ -28,6 +28,7 @@ export * from './result.model';
 export * from './role.model';
 export * from './setting.model';
 export * from './status.model';
+export * from './task.model';
 export * from './team.model';
 export * from './units.model';
 export * from './username.model';
