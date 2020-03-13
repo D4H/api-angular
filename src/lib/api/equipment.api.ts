@@ -49,9 +49,10 @@ export interface Change {
   barcode?: string;
   is_critical?: boolean;
   is_monitor?: boolean;
-  // Per docs: "Valid values: 1 3 4 5"
+  // Per docs: "Valid values: 1 2 3 4 5"
   status_id?:
     EquipmentStatus.Operational
+    | EquipmentStatus.Unserviceable
     | EquipmentStatus.Retired
     | EquipmentStatus.Lost
     | EquipmentStatus.Wishlist;
