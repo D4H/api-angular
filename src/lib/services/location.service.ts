@@ -15,7 +15,7 @@ export class LocationService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query: Locations.Search = {}): Observable<Index<Location>> {
+  index(query: Locations.Query = {}): Observable<Index<Location>> {
     const route: string = this.routes.team.locations.index;
     const payload: any = { params: query };
 
@@ -40,7 +40,7 @@ export class LocationService {
     );
   }
 
-  search(query: string, params: Locations.Search = {}): Observable<Index<Location>> {
+  search(query: string, params: Locations.Query = {}): Observable<Index<Location>> {
     const route: string = this.routes.team.locations.index;
     const payload: any = { params: { title: query, ...params } };
 

@@ -23,8 +23,8 @@ export {
   Index,
   ModelError,
   Page,
-  Response,
-  Search
+  Query,
+  Response
 } from './shared.api';
 
 export {

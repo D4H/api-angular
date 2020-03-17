@@ -45,7 +45,7 @@ describe('RepairService', () => {
     const path: string = routes.team.repairs.index;
     let page: Page;
     let data: Array<Repair>;
-    let search: Repairs.Search;
+    let search: Repairs.Query;
 
     beforeEach(() => {
       page = Factory.build('Page');

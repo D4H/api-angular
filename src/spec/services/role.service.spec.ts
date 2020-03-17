@@ -45,7 +45,7 @@ describe('RoleService', () => {
     const path: string = routes.team.roles.index;
     let data: Array<Role>;
     let page: Page;
-    let search: Roles.Search;
+    let search: Roles.Query;
 
     beforeEach(() => {
       data = Factory.buildList('Role');

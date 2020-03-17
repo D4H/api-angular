@@ -15,7 +15,7 @@ export class GroupService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query: Groups.Search = {}): Observable<Index<Group>> {
+  index(query: Groups.Query = {}): Observable<Index<Group>> {
     const route: string = this.routes.team.groups.index;
     const payload: any = { params: query };
 

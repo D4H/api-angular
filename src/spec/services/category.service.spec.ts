@@ -45,7 +45,7 @@ describe('CategoryService', () => {
     const path: string = routes.team.categories.index;
     let data: Array<Category>;
     let page: Page;
-    let search: Categories.Search;
+    let search: Categories.Query;
 
     beforeEach(() => {
       data = Factory.buildList('Category');

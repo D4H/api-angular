@@ -1,4 +1,4 @@
-import { DateParameter, Response, Search } from './shared.api';
+import { DateParameter, Query as Search, Response } from './shared.api';
 import { Inspection, Interval } from '../models';
 
 /**
@@ -7,7 +7,7 @@ import { Inspection, Interval } from '../models';
  * @see https://api.d4h.org/v2/documentation#operation/getTeamInspections
  */
 
-export interface Search extends Search {
+export interface Query extends Search {
   equipment_id?: number;
   item_id?: number; // Inspection result ID.
   kinds_id?: number;

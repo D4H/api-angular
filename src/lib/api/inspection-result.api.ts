@@ -1,4 +1,4 @@
-import { DateParameter, Response, Search } from './shared.api';
+import { DateParameter, Query as Search, Response } from './shared.api';
 import { LocationType, Result, ResultStatus } from '../models';
 
 /**
@@ -7,7 +7,7 @@ import { LocationType, Result, ResultStatus } from '../models';
  * @see https://api.d4h.org/v2/documentation#operation/getTeamInspectionresults
  */
 
-export interface Search extends Search {
+export interface Query extends Search {
   completed?: boolean;
   equipment_id?: number;
   id?: number;

@@ -15,7 +15,7 @@ export class RepairService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query: Repairs.Search = {}): Observable<Index<Repair>> {
+  index(query: Repairs.Query = {}): Observable<Index<Repair>> {
     const route: string = this.routes.team.repairs.index;
     const payload: any = { params: query };
 

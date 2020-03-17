@@ -45,7 +45,7 @@ describe('NoteService', () => {
     const path: string = routes.team.notes.index;
     let data: Array<Note>;
     let page: Page;
-    let search: Notes.Search;
+    let search: Notes.Query;
 
     beforeEach(() => {
       data = Factory.buildList('Note');

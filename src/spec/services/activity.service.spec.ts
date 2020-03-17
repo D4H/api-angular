@@ -45,7 +45,7 @@ describe('ActivityService', () => {
     const path: string = routes.team.activities.index;
     let data: Array<Activity>;
     let page: Page;
-    let search: Activities.Search;
+    let search: Activities.Query;
 
     beforeEach(() => {
       data = Factory.buildList<Activity>('Activity');

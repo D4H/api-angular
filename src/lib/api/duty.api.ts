@@ -1,4 +1,4 @@
-import { DateParameter, Response, Search } from './shared.api';
+import { DateParameter, Query as Search, Response } from './shared.api';
 import { Duty, DutyType } from '../models';
 
 /**
@@ -7,7 +7,7 @@ import { Duty, DutyType } from '../models';
  * @see https://api.d4h.org/v2/documentation#operation/getTeamDuties
  */
 
-export interface Search extends Search {
+export interface Query extends Search {
   after?: DateParameter;
   before?: DateParameter;
   id?: number;

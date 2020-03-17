@@ -1,5 +1,5 @@
 import { Activity, ActivityType } from '../models';
-import { DateParameter, Response, Search } from './shared.api';
+import { DateParameter, Query as Search, Response } from './shared.api';
 
 /**
  * GET /team/activities
@@ -7,7 +7,7 @@ import { DateParameter, Response, Search } from './shared.api';
  * @see https://api.d4h.org/v2/documentation#operation/getTeamActivities
  */
 
-export interface Search extends Search {
+export interface Query extends Search {
   after?: DateParameter;
   before?: DateParameter;
   include_archived?: boolean;

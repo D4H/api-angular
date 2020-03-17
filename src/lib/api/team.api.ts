@@ -1,5 +1,5 @@
 import { Response } from './shared.api';
-import { Setting, SettingData, Team } from '../models';
+import { SettingData, Team, TeamSetting } from '../models';
 
 /**
  * GET /team/teams/:id

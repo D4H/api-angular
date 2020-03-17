@@ -1,4 +1,4 @@
-import { Account, Membership, MembershipType, Username } from '../models';
+import { Account, Membership, MembershipType, Username as UsernameModel } from '../models';
 import { Response } from './shared.api';
 
 /**
@@ -17,7 +17,7 @@ export interface Authenticate extends Response<Account> {}
  * @see https://api.d4h.org/v2/documentation#operation/getAccountMemberships
  */
 
-export interface Search {
+export interface Query {
   list_modules?: boolean;
   type?: MembershipType;
 }
@@ -37,4 +37,4 @@ export interface Memberships {
  * @see https://api.d4h.org/v2/documentation#operation/getAccountUsername
  */
 
-export interface Username extends Response<Username> {}
+export interface Username extends Response<UsernameModel> {}

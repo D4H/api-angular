@@ -48,7 +48,7 @@ describe('LocationService', () => {
     const path: string = routes.team.locations.index;
     let data: Array<Location>;
     let page: Page;
-    let search: Locations.Search;
+    let search: Locations.Query;
 
     beforeEach(() => {
       data = Factory.buildList('Location');
@@ -134,7 +134,7 @@ describe('LocationService', () => {
     let data: Array<Location>;
     let page: Page;
     let query: string;
-    let search: Locations.Search;
+    let search: Locations.Query;
 
     beforeEach(() => {
       data = Factory.buildList('Location');

@@ -15,7 +15,7 @@ export class RoleService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query?: Roles.Search): Observable<Index<Role>> {
+  index(query?: Roles.Query): Observable<Index<Role>> {
     const route: string = this.routes.team.roles.index;
     const payload: any = { params: query };
 

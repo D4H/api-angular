@@ -81,7 +81,7 @@ describe('DestinationService', () => {
     let equipment: Array<Equipment>;
     let locations: Array<Location>;
     let members: Array<Member>;
-    let params: Destinations.Search;
+    let params: Destinations.Query;
     let type: DestinationType;
 
     beforeEach(() => {

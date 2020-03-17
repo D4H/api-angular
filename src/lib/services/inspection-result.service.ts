@@ -15,7 +15,7 @@ export class InspectionResultService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query: InspectionResults.Search = {}): Observable<Index<Result>> {
+  index(query: InspectionResults.Query = {}): Observable<Index<Result>> {
     const route: string = this.routes.team.results.index;
     const payload: any = { params: query };
 

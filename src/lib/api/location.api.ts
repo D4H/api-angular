@@ -1,5 +1,5 @@
-import { Response, Search } from './shared.api';
 import { Location } from '../models';
+import { Query as Search, Response } from './shared.api';
 
 /**
  * GET /team/locations
@@ -7,7 +7,7 @@ import { Location } from '../models';
  * @see https://api.d4h.org/v2/documentation#operation/getTeamLocations
  */
 
-export interface Search extends Search {
+export interface Query extends Search {
   equipment_id?: number;
   id?: number;
   team_id?: number;

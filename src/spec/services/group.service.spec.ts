@@ -45,7 +45,7 @@ describe('GroupService', () => {
     const path: string = routes.team.groups.index;
     let data: Array<Group>;
     let page: Page;
-    let search: Groups.Search;
+    let search: Groups.Query;
 
     beforeEach(() => {
       data = Factory.buildList('Group');

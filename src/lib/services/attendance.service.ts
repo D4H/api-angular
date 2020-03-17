@@ -15,7 +15,7 @@ export class AttendanceService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query: Attendances.Search = {}): Observable<Index<Attendance>> {
+  index(query: Attendances.Query = {}): Observable<Index<Attendance>> {
     const route: string = this.routes.team.attendances.index;
     const payload: any = { params: query };
 

@@ -26,7 +26,7 @@ export class CalendarService {
     private readonly dutyService: DutyService
   ) {}
 
-  index(search: CalendarEvents.Search = {}): Observable<Array<CalendarEvent>> {
+  index(search: CalendarEvents.Query = {}): Observable<Array<CalendarEvent>> {
     return forkJoin([
       this.attendanceService.index(search).pipe(
         map(({ data }) => data.map(item => this.builder.attendance(item)))

@@ -18,7 +18,7 @@ export class MemberService {
     private readonly photoService: PhotoService
   ) {}
 
-  index(query: Members.Search = {}): Observable<Index<Member>> {
+  index(query: Members.Query = {}): Observable<Index<Member>> {
     const route: string = this.routes.team.members.index;
     const payload: any = { params: query };
 
@@ -66,7 +66,7 @@ export class MemberService {
     );
   }
 
-  search(query: string, params: Members.Search = {}): Observable<Index<Member>> {
+  search(query: string, params: Members.Query = {}): Observable<Index<Member>> {
     const route: string = this.routes.team.members.index;
     const payload: any = { params: { name: query, ...params } };
 

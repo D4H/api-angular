@@ -19,7 +19,7 @@ import * as moment from 'moment';
  * @see https://github.com/D4H/decisions-project/issues/2757#issuecomment-455324305
  */
 
-export interface Search {
+export interface Query {
   limit?: number;
   offset?: number;
   sort?: string;

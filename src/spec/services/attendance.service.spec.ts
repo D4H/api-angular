@@ -45,7 +45,7 @@ describe('AttendanceService', () => {
     const path: string = routes.team.attendances.index;
     let data: Array<Attendance>;
     let page: Page;
-    let search: Attendances.Search;
+    let search: Attendances.Query;
 
     beforeEach(() => {
       data = Factory.buildList<Attendance>('Attendance');

@@ -46,7 +46,7 @@ export class DestinationService {
 
   index(
     type: DestinationType,
-    params: Destinations.Search = {}
+    params: Destinations.Query = {}
   ): Observable<Array<Destination>> {
     switch (type) {
       case DestinationType.Equipment:
@@ -106,7 +106,7 @@ export class DestinationService {
   search(
     type: DestinationType,
     query: string,
-    params: Destinations.Search = {}
+    params: Destinations.Query = {}
   ): Observable<Array<Destination>> {
     switch (type) {
       case DestinationType.All:
@@ -135,7 +135,7 @@ export class DestinationService {
   }
 
   /**
-   * Context/Search Query Params
+   * Context/Query Query Params
    * ===========================================================================
    * Per the issue linked below, the below combination should yield only direct
    * child equipment of the member or location. For example, if a member has a

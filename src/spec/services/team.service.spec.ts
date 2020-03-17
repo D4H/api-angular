@@ -9,7 +9,7 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Membership, Setting, SettingData, Team } from '../../lib/models';
+import { Membership, SettingData, Team, TeamSetting } from '../../lib/models';
 import { TeamService, PhotoService } from '../../lib/services';
 import { Teams } from '../../lib/api';
 import { routes } from '../../lib/providers';
@@ -118,7 +118,7 @@ describe('TeamService', () => {
   describe('settings', () => {
     const path: string = routes.team.settings;
     let membership: Membership;
-    let setting: Setting;
+    let setting: TeamSetting;
     let settingData: SettingData;
 
     beforeEach(() => {

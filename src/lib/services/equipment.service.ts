@@ -18,7 +18,7 @@ export class EquipmentService {
     private readonly photoService: PhotoService
   ) {}
 
-  index(query: Gear.Search = {}): Observable<Index<Equipment>> {
+  index(query: Gear.Query = {}): Observable<Index<Equipment>> {
     const route: string = this.routes.team.equipment.index;
     const payload: any = { params: query };
 
@@ -81,7 +81,7 @@ export class EquipmentService {
 
   // Equipment searches are by barcode OR ref. Returns union of two queries.
 
-  search(query: string, params: Gear.Search = {}): Observable<Index<Equipment>> {
+  search(query: string, params: Gear.Query = {}): Observable<Index<Equipment>> {
     const route: string = this.routes.team.equipment.index;
     const barcode: any = { params: { ...params, barcode: query } };
     const ref: any = { params: { ...params, ref: query } };

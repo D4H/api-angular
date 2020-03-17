@@ -45,7 +45,7 @@ describe('InspectionService', () => {
     const path: string = routes.team.inspections.index;
     let data: Array<Inspection>;
     let page: Page;
-    let search: Inspections.Search;
+    let search: Inspections.Query;
 
     beforeEach(() => {
       data = Factory.buildList<Inspection>('Inspection');

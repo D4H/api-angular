@@ -15,7 +15,7 @@ export class CategoryService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query: Categories.Search = {}): Observable<Index<Category>> {
+  index(query: Categories.Query = {}): Observable<Index<Category>> {
     const route: string = this.routes.team.categories.index;
     const payload: any = { params: query };
 

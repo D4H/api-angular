@@ -53,7 +53,7 @@ describe('MemberService', () => {
     const path: string = routes.team.members.index;
     let data: Array<Member>;
     let page: Page;
-    let search: Members.Search;
+    let search: Members.Query;
 
     beforeEach(() => {
       data = Factory.buildList('Member');
@@ -237,7 +237,7 @@ describe('MemberService', () => {
     let data: Array<Member>;
     let page: Page;
     let query: string;
-    let search: Members.Search;
+    let search: Members.Query;
 
     beforeEach(() => {
       data = Factory.buildList('Member');

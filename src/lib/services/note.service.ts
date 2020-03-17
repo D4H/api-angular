@@ -15,7 +15,7 @@ export class NoteService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query: Notes.Search = {}): Observable<Index<Note>> {
+  index(query: Notes.Query = {}): Observable<Index<Note>> {
     const route: string = this.routes.team.notes.index;
     const payload: any = { params: query };
 

@@ -45,7 +45,7 @@ describe('DutyService', () => {
     const path: string = routes.team.duties.index;
     let data: Array<Duty>;
     let page: Page;
-    let search: Duties.Search;
+    let search: Duties.Query;
 
     beforeEach(() => {
       data = Factory.buildList<Duty>('Duty');

@@ -11,7 +11,7 @@ import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { DestinationType, Equipment } from '../../lib/models';
 import { EquipmentService, PhotoService } from '../../lib/services';
-import { Page, Search } from '../../lib/api';
+import { Page, Query } from '../../lib/api';
 import { routes } from '../../lib/providers';
 
 describe('EquipmentService', () => {
@@ -53,7 +53,7 @@ describe('EquipmentService', () => {
     const path: string = routes.team.equipment.index;
     let data: Array<Equipment>;
     let page: Page;
-    let search: Search;
+    let search: Query;
 
     beforeEach(() => {
       data = Factory.buildList('Equipment');
@@ -259,7 +259,7 @@ describe('EquipmentService', () => {
   describe('search', () => {
     const path: string = routes.team.equipment.index;
     let data: Array<Equipment>;
-    let search: Search;
+    let search: Query;
     let query: string;
 
     beforeEach(() => {

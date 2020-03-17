@@ -26,7 +26,7 @@ export class AccountService {
     );
   }
 
-  memberships(query: Accounts.Search = {}): Observable<Array<Membership>> {
+  memberships(query: Accounts.Query = {}): Observable<Array<Membership>> {
     const route: string = this.routes.account.memberships;
     const payload: any = { params: { list_modules: Boolean(query.list_modules) } };
 

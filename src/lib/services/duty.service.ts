@@ -15,7 +15,7 @@ export class DutyService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query: Duties.Search = {}): Observable<Index<Duty>> {
+  index(query: Duties.Query = {}): Observable<Index<Duty>> {
     const route: string = this.routes.team.duties.index;
     const payload: any = { params: query };
 

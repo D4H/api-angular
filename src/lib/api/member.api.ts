@@ -1,4 +1,4 @@
-import { DateParameter, Response, Search } from './shared.api';
+import { DateParameter, Query as Search, Response } from './shared.api';
 
 import {
   DutyType,
@@ -26,7 +26,7 @@ export type MemberParam = number | 'me';
  * @see https://api.d4h.org/v2/documentation#operation/getTeamMembers
  */
 
-export interface Search extends Search {
+export interface Query extends Search {
   group_id?: number;
   id?: number | 'me';
   name?: string;

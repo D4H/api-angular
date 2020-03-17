@@ -44,7 +44,7 @@ describe('InspectionResultService', () => {
   describe('index', () => {
     const path: string = routes.team.results.index;
     let data: Array<Result>;
-    let search: InspectionResults.Search;
+    let search: InspectionResults.Query;
     let page: Page;
 
     beforeEach(() => {

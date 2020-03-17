@@ -15,7 +15,7 @@ export class ActivityService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(params: Activities.Search = {}): Observable<Index<Activity>> {
+  index(params: Activities.Query = {}): Observable<Index<Activity>> {
     const route: string = this.routes.team.activities.index;
     const payload: any = { params };
 
