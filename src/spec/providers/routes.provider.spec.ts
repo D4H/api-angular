@@ -41,6 +41,7 @@ describe('API Routes', () => {
         },
         team: {
           image: '/team/image',
+          search: '/team/search',
           settings: '/team/settings',
           show: '/team',
           activities: {

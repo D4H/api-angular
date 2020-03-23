@@ -1,5 +1,4 @@
-[![GitHubStatus for D4H/client](https://github.com/d4h/decisions-mobile-apps/workflows/Test%20@d4h/decisions-mobile-apps/badge.svg)](https://www.npmjs.com/package/@d4h/client)
-![npm](https://img.shields.io/npm/v/@d4h/angular.svg)
+[![GitHubStatus for D4H/client](https://github.com/d4h/decisions-mobile-apps/workflows/Test%20@d4h/decisions-mobile-apps/badge.svg)](https://www.npmjs.com/package/@d4h/client) ![npm](https://img.shields.io/npm/v/@d4h/angular.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/D4H/api-angular/blob/master/LICENSE)
 
 # @d4h/angular
 @d4h/angular is an Angular 7+ client for the [D4H](https://d4htechnologies.com/) v2 [API](https://api.d4h.org/v2/documentation). It offers:
