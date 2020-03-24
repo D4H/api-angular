@@ -87,6 +87,12 @@ describe('API Routes', () => {
             show: `/team/inspections/${id}`,
             update: `/team/inspections/${id}`
           },
+          kinds: {
+            index: '/team/equipment/kinds',
+            show: `/team/equipment/kinds/${id}`,
+            update: `/team/equipment/kinds/${id}`,
+            destroy: `/team/equipment/kinds/${id}`
+          },
           locations: {
             index: '/team/locations',
             show: `/team/locations/${id}`,

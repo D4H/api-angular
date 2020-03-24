@@ -28,9 +28,6 @@ export interface Show extends Response<Category> {}
 /**
  * POST /team/equipment/categories
  * =============================================================================
- * Categories are created in the context of the team and member associated with the
- * bearer token.
- *
  * @see https://api.d4h.org/v2/documentation#operation/postTeamEquipmentCategories
  */
 

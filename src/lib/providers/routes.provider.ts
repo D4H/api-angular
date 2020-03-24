@@ -70,6 +70,13 @@ export interface RouteConfig {
       update(id: number): string;
     };
 
+    kinds: {
+      index: string;
+      show(id: number): string;
+      update(id: number): string;
+      destroy(id: number): string;
+    };
+
     locations: {
       index: string;
       show(id: number): string;
@@ -191,6 +198,13 @@ export const routes: RouteConfig = {
       index: '/team/inspections',
       show: (id: number): string => `/team/inspections/${id}`,
       update: (id: number): string => `/team/inspections/${id}`
+    },
+
+    kinds: {
+      index: '/team/equipment/kinds',
+      show: (id: number): string => `/team/equipment/kinds/${id}`,
+      update: (id: number): string => `/team/equipment/kinds/${id}`,
+      destroy: (id: number): string => `/team/equipment/kinds/${id}`
     },
 
     locations: {

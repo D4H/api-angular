@@ -15,6 +15,7 @@ export * from './group.model';
 export * from './inspection.model';
 export * from './interval.model';
 export * from './iso-date.model';
+export * from './kind.model';
 export * from './language.model';
 export * from './location.model';
 export * from './member.model';

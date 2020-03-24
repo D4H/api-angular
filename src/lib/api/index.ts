@@ -9,6 +9,7 @@ import * as Gear from './equipment.api';
 import * as Groups from './group.api';
 import * as InspectionResults from './inspection-result.api';
 import * as Inspections from './inspection.api';
+import * as Kinds from './kind.api';
 import * as Locations from './location.api';
 import * as Members from './member.api';
 import * as Notes from './note.api';
@@ -40,6 +41,7 @@ export {
   Groups,
   InspectionResults,
   Inspections,
+  Kinds,
   Locations,
   Members,
   Notes,

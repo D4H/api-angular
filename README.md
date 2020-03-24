@@ -195,6 +195,12 @@ Interface | Method | Purpose
     - `index([search])`
     - `show(id)`
     - `update(id[, params])`
+- `KindService`:
+    - `index([query])`
+    - `show(id)`
+    - `create([params])`
+    - `update(id[, params])`
+    - `destroy(id)`
 - `LocationService`:
     - `index([query])`
     - `show(id)`
