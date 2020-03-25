@@ -10,7 +10,7 @@ import { Query as Search, Response } from './shared.api';
 export interface Query extends Search {
   id?: number;
   include_empty?: boolean;
-  included_inherited?: boolean;
+  include_inherited?: boolean;
   location_id?: number;
   meets_level?: boolean;
   type?: KindType;
