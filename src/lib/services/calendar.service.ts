@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Attendance, CalendarEvent, Duty } from '../models';
+import { Agenda, CalendarEvent, Range } from '../models';
+import { AgendaBuilder, CalendarEventBuilder } from '../builders';
 import { AttendanceService } from './attendance.service';
-import { CalendarEventBuilder } from '../builders';
 import { CalendarEvents } from '../api';
 import { ClientModule } from '../client.module';
 import { DutyService } from './duty.service';
@@ -21,18 +21,25 @@ import { DutyService } from './duty.service';
 @Injectable({ providedIn: ClientModule })
 export class CalendarService {
   constructor(
+    private readonly agendaBuilder: AgendaBuilder,
     private readonly attendanceService: AttendanceService,
-    private readonly builder: CalendarEventBuilder,
+    private readonly eventBuilder: CalendarEventBuilder,
     private readonly dutyService: DutyService
   ) {}
+
+  agenda(memberId: number, range?: Range): Observable<Agenda> {
+    return this.index({ ...range, member: memberId }).pipe(
+      map(events => this.agendaBuilder.build(memberId, events, range))
+    );
+  }
 
   index(search: CalendarEvents.Query = {}): Observable<Array<CalendarEvent>> {
     return forkJoin([
       this.attendanceService.index(search).pipe(
-        map(({ data }) => data.map(item => this.builder.attendance(item)))
+        map(({ data }) => data.map(item => this.eventBuilder.attendance(item)))
       ),
       this.dutyService.index(search).pipe(
-        map(({ data }) => data.map(item => this.builder.duty(item)))
+        map(({ data }) => data.map(item => this.eventBuilder.duty(item)))
       )
     ]).pipe(
       map((data: Array<Array<CalendarEvent>>) => data.flat())

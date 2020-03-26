@@ -155,6 +155,7 @@ Interface | Method | Purpose
     - `update(id[, params])`
     - `destroy(id)`
 - `CalendarService`
+    - `agenda(memberId, [query])`: Feed of calendar events for given `memberId` segmented by day.
     - `index([query])`: Query union of `Attendance` and `Duty` records in a common format suitable for use in JavaScript calendar software.
 - `CategoryService`:
     - `index([query])`

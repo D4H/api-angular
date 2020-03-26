@@ -1,5 +1,6 @@
 export * from './account.model';
 export * from './activity.model';
+export * from './agenda.model';
 export * from './attendance.model';
 export * from './brand.model';
 export * from './calendar-event.model';

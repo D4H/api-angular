@@ -4,6 +4,7 @@
   "whitelistedNonPeerDependencies": [
     "http-status-codes",
     "moment",
+    "moment-range",
     "traverse"
   ],
   "lib": {
@@ -11,6 +12,7 @@
     "umdModuleIds": {
       "http-status-codes": "http-status-codes",
       "moment": "moment",
+      "moment-range": "moment-range",
       "traverse": "traverse"
     }
   }
