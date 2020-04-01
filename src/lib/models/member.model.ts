@@ -126,6 +126,7 @@ export interface Member {
   duty_status: MemberDutyStatus;
   email: string;
   emergency_contacts?: Array<EmergencyContact>; // Restricted.
+  group_ids: Array<number>;
   homephone?: string; // Restricted.
   id: number;
   mobilephone: string;

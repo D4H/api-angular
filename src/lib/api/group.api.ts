@@ -9,6 +9,7 @@ import { Group } from '../models';
 
 export interface Query extends Search {
   id?: number;
+  member_id?: number;
   title?: string;
 }
 
