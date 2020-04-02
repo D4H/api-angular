@@ -1,3 +1,4 @@
+import faker from 'faker';
 import { Factory } from '@d4h/testing';
 import { TestBed } from '@angular/core/testing';
 
@@ -22,7 +23,7 @@ describe('DestinationBuilder', () => {
       ]
     });
 
-    builder = TestBed.get<DestinationBuilder>(DestinationBuilder);
+    builder = TestBed.get(DestinationBuilder);
   });
 
   it('should be created', () => {
@@ -33,7 +34,7 @@ describe('DestinationBuilder', () => {
     let equipment: Equipment;
 
     beforeEach(() => {
-      equipment = Factory.build<Equipment>('Equipment');
+      equipment = Factory.build('Equipment');
     });
 
     it('should be a function', () => {
@@ -43,34 +44,10 @@ describe('DestinationBuilder', () => {
     it('should convert Equipment to Destination', () => {
       expect(builder.equipment(equipment)).toEqual({
         description: `#${equipment.ref}`,
-        id: equipment.id,
+        entity: { id: equipment.id, type: DestinationType.Equipment },
+        id: `${DestinationType.Equipment}-${equipment.id}`,
+        parent: { id: undefined, type: undefined },
         title: equipment.title,
-        type: DestinationType.Equipment,
-        unassignable: equipment.type === EquipmentType.Supply
-      });
-    });
-  });
-
-  describe('equipmentContext', () => {
-    let destination: Destination;
-    let equipment: Equipment;
-
-    beforeEach(() => {
-      destination = Factory.build<Destination>('Destination');
-      equipment = Factory.build<Equipment>('Equipment');
-    });
-
-    it('should be a function', () => {
-      expect(typeof builder.equipmentContext).toBe('function');
-    });
-
-    it('should convert Equipment to Destination', () => {
-      expect(builder.equipmentContext(destination)(equipment)).toEqual({
-        context: { id: destination.id, type: destination.type },
-        description: `#${equipment.ref}`,
-        id: equipment.id,
-        title: equipment.title,
-        type: DestinationType.Equipment,
         unassignable: equipment.type === EquipmentType.Supply
       });
     });
@@ -80,7 +57,7 @@ describe('DestinationBuilder', () => {
     let location: Location;
 
     beforeEach(() => {
-      location = Factory.build<Location>('Location');
+      location = Factory.build('Location');
     });
 
     it('should be a function', () => {
@@ -90,9 +67,10 @@ describe('DestinationBuilder', () => {
     it('should convert Location to Destination', () => {
       expect(builder.location(location)).toEqual({
         description: location.bundle,
-        id: location.id,
+        entity: { id: location.id, type: DestinationType.Location },
+        id: `${DestinationType.Location}-${location.id}`,
+        parent: { id: undefined, type: undefined },
         title: location.title,
-        type: DestinationType.Location,
         unassignable: false
       });
     });
@@ -102,7 +80,7 @@ describe('DestinationBuilder', () => {
     let member: Member;
 
     beforeEach(() => {
-      member = Factory.build<Member>('Member');
+      member = Factory.build('Member');
     });
 
     it('should be a function', () => {
@@ -112,9 +90,10 @@ describe('DestinationBuilder', () => {
     it('should convert Member to Destination', () => {
       expect(builder.member(member)).toEqual({
         description: member.position,
-        id: member.id,
+        entity: { id: member.id, type: DestinationType.Member },
+        id: `${DestinationType.Member}-${member.id}`,
+        parent: { id: undefined, type: undefined },
         title: member.name,
-        type: DestinationType.Member,
         unassignable: false
       });
     });

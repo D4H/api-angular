@@ -44,6 +44,11 @@ export class DestinationService {
     private readonly memberService: MemberService
   ) {}
 
+  /**
+   * Query Many Entities of Given Type
+   * ===========================================================================
+   */
+
   index(
     type: DestinationType,
     params: Destinations.Query = {}
@@ -66,7 +71,14 @@ export class DestinationService {
     }
   }
 
-  show(type: DestinationType, id: number): Observable<Destination> {
+  /**
+   * Fetch Given Destination Entity
+   * ===========================================================================
+   */
+
+  show(
+    { id, type }: { id: number, type: DestinationType }
+  ): Observable<Destination> {
     switch (type) {
       case DestinationType.Equipment:
         return this.equipmentService.show(id).pipe(
@@ -85,23 +97,55 @@ export class DestinationService {
     }
   }
 
+  /**
+   * Fetch Equipment Destination by Barcode
+   * ===========================================================================
+   */
+
   barcode(barcode: string): Observable<Destination> {
     return this.equipmentService.barcode(barcode).pipe(
       map(this.builder.equipment)
     );
   }
 
-  contents(type: DestinationType, id: number): Observable<Array<Destination>> {
-    const payload = this.params({ id, type });
+  /**
+   * Fetch the Equipment Contents of Given Entity
+   * ===========================================================================
+   * All of equipment, locations and members may have equipment items.
+   */
 
-    return this.equipmentService.index(payload).pipe(
-      map(({ data }) => data.map(this.builder.equipmentContext({ id, type })))
-    );
+  contents(
+    { id, type }: { id: number, type: DestinationType }
+  ): Observable<Array<Destination>> {
+    const parent = { id, type };
+    const payload = this.params(parent);
+
+    if (payload) {
+      return this.equipmentService.index(payload).pipe(
+        map(({ data }) => data.map(item => ({ ...this.builder.equipment(item), parent })))
+      );
+    } else {
+      return of([]);
+    }
   }
 
-  set(gearId: number, type: DestinationType, id: number): Observable<Equipment> {
+  /**
+   * Search Destination for Gear Item
+   * ===========================================================================
+   */
+
+  set(
+    gearId: number,
+    { id, type }: { id: number, type: DestinationType }
+  ): Observable<Equipment> {
     return this.equipmentService.move(gearId, type, id);
   }
+
+  /**
+   * Search Destinations by Text String
+   * ===========================================================================
+   * When given DestinationType.All, search all types, else search given type.
+   */
 
   search(
     type: DestinationType,
@@ -159,7 +203,7 @@ export class DestinationService {
         // tslint:disable-next-line no-null-keyword
         return { member: id, parent_id: null };
       default:
-        return {};
+        return undefined;
     }
   }
 }

@@ -21,28 +21,21 @@ export class DestinationBuilder {
   equipment(equipment: Equipment): Destination {
     return {
       description: `#${equipment.ref}`,
-      id: equipment.id,
+      entity: { id: equipment.id, type: DestinationType.Equipment },
+      id: `${DestinationType.Equipment}-${equipment.id}`,
+      parent: { id: undefined, type: undefined },
       title: equipment.title,
-      type: DestinationType.Equipment,
       unassignable: equipment.type === EquipmentType.Supply
     };
-  }
-
-  equipmentContext(
-    { id, type }: { id: number, type: DestinationType }
-  ): (equipment: Equipment) => Destination {
-    return (equipment: Equipment): Destination => ({
-      ...this.equipment(equipment),
-      context: { id: Number(id), type }
-    });
   }
 
   location(location: Location): Destination {
     return {
       description: location.bundle,
-      id: location.id,
+      entity: { id: location.id, type: DestinationType.Location },
+      id: `${DestinationType.Location}-${location.id}`,
+      parent: { id: undefined, type: undefined },
       title: location.title,
-      type: DestinationType.Location,
       unassignable: false
     };
   }
@@ -50,9 +43,10 @@ export class DestinationBuilder {
   member(member: Member): Destination {
     return {
       description: member.position,
-      id: member.id,
+      entity: { id: member.id, type: DestinationType.Member },
+      id: `${DestinationType.Member}-${member.id}`,
+      parent: { id: undefined, type: undefined },
       title: member.name,
-      type: DestinationType.Member,
       unassignable: false
     };
   }

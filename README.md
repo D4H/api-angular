@@ -165,10 +165,10 @@ Interface | Method | Purpose
     - `destroy(id)`
 - `DestinationService`: Query new destination for equipment from union of equipment, locations or members.
     - `index([query])`
-    - `show(type, id)`
+    - `show({ id, type })`
     - `barcode(barcode)`
-    - `contents(type, id)`
-    - `set(equipmentId, type, id)`: Move equipment to new destination.
+    - `contents({ id, type })`
+    - `set(equipmentId, { id, type })`: Move equipment to new destination.
     - `search(type, query[, params])`
 - `DutyService`:
     - `index([query])`

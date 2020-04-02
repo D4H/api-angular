@@ -65,11 +65,11 @@ describe('DestinationService', () => {
       ]
     });
 
-    builder = TestBed.get<DestinationBuilder>(DestinationBuilder);
-    equipmentService = TestBed.get<EquipmentService>(EquipmentService);
-    locationService = TestBed.get<LocationService>(LocationService);
-    memberService = TestBed.get<MemberService>(MemberService);
-    service = TestBed.get<DestinationService>(DestinationService);
+    builder = TestBed.get(DestinationBuilder);
+    equipmentService = TestBed.get(EquipmentService);
+    locationService = TestBed.get(LocationService);
+    memberService = TestBed.get(MemberService);
+    service = TestBed.get(DestinationService);
   });
 
   it('should be created', () => {
@@ -145,60 +145,81 @@ describe('DestinationService', () => {
   });
 
   describe('show', () => {
-    let destination: Destination;
-    let equipment: Equipment;
-    let id: number;
-    let location: Location;
-    let member: Member;
-    let type: DestinationType;
-
-    beforeEach(() => {
-      id = faker.random.number();
-      equipment = Factory.build('Equipment');
-      location = Factory.build('Location');
-      member = Factory.build('Member');
-    });
-
     it('should be a function', () => {
       expect(typeof service.show).toBe('function');
     });
 
-    it('should call equipmentService.show', () => {
-      destination = builder.equipment(equipment);
-      type = DestinationType.Equipment;
-      equipmentService.show.and.returnValue(of(equipment));
-      result$ = hot('(a|)', { a: destination });
+    describe('DestinationType.Equipment', () => {
+      let destination: Destination;
+      let entity: { id: number, type: DestinationType };
+      let equipment: Equipment;
 
-      expect(service.show(type, id)).toBeObservable(result$);
-      expect(equipmentService.show).toHaveBeenCalledWith(id);
+      beforeEach(() => {
+        equipment = Factory.build('Equipment');
+        entity = { id: equipment.id, type: DestinationType.Equipment };
+        destination = builder.equipment(equipment);
+      });
+
+      it('should call equipmentService.show', () => {
+        equipmentService.show.and.returnValue(of(equipment));
+        result$ = hot('(a|)', { a: destination });
+        expect(service.show(entity)).toBeObservable(result$);
+        expect(equipmentService.show).toHaveBeenCalledWith(entity.id);
+      });
     });
 
-    it('should call locationService.show', () => {
-      destination = builder.location(location);
-      type = DestinationType.Location;
-      locationService.show.and.returnValue(of(location));
-      result$ = hot('(a|)', { a: destination });
+    describe('DestinationType.Location', () => {
+      let destination: Destination;
+      let entity: { id: number, type: DestinationType };
+      let location: Location;
 
-      expect(service.show(type, id)).toBeObservable(result$);
-      expect(locationService.show).toHaveBeenCalledWith(id);
+      beforeEach(() => {
+        location = Factory.build('Location');
+        entity = { id: location.id, type: DestinationType.Location };
+        destination = builder.location(location);
+      });
+
+      it('should call locationService.show', () => {
+        locationService.show.and.returnValue(of(location));
+        result$ = hot('(a|)', { a: destination });
+        expect(service.show(entity)).toBeObservable(result$);
+        expect(locationService.show).toHaveBeenCalledWith(entity.id);
+      });
     });
 
-    it('should call memberService.show', () => {
-      destination = builder.member(member);
-      type = DestinationType.Member;
-      memberService.show.and.returnValue(of(member));
-      result$ = hot('(a|)', { a: destination });
+    describe('DestinationType.Member', () => {
+      let destination: Destination;
+      let entity: { id: number, type: DestinationType };
+      let member: Member;
 
-      expect(service.show(type, id)).toBeObservable(result$);
-      expect(memberService.show).toHaveBeenCalledWith(id);
+      beforeEach(() => {
+        member = Factory.build('Member');
+        entity = { id: member.id, type: DestinationType.Member };
+        destination = builder.member(member);
+      });
+
+      it('should call memberService.show', () => {
+        memberService.show.and.returnValue(of(member));
+        result$ = hot('(a|)', { a: destination });
+        expect(service.show(entity)).toBeObservable(result$);
+        expect(memberService.show).toHaveBeenCalledWith(entity.id);
+      });
     });
 
-    it('should not call any service and return undefined', () => {
-      result$ = hot('(a|)', { a: undefined });
-      expect(service.show(undefined, id)).toBeObservable(result$);
-      expect(equipmentService.show).not.toHaveBeenCalled();
-      expect(locationService.show).not.toHaveBeenCalled();
-      expect(memberService.show).not.toHaveBeenCalled();
+    describe('DestinationType.All', () => {
+      let entity: { id: number, type: DestinationType };
+
+      beforeEach(() => {
+        entity = { id: faker.random.number(), type: DestinationType.All };
+      });
+
+      it('should not call any service and return undefined', () => {
+        result$ = hot('(a|)', { a: undefined });
+        expect(service.show(entity)).toBeObservable(result$);
+        expect(equipmentService.show).not.toHaveBeenCalled();
+        expect(locationService.show).not.toHaveBeenCalled();
+        expect(memberService.show).not.toHaveBeenCalled();
+      });
     });
   });
 
@@ -226,54 +247,79 @@ describe('DestinationService', () => {
   });
 
   describe('contents', () => {
-    let destinations: Array<Destination>;
-    let equipment: Array<Equipment>;
-    let id: number;
-    let type: DestinationType;
-
-    beforeEach(() => {
-      equipment = Factory.buildList<Equipment>('Equipment');
-      id = faker.random.number();
-    });
-
     it('should be a function', () => {
       expect(typeof service.contents).toBe('function');
     });
 
-    it('should call equipmentService.index with parent_id', () => {
-      type = DestinationType.Equipment;
-      destinations = equipment.map(builder.equipmentContext({ id, type }));
-      equipmentService.index.and.returnValue(of({ data: equipment }));
-      result$ = hot('(a|)', { a: destinations });
-      expect(service.contents(type, id)).toBeObservable(result$);
-      expect(equipmentService.index).toHaveBeenCalledWith({ parent_id: id });
+    describe('DestinationType.Equipment', () => {
+      let destinations: Array<Destination>;
+      let parent: { id: number, type: DestinationType };
+      let equipment: Array<Equipment>;
+
+      beforeEach(() => {
+        parent = { id: faker.random.number(), type: DestinationType.Equipment };
+        equipment = Factory.buildList('Equipment');
+        destinations = equipment.map(item => ({ ...builder.equipment(item), parent }));
+      });
+
+      it('should call equipmentService.index with parent_id', () => {
+        equipmentService.index.and.returnValue(of({ data: equipment }));
+        result$ = hot('(a|)', { a: destinations });
+        expect(service.contents(parent)).toBeObservable(result$);
+        expect(equipmentService.index).toHaveBeenCalledWith({ parent_id: parent.id });
+      });
     });
 
-    it('should call equipmentService.index with location_id', () => {
-      type = DestinationType.Location;
-      destinations = equipment.map(builder.equipmentContext({ id, type }));
-      equipmentService.index.and.returnValue(of({ data: equipment }));
-      result$ = hot('(a|)', { a: destinations });
-      expect(service.contents(type, id)).toBeObservable(result$);
-      expect(equipmentService.index).toHaveBeenCalledWith({ location_id: id, parent_id: null });
+    describe('DestinationType.Location', () => {
+      let destinations: Array<Destination>;
+      let parent: { id: number, type: DestinationType };
+      let equipment: Array<Equipment>;
+
+      beforeEach(() => {
+        parent = { id: faker.random.number(), type: DestinationType.Location };
+        equipment = Factory.buildList('Equipment');
+        destinations = equipment.map(item => ({ ...builder.equipment(item), parent }));
+      });
+
+      it('should call equipmentService.index with location_id', () => {
+        equipmentService.index.and.returnValue(of({ data: equipment }));
+        result$ = hot('(a|)', { a: destinations });
+        expect(service.contents(parent)).toBeObservable(result$);
+        expect(equipmentService.index).toHaveBeenCalledWith({ location_id: parent.id, parent_id: null });
+      });
     });
 
-    it('should call equipmentService.index with member', () => {
-      type = DestinationType.Member;
-      destinations = equipment.map(builder.equipmentContext({ id, type }));
-      equipmentService.index.and.returnValue(of({ data: equipment }));
-      result$ = hot('(a|)', { a: destinations });
-      expect(service.contents(type, id)).toBeObservable(result$);
-      expect(equipmentService.index).toHaveBeenCalledWith({ member: id, parent_id: null });
+    describe('DestinationType.Member', () => {
+      let destinations: Array<Destination>;
+      let parent: { id: number, type: DestinationType };
+      let equipment: Array<Equipment>;
+
+      beforeEach(() => {
+        parent = { id: faker.random.number(), type: DestinationType.Member };
+        equipment = Factory.buildList('Equipment');
+        destinations = equipment.map(item => ({ ...builder.equipment(item), parent }));
+      });
+
+      it('should call equipmentService.index with member', () => {
+        equipmentService.index.and.returnValue(of({ data: equipment }));
+        result$ = hot('(a|)', { a: destinations });
+        expect(service.contents(parent)).toBeObservable(result$);
+        expect(equipmentService.index).toHaveBeenCalledWith({ member: parent.id, parent_id: null });
+      });
     });
 
-    it('should call equipmentService.index with {}', () => {
-      type = undefined;
-      destinations = equipment.map(builder.equipmentContext({ id, type }));
-      equipmentService.index.and.returnValue(of({ data: equipment }));
-      result$ = hot('(a|)', { a: destinations });
-      expect(service.contents(type, id)).toBeObservable(result$);
-      expect(equipmentService.index).toHaveBeenCalledWith({});
+    describe('DestinationType.All', () => {
+      let parent: { id: number, type: DestinationType };
+
+      beforeEach(() => {
+        parent = { id: faker.random.number(), type: DestinationType.All };
+      });
+
+      it('should not call any service and return []', () => {
+        result$ = hot('(a|)', { a: [] });
+        expect(service.contents(parent)).toBeObservable(result$);
+        expect(equipmentService.index).not.toHaveBeenCalled();
+      });
     });
   });
 
@@ -286,9 +332,9 @@ describe('DestinationService', () => {
     let type: DestinationType;
 
     beforeEach(() => {
-      equipment = Factory.buildList<Equipment>('Equipment');
-      locations = Factory.buildList<Location>('Location');
-      members = Factory.buildList<Member>('Member');
+      equipment = Factory.buildList('Equipment');
+      locations = Factory.buildList('Location');
+      members = Factory.buildList('Member');
       query = faker.random.uuid();
     });
 
@@ -296,73 +342,81 @@ describe('DestinationService', () => {
       expect(typeof service.contents).toBe('function');
     });
 
-    it('should call all services with DestinationType.All', () => {
-      type = DestinationType.All;
+    describe('DestinationType.All', () => {
+      it('should call all services', () => {
+        type = DestinationType.All;
 
-      destinations = [].concat(
-        equipment.map(builder.equipment),
-        locations.map(builder.location),
-        members.map(builder.member)
-      );
+        destinations = [].concat(
+          equipment.map(builder.equipment),
+          locations.map(builder.location),
+          members.map(builder.member)
+        );
 
-      equipmentService.search.and.returnValue(of({ data: equipment }));
-      locationService.search.and.returnValue(of({ data: locations }));
-      memberService.search.and.returnValue(of({ data: members }));
-      result$ = hot('(a|)', { a: destinations });
+        equipmentService.search.and.returnValue(of({ data: equipment }));
+        locationService.search.and.returnValue(of({ data: locations }));
+        memberService.search.and.returnValue(of({ data: members }));
+        result$ = hot('(a|)', { a: destinations });
 
-      expect(service.search(DestinationType.All, query)).toBeObservable(result$);
-      expect(equipmentService.search).toHaveBeenCalledWith(query, {});
-      expect(locationService.search).toHaveBeenCalledWith(query, {});
-      expect(memberService.search).toHaveBeenCalledWith(query, {});
+        expect(service.search(DestinationType.All, query)).toBeObservable(result$);
+        expect(equipmentService.search).toHaveBeenCalledWith(query, {});
+        expect(locationService.search).toHaveBeenCalledWith(query, {});
+        expect(memberService.search).toHaveBeenCalledWith(query, {});
+      });
     });
 
-    it('should call equipmentService with DestinationType.Equipment', () => {
-      type = DestinationType.Equipment;
-      destinations = equipment.map(builder.equipment);
-      equipmentService.search.and.returnValue(of({ data: equipment }));
-      result$ = hot('(a|)', { a: destinations });
-      expect(service.search(type, query)).toBeObservable(result$);
-      expect(equipmentService.search).toHaveBeenCalledWith(query, {});
+    describe('DestinationType.Equipment', () => {
+      it('should call equipmentService', () => {
+        type = DestinationType.Equipment;
+        destinations = equipment.map(builder.equipment);
+        equipmentService.search.and.returnValue(of({ data: equipment }));
+        result$ = hot('(a|)', { a: destinations });
+        expect(service.search(type, query)).toBeObservable(result$);
+        expect(equipmentService.search).toHaveBeenCalledWith(query, {});
+      });
     });
 
-    it('should call locationService with DestinationType.Location', () => {
-      type = DestinationType.Location;
-      destinations = locations.map(builder.location);
-      locationService.search.and.returnValue(of({ data: locations }));
-      result$ = hot('(a|)', { a: destinations });
-      expect(service.search(type, query)).toBeObservable(result$);
-      expect(locationService.search).toHaveBeenCalledWith(query, {});
+    describe('DestinationType.Location', () => {
+      it('should call locationService', () => {
+        type = DestinationType.Location;
+        destinations = locations.map(builder.location);
+        locationService.search.and.returnValue(of({ data: locations }));
+        result$ = hot('(a|)', { a: destinations });
+        expect(service.search(type, query)).toBeObservable(result$);
+        expect(locationService.search).toHaveBeenCalledWith(query, {});
+      });
     });
 
-    it('should call memberService with DestinationType.Member', () => {
-      type = DestinationType.Member;
-      destinations = members.map(builder.member);
-      memberService.search.and.returnValue(of({ data: members }));
-      result$ = hot('(a|)', { a: destinations });
-      expect(service.search(type, query)).toBeObservable(result$);
-      expect(memberService.search).toHaveBeenCalledWith(query, {});
+    describe('DestinationType.Member', () => {
+      it('should call memberService with DestinationType.Member', () => {
+        type = DestinationType.Member;
+        destinations = members.map(builder.member);
+        memberService.search.and.returnValue(of({ data: members }));
+        result$ = hot('(a|)', { a: destinations });
+        expect(service.search(type, query)).toBeObservable(result$);
+        expect(memberService.search).toHaveBeenCalledWith(query, {});
+      });
     });
 
-    it('should return [] and call no services by default', () => {
-      result$ = hot('(a|)', { a: [] });
-      expect(service.search(undefined, query)).toBeObservable(result$);
-      expect(equipmentService.search).not.toHaveBeenCalled();
-      expect(locationService.search).not.toHaveBeenCalled();
-      expect(memberService.search).not.toHaveBeenCalled();
+    describe('no destination type', () => {
+      it('should return [] and call no services by default', () => {
+        result$ = hot('(a|)', { a: [] });
+        expect(service.search(undefined, query)).toBeObservable(result$);
+        expect(equipmentService.search).not.toHaveBeenCalled();
+        expect(locationService.search).not.toHaveBeenCalled();
+        expect(memberService.search).not.toHaveBeenCalled();
+      });
     });
   });
 
   describe('set', () => {
     let destination: Destination;
     let equipment: Equipment;
-    let id: number;
-    let type: DestinationType;
+    let entity: { id: number, type: DestinationType };
 
     beforeEach(() => {
-      destination = Factory.build<Destination>('Destination');
-      equipment = Factory.build<Equipment>('Equipment');
-      id = destination.id;
-      type = destination.type;
+      destination = Factory.build('Destination');
+      equipment = Factory.build('Equipment');
+      ({ entity } = destination);
     });
 
     it('should be a function', () => {
@@ -372,10 +426,10 @@ describe('DestinationService', () => {
     it('should call equipmentService.move and return equipment', () => {
       equipmentService.move.and.returnValue(of(equipment));
       result$ = hot('(a|)', { a: equipment });
-      expect(service.set(equipment.id, type, id)).toBeObservable(result$);
+      expect(service.set(equipment.id, entity)).toBeObservable(result$);
 
       expect(equipmentService.move)
-        .toHaveBeenCalledWith(equipment.id, type, id);
+        .toHaveBeenCalledWith(equipment.id, entity.type, entity.id);
     });
   });
 });
