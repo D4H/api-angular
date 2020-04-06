@@ -1,5 +1,6 @@
 import { CalendarEvent } from '../models';
-import { DateParameter, Query as Search, Response } from './shared.api';
+import { IsoDate } from '../models';
+import { Query as Search, Response } from './shared.api';
 
 /**
  * GET Calendar Events
@@ -11,9 +12,9 @@ import { DateParameter, Query as Search, Response } from './shared.api';
  */
 
 export interface Query extends Search {
-  after?: DateParameter;
-  before?: DateParameter;
-  member?: number;
+  after?: IsoDate;
+  before?: IsoDate;
+  member?: number | 'me';
   role_id?: number;
 }
 

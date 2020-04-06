@@ -1,6 +1,6 @@
 {
   "name": "@d4h/angular",
-  "version": "8.0.0",
+  "version": "8.1.0",
   "description": "Angular services and interfaces for the D4H API.",
   "homepage": "https://d4htechnologies.com/",
   "repository": {
@@ -29,7 +29,6 @@
   "dependencies": {
     "http-status-codes": "^1.4.0",
     "moment": "^2.24.0",
-    "moment-range": "^4.0.2",
     "traverse": "^0.6.6"
   }
 }

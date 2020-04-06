@@ -35,7 +35,7 @@ export interface Config {
  */
 
 export const CLIENT_NAME = 'D4H API CLIENT';
-export const CLIENT_VERSION = '8.0.0';
+export const CLIENT_VERSION = '8.1.0';
 
 export const CLIENT_CONFIG = new InjectionToken<Observable<Config>>(
   'CLIENT_CONFIGURATION'

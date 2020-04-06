@@ -107,7 +107,7 @@ export interface Member {
   custom_fields?: Array<CustomField>;
   default_duty: DutyType;
   default_role_id?: number;
-  duty_status: MemberDutyStatus;
+  duty_status?: MemberDutyStatus;
   email: string;
   emergency_contacts?: Array<EmergencyContact>; // Restricted.
   group_ids: Array<number>;

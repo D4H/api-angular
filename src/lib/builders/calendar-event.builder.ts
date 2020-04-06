@@ -31,13 +31,16 @@ export class CalendarEventBuilder {
     return {
       color: undefined,
       end: attendance.enddate,
-      event_id: attendance.id,
-      event_status: attendance.status,
-      event_type: this.activityType(attendance),
       id: `${this.activityType(attendance)}-${attendance.id}`,
-      member_id: attendance.member.id,
       start: attendance.date,
-      text: this.attendanceText(attendance)
+      text: this.attendanceText(attendance),
+
+      entity: {
+        id: attendance.id,
+        member_id: attendance.member.id,
+        status: attendance.status,
+        type: this.activityType(attendance)
+      }
     };
   }
 
@@ -45,16 +48,20 @@ export class CalendarEventBuilder {
     return {
       color: undefined,
       end: duty.enddate,
-      event_id: duty.id,
-      event_status: duty.type,
-      event_type: CalendarEventType.Duty,
       id: `${CalendarEventType.Duty}-${duty.id}`,
-      member_id: duty.member_id,
       start: duty.date,
-      text: this.dutyText(duty)
+      text: this.dutyText(duty),
+
+      entity: {
+        id: duty.id,
+        member_id: duty.member_id,
+        status: duty.type,
+        type: CalendarEventType.Duty
+      }
     };
   }
 
+  // CalendarEventType effectively extends ActivityType.
   private activityType(attendance: Attendance): CalendarEventType {
     switch (attendance.activity.type) {
       case ActivityType.Event:

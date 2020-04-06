@@ -21,9 +21,6 @@ export type CalendarEventStatus = AttendanceStatus | DutyType;
  *  1. D4H: Referenced event ID, member, status and type.
  *  2. Mobiscroll: color, end, start, and text.
  *
- * All attributes marked as private or optional are either assigned
- * programmatically, or used intenrally by Mobiscroll.
- *
  * @see https://docs.mobiscroll.com/angular/eventcalendar#opt-data
  * @see https://forum.mobiscroll.com/t/immutable-calendar-objects/265
  * @see https://github.com/D4H/decisions-project/issues/2606
@@ -31,13 +28,16 @@ export type CalendarEventStatus = AttendanceStatus | DutyType;
  */
 
 export interface CalendarEvent {
-  color: string;
-  end: IsoDate;
-  event_id: number;
-  event_status: CalendarEventStatus;
-  event_type: CalendarEventType;
-  id: string;
-  member_id: number;
-  start: IsoDate;
-  text: string;
+  color: string; // Mobiscroll
+  end: IsoDate; // Mobiscroll
+  start: IsoDate; // Mobiscroll
+  id: string; // attendance-159, duty-157.
+  text: string; // Mobiscroll
+
+  entity: {
+    id: number;
+    member_id: number;
+    status: CalendarEventStatus;
+    type: CalendarEventType;
+  };
 }
