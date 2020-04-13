@@ -27,10 +27,11 @@ export class MemberService {
     );
   }
 
-  show(id: number | 'me'): Observable<Member> {
+  show(id: number | 'me', params: Members.Params = {}): Observable<Member> {
     const route: string = this.routes.team.members.show(id);
+    const payload: any = { params };
 
-    return this.http.get<Members.Show>(route).pipe(
+    return this.http.get<Members.Show>(route, payload).pipe(
       pluck('data')
     );
   }

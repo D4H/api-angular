@@ -83,9 +83,11 @@ describe('MemberService', () => {
   describe('show', () => {
     const path: (id: number) => string = routes.team.members.show;
     let member: Member;
+    let params: Members.Params;
 
     beforeEach(() => {
       member = Factory.build<Member>('Member');
+      params = { include_duty_status_changes: faker.random.boolean() };
     });
 
     it('should be a function', () => {
@@ -95,15 +97,15 @@ describe('MemberService', () => {
     it('should call http.get and return a member', () => {
       http.get.and.returnValue(of({ data: member }));
       result$ = hot('(a|)', { a: member });
-      expect(service.show(member.id)).toBeObservable(result$);
-      expect(http.get).toHaveBeenCalledWith(path(member.id));
+      expect(service.show(member.id, params)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(member.id), { params });
     });
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
       result$ = hot('#', undefined, error);
       expect(service.show(member.id)).toBeObservable(result$);
-      expect(http.get).toHaveBeenCalledWith(path(member.id));
+      expect(http.get).toHaveBeenCalledWith(path(member.id), { params: {} });
     });
   });
 

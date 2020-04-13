@@ -29,6 +29,7 @@ export type MemberParam = number | 'me';
 export interface Query extends Search {
   group_id?: number;
   id?: number | 'me';
+  include_duty_status_changes?: boolean;
   name?: string;
   on_call?: DutyType;
   ref?: string;
@@ -44,6 +45,10 @@ export interface Index extends Response<Array<Member>> {}
  * =============================================================================
  * @see https://api.d4h.org/v2/documentation#operation/getTeamMembersMember
  */
+
+export interface Params {
+  include_duty_status_changes?: boolean;
+}
 
 export interface Show extends Response<Member> {}
 
