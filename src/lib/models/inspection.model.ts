@@ -1,11 +1,5 @@
-import { InheritedEntity } from './inherited-entity.model';
+import { Interval } from './interval.model';
 import { IsoDate } from './iso-date.model';
-
-export enum InspectionInterval {
-  Day = 'DAY',
-  Month = 'MONTH',
-  Year = 'YEAR'
-}
 
 /**
  * Inspection
@@ -16,10 +10,11 @@ export enum InspectionInterval {
  * business object. An inspection is an equipment inventory. Each interval_unit *
  * interval_value, the fixed list of items on it are re-inspected.
  *
- * An Inspection record has these XOR fields:
+ * Inspection is inheritable from organization. Only one of these will be
+ * present:
  *
- *  - organisation_id ^ team_id
- *  - location_id ^ member_id
+ *  - organisation_id
+ *  - team_id
  */
 
 export interface Inspection {
@@ -27,18 +22,20 @@ export interface Inspection {
   all_kinds: boolean;
   bundle: string;
   date_due: IsoDate;
-  description: string;
+  description?: string; // Only present when set in web.
+  equipment_id?: number;
   gear_parent_id: number;
   id: number;
-  interval_unit: InspectionInterval;
+  interval_unit: Interval;
   interval_value: number;
   is_auto_unserviceable: boolean;
   items_count: number;
   items_due_count: number;
-  location_id: number;
+  location_id?: number;
   member_id: number;
   organisation_id?: number;
-  reminder_unit: InspectionInterval;
+  reminder_date: IsoDate;
+  reminder_unit: Interval;
   reminder_value: number;
   team_id?: number;
   title: string;

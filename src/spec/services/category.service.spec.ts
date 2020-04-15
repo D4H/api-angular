@@ -9,7 +9,7 @@ import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Category } from '../../lib/models';
 import { CategoryService } from '../../lib/services';
-import { Categories } from '../../lib/api';
+import { Categories, Page } from '../../lib/api';
 import { routes } from '../../lib/providers';
 
 describe('CategoryService', () => {
@@ -43,11 +43,13 @@ describe('CategoryService', () => {
 
   describe('index', () => {
     const path: string = routes.team.categories.index;
-    let categories: Array<Category>;
-    let search: Categories.Search;
+    let data: Array<Category>;
+    let page: Page;
+    let search: Categories.Query;
 
     beforeEach(() => {
-      categories = Factory.buildList<Category>('Category');
+      data = Factory.buildList('Category');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -56,15 +58,15 @@ describe('CategoryService', () => {
     });
 
     it('should call http.get and return an array of categories', () => {
-      http.get.and.returnValue(of({ data: categories }));
-      result$ = hot('(a|)', { a: categories });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
@@ -91,7 +93,7 @@ describe('CategoryService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(category.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(category.id));
     });
@@ -123,7 +125,7 @@ describe('CategoryService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.post.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.create(attributes)).toBeObservable(result$);
       expect(http.post).toHaveBeenCalledWith(path, attributes);
     });
@@ -155,7 +157,7 @@ describe('CategoryService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.update(category.id, attributes)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(category.id), attributes);
     });
@@ -182,7 +184,7 @@ describe('CategoryService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.delete.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.destroy(category.id)).toBeObservable(result$);
       expect(http.delete).toHaveBeenCalledWith(path(category.id));
     });

@@ -1,15 +1,20 @@
 import { CurrencyCost } from './cost.model';
-import { XOR } from 'ts-xor';
 
-export type RoleInheritedEntity = XOR<
-  { organisation_id: null, unit_id: number },
-  { organisation_id: number, uniit_id: null }
-  >;
+/**
+ * Role
+ * =============================================================================
+ * Role is inheritable from organization. Only one of these will be present:
+ *
+ *  - organisation_id
+ *  - unit_id
+ */
 
-export type Role = {
+export interface Role {
   bundle?: string;
   cost_per_hour?: CurrencyCost;
   cost_per_use?: CurrencyCost;
   id: number;
   title: string;
-} & RoleInheritedEntity;
+  organisation_id?: number;
+  unit_id?: number;
+}

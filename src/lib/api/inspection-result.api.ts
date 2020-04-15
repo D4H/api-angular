@@ -1,37 +1,33 @@
-import { DateParameter, Response, Search } from './shared.api';
-
-import {
-  InspectionInterval,
-  ResultStatus,
-  LocationType,
-  Result
-} from '../models';
+import { DateParameter, Query as Search, Response } from './shared.api';
+import { LocationType, Result, ResultStatus } from '../models';
 
 /**
- * GET /team/inspections
+ * GET /team/inspection-results
  * =============================================================================
- * @see https://api.d4h.org/v2/documentation#operation/getTeamInspectionsInspection_idItems
+ * @see https://api.d4h.org/v2/documentation#operation/getTeamInspectionresults
  */
 
-export interface Search extends Search {
+export interface Query extends Search {
   completed?: boolean;
-  location_id?: LocationType;
+  equipment_id?: number;
+  id?: number;
+  inspection_id?: number;
 }
 
 export interface Index extends Response<Array<Result>> {}
 
 /**
- * GET /team/inspections/:id
+ * GET /team/inspection-results/:id
  * =============================================================================
- * @see https://api.d4h.org/v2/documentation#operation/getTeamInspectionsInspection_idItemsItem_id
+ * @see https://api.d4h.org/v2/documentation#operation/getTeamInspectionresultsId
  */
 
 export interface Show extends Response<Result> {}
 
 /**
- * PUT /team/inspections/:id
+ * PUT /team/inspection-results/:id
  * =============================================================================
- * @see https://api.d4h.org/v2/documentation#operation/putTeamInspectionsInspection_idItemsItem_id
+ * @see https://api.d4h.org/v2/documentation#operation/putTeamInspectionresultsId
  */
 
 export interface Change {

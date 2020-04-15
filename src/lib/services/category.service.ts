@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
-import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
+import { API_ROUTES, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { Category } from '../models';
-import { Categories } from '../api';
+import { Categories, Index } from '../api';
 
 @Injectable({ providedIn: ClientModule })
 export class CategoryService {
@@ -15,12 +15,12 @@ export class CategoryService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query?: Categories.Search): Observable<Array<Category>> {
+  index(query: Categories.Query = {}): Observable<Index<Category>> {
     const route: string = this.routes.team.categories.index;
-    const payload: HttpOptions = { params: query as any };
+    const payload: any = { params: query };
 
     return this.http.get<Categories.Index>(route, payload).pipe(
-      map((res: Categories.Index): Array<Category> => res.data)
+      map(({ data, meta: page }) => ({ data, page }))
     );
   }
 
@@ -28,7 +28,7 @@ export class CategoryService {
     const route: string = this.routes.team.categories.show(id);
 
     return this.http.get<Categories.Show>(route).pipe(
-      map((res: Categories.Show): Category => res.data)
+      pluck('data')
     );
   }
 
@@ -36,7 +36,7 @@ export class CategoryService {
     const route: string = this.routes.team.categories.index;
 
     return this.http.post<Categories.Create>(route, body).pipe(
-      map((res: Categories.Create): Category => res.data)
+      pluck('data')
     );
   }
 
@@ -44,7 +44,7 @@ export class CategoryService {
     const route: string = this.routes.team.categories.update(id);
 
     return this.http.put<Categories.Show>(route, body).pipe(
-      map((res: Categories.Update): Category => res.data)
+      pluck('data')
     );
   }
 

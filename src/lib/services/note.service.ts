@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
-import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
+import { API_ROUTES, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
+import { Index, Notes } from '../api';
 import { Note } from '../models';
-import { Notes } from '../api';
 
 @Injectable({ providedIn: ClientModule })
 export class NoteService {
@@ -15,12 +15,12 @@ export class NoteService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query?: Notes.Search): Observable<Array<Note>> {
+  index(query: Notes.Query = {}): Observable<Index<Note>> {
     const route: string = this.routes.team.notes.index;
-    const payload: HttpOptions = { params: query as any };
+    const payload: any = { params: query };
 
     return this.http.get<Notes.Index>(route, payload).pipe(
-      map((res: Notes.Index): Array<Note> => res.data)
+      map(({ data, meta: page }) => ({ data, page }))
     );
   }
 
@@ -28,7 +28,7 @@ export class NoteService {
     const route: string = this.routes.team.notes.show(id);
 
     return this.http.get<Notes.Show>(route).pipe(
-      map((res: Notes.Show): Note => res.data)
+      pluck('data')
     );
   }
 
@@ -36,7 +36,7 @@ export class NoteService {
     const route: string = this.routes.team.notes.index;
 
     return this.http.post<Notes.Create>(route, body).pipe(
-      map((res: Notes.Create): Note => res.data)
+      pluck('data')
     );
   }
 
@@ -44,7 +44,7 @@ export class NoteService {
     const route: string = this.routes.team.notes.update(id);
 
     return this.http.put<Notes.Show>(route, body).pipe(
-      map((res: Notes.Update): Note => res.data)
+      pluck('data')
     );
   }
 

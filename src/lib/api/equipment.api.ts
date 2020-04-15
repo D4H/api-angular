@@ -1,4 +1,4 @@
-import { DateParameter, Response, Search } from './shared.api';
+import { DateParameter, Query as Search, Response } from './shared.api';
 import { Equipment, EquipmentStatus } from '../models';
 
 /**
@@ -7,7 +7,7 @@ import { Equipment, EquipmentStatus } from '../models';
  * @see https://api.d4h.org/v2/documentation#operation/getTeamEquipment
  */
 
-export interface Search extends Search {
+export interface Query extends Search {
   barcode?: string;
   brand_id?: number;
   category_id?: number;
@@ -15,6 +15,7 @@ export interface Search extends Search {
   id?: number;
   include_current?: boolean;
   include_other?: boolean;
+  inspection_id?: number;
   is_critical?: boolean;
   is_expired?: boolean;
   kind_id?: number;
@@ -48,9 +49,10 @@ export interface Change {
   barcode?: string;
   is_critical?: boolean;
   is_monitor?: boolean;
-  // Per docs: "Valid values: 1 3 4 5"
+  // Per docs: "Valid values: 1 2 3 4 5"
   status_id?:
     EquipmentStatus.Operational
+    | EquipmentStatus.Unserviceable
     | EquipmentStatus.Retired
     | EquipmentStatus.Lost
     | EquipmentStatus.Wishlist;

@@ -1,5 +1,5 @@
-import { Response, Search } from './shared.api';
 import { Category } from '../models';
+import { Query as Search, Response } from './shared.api';
 
 /**
  * GET /team/equipment/categories
@@ -7,10 +7,10 @@ import { Category } from '../models';
  * @see https://api.d4h.org/v2/documentation#operation/getTeamEquipmentCategories
  */
 
-export interface Search extends Search {
+export interface Query extends Search {
   id?: number;
   include_empty?: boolean;
-  included_inherited?: boolean;
+  include_inherited?: boolean;
   location_id?: number;
   sort?: string;
 }
@@ -28,9 +28,6 @@ export interface Show extends Response<Category> {}
 /**
  * POST /team/equipment/categories
  * =============================================================================
- * Categories are created in the context of the team and member associated with the
- * bearer token.
- *
  * @see https://api.d4h.org/v2/documentation#operation/postTeamEquipmentCategories
  */
 

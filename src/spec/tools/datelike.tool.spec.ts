@@ -47,7 +47,7 @@ describe('isDateLike', () => {
         result: true
       },
       {
-        value: null,
+        value: undefined,
         result: false
       },
       {

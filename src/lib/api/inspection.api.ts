@@ -1,5 +1,5 @@
-import { DateParameter, Response, Search } from './shared.api';
-import { Inspection, InspectionInterval, LocationType } from '../models';
+import { DateParameter, Query as Search, Response } from './shared.api';
+import { Inspection, Interval } from '../models';
 
 /**
  * GET /team/inspections
@@ -7,10 +7,12 @@ import { Inspection, InspectionInterval, LocationType } from '../models';
  * @see https://api.d4h.org/v2/documentation#operation/getTeamInspections
  */
 
-export interface Search extends Search {
-  item_id?: number;
+export interface Query extends Search {
+  equipment_id?: number;
+  item_id?: number; // Inspection result ID.
   kinds_id?: number;
-  location_id?: LocationType;
+  location_id?: number;
+  team_id?: number;
 }
 
 export interface Index extends Response<Array<Inspection>> {}
@@ -34,11 +36,11 @@ export interface Change {
   all_kinds?: boolean;
   description?: string;
   gear_parent_id?: number;
-  interval_unit?: InspectionInterval;
+  interval_unit?: Interval;
   interval_value?: number;
   location_id?: number;
   member_id?: number;
-  reminder_unit?: InspectionInterval;
+  reminder_unit?: Interval;
   reminder_value?: number;
   title?: string;
 }

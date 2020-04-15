@@ -38,21 +38,21 @@ describe('Inspection Permissions', () => {
   describe('Operation.Create', () => {
     it('should always be false', () => {
       member.permission.name = Permission.Editor;
-      expect(inspections(null, Operation.Create)).toBe(false);
-      expect(inspections(member, Operation.Create, null)).toBe(false);
+      expect(inspections(undefined, Operation.Create)).toBe(false);
+      expect(inspections(member, Operation.Create, undefined)).toBe(false);
       expect(inspections(member, Operation.Create, inspection)).toBe(false);
     });
   });
 
   describe('Operation.Read', () => {
     it('should be false without a member', () => {
-      expect(inspections(null)).toBe(false);
-      expect(inspections(null, Operation.Read, null)).toBe(false);
+      expect(inspections(undefined)).toBe(false);
+      expect(inspections(undefined, Operation.Read, undefined)).toBe(false);
     });
 
     it('should always be true', () => {
       expect(inspections(member)).toBe(true);
-      expect(inspections(member, Operation.Read, null)).toBe(true);
+      expect(inspections(member, Operation.Read, undefined)).toBe(true);
       expect(inspections(member, Operation.Read, inspection)).toBe(true);
     });
   });
@@ -96,8 +96,8 @@ describe('Inspection Permissions', () => {
   describe('Operation.Destroy', () => {
     it('should always be false', () => {
       member.permission.name = Permission.Editor;
-      expect(inspections(null, Operation.Destroy)).toBe(false);
-      expect(inspections(member, Operation.Destroy, null)).toBe(false);
+      expect(inspections(undefined, Operation.Destroy)).toBe(false);
+      expect(inspections(member, Operation.Destroy, undefined)).toBe(false);
       expect(inspections(member, Operation.Destroy, inspection)).toBe(false);
     });
   });

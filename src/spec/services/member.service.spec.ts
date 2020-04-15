@@ -11,7 +11,7 @@ import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Group, Member, OperationalStatus, StatusLabel } from '../../lib/models';
 import { MemberService, PhotoService } from '../../lib/services';
-import { Members } from '../../lib/api';
+import { Members, Page } from '../../lib/api';
 import { routes } from '../../lib/providers';
 
 describe('MemberService', () => {
@@ -51,11 +51,13 @@ describe('MemberService', () => {
 
   describe('index', () => {
     const path: string = routes.team.members.index;
-    let member: Array<Member>;
-    let search: Members.Search;
+    let data: Array<Member>;
+    let page: Page;
+    let search: Members.Query;
 
     beforeEach(() => {
-      member = Factory.buildList<Member>('Member');
+      data = Factory.buildList('Member');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -64,15 +66,15 @@ describe('MemberService', () => {
     });
 
     it('should call http.get and return an array of members', () => {
-      http.get.and.returnValue(of({ data: member }));
-      result$ = hot('(a|)', { a: member });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index()).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: {} });
     });
@@ -81,9 +83,11 @@ describe('MemberService', () => {
   describe('show', () => {
     const path: (id: number) => string = routes.team.members.show;
     let member: Member;
+    let params: Members.Params;
 
     beforeEach(() => {
       member = Factory.build<Member>('Member');
+      params = { include_duty_status_changes: faker.random.boolean() };
     });
 
     it('should be a function', () => {
@@ -93,15 +97,15 @@ describe('MemberService', () => {
     it('should call http.get and return a member', () => {
       http.get.and.returnValue(of({ data: member }));
       result$ = hot('(a|)', { a: member });
-      expect(service.show(member.id)).toBeObservable(result$);
-      expect(http.get).toHaveBeenCalledWith(path(member.id));
+      expect(service.show(member.id, params)).toBeObservable(result$);
+      expect(http.get).toHaveBeenCalledWith(path(member.id), { params });
     });
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(member.id)).toBeObservable(result$);
-      expect(http.get).toHaveBeenCalledWith(path(member.id));
+      expect(http.get).toHaveBeenCalledWith(path(member.id), { params: {} });
     });
   });
 
@@ -133,7 +137,7 @@ describe('MemberService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.update(member.id)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(member.id), {});
     });
@@ -162,7 +166,7 @@ describe('MemberService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.groups(member.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(member.id));
     });
@@ -189,10 +193,10 @@ describe('MemberService', () => {
       expect(photoService.get).toHaveBeenCalledWith(path(member.id), { params: {} });
     });
 
-    it('should call photoService.get and return null when image does not exist', () => {
+    it('should call photoService.get and return undefined when image does not exist', () => {
       error = { ...error, status: NOT_FOUND };
-      photoService.get.and.returnValue(of(null));
-      result$ = hot('(a|)', { a: null });
+      photoService.get.and.returnValue(of(undefined));
+      result$ = hot('(a|)', { a: undefined });
       expect(service.image(member.id)).toBeObservable(result$);
       expect(photoService.get).toHaveBeenCalledWith(path(member.id), { params: {} });
     });
@@ -232,12 +236,14 @@ describe('MemberService', () => {
 
   describe('search', () => {
     const path: string = routes.team.members.index;
-    let members: Array<Member>;
+    let data: Array<Member>;
+    let page: Page;
     let query: string;
-    let search: Members.Search;
+    let search: Members.Query;
 
     beforeEach(() => {
-      members = Factory.buildList<Member>('Member');
+      data = Factory.buildList('Member');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
       query = faker.random.uuid();
     });
@@ -247,15 +253,15 @@ describe('MemberService', () => {
     });
 
     it('should call http.get and return an array of members', () => {
-      http.get.and.returnValue(of({ data: members }));
-      result$ = hot('(a|)', { a: members });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.search(query, search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: { name: query, ...search } });
     });
 
     it('should call http.get with {} by default for params', () => {
-      http.get.and.returnValue(of({ data: members }));
-      result$ = hot('(a|)', { a: members });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.search(query)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: { name: query } });
     });

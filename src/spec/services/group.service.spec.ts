@@ -9,7 +9,7 @@ import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Group } from '../../lib/models';
 import { GroupService } from '../../lib/services';
-import { Groups } from '../../lib/api';
+import { Groups, Page } from '../../lib/api';
 import { routes } from '../../lib/providers';
 
 describe('GroupService', () => {
@@ -43,11 +43,13 @@ describe('GroupService', () => {
 
   describe('index', () => {
     const path: string = routes.team.groups.index;
-    let groups: Array<Group>;
-    let search: Groups.Search;
+    let data: Array<Group>;
+    let page: Page;
+    let search: Groups.Query;
 
     beforeEach(() => {
-      groups = Factory.buildList<Group>('Group');
+      data = Factory.buildList('Group');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -56,15 +58,15 @@ describe('GroupService', () => {
     });
 
     it('should call http.get and return an array of groups', () => {
-      http.get.and.returnValue(of({ data: groups }));
-      result$ = hot('(a|)', { a: groups });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
@@ -91,7 +93,7 @@ describe('GroupService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(group.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(group.id));
     });

@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
-import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
+import { API_ROUTES, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
-import { Duties } from '../api';
+import { Duties, Index } from '../api';
 import { Duty } from '../models';
 
 @Injectable({ providedIn: ClientModule })
@@ -15,12 +15,12 @@ export class DutyService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query?: Duties.Search): Observable<Array<Duty>> {
+  index(query: Duties.Query = {}): Observable<Index<Duty>> {
     const route: string = this.routes.team.duties.index;
-    const payload: HttpOptions = { params: query as any };
+    const payload: any = { params: query };
 
     return this.http.get<Duties.Index>(route, payload).pipe(
-      map((res: Duties.Index): Array<Duty> => res.data)
+      map(({ data, meta: page }) => ({ data, page }))
     );
   }
 
@@ -28,7 +28,7 @@ export class DutyService {
     const route: string = this.routes.team.duties.show(id);
 
     return this.http.get<Duties.Show>(route).pipe(
-      map((res: Duties.Show): Duty => res.data)
+      pluck('data')
     );
   }
 
@@ -55,9 +55,9 @@ export class DutyService {
     const route: string = this.routes.team.duties.index;
 
     return this.http.post<Duties.Create>(route, body).pipe(
-      map((res: Duties.Show): Duty => {
-        if (Number.isInteger(res.data.id)) {
-          return res.data;
+      map(({ data: duty }): Duty => {
+        if (Number.isInteger(duty.id)) {
+          return duty;
         } else {
           return undefined;
         }
@@ -69,7 +69,7 @@ export class DutyService {
     const route: string = this.routes.team.duties.update(id);
 
     return this.http.put<Duties.Show>(route, body).pipe(
-      map((res: Duties.Update): Duty => res.data)
+      pluck('data')
     );
   }
 

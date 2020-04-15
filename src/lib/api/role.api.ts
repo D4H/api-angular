@@ -1,4 +1,4 @@
-import { DateParameter, Response, Search } from './shared.api';
+import { DateParameter, Query as Search, Response } from './shared.api';
 import { Role } from '../models';
 
 /**
@@ -8,7 +8,7 @@ import { Role } from '../models';
  */
 
 // tslint:disable-next-line no-empty-interface
-export interface Search extends Search {}
+export interface Query extends Search {}
 
 export interface Index extends Response<Array<Role>> {}
 

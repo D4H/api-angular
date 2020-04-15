@@ -1,4 +1,4 @@
-import { DateParameter, Response, Search } from './shared.api';
+import { DateParameter, Query as Search, Response } from './shared.api';
 import { LocationType, Repair, RepairCause, RepairStatus } from '../models';
 
 /**
@@ -14,7 +14,7 @@ import { LocationType, Repair, RepairCause, RepairStatus } from '../models';
  * @see https://api.d4h.org/v2/documentation#operation/getTeamRepairs
  */
 
-export interface Search extends Search {
+export interface Query extends Search {
   equipment_id?: number;
   fund_id?: number;
   id?: number;

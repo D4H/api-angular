@@ -9,7 +9,7 @@ import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Inspection } from '../../lib/models';
 import { InspectionService } from '../../lib/services';
-import { Inspections } from '../../lib/api';
+import { Inspections, Page } from '../../lib/api';
 import { routes } from '../../lib/providers';
 
 describe('InspectionService', () => {
@@ -43,11 +43,13 @@ describe('InspectionService', () => {
 
   describe('index', () => {
     const path: string = routes.team.inspections.index;
-    let inspections: Array<Inspection>;
-    let search: Inspections.Search;
+    let data: Array<Inspection>;
+    let page: Page;
+    let search: Inspections.Query;
 
     beforeEach(() => {
-      inspections = Factory.buildList<Inspection>('Inspection');
+      data = Factory.buildList<Inspection>('Inspection');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -55,16 +57,16 @@ describe('InspectionService', () => {
       expect(typeof service.index).toBe('function');
     });
 
-    it('should call http.get and return an array of inspections', () => {
-      http.get.and.returnValue(of({ data: inspections }));
-      result$ = hot('(a|)', { a: inspections });
+    it('should call http.get and return an array of data', () => {
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index()).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: {} });
     });
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
@@ -91,7 +93,7 @@ describe('InspectionService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(inspection.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(inspection.id));
     });
@@ -132,7 +134,7 @@ describe('InspectionService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.update(inspection.id, attributes)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(inspection.id), attributes);
     });

@@ -9,7 +9,7 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Membership, Setting, SettingData, Team } from '../../lib/models';
+import { Membership, SettingData, Team, TeamSetting } from '../../lib/models';
 import { TeamService, PhotoService } from '../../lib/services';
 import { Teams } from '../../lib/api';
 import { routes } from '../../lib/providers';
@@ -77,7 +77,7 @@ describe('TeamService', () => {
     it('should return NOT_FOUND with nonexistent membership', () => {
       error = { ...error, status: NOT_FOUND };
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(membership)).toBeObservable(result$);
 
       expect(http.get).toHaveBeenCalledWith(
@@ -118,7 +118,7 @@ describe('TeamService', () => {
   describe('settings', () => {
     const path: string = routes.team.settings;
     let membership: Membership;
-    let setting: Setting;
+    let setting: TeamSetting;
     let settingData: SettingData;
 
     beforeEach(() => {
@@ -145,12 +145,12 @@ describe('TeamService', () => {
     it('should throw BAD_REQUEST with no setting parameter', () => {
       error = { ...error, status: BAD_REQUEST };
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
-      expect(service.settings(membership, null)).toBeObservable(result$);
+      result$ = hot('#', undefined, error);
+      expect(service.settings(membership, undefined)).toBeObservable(result$);
 
       expect(http.get).toHaveBeenCalledWith(path, {
         headers: { Authorization: `Bearer ${membership.token}` },
-        params: { setting: null }
+        params: { setting: undefined }
       });
     });
   });

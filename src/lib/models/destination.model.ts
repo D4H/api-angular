@@ -29,12 +29,16 @@ export enum DestinationType {
 
 export interface Destination {
   description: string;
-  id: number;
+  id: string; // Entity ID/Type: gear-159, member-157.
   title: string;
-  type: DestinationType;
   unassignable: boolean;
 
-  context?: {
+  entity: {
+    id: number;
+    type: DestinationType;
+  };
+
+  parent: {
     id: number;
     type: DestinationType;
   };

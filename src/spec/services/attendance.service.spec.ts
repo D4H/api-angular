@@ -8,7 +8,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { ApiHttpClient } from '../../lib/client';
 import { Attendance } from '../../lib/models';
 import { AttendanceService } from '../../lib/services';
-import { Attendances } from '../../lib/api';
+import { Attendances, Page } from '../../lib/api';
 import { ClientTestModule } from '../client-test.module';
 import { routes } from '../../lib/providers';
 
@@ -43,11 +43,13 @@ describe('AttendanceService', () => {
 
   describe('index', () => {
     const path: string = routes.team.attendances.index;
-    let attendances: Array<Attendance>;
-    let search: Attendances.Search;
+    let data: Array<Attendance>;
+    let page: Page;
+    let search: Attendances.Query;
 
     beforeEach(() => {
-      attendances = Factory.buildList<Attendance>('Attendance');
+      data = Factory.buildList<Attendance>('Attendance');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -56,15 +58,15 @@ describe('AttendanceService', () => {
     });
 
     it('should call http.get and return an array of attendances', () => {
-      http.get.and.returnValue(of({ data: attendances }));
-      result$ = hot('(a|)', { a: attendances });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
@@ -91,7 +93,7 @@ describe('AttendanceService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(attendance.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(attendance.id));
     });
@@ -125,7 +127,7 @@ describe('AttendanceService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.post.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.create(attributes)).toBeObservable(result$);
       expect(http.post).toHaveBeenCalledWith(path, attributes);
     });
@@ -159,7 +161,7 @@ describe('AttendanceService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.update(attendance.id, attributes)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(attendance.id), attributes);
     });
@@ -186,7 +188,7 @@ describe('AttendanceService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.delete.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.destroy(attendance.id)).toBeObservable(result$);
       expect(http.delete).toHaveBeenCalledWith(path(attendance.id));
     });

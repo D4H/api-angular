@@ -19,26 +19,10 @@ import * as moment from 'moment';
  * @see https://github.com/D4H/decisions-project/issues/2757#issuecomment-455324305
  */
 
-export interface Search {
+export interface Query {
   limit?: number;
   offset?: number;
   sort?: string;
-}
-
-/**
- * Query Pagination Information
- * =============================================================================
- * Query responses will eventually all have Datatabes-compatibile paging
- * information.
- */
-
-export interface Page {
-  offset: number;
-  pageCount: number;
-  pageCurrent: number;
-  pageSize: number;
-  rowReturned: number;
-  rowsTotal: number;
 }
 
 /**
@@ -58,7 +42,23 @@ export interface Page {
 export type DateParameter = Date | moment.Moment | string | 'now';
 
 /**
- * Root Response Object
+ * Query Pagination Information
+ * =============================================================================
+ * Query responses will eventually all have Datatabes-compatibile paging
+ * information.
+ */
+
+export interface Page {
+  offset: number;
+  pageCount: number;
+  pageCurrent: number;
+  pageSize: number;
+  rowReturned: number;
+  rowsTotal: number;
+}
+
+/**
+ * API Response Object
  * =============================================================================
  * All responses have a status code and a meta object for any errors. The meta
  * object will only hold data in error responses.
@@ -71,6 +71,18 @@ export interface Response<T> {
 }
 
 /**
+ * API Index Output
+ * =============================================================================
+ * The public data-and-pagination output from a service index function. Return
+ * the array of data and attached pagination.
+ */
+
+export interface Index<T> {
+  data: Array<T>;
+  page?: Page;
+}
+
+/**
  * Object Model Errors
  * =============================================================================
  * On invalid POST/PUT.
@@ -79,11 +91,11 @@ export interface Response<T> {
  */
 
 export interface ModelError {
-  constraint: string;
-  key: string;
-  message: string;
-  path: string;
-  type: string;
+  constraint: string; // Validation failure type.
+  key: string; // Attribute.
+  message: string; // Actual validation failue.
+  path: string; // Attribute or path.to[0].attribute.
+  type: string; // Type of failing attribute, e.g. string, number.
 }
 
 /**
@@ -103,7 +115,7 @@ export interface ApiError {
 
   validation?: {
     errors: Array<ModelError>;
-    keys: Array<string>;
+    keys?: Array<string>;
     source: string;
   };
 }

@@ -70,6 +70,13 @@ export interface RouteConfig {
       update(id: number): string;
     };
 
+    kinds: {
+      index: string;
+      show(id: number): string;
+      update(id: number): string;
+      destroy(id: number): string;
+    };
+
     locations: {
       index: string;
       show(id: number): string;
@@ -104,9 +111,9 @@ export interface RouteConfig {
     };
 
     results: {
-      index(inspectionId: number): string;
-      show(inspectionId: number, id: number): string;
-      update(inspectionID: number, id: number): string;
+      index: string;
+      show(id: number): string;
+      update(id: number): string;
     };
 
     roles: {
@@ -119,6 +126,7 @@ export interface RouteConfig {
     }
 
     image: string;
+    search: string;
     settings: string;
     show: string;
   };
@@ -137,6 +145,7 @@ export const routes: RouteConfig = {
 
   team: {
     image: '/team/image',
+    search: '/team/search',
     settings: '/team/settings',
     show: '/team',
 
@@ -191,6 +200,13 @@ export const routes: RouteConfig = {
       update: (id: number): string => `/team/inspections/${id}`
     },
 
+    kinds: {
+      index: '/team/equipment/kinds',
+      show: (id: number): string => `/team/equipment/kinds/${id}`,
+      update: (id: number): string => `/team/equipment/kinds/${id}`,
+      destroy: (id: number): string => `/team/equipment/kinds/${id}`
+    },
+
     locations: {
       index: '/team/locations',
       show: (id: number): string => `/team/locations/${id}`,
@@ -225,9 +241,9 @@ export const routes: RouteConfig = {
     },
 
     results: {
-      index: (inspectionId: number) => `/team/inspections/${inspectionId}/items`,
-      show: (inspectionId: number, id: number) => `/team/inspections/${inspectionId}/items/${id}`,
-      update: (inspectionId: number, id: number) => `/team/inspections/${inspectionId}/items/${id}`
+      index: '/team/inspection-results',
+      show: (id: number) => `/team/inspection-results/${id}`,
+      update: (id: number) => `/team/inspection-results/${id}`
     },
 
     roles: {

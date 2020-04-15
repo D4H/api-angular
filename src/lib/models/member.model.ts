@@ -52,22 +52,6 @@ interface MemberDutyStatus {
 }
 
 /**
- * Member Operational Status
- * =============================================================================
- */
-
-export interface MemberOperationalStatus {
-  id: number;
-  type: OperationalStatus;
-  value: string;
-
-  label?: {
-    id: number;
-    value: string;
-  };
-}
-
-/**
  * Member Permission
  * =============================================================================
  * Permission fields are restricted and only returned when:
@@ -123,9 +107,10 @@ export interface Member {
   custom_fields?: Array<CustomField>;
   default_duty: DutyType;
   default_role_id?: number;
-  duty_status: MemberDutyStatus;
+  duty_status?: MemberDutyStatus;
   email: string;
   emergency_contacts?: Array<EmergencyContact>; // Restricted.
+  group_ids: Array<number>;
   homephone?: string; // Restricted.
   id: number;
   mobilephone: string;
@@ -137,7 +122,6 @@ export interface Member {
   permission?: MemberPermissions; // Restricted.
   position: string;
   ref: string;
-  status: MemberOperationalStatus;
   team_id: number;
   urls: object;
   workphone?: string; // Restricted.
@@ -149,4 +133,15 @@ export interface Member {
   duty_role_id?: number;
   duty_start?: IsoDate;
   duty_type?: NumericBoolean;
+
+  status: {
+    id: number;
+    type: OperationalStatus;
+    value: string;
+
+    label?: {
+      id: number;
+      value: string;
+    };
+  };
 }

@@ -3,7 +3,7 @@
  * =============================================================================
  */
 
-export type Setting
+export type TeamSetting
  = 'MODULE_ACTIVITIES'
  | 'MODULE_ADDRESS_BOOK'
  | 'MODULE_API_ACCESS'
@@ -52,6 +52,6 @@ export type Setting
  */
 
 export interface SettingData {
-  module_name: Setting;
+  module_name: TeamSetting;
   value: boolean;
 }

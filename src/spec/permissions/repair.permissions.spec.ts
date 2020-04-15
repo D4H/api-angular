@@ -29,40 +29,40 @@ describe('Repair Permissions', () => {
 
   describe('Operation.Read', () => {
     it('should be false without a member', () => {
-      expect(repairs(null)).toBe(false);
-      expect(repairs(null, Operation.Read, null)).toBe(false);
+      expect(repairs(undefined)).toBe(false);
+      expect(repairs(undefined, Operation.Read, undefined)).toBe(false);
     });
 
     it('should always be true', () => {
       expect(repairs(member)).toBe(true);
-      expect(repairs(member, Operation.Read, null)).toBe(true);
+      expect(repairs(member, Operation.Read, undefined)).toBe(true);
       expect(repairs(member, Operation.Read, repair)).toBe(true);
     });
   });
 
   describe('Operation.Create', () => {
     it('should always be false', () => {
-      expect(repairs(member, Operation.Create, null)).toBe(false);
+      expect(repairs(member, Operation.Create, undefined)).toBe(false);
     });
 
     it('should be true for permission.name === Permission.Owner', () => {
       member.permission.name = Permission.Owner;
-      expect(repairs(member, Operation.Create, null)).toBe(true);
+      expect(repairs(member, Operation.Create, undefined)).toBe(true);
     });
 
     it('should be true for permission.name === Permission.Editor', () => {
       member.permission.name = Permission.Editor;
-      expect(repairs(member, Operation.Create, null)).toBe(true);
+      expect(repairs(member, Operation.Create, undefined)).toBe(true);
     });
 
     it('should be true for permission.gear === true', () => {
       member.permission.gear = true;
-      expect(repairs(member, Operation.Create, null)).toBe(true);
+      expect(repairs(member, Operation.Create, undefined)).toBe(true);
     });
 
     it('should be true for permission.gear_basic === true', () => {
       member.permission.gear_basic = true;
-      expect(repairs(member, Operation.Create, null)).toBe(true);
+      expect(repairs(member, Operation.Create, undefined)).toBe(true);
     });
   });
 
@@ -115,8 +115,8 @@ describe('Repair Permissions', () => {
   describe('Operation.Destroy', () => {
     it('should always be false', () => {
       member.permission.name = Permission.Editor;
-      expect(repairs(null, Operation.Destroy)).toBe(false);
-      expect(repairs(member, Operation.Destroy, null)).toBe(false);
+      expect(repairs(undefined, Operation.Destroy)).toBe(false);
+      expect(repairs(member, Operation.Destroy, undefined)).toBe(false);
       expect(repairs(member, Operation.Destroy, repair)).toBe(false);
     });
   });

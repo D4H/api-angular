@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
-import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
+import { API_ROUTES, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { Location } from '../models';
-import { Locations } from '../api';
+import { Index, Locations } from '../api';
 
 @Injectable({ providedIn: ClientModule })
 export class LocationService {
@@ -15,12 +15,12 @@ export class LocationService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query?: Locations.Search): Observable<Array<Location>> {
+  index(query: Locations.Query = {}): Observable<Index<Location>> {
     const route: string = this.routes.team.locations.index;
-    const payload: HttpOptions = { params: query as any };
+    const payload: any = { params: query };
 
     return this.http.get<Locations.Index>(route, payload).pipe(
-      map((res: Locations.Index): Array<Location> => res.data)
+      map(({ data, meta: page }) => ({ data, page }))
     );
   }
 
@@ -28,7 +28,7 @@ export class LocationService {
     const route: string = this.routes.team.locations.show(id);
 
     return this.http.get<Locations.Show>(route).pipe(
-      map((res: Locations.Show): Location => res.data)
+      pluck('data')
     );
   }
 
@@ -40,15 +40,12 @@ export class LocationService {
     );
   }
 
-  search(
-    query: string,
-    params: Locations.Search = {}
-  ): Observable<Array<Location>> {
+  search(query: string, params: Locations.Query = {}): Observable<Index<Location>> {
     const route: string = this.routes.team.locations.index;
-    const payload: HttpOptions = { params: { title: query, ...params as any } };
+    const payload: any = { params: { title: query, ...params } };
 
     return this.http.get<Locations.Index>(route, payload).pipe(
-      map((res: Locations.Index): Array<Location> => res.data)
+      map(({ data, meta: page }) => ({ data, page }))
     );
   }
 }

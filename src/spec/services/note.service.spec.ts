@@ -9,7 +9,7 @@ import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Note } from '../../lib/models';
 import { NoteService } from '../../lib/services';
-import { Notes } from '../../lib/api';
+import { Notes, Page } from '../../lib/api';
 import { routes } from '../../lib/providers';
 
 describe('NoteService', () => {
@@ -43,11 +43,13 @@ describe('NoteService', () => {
 
   describe('index', () => {
     const path: string = routes.team.notes.index;
-    let notes: Array<Note>;
-    let search: Notes.Search;
+    let data: Array<Note>;
+    let page: Page;
+    let search: Notes.Query;
 
     beforeEach(() => {
-      notes = Factory.buildList<Note>('Note');
+      data = Factory.buildList('Note');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -56,15 +58,15 @@ describe('NoteService', () => {
     });
 
     it('should call http.get and return an array of notes', () => {
-      http.get.and.returnValue(of({ data: notes }));
-      result$ = hot('(a|)', { a: notes });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
@@ -91,7 +93,7 @@ describe('NoteService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(note.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(note.id));
     });
@@ -125,7 +127,7 @@ describe('NoteService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.post.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.create(attributes)).toBeObservable(result$);
       expect(http.post).toHaveBeenCalledWith(path, attributes);
     });
@@ -159,7 +161,7 @@ describe('NoteService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.update(note.id, attributes)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(note.id), attributes);
     });
@@ -186,7 +188,7 @@ describe('NoteService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.delete.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.destroy(note.id)).toBeObservable(result$);
       expect(http.delete).toHaveBeenCalledWith(path(note.id));
     });

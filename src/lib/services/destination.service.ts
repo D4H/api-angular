@@ -44,29 +44,41 @@ export class DestinationService {
     private readonly memberService: MemberService
   ) {}
 
+  /**
+   * Query Many Entities of Given Type
+   * ===========================================================================
+   */
+
   index(
     type: DestinationType,
-    params: Destinations.Search = {}
+    params: Destinations.Query = {}
   ): Observable<Array<Destination>> {
     switch (type) {
       case DestinationType.Equipment:
         return this.equipmentService.index(params).pipe(
-          map(equipment => equipment.map(this.builder.equipment))
+          map(({ data }) => data.map(this.builder.equipment))
         );
       case DestinationType.Location:
         return this.locationService.index(params).pipe(
-          map(locations => locations.map(this.builder.location))
+          map(({ data }) => data.map(this.builder.location))
         );
       case DestinationType.Member:
         return this.memberService.index(params).pipe(
-          map(members => members.map(this.builder.member))
+          map(({ data }) => data.map(this.builder.member))
         );
       default:
         return of([]);
     }
   }
 
-  show(type: DestinationType, id: number): Observable<Destination> {
+  /**
+   * Fetch Given Destination Entity
+   * ===========================================================================
+   */
+
+  show(
+    { id, type }: { id: number, type: DestinationType }
+  ): Observable<Destination> {
     switch (type) {
       case DestinationType.Equipment:
         return this.equipmentService.show(id).pipe(
@@ -81,9 +93,14 @@ export class DestinationService {
           this.builder.member)
         );
       default:
-        return of(null);
+        return of(undefined);
     }
   }
+
+  /**
+   * Fetch Equipment Destination by Barcode
+   * ===========================================================================
+   */
 
   barcode(barcode: string): Observable<Destination> {
     return this.equipmentService.barcode(barcode).pipe(
@@ -91,27 +108,49 @@ export class DestinationService {
     );
   }
 
-  contents(type: DestinationType, id: number): Observable<Array<Destination>> {
-    const builder = this.builder.equipmentContext({ id, type });
-    const params = this.params({ id, type });
+  /**
+   * Fetch the Equipment Contents of Given Entity
+   * ===========================================================================
+   * All of equipment, locations and members may have equipment items.
+   */
 
-    return this.equipmentService.index(params).pipe(
-      map(equipment => equipment.map(builder))
-    );
+  contents(
+    { id, type }: { id: number, type: DestinationType }
+  ): Observable<Array<Destination>> {
+    const parent = { id, type };
+    const payload = this.params(parent);
+
+    if (payload) {
+      return this.equipmentService.index(payload).pipe(
+        map(({ data }) => data.map(item => ({ ...this.builder.equipment(item), parent })))
+      );
+    } else {
+      return of([]);
+    }
   }
+
+  /**
+   * Search Destination for Gear Item
+   * ===========================================================================
+   */
 
   set(
-    equipmentId: number,
-    type: DestinationType,
-    id: number
+    gearId: number,
+    { id, type }: { id: number, type: DestinationType }
   ): Observable<Equipment> {
-    return this.equipmentService.move(equipmentId, type, id);
+    return this.equipmentService.move(gearId, type, id);
   }
+
+  /**
+   * Search Destinations by Text String
+   * ===========================================================================
+   * When given DestinationType.All, search all types, else search given type.
+   */
 
   search(
     type: DestinationType,
     query: string,
-    params: Destinations.Search = {}
+    params: Destinations.Query = {}
   ): Observable<Array<Destination>> {
     switch (type) {
       case DestinationType.All:
@@ -124,15 +163,15 @@ export class DestinationService {
         );
       case DestinationType.Equipment:
         return this.equipmentService.search(query, params).pipe(
-          map(equipment => equipment.map(this.builder.equipment))
+          map(({ data }) => data.map(this.builder.equipment))
         );
       case DestinationType.Location:
         return this.locationService.search(query, params).pipe(
-          map(location => location.map(this.builder.location))
+          map(({ data }) => data.map(this.builder.location))
         );
       case DestinationType.Member:
         return this.memberService.search(query, params).pipe(
-          map(member => member.map(this.builder.member))
+          map(({ data }) => data.map(this.builder.member))
         );
       default:
         return of([]);
@@ -140,7 +179,7 @@ export class DestinationService {
   }
 
   /**
-   * Context/Search Query Params
+   * Context/Query Query Params
    * ===========================================================================
    * Per the issue linked below, the below combination should yield only direct
    * child equipment of the member or location. For example, if a member has a
@@ -153,16 +192,18 @@ export class DestinationService {
    * @see https://github.com/D4H/decisions-project/issues/4180
    */
 
-  private params(destination: Partial<Destination>): object {
-    switch (destination.type) {
+  private params({ id, type }: { id: number, type: DestinationType }): object {
+    switch (type) {
       case DestinationType.Equipment:
-        return { parent_id: destination.id };
+        return { parent_id: id };
       case DestinationType.Location:
-        return { location_id: destination.id, parent_id: null };
+        // tslint:disable-next-line no-null-keyword
+        return { location_id: id, parent_id: null };
       case DestinationType.Member:
-        return { member: destination.id, parent_id: null };
+        // tslint:disable-next-line no-null-keyword
+        return { member: id, parent_id: null };
       default:
-        return {};
+        return undefined;
     }
   }
 }

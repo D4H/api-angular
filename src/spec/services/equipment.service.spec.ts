@@ -11,7 +11,7 @@ import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { DestinationType, Equipment } from '../../lib/models';
 import { EquipmentService, PhotoService } from '../../lib/services';
-import { Search } from '../../lib/api';
+import { Page, Query } from '../../lib/api';
 import { routes } from '../../lib/providers';
 
 describe('EquipmentService', () => {
@@ -51,11 +51,13 @@ describe('EquipmentService', () => {
 
   describe('index', () => {
     const path: string = routes.team.equipment.index;
-    let equipment: Array<Equipment>;
-    let search: Search;
+    let data: Array<Equipment>;
+    let page: Page;
+    let search: Query;
 
     beforeEach(() => {
-      equipment = Factory.buildList<Equipment>('Equipment');
+      data = Factory.buildList('Equipment');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -64,15 +66,15 @@ describe('EquipmentService', () => {
     });
 
     it('should call http.get and return an array of equipment', () => {
-      http.get.and.returnValue(of({ data: equipment }));
-      result$ = hot('(a|)', { a: equipment });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index()).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: {} });
     });
@@ -83,7 +85,7 @@ describe('EquipmentService', () => {
     let equipment: Equipment;
 
     beforeEach(() => {
-      equipment = Factory.build<Equipment>('Equipment');
+      equipment = Factory.build('Equipment');
     });
 
     it('should be a function', () => {
@@ -99,7 +101,7 @@ describe('EquipmentService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(equipment.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(equipment.id));
     });
@@ -133,7 +135,7 @@ describe('EquipmentService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.update(equipment.id)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(equipment.id), {});
     });
@@ -159,14 +161,14 @@ describe('EquipmentService', () => {
       http.put.and.returnValue(of({ data: equipment }));
       result$ = hot('(a|)', { a: equipment });
       expect(service.move(equipment.id, type, id )).toBeObservable(result$);
-      expect(http.put).toHaveBeenCalledWith(path(equipment.id, type, id), null);
+      expect(http.put).toHaveBeenCalledWith(path(equipment.id, type, id), undefined);
     });
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.move(equipment.id, type, id )).toBeObservable(result$);
-      expect(http.put).toHaveBeenCalledWith(path(equipment.id, type, id), null);
+      expect(http.put).toHaveBeenCalledWith(path(equipment.id, type, id), undefined);
     });
   });
 
@@ -191,7 +193,7 @@ describe('EquipmentService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.ref(equipment.ref)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(equipment.ref));
     });
@@ -218,7 +220,7 @@ describe('EquipmentService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.barcode(equipment.barcode)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(equipment.barcode));
     });
@@ -245,10 +247,10 @@ describe('EquipmentService', () => {
       expect(photoService.get).toHaveBeenCalledWith(path(equipment.id), { params: {} });
     });
 
-    it('should call photoService.get and return null when image does not exist', () => {
+    it('should call photoService.get and return undefined when image does not exist', () => {
       error = { ...error, status: NOT_FOUND };
-      photoService.get.and.returnValue(of(null));
-      result$ = hot('(a|)', { a: null });
+      photoService.get.and.returnValue(of(undefined));
+      result$ = hot('(a|)', { a: undefined });
       expect(service.image(equipment.id)).toBeObservable(result$);
       expect(photoService.get).toHaveBeenCalledWith(path(equipment.id), { params: {} });
     });
@@ -256,12 +258,12 @@ describe('EquipmentService', () => {
 
   describe('search', () => {
     const path: string = routes.team.equipment.index;
-    let equipment: Array<Equipment>;
-    let search: Search;
+    let data: Array<Equipment>;
+    let search: Query;
     let query: string;
 
     beforeEach(() => {
-      equipment = Factory.buildList<Equipment>('Equipment');
+      data = Factory.buildList<Equipment>('Equipment');
       search = { limit: 5, offset: 15 };
       query = faker.random.uuid();
     });
@@ -271,16 +273,16 @@ describe('EquipmentService', () => {
     });
 
     it('should call http.get and return an array of members', () => {
-      http.get.and.returnValue(of({ data: equipment }));
-      result$ = hot('(a|)', { a: equipment });
+      http.get.and.returnValue(of({ data }));
+      result$ = hot('(a|)', { a: { data } });
       expect(service.search(query, search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: { barcode: query, ...search } });
       expect(http.get).toHaveBeenCalledWith(path, { params: { ref: query, ...search } });
     });
 
     it('should call http.get with {} by default for params', () => {
-      http.get.and.returnValue(of({ data: equipment }));
-      result$ = hot('(a|)', { a: equipment });
+      http.get.and.returnValue(of({ data }));
+      result$ = hot('(a|)', { a: { data } });
       expect(service.search(query)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: { barcode: query } });
       expect(http.get).toHaveBeenCalledWith(path, { params: { ref: query } });

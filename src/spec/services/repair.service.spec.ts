@@ -7,9 +7,9 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
+import { Page, Repairs } from '../../lib/api';
 import { Repair } from '../../lib/models';
 import { RepairService } from '../../lib/services';
-import { Repairs } from '../../lib/api';
 import { routes } from '../../lib/providers';
 
 describe('RepairService', () => {
@@ -43,11 +43,13 @@ describe('RepairService', () => {
 
   describe('index', () => {
     const path: string = routes.team.repairs.index;
-    let repairs: Array<Repair>;
-    let search: Repairs.Search;
+    let page: Page;
+    let data: Array<Repair>;
+    let search: Repairs.Query;
 
     beforeEach(() => {
-      repairs = Factory.buildList<Repair>('Repair');
+      page = Factory.build('Page');
+      data = Factory.buildList<Repair>('Repair');
       search = { limit: 5, offset: 15 };
     });
 
@@ -55,16 +57,16 @@ describe('RepairService', () => {
       expect(typeof service.index).toBe('function');
     });
 
-    it('should call http.get and return an array of repairs', () => {
-      http.get.and.returnValue(of({ data: repairs }));
-      result$ = hot('(a|)', { a: repairs });
+    it('should call http.get and return an array of data', () => {
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index()).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: {} });
     });
@@ -91,7 +93,7 @@ describe('RepairService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(repair.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(repair.id));
     });
@@ -126,7 +128,7 @@ describe('RepairService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.post.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.create(attributes)).toBeObservable(result$);
       expect(http.post).toHaveBeenCalledWith(path, attributes);
     });
@@ -160,7 +162,7 @@ describe('RepairService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.put.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.update(repair.id)).toBeObservable(result$);
       expect(http.put).toHaveBeenCalledWith(path(repair.id), {});
     });

@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SafeUrl } from '@angular/platform-browser';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
-import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
+import { API_ROUTES, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { Group, Member, EmergencyContact, StatusLabel } from '../models';
-import { Members, Photos } from '../api';
+import { Index, Members, Photos } from '../api';
 import { PhotoService } from './photo.service';
 
 @Injectable({ providedIn: ClientModule })
@@ -18,20 +18,21 @@ export class MemberService {
     private readonly photoService: PhotoService
   ) {}
 
-  index(query: Members.Search = {}): Observable<Array<Member>> {
+  index(query: Members.Query = {}): Observable<Index<Member>> {
     const route: string = this.routes.team.members.index;
-    const payload: HttpOptions = { params: query as any };
+    const payload: any = { params: query };
 
     return this.http.get<Members.Index>(route, payload).pipe(
-      map((res: Members.Index): Array<Member> => res.data)
+      map(({ data, meta: page }) => ({ data, page }))
     );
   }
 
-  show(id: number | 'me'): Observable<Member> {
+  show(id: number | 'me', params: Members.Params = {}): Observable<Member> {
     const route: string = this.routes.team.members.show(id);
+    const payload: any = { params };
 
-    return this.http.get<Members.Show>(route).pipe(
-      map((res: Members.Show): Member => res.data)
+    return this.http.get<Members.Show>(route, payload).pipe(
+      pluck('data')
     );
   }
 
@@ -39,7 +40,7 @@ export class MemberService {
     const route: string = this.routes.team.members.update(id);
 
     return this.http.put<Members.Update>(route, body).pipe(
-      map((res: Members.Update): Member => res.data)
+      pluck('data')
     );
   }
 
@@ -47,30 +48,31 @@ export class MemberService {
     const route: string = this.routes.team.members.groups(id);
 
     return this.http.get<Members.Groups>(route).pipe(
-      map((res: Members.Groups): Array<Group> => res.data)
+      pluck('data')
     );
   }
 
-  image(id: number | 'me', params: Photos.Params = {}): Observable<SafeUrl> {
+  image(id: number | 'me', query: Photos.Params = {}): Observable<SafeUrl> {
     const route: string = this.routes.team.members.image(id);
+    const payload: any = { params: query };
 
-    return this.photoService.get(route, { params } as any);
+    return this.photoService.get(route, payload);
   }
 
   labels(): Observable<Members.LabelData> {
     const route: string = this.routes.team.members.labels;
 
     return this.http.get(route).pipe(
-      map((res: Members.Labels): Members.LabelData => res.data)
+      pluck('data')
     );
   }
 
-  search(query: string, params: Members.Search = {}): Observable<Array<Member>> {
+  search(query: string, params: Members.Query = {}): Observable<Index<Member>> {
     const route: string = this.routes.team.members.index;
-    const payload: HttpOptions = { params: { name: query, ...params as any } };
+    const payload: any = { params: { name: query, ...params } };
 
     return this.http.get<Members.Index>(route, payload).pipe(
-      map((res: Members.Index): Array<Member> => res.data)
+      map(({ data, meta: page }) => ({ data, page }))
     );
   }
 }

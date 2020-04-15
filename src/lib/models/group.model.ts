@@ -1,12 +1,15 @@
-import { XOR } from 'ts-xor';
+/**
+ * Group
+ * =============================================================================
+ * Group is inheritable from organization. Only one of these will be present:
+ *
+ *  - organisation
+ *  - team
+ */
 
-export type GroupInheritedEntity
-  = XOR<
-  { organisation: null, team: number },
-  { organisation: number, team: null }
-  >;
-
-export type Group = {
+export interface Group {
   id: number;
   title: string;
-} & GroupInheritedEntity;
+  organisation?: number;
+  team?: number;
+}

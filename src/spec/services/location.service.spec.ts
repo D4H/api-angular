@@ -9,7 +9,7 @@ import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Location } from '../../lib/models';
 import { LocationService } from '../../lib/services';
-import { Locations } from '../../lib/api';
+import { Locations, Page } from '../../lib/api';
 import { routes } from '../../lib/providers';
 
 describe('LocationService', () => {
@@ -46,11 +46,13 @@ describe('LocationService', () => {
 
   describe('index', () => {
     const path: string = routes.team.locations.index;
-    let locations: Array<Location>;
-    let search: Locations.Search;
+    let data: Array<Location>;
+    let page: Page;
+    let search: Locations.Query;
 
     beforeEach(() => {
-      locations = Factory.buildList<Location>('Location');
+      data = Factory.buildList('Location');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -59,15 +61,15 @@ describe('LocationService', () => {
     });
 
     it('should call http.get and return an array of locations', () => {
-      http.get.and.returnValue(of({ data: locations }));
-      result$ = hot('(a|)', { a: locations });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
@@ -94,7 +96,7 @@ describe('LocationService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(location.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(location.id));
     });
@@ -121,7 +123,7 @@ describe('LocationService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.delete.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.destroy(location.id)).toBeObservable(result$);
       expect(http.delete).toHaveBeenCalledWith(path(location.id));
     });
@@ -129,32 +131,32 @@ describe('LocationService', () => {
 
   describe('search', () => {
     const path: string = routes.team.locations.index;
-    let locations: Array<Location>;
+    let data: Array<Location>;
+    let page: Page;
     let query: string;
-    let search: Locations.Search;
+    let search: Locations.Query;
 
     beforeEach(() => {
-      locations = Factory.buildList<Location>('Location');
-      search = { limit: 5, offset: 15 };
+      data = Factory.buildList('Location');
+      page = Factory.build('Page');
       query = faker.random.uuid();
+      search = { limit: 5, offset: 15 };
     });
 
     it('should be a function', () => {
       expect(typeof service.search).toBe('function');
     });
 
-    it('should call http.get and return an array of locations', () => {
-      http.get.and.returnValue(of({ data: locations }));
-      result$ = hot('(a|)', { a: locations });
+    it('should call http.get and return an array of data', () => {
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.search(query, search)).toBeObservable(result$);
-
-      expect(http.get)
-        .toHaveBeenCalledWith(path, { params: { title: query, ...search } });
+      expect(http.get).toHaveBeenCalledWith(path, { params: { title: query, ...search } });
     });
 
     it('should call http.get with {} by default for params', () => {
-      http.get.and.returnValue(of({ data: locations }));
-      result$ = hot('(a|)', { a: locations });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: { data, page } });
       expect(service.search(query)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: { title: query } });
     });

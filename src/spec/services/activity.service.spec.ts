@@ -5,7 +5,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { cold, hot } from 'jasmine-marbles';
 
-import { Activities } from '../../lib/api';
+import { Activities, Page } from '../../lib/api';
 import { Activity } from '../../lib/models';
 import { ActivityService } from '../../lib/services';
 import { ApiHttpClient } from '../../lib/client';
@@ -43,11 +43,13 @@ describe('ActivityService', () => {
 
   describe('index', () => {
     const path: string = routes.team.activities.index;
-    let activities: Array<Activity>;
-    let search: Activities.Search;
+    let data: Array<Activity>;
+    let page: Page;
+    let search: Activities.Query;
 
     beforeEach(() => {
-      activities = Factory.buildList<Activity>('Activity');
+      data = Factory.buildList<Activity>('Activity');
+      page = Factory.build('Page');
       search = { limit: 5, offset: 15 };
     });
 
@@ -56,15 +58,15 @@ describe('ActivityService', () => {
     });
 
     it('should call http.get and return an array of activities', () => {
-      http.get.and.returnValue(of({ data: activities }));
-      result$ = hot('(a|)', { a: activities });
+      http.get.and.returnValue(of({ data, meta: page }));
+      result$ = hot('(a|)', { a: {  data, page } });
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.index(search)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: search });
     });
@@ -91,7 +93,7 @@ describe('ActivityService', () => {
 
     it('should throw an error with any invalid request', () => {
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.show(activity.id)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path(activity.id));
     });

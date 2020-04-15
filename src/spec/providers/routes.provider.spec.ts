@@ -41,6 +41,7 @@ describe('API Routes', () => {
         },
         team: {
           image: '/team/image',
+          search: '/team/search',
           settings: '/team/settings',
           show: '/team',
           activities: {
@@ -86,6 +87,12 @@ describe('API Routes', () => {
             show: `/team/inspections/${id}`,
             update: `/team/inspections/${id}`
           },
+          kinds: {
+            index: '/team/equipment/kinds',
+            show: `/team/equipment/kinds/${id}`,
+            update: `/team/equipment/kinds/${id}`,
+            destroy: `/team/equipment/kinds/${id}`
+          },
           locations: {
             index: '/team/locations',
             show: `/team/locations/${id}`,
@@ -115,9 +122,9 @@ describe('API Routes', () => {
             update: `/team/repairs/${id}`
           },
           results: {
-            index: `/team/inspections/${id}/items`,
-            show: `/team/inspections/${id}/items/${id}`,
-            update: `/team/inspections/${id}/items/${id}`
+            index: '/team/inspection-results',
+            show: `/team/inspection-results/${id}`,
+            update: `/team/inspection-results/${id}`
           },
           roles: {
             index: '/team/roles',

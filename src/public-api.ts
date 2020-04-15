@@ -1,4 +1,5 @@
 export * from './lib/api';
+export * from './lib/builders';
 export * from './lib/models';
 export * from './lib/permissions';
 export * from './lib/providers';

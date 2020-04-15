@@ -75,7 +75,7 @@ describe('AccountService', () => {
     it('should call http.post return UNAUTHORIZED with an incorrect password or username', () => {
       error = { ...error, status: UNAUTHORIZED };
       http.post.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.authenticate(username, password)).toBeObservable(result$);
       expect(http.post).toHaveBeenCalledWith(path, { username, password });
     });
@@ -84,7 +84,7 @@ describe('AccountService', () => {
       error = { ...error, status: BAD_REQUEST };
       password = '';
       http.post.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.authenticate(username, password)).toBeObservable(result$);
       expect(http.post).toHaveBeenCalledWith(path, { username, password });
     });
@@ -147,7 +147,7 @@ describe('AccountService', () => {
     });
 
     it('should return a username object when the server returns NOT_FOUND', () => {
-      username.language = null;
+      username.language = undefined;
       username.exists = false;
       http.get.and.returnValue(throwError({ ...error, status: NOT_FOUND }));
       result$ = hot('(a|)', { a: username });
@@ -158,7 +158,7 @@ describe('AccountService', () => {
     it('should re-throw any error outside of NOT_FOUND', () => {
       error = { ...error, status: BAD_REQUEST };
       http.get.and.returnValue(throwError(error));
-      result$ = hot('#', null, error);
+      result$ = hot('#', undefined, error);
       expect(service.username(username.username)).toBeObservable(result$);
       expect(http.get).toHaveBeenCalledWith(path, { params: { username: username.username } });
     });

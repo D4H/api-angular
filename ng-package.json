@@ -4,16 +4,14 @@
   "whitelistedNonPeerDependencies": [
     "http-status-codes",
     "moment",
-    "traverse",
-    "ts-xor"
+    "traverse"
   ],
   "lib": {
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
       "http-status-codes": "http-status-codes",
       "moment": "moment",
-      "traverse": "traverse",
-      "ts-xor": "ts-xor"
+      "traverse": "traverse"
     }
   }
 }

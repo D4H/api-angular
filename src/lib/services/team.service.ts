@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SafeUrl } from '@angular/platform-browser';
-import { catchError, map } from 'rxjs/operators';
+import { pluck } from 'rxjs/operators';
 
 import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
-import { Membership, Setting, SettingData, Team } from '../models';
+import { Membership, SettingData, Team, TeamSetting } from '../models';
 import { PhotoService } from './photo.service';
 import { Photos, Teams } from '../api';
 
@@ -39,7 +39,7 @@ export class TeamService {
     };
 
     return this.http.get<Teams.Show>(route, payload).pipe(
-      map((res: Teams.Show): Team => res.data)
+      pluck('data')
     );
   }
 
@@ -98,7 +98,7 @@ export class TeamService {
     return this.photoService.get(route, options);
   }
 
-  settings(team: Membership, setting: Setting): Observable<SettingData> {
+  settings(team: Membership, setting: TeamSetting): Observable<SettingData> {
     const route: string = this.routes.team.settings;
 
     const options: HttpOptions = {
@@ -107,7 +107,7 @@ export class TeamService {
     };
 
     return this.http.get<Teams.Setting>(route, options).pipe(
-      map((res: Teams.Setting): SettingData => res.data)
+      pluck('data')
     );
   }
 

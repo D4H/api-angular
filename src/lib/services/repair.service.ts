@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
-import { API_ROUTES, HttpOptions, RouteConfig } from '../providers';
+import { API_ROUTES, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
+import { Index, Repairs } from '../api';
 import { Repair } from '../models';
-import { Repairs } from '../api';
 
 @Injectable({ providedIn: ClientModule })
 export class RepairService {
@@ -15,12 +15,12 @@ export class RepairService {
     private readonly http: ApiHttpClient
   ) {}
 
-  index(query: Repairs.Search = {}): Observable<Array<Repair>> {
+  index(query: Repairs.Query = {}): Observable<Index<Repair>> {
     const route: string = this.routes.team.repairs.index;
-    const payload: HttpOptions = { params: query as any };
+    const payload: any = { params: query };
 
     return this.http.get<Repairs.Index>(route, payload).pipe(
-      map((res: Repairs.Index): Array<Repair> => res.data)
+      map(({ data, meta: page }) => ({ data, page }))
     );
   }
 
@@ -28,7 +28,7 @@ export class RepairService {
     const route: string = this.routes.team.repairs.show(id);
 
     return this.http.get<Repairs.Show>(route).pipe(
-      map((res: Repairs.Show): Repair => res.data)
+      pluck('data')
     );
   }
 
@@ -36,7 +36,7 @@ export class RepairService {
     const route: string = this.routes.team.repairs.index;
 
     return this.http.post<Repairs.Create>(route, body).pipe(
-      map((res: Repairs.Create): Repair => res.data)
+      pluck('data')
     );
   }
 
@@ -44,7 +44,7 @@ export class RepairService {
     const route: string = this.routes.team.repairs.update(id);
 
     return this.http.put<Repairs.Update>(route, body).pipe(
-      map((res: Repairs.Update): Repair => res.data)
+      pluck('data')
     );
   }
 }

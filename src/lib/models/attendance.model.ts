@@ -1,7 +1,6 @@
 import { ActivityType } from './activity.model';
 import { IsoDate } from './iso-date.model';
 import { Member } from './member.model';
-import { Period } from './period.model';
 
 export enum AttendanceStatus {
   Absent = 'absent',
@@ -9,8 +8,10 @@ export enum AttendanceStatus {
   Requested = 'requested'
 }
 
-export interface Attendance extends Period {
+export interface Attendance {
+  date: IsoDate;
   duration: number;
+  enddate: IsoDate;
   id: number;
   member: Pick<Member, 'id' | 'name'>;
   role: number;

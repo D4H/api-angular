@@ -1,5 +1,5 @@
 import { ActivityType, Attendance, AttendanceStatus } from '../models';
-import { DateParameter, Response, Search } from './shared.api';
+import { DateParameter, Query as Search, Response } from './shared.api';
 
 /**
  * GET /team/attendance
@@ -7,7 +7,7 @@ import { DateParameter, Response, Search } from './shared.api';
  * @see https://api.d4h.org/v2/documentation#operation/getTeamAttendance
  */
 
-export interface Search extends Search {
+export interface Query extends Search {
   activity?: ActivityType;
   activity_id?: number;
   after?: DateParameter;
