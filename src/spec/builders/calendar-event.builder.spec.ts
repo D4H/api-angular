@@ -151,4 +151,50 @@ describe('CalendarEventBuilder', () => {
       expect(builder.duty(duty).text).toBe(undefined);
     });
   });
+
+  describe('attendanceId', () => {
+    let attendance: Attendance;
+    let type: CalendarEventType;
+
+    beforeEach(() => {
+      attendance = Factory.build<Attendance>('Attendance');
+      type = (attendance.activity.type as any) as CalendarEventType;
+    });
+
+    it('should be a function', () => {
+      expect(typeof builder.attendance).toBe('function');
+    });
+
+    it('should return appropriate ID and type for an attendance', () => {
+      expect(builder.attendanceId(attendance)).toBe(
+        `${type}-${attendance.id}`
+      );
+    });
+
+    it('should default to CalendarEventType.Activity when no type is given', () => {
+      attendance.activity = undefined;
+
+      expect(builder.attendanceId(attendance)).toBe(
+        `${CalendarEventType.Activity}-${attendance.id}`
+      );
+    });
+  });
+
+  describe('dutyId', () => {
+    let duty: Duty;
+
+    beforeEach(() => {
+      duty = Factory.build<Duty>('Duty');
+    });
+
+    it('should be a function', () => {
+      expect(typeof builder.duty).toBe('function');
+    });
+
+    it('should return appropriate ID for an duty', () => {
+      expect(builder.dutyId(duty)).toBe(
+        `${CalendarEventType.Duty}-${duty.id}`
+      );
+    });
+  });
 });
