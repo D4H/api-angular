@@ -4,18 +4,16 @@ import { Factory, sample } from '@d4h/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { hot } from 'jasmine-marbles';
 
 import { AccountService } from '../../lib/services';
 import { ApiHttpClient } from '../../lib/client';
-import { ApiUrl } from '../../lib/tools';
 import { ClientTestModule } from '../client-test.module';
 import { routes } from '../../lib/providers';
 
 import {
   Account,
   Membership,
-  MembershipModule,
   MembershipType,
   Username
 } from '../../lib/models';

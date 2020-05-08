@@ -1,15 +1,12 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, mergeMap, take } from 'rxjs/operators';
+import { mergeMap, take } from 'rxjs/operators';
 
 import {
   CLIENT_CONFIG,
-  ClientRequestParser,
   Config,
-  Headers,
-  HttpOptions,
-  Params
+  HttpOptions
 } from '../providers';
 
 import { ClientModule } from '../client.module';

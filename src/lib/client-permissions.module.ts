@@ -1,9 +1,5 @@
 import {
-  InjectionToken,
-  ModuleWithProviders,
-  NgModule,
-  Provider,
-  Type
+  NgModule
 } from '@angular/core';
 
 import { CLIENT_PERMISSIONS } from './providers/permissions.provider';

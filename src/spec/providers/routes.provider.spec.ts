@@ -1,10 +1,8 @@
 import faker from 'faker';
-import { InjectionToken } from '@angular/core';
 import { map } from 'traverse';
 
 import {
   AuthenticatedRoute,
-  RouteConfig,
   TokenType,
   authenticatedRoutes,
   routes

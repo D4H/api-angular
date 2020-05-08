@@ -1,10 +1,10 @@
 // tslint:disable no-null-keyword
 
 import faker from 'faker';
-import { Factory, sample } from '@d4h/testing';
-import { Observable, of, throwError } from 'rxjs';
+import { Factory } from '@d4h/testing';
+import { Observable, of } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { hot } from 'jasmine-marbles';
 
 import { ClientTestModule } from '../client-test.module';
 import { DestinationBuilder } from '../../lib/builders';

@@ -4,7 +4,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Observable, isObservable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { hot } from 'jasmine-marbles';
 
 import { CLIENT_CONFIG, Config } from '../../lib/providers/config.provider';
 

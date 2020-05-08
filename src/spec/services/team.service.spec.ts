@@ -5,13 +5,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { SafeUrl } from '@angular/platform-browser';
 import { TestBed } from '@angular/core/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { hot } from 'jasmine-marbles';
 
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
 import { Membership, SettingData, Team, TeamSetting } from '../../lib/models';
 import { TeamService, PhotoService } from '../../lib/services';
-import { Teams } from '../../lib/api';
 import { routes } from '../../lib/providers';
 
 describe('TeamService', () => {

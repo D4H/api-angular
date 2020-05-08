@@ -5,7 +5,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, pluck } from 'rxjs/operators';
 
 import { API_ROUTES, RouteConfig } from '../providers';
-import { Account, Membership, MembershipType, Username } from '../models';
+import { Account, Membership, Username } from '../models';
 import { Accounts } from '../api';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';

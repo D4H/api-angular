@@ -6,7 +6,7 @@ import { map, pluck } from 'rxjs/operators';
 import { API_ROUTES, RouteConfig } from '../providers';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
-import { Group, Member, EmergencyContact, StatusLabel } from '../models';
+import { Group, Member } from '../models';
 import { Index, Members, Photos } from '../api';
 import { PhotoService } from './photo.service';
 

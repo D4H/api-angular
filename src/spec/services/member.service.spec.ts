@@ -5,7 +5,7 @@ import { NOT_FOUND } from 'http-status-codes';
 import { Observable, of, throwError } from 'rxjs';
 import { SafeUrl } from '@angular/platform-browser';
 import { TestBed } from '@angular/core/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { hot } from 'jasmine-marbles';
 
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
@@ -205,11 +205,8 @@ describe('MemberService', () => {
   describe('labels', () => {
     const path: string = routes.team.members.labels;
     let data: Members.LabelData;
-    let member: Member;
 
     beforeEach(() => {
-      member = Factory.build<Member>('Member');
-
       data = [
         Factory.build<StatusLabel & { type: OperationalStatus.Operational }>
           ('StatusLabel', { type: OperationalStatus.Operational }),

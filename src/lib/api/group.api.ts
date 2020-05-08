@@ -1,4 +1,4 @@
-import { DateParameter, Query as Search, Response } from './shared.api';
+import { Query as Search, Response } from './shared.api';
 import { Group } from '../models';
 
 /**

@@ -8,7 +8,6 @@ import { catchError, map } from 'rxjs/operators';
 import { ApiHttpClient } from '../client/api.client';
 import { ClientModule } from '../client.module';
 import { HttpOptions } from '../providers';
-import { Photos } from '../api';
 
 /**
  * API Photo Service

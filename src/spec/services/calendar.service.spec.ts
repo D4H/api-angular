@@ -1,12 +1,10 @@
-import faker from 'faker';
-import { Factory, sample } from '@d4h/testing';
+import { Factory } from '@d4h/testing';
 import { Observable, of } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { hot } from 'jasmine-marbles';
 
 import { Attendance, CalendarEvent, Duty } from '../../lib/models';
 import { CalendarEventBuilder } from '../../lib/builders';
-import { CalendarEvents } from '../../lib/api';
 import { ClientTestModule } from '../client-test.module';
 
 import {
