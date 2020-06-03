@@ -162,6 +162,13 @@ Interface | Method | Purpose
     - `create([params])`
     - `update(id[, params])`
     - `destroy(id)`
+- `CustomFieldService`:
+    - `index([query])`
+    - `indexEntity(type, id[, query])`
+    - `show(id)`
+    - `create([params])`
+    - `update(id[, params])`
+    - `destroy(id)`
 - `DestinationService`: Query new destination for equipment from union of equipment, locations or members.
     - `index([query])`
     - `show({ id, type })`
