@@ -5,8 +5,6 @@ import { TestBed } from '@angular/core/testing';
 import {
   ActivityType,
   Attendance,
-  CalendarEvent,
-  CalendarEventStatus,
   CalendarEventType,
   Duty
 } from '../../lib/models';

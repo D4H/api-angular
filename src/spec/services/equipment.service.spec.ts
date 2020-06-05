@@ -5,7 +5,7 @@ import { NOT_FOUND } from 'http-status-codes';
 import { Observable, of, throwError } from 'rxjs';
 import { SafeUrl } from '@angular/platform-browser';
 import { TestBed } from '@angular/core/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { hot } from 'jasmine-marbles';
 
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';

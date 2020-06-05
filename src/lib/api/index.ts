@@ -3,6 +3,7 @@ import * as Activities from './activity.api';
 import * as Attendances from './attendance.api';
 import * as CalendarEvents from './calendar-event.api';
 import * as Categories from './category.api';
+import * as CustomFields from './custom-field.api';
 import * as Destinations from './destination.api';
 import * as Duties from './duty.api';
 import * as Gear from './equipment.api';
@@ -35,6 +36,7 @@ export {
   Attendances,
   CalendarEvents,
   Categories,
+  CustomFields,
   Destinations,
   Duties,
   Gear,

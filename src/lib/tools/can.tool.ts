@@ -33,7 +33,7 @@ export class Can {
   constructor(
     @Inject(CLIENT_PERMISSIONS) private readonly provided: Array<Permissions>
   ) {
-    this.permissions = provided.reduce((acc, val) => ({ ...acc, ...val }), {});
+    this.permissions = this.provided.reduce((acc, val) => ({ ...acc, ...val }), {});
   }
 
   action<T>(

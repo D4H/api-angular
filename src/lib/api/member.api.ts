@@ -2,7 +2,6 @@ import { DateParameter, Query as Search, Response } from './shared.api';
 
 import {
   DutyType,
-  EmergencyContact,
   Group,
   Member,
   OperationalStatus,

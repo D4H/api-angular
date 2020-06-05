@@ -1,6 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
 import { DestinationType } from '../models';
+import { EntityType } from '../models';
 
 /**
  * API Routing Configuration
@@ -37,6 +38,14 @@ export interface RouteConfig {
 
     categories: {
       index: string;
+      show(id: number): string;
+      update(id: number): string;
+      destroy(id: number): string;
+    };
+
+    customFields: {
+      index: string;
+      indexEntity(type: EntityType, id: number | string): string;
       show(id: number): string;
       update(id: number): string;
       destroy(id: number): string;
@@ -170,6 +179,14 @@ export const routes: RouteConfig = {
       show: (id: number): string => `/team/equipment/categories/${id}`,
       update: (id: number): string => `/team/equipment/categories/${id}`,
       destroy: (id: number): string => `/team/equipment/categories/${id}`
+    },
+
+    customFields: {
+      index: '/team/custom-fields',
+      indexEntity: (entity: EntityType, id: number | string): string => `/team/custom-fields/${entity}/${id}`,
+      show: (id: number) => `/team/custom-fields/${id}`,
+      update: (id: number) => `/team/custom-fields/${id}`,
+      destroy: (id: number) => `/team/custom-fields/${id}`
     },
 
     duties: {

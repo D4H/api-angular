@@ -1,13 +1,11 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, forkJoin, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import {
   Destination,
   DestinationType,
-  Equipment,
-  Location,
-  Member
+  Equipment
 } from '../models';
 
 import { ClientModule } from '../client.module';

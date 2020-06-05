@@ -1,15 +1,10 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
-import { Observable } from 'rxjs';
 
 import {
   API_AUTHENTICATED_ROUTES,
   API_ROUTES,
-  CLIENT_CONFIG,
   CLIENT_DEFAULT_CONFIG,
-  Config,
-  Region,
-  Version,
   authenticatedRoutes,
   defaultConfig,
   routes

@@ -1,4 +1,3 @@
-import { Provider } from '@angular/core';
 
 import { CLIENT_CONFIG, defaultConfig } from '../lib/providers';
 import { ClientModule } from '../lib/client.module';

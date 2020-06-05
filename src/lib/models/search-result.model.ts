@@ -1,7 +1,7 @@
 import { EntityType } from './entity-type.model';
 import { IsoDate } from './iso-date.model';
 
-export interface SearchResult {
+export interface SearchResult<T extends EntityType = any> {
   created_at: IsoDate;
   organisation_id?: number;
   relevance?: number; // Float
@@ -13,6 +13,6 @@ export interface SearchResult {
     description: string;
     id: number;
     title: string;
-    type: EntityType;
+    type: T;
   };
 }

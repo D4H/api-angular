@@ -3,7 +3,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AttendanceService } from './attendance.service';
-import { CalendarEvent, Range } from '../models';
+import { CalendarEvent } from '../models';
 import { CalendarEventBuilder } from '../builders';
 import { CalendarEvents } from '../api';
 import { ClientModule } from '../client.module';

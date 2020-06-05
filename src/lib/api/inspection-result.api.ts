@@ -1,5 +1,5 @@
 import { DateParameter, Query as Search, Response } from './shared.api';
-import { LocationType, Result, ResultStatus } from '../models';
+import { Result, ResultStatus } from '../models';
 
 /**
  * GET /team/inspection-results

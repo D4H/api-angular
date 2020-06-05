@@ -6,7 +6,6 @@ import {
   ActivityType,
   Attendance,
   CalendarEvent,
-  CalendarEventStatus,
   CalendarEventType,
   Duty
 } from '../models';

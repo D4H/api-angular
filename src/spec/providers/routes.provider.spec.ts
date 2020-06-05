@@ -1,10 +1,8 @@
 import faker from 'faker';
-import { InjectionToken } from '@angular/core';
 import { map } from 'traverse';
 
 import {
   AuthenticatedRoute,
-  RouteConfig,
   TokenType,
   authenticatedRoutes,
   routes
@@ -62,6 +60,13 @@ describe('API Routes', () => {
             show: `/team/equipment/categories/${id}`,
             update: `/team/equipment/categories/${id}`,
             destroy: `/team/equipment/categories/${id}`
+          },
+          customFields: {
+            index: '/team/custom-fields',
+            indexEntity: `/team/custom-fields/${id}/${id}`,
+            show: `/team/custom-fields/${id}`,
+            update: `/team/custom-fields/${id}`,
+            destroy: `/team/custom-fields/${id}`
           },
           duties: {
             index: '/team/duties',
@@ -163,31 +168,37 @@ describe('API Routes', () => {
     describe('/account', () => {
       it('should not authenticate "/account/username"', () => {
         expect(authenticatedRoutes.find(route => route.match.test(routes.account.username)))
-          .toEqual(undefined);
+          .toBe(undefined);
       });
 
       it('should not authenticate "/account/authenticate"', () => {
         expect(authenticatedRoutes.find(route => route.match.test(routes.account.authenticate)))
-          .toEqual(undefined);
+          .toBe(undefined);
       });
 
       it('should authenticate "/account/memberships"', () => {
-        expect(authenticatedRoutes.find(route => route.match.test(routes.account.memberships)))
-          .toEqual({ match: /^\/account\/memberships/, token: TokenType.Account });
+        expect(authenticatedRoutes.find(route => route.match.test(routes.account.memberships))).toEqual({
+          match: /^\/account\/memberships/,
+          token: TokenType.Account
+        });
       });
     });
 
     describe('/organisation', () => {
       it('should authenticate "/organisation" namespace', () => {
-        expect(authenticatedRoutes.find(route => route.match.test('/organisation')))
-          .toEqual({ match: /^\/organisation/, token: TokenType.Organisation });
+        expect(authenticatedRoutes.find(route => route.match.test('/organisation'))).toEqual({
+          match: /^\/organisation/,
+          token: TokenType.Organisation
+        });
       });
     });
 
     describe('/team/', () => {
       it('should authenticate "/team" namespace', () => {
-        expect(authenticatedRoutes.find(route => route.match.test(routes.team.image)))
-          .toEqual({ match: /^\/team/, token: TokenType.Team });
+        expect(authenticatedRoutes.find(route => route.match.test(routes.team.image))).toEqual({
+          match: /^\/team/,
+          token: TokenType.Team
+        });
       });
     });
   });

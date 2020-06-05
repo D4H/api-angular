@@ -1,13 +1,13 @@
 import faker from 'faker';
-import { Factory, sample } from '@d4h/testing';
+import { Factory } from '@d4h/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { hot } from 'jasmine-marbles';
 
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { EntityType, SearchResult } from '../../lib/models';
+import { SearchResult } from '../../lib/models';
 import { SearchService } from '../../lib/services';
 import { Searches, Page } from '../../lib/api';
 import { routes } from '../../lib/providers';
@@ -54,7 +54,7 @@ describe('SearchService', () => {
       query = {
         limit: 5,
         offset: 15,
-        entity_type: sample(EntityType),
+        entity_type: 'gear_brand',
         query: faker.random.uuid()
       };
     });

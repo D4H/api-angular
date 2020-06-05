@@ -1,9 +1,7 @@
-import faker from 'faker';
 import { Factory } from '@d4h/testing';
 import { TestBed } from '@angular/core/testing';
 
 import {
-  Destination,
   DestinationType,
   Equipment,
   EquipmentType,

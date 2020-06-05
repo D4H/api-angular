@@ -1,3 +1,4 @@
+import { EntityType } from './entity-type.model';
 import { IsoDate } from './iso-date.model';
 
 /**
@@ -30,19 +31,26 @@ export type CustomFieldValue
   | string;
 
 export interface CustomField {
-  archived: boolean;
-  bundle: string;
-  choices?: { [key: string]: string }; // if choice.multiple or choice.single
-  entity_id: number; // member_id
-  hint?: string;
+  active: boolean;
+  bundle_hidden: boolean;
+  bundle_id: number;
+  bundle_title: string;
+  created_at: IsoDate;
+  entity_options: Array<any>;
+  entity_type: EntityType;
+  entity_value: any;
+  field_options: any;
+  hint: string;
   id: number;
-  label: string;
+  mandatory: boolean;
   member_edit_own: boolean;
   ordering: number;
-  postfix?: any;
-  required: boolean;
+  organisation_id: number;
+  searchable: boolean;
   secure: boolean;
+  team_id: number;
+  title: string;
   type: CustomFieldType;
-  value: CustomFieldValue;
-  value_string: string;
+  units: number;
+  updated_at: IsoDate;
 }

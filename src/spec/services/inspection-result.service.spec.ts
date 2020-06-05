@@ -1,13 +1,12 @@
-import faker from 'faker';
 import { Factory } from '@d4h/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { hot } from 'jasmine-marbles';
 
 import { ApiHttpClient } from '../../lib/client';
 import { ClientTestModule } from '../client-test.module';
-import { Inspection, Result } from '../../lib/models';
+import { Result } from '../../lib/models';
 import { InspectionResults, Page } from '../../lib/api';
 import { InspectionResultService } from '../../lib/services';
 import { routes } from '../../lib/providers';
